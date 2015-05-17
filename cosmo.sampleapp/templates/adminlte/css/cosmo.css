@@ -1,0 +1,67 @@
+﻿
+/* FORMS */
+
+.form-control-image {
+   border: 1px solid #ccc;
+   padding: 10px 10px 2px 10px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.btn-group {
+   padding-bottom: 5px;
+}
+
+/* PICTURE GALLERY */
+
+.picture-box {
+   border-radius: 0;
+   margin-bottom: 10px;
+}
+
+.picture-box-header {
+   line-height: 0;
+   padding-bottom: 0 !important;
+}
+
+.picture-box-header > .btn-group {
+   padding-bottom: 0;
+}
+
+.picture-box-body {
+   border-radius: 0 !important;
+}
+
+.picture-box-body > p {
+   margin: 0;
+   font-size: 0.85em;
+}
+
+.picture-box-footer {
+   
+}
+
+.picture-box-footer > p {
+   font-size: 0.85em;
+   padding: 0;
+   margin: 0;
+}

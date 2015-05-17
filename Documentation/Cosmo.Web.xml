@@ -1,0 +1,887 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cosmo.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Cosmo.Templates.PictureResource">
+            <summary>
+            Implementa un recurso de tipo imagen.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Templates.PictureResource.#ctor(System.String)">
+            <summary>
+            Devuelve una instáncia de PictureResource.
+            </summary>
+            <param name="filename">Nombre del archivo (sin ruta ni path).</param>
+        </member>
+        <member name="M:Cosmo.Templates.PictureResource.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Devuelve una instáncia de PictureResource.
+            </summary>
+            <param name="filename">Nombre del archivo (sin ruta ni path).</param>
+            <param name="width">Ancho (en píxels) del recurso.</param>
+            <param name="height">Altura (en píxels) del recurso.</param>
+        </member>
+        <member name="M:Cosmo.Templates.PictureResource.GetImage(System.String)">
+            <summary>
+            Devuelve una instancia de Image correspondiente al recurso solicitado.
+            </summary>
+            <param name="workspacePath">Ruta física del workspace.</param>
+        </member>
+        <member name="M:Cosmo.Templates.PictureResource.ToXhtml(System.String,System.Boolean)">
+            <summary>
+            Devuelve el código XHTML para mostrar el recurso en una página web.
+            </summary>
+            <param name="alternateText">Texto alternativo.</param>
+            <param name="useTitle">Indica si se debe mostrar el texto alternativo como título del recurso.</param>
+            <returns>Una cadena en formato XHTML.</returns>
+        </member>
+        <member name="M:Cosmo.Templates.PictureResource.ToXhtml(System.String)">
+            <summary>
+            Devuelve el código XHTML para mostrar el recurso en una página web.
+            </summary>
+            <param name="alternateText">Texto alternativo.</param>
+            <returns>Una cadena en formato XHTML.</returns>
+        </member>
+        <member name="P:Cosmo.Templates.PictureResource.RelativeUrl">
+            <summary>
+            Devuelve la URL relativa a la raíz del site correspondiente al recurso.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.PictureResource.Filename">
+            <summary>
+            Devuelve el nombre del archivo.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources">
+            <summary>
+            Contiene todos los recursos compartidos del workspace.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources.MessageBoxIcons">
+            <summary>
+            Contiene las referencias a recursos destinados a mensajes.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.MessageBoxIcons.Information">
+            <summary>
+            Icono de información.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.MessageBoxIcons.Warning">
+            <summary>
+            Icono de aviso.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.MessageBoxIcons.Error">
+            <summary>
+            Icono de error.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources.Buttons">
+            <summary>
+            Contiene las referencias a recursos destinados a botones de comando.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Accept">
+            <summary>
+            Botón Aceptar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Cancel">
+            <summary>
+            Botón Cancelar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Delete">
+            <summary>
+            Botón Eliminar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Download">
+            <summary>
+            Botón Descargar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Go">
+            <summary>
+            Botón Ir.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Menu">
+            <summary>
+            Botón Menú.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Print">
+            <summary>
+            Botón Imprimir.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Reset">
+            <summary>
+            Botón Reset.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Return">
+            <summary>
+            Botón Volver.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.Send">
+            <summary>
+            Botón Enviar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.Buttons.View">
+            <summary>
+            Botón Ver.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources.ToolButtons">
+            <summary>
+            Contiene las referencias a recursos destinados a botones de herramientas (imágenes de 16x16).
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Add">
+            <summary>
+            Imagen Agregar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Delete">
+            <summary>
+            Imagen Eliminar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Document">
+            <summary>
+            Imagen Documento.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Edit">
+            <summary>
+            Imagen Editar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Folder">
+            <summary>
+            Imagen Carpeta.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Help">
+            <summary>
+            Imagen Ayuda.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Home">
+            <summary>
+            Imagen Home.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Highlight">
+            <summary>
+            Imagen Destacado.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Message">
+            <summary>
+            Imagen Mensaje.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.MessageReaded">
+            <summary>
+            Imagen Mensaje leído.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.MessageNew">
+            <summary>
+            Imagen Mensaje no leído.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Note">
+            <summary>
+            Imagen Nota.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Refresh">
+            <summary>
+            Imagen Refrescar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Security">
+            <summary>
+            Imagen Seguridad.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Trash">
+            <summary>
+            Imagen Basura.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserAdd">
+            <summary>
+            Imagen Agregar usuario.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserEdit">
+            <summary>
+            Imagen Editar usuario.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserDelete">
+            <summary>
+            Imagen Eliminar usuario.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserInfo">
+            <summary>
+            Imagen Información de usuario.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserMessage">
+            <summary>
+            Imagen Mensaje privado entre usuarios.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.UserSearch">
+            <summary>
+            Imagen Buscar usuario.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.View">
+            <summary>
+            Imagen ver.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Tag">
+            <summary>
+            Imagen TAG.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Information">
+            <summary>
+            Imagen Información.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Error">
+            <summary>
+            Imagen Error.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Warning">
+            <summary>
+            Imagen Alerta.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.Rss">
+            <summary>
+            Imagen RSS.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.ToolButtons.LegalCreativeCommons">
+            <summary>
+            Imagen Legal/Creative Commons.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources.BulletIcons">
+            <summary>
+            Contiene las referencias a iconos para decorar listas o enlaces (bullets)
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Add">
+            <summary>
+            Imagen Agregar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Delete">
+            <summary>
+            Imagen Eliminar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Edit">
+            <summary>
+            Imagen Editar.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.ExternalLink">
+            <summary>
+            Imagen enlace externo.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Mail">
+            <summary>
+            Imagen Correo/Mensaje.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.New">
+            <summary>
+            Imagen Nuevo.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Rss">
+            <summary>
+            Imagen canal RSS.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Security">
+            <summary>
+            Imagen Seguridad.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.Tag">
+            <summary>
+            Imagen TAG / Keyword.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.BulletIcons.User">
+            <summary>
+            Imagen Usuario.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Templates.Resources.TreeViewFolders">
+            <summary>
+            Contiene los recursos destinados a generar listas gerárquicas (ListView)
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel0">
+            <summary>
+            Carpeta nivel 0.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel1">
+            <summary>
+            Carpeta nivel 1.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel2">
+            <summary>
+            Carpeta nivel 2.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel3">
+            <summary>
+            Carpeta nivel 3.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel4">
+            <summary>
+            Carpeta nivel 4.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Templates.Resources.TreeViewFolders.FolderLevel5">
+            <summary>
+            Carpeta nivel 5.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.Collections.MWJsonArrayCollection">
+            <summary>
+            JSONArrayCollection is an ordered collection of values. An array begins with 
+            "[" (left bracket) and ends with "]" (right bracket). Array elements are 
+            separated by "," (comma).
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.MWJsonValueCollection">
+            <summary>
+            JSONValueCollection represents any collection in JSONSharp.  It is used to 
+            represent arrays of values to be contained within a JSON-compliant string of characters.
+            
+            A JSONValueCollection is itself a JSONValue object.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.MWJsonValue">
+            <summary>
+            JSONValue represents the core object in JSONSharp.  It is used to represent values
+            to be contained within a JSON-compliant string of characters.
+            
+            A JSON value can be a string in double quotes, a number, true or false, null, an 
+            object or an array. These structures can be nested.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Data.Json.MWJsonValue.HORIZONTAL_TAB">
+            <summary>
+            Named element to represent a horizontal tab character. Used for PrettyPrint().
+            </summary>
+        </member>
+        <member name="F:Cosmo.Data.Json.MWJsonValue.CURRENT_INDENT">
+            <summary>
+            Static counter used for PrettyPrint().
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValue.ToString">
+            <summary>
+            Any implementation must override the base ToString() method, used for
+            producing the contained object data in JSON-compliant form.
+            </summary>
+            <returns>The value as a string, formatted in compliance with RFC 4627.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValue.PrettyPrint">
+            <summary>
+            Any implementation must override PrettyPrint(), used for rendering the
+            contained object data in JSON-compliant form but with indentation for readability.
+            </summary>
+            <returns>The value as a string, indented for readability.</returns>
+        </member>
+        <member name="F:Cosmo.Data.Json.MWJsonValueCollection.JSONVALUE_SEPARATOR">
+            <summary>
+            Named element for the separation character for this JSONValue object.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValueCollection.CollectionToPrettyPrint">
+            <summary>
+            Any implementation must override CollectionToPrettyPrint(), used for rendering the
+            contained object data in JSON-compliant form but with indentation for readability.
+            </summary>
+            <returns>The value as a string, indented for readability.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValueCollection.CollectionToString">
+            <summary>
+            Any implementation must override the base ToString() method, used for
+            producing the contained object data in JSON-compliant form.
+            </summary>
+            <returns>The value as a string, formatted in compliance with RFC 4627.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValueCollection.ToString">
+            <summary>
+            Required override the base ToString() method. Writes contained data using
+            the abstract CollectionToString() method, bounded by the BeginMarker and EndMarker
+            properties.
+            </summary>
+            <returns>The value as a string, formatted in compliance with RFC 4627.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonValueCollection.PrettyPrint">
+            <summary>
+            Required override of PrettyPrint(). Utilizes the CollectionToPrettyPrint()
+            method, required by implementors of this class.
+            </summary>
+            <returns>The value as a string, indented for readability.</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.MWJsonValueCollection.BeginMarker">
+            <summary>
+            Any implementation must override the BeginMarker property, used for
+            denoting the lead wrapping character for the collection type.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.MWJsonValueCollection.EndMarker">
+            <summary>
+            Any implementation must override the EndMarker property, used for
+            denoting the trailing wrapping character for the collection type.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Data.Json.Collections.MWJsonArrayCollection.Values">
+            <summary>
+            Internal generic list of JSONValue objects that comprise the elements of the JSONArrayCollection.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonArrayCollection.#ctor(System.Collections.Generic.List{Cosmo.Data.Json.MWJsonValue})">
+            <summary>
+            Public constructor that accepts a generic list of JSONValue objects.
+            </summary>
+            <param name="values">Generic list of JSONValue objects.</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonArrayCollection.#ctor">
+            <summary>
+            Empty public constructor. Use this method in conjunction with
+            the Add method to populate the internal array of elements.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonArrayCollection.Add(Cosmo.Data.Json.MWJsonValue)">
+            <summary>
+            Adds a JSONValue to the internal object array.  Values are checked to 
+            ensure no duplication occurs in the internal array.
+            </summary>
+            <param name="value">JSONValue to add to the internal array</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonArrayCollection.CollectionToPrettyPrint">
+            <summary>
+            Required override of the CollectionToPrettyPrint() method.
+            </summary>
+            <returns>the entire collection as a string in JSON-compliant format, with indentation for readability</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonArrayCollection.CollectionToString">
+            <summary>
+            Required override of the CollectionToString() method.
+            </summary>
+            <returns>the entire collection as a string in JSON-compliant format</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.Collections.MWJsonArrayCollection.BeginMarker">
+            <summary>
+            Required override of the BeginMarker property
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.Collections.MWJsonArrayCollection.EndMarker">
+            <summary>
+            Required override of the EndMarker property
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.Collections.MWJsonObjectCollection">
+            <summary>
+            JSONObjectCollection is an unordered set of name/value pairs. An object begins 
+            with "{" (left brace) and ends with "}" (right brace). Each name is followed 
+            by ":" (colon) and the name/value pairs are separated by "," (comma).
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonObjectCollection.#ctor(System.Collections.Generic.Dictionary{Cosmo.Data.Json.Values.MWJsonStringValue,Cosmo.Data.Json.MWJsonValue})">
+            <summary>
+            Public constructor that accepts a Dictionary of name/value pairs.
+            </summary>
+            <param name="namevaluepairs">Dictionary collection of name/value pairs (JSONStringValue=name,JSONValue=pair)</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonObjectCollection.#ctor">
+            <summary>
+            Empty public constructor. Use this method in conjunction with
+            the Add method to populate the internal dictionary of name/value pairs.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonObjectCollection.Add(Cosmo.Data.Json.Values.MWJsonStringValue,Cosmo.Data.Json.MWJsonValue)">
+            <summary>
+            Adds a JSONStringValue as the "name" and a JSONValue as the "value" to the 
+            internal Dictionary.  Values are checked to ensure no duplication occurs 
+            in the internal Dictionary.
+            </summary>
+            <param name="name">JSONStringValue "name" to add to the internal dictionary</param>
+            <param name="value">JSONValue "value" to add to the internal dictionary</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonObjectCollection.CollectionToPrettyPrint">
+            <summary>
+            Required override of the CollectionToPrettyPrint() method.
+            </summary>
+            <returns>the entire dictionary as a string in JSON-compliant format, with indentation for readability</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Collections.MWJsonObjectCollection.CollectionToString">
+            <summary>
+            Required override of the CollectionToString() method.
+            </summary>
+            <returns>the entire collection as a string in JSON-compliant format</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.Collections.MWJsonObjectCollection.BeginMarker">
+            <summary>
+            Required override of the BeginMarker property
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.Collections.MWJsonObjectCollection.EndMarker">
+            <summary>
+            Required override of the EndMarker property
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONArray">
+            <summary>
+            Implementa un array de valores en foprmato JSON.
+            </summary>
+            <remarks>
+            La lista puede contener objetos del tipo:
+             - JSONValue
+             - JSONArray
+            </remarks>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONArray.Writer">
+            <summary>
+            Devuelve una cadena en formato JSON que representa el array.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONArray.Fill(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Rellena un array JSON con el resultado de una consulta SQL.
+            </summary>
+            <param name="reader">Los datos devueltos por una consulta.</param>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONObject">
+            <summary>
+            Implementa un array de valores en formato JSON.
+            </summary>
+            <remarks>
+            La lista puede contener objetos del tipo:
+             - JSONValue
+             - JSONArray
+            </remarks>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONObject.Writer">
+            <summary>
+            Devuelve una cadena en formato JSON que representa el array.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.MWJsonReflector">
+            <summary>
+            JSONReflector provides a convenient way to convert value and reference type objects
+            to JSON format through reflection.
+            
+            This implementation build JSON around reflected public properties of type int, float,
+            double, decimal, byte, string, bool, enum or array.  (Generics and other types may be
+            supported at a later time.)
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonReflector.#ctor(System.Object)">
+            <summary>
+            Public constructor that accepts any object
+            </summary>
+            <param name="objValue">object to be reflected/evaluated for JSON conversion</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonReflector.ToString">
+            <summary>
+            Required override of the ToString() method.
+            </summary>
+            <returns>returns the internal JSONObjectCollection ToString() method</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.MWJsonReflector.PrettyPrint">
+            <summary>
+            Required override of the PrettyPrint() method.
+            </summary>
+            <returns>returns the internal JSONObjectCollection PrettyPrint() method</returns>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONValue">
+            <summary>
+            Representa un valor genérico.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONValue.#ctor">
+            <summary>
+            Devuelve una instancia de JSONValue.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONValue.#ctor(System.String,System.Object)">
+            <summary>
+            Devuelve una instancia de JSONValue.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONValue.Writer">
+            <summary>
+            Devuelve el valor en formato JSON.
+            </summary>
+            <returns>Una cadena en formato JSON que representa el valor.</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONValue.Name">
+            <summary>
+            Nombre del valor.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONValue.Value">
+            <summary>
+            Valor.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONStringValue">
+            <summary>
+            Representa un valor de cadena de texto.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONStringValue.Writer">
+            <summary>
+            Devuelve el valor en formato JSON.
+            </summary>
+            <returns>Una cadena en formato JSON que representa el valor.</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONStringValue.Name">
+            <summary>
+            Nombre del valor.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONStringValue.Value">
+            <summary>
+            Valor.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONIntegerValue">
+            <summary>
+            Representa un valor de cadena de texto.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONIntegerValue.Writer">
+            <summary>
+            Devuelve el valor en formato JSON.
+            </summary>
+            <returns>Una cadena en formato JSON que representa el valor.</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONIntegerValue.Name">
+            <summary>
+            Nombre del valor.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONIntegerValue.Value">
+            <summary>
+            Valor.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONBooleanValue">
+            <summary>
+            Representa un valor booleano.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONBooleanValue.Writer">
+            <summary>
+            Devuelve el valor en formato JSON.
+            </summary>
+            <returns>Una cadena en formato JSON que representa el valor.</returns>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONBooleanValue.Name">
+            <summary>
+            Nombre del valor.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Data.Json.JSONBooleanValue.Value">
+            <summary>
+            Valor.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.JSONWriter">
+            <summary>
+            Clase que permite manejar cadenas de texto en formato JSON.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONWriter.Dequote(Cosmo.Data.Json.BufferedCharReader,System.Char)">
+            <summary>
+            Return the characters up to the next close quote character.
+            Backslash processing is done. The formal JSON format does not
+            allow strings in single quotes, but an implementation is allowed to
+            accept them.
+            </summary>
+            <param name="input">carácteres de entrada.</param>
+            <param name="quote">The quoting character, either " or '</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.JSONWriter.ParseHex(Cosmo.Data.Json.BufferedCharReader,System.Char[])">
+            <summary>
+            Eats the next four characters, assuming hex digits, and converts
+            into the represented character value.
+            </summary>
+            <returns>The parsed character.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.BufferedCharReader.Back">
+            <summary>
+            Back up one character. This provides a sort of lookahead capability,
+            so that one can test for a digit or letter before attempting to,
+            for example, parse the next number or identifier.
+            </summary>
+            <remarks>
+            This implementation currently does not support backing up more
+            than a single character (the last read).
+            </remarks>
+        </member>
+        <member name="M:Cosmo.Data.Json.BufferedCharReader.More">
+            <summary>
+            Determine if the source string still contains characters that Next()
+            can consume.
+            </summary>
+            <returns>true if not yet at the end of the source.</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.BufferedCharReader.Next">
+            <summary>
+            Get the next character in the source string.
+            </summary>
+            <returns>The next character, or 0 if past the end of the source string.</returns>
+        </member>
+        <member name="T:Cosmo.Data.Json.Mask">
+            <summary>
+            Provides masking services where one value masks another given a test.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Data.Json.Values.MWJsonBoolValue">
+            <summary>
+            JSONBoolValue represents a boolean value in JSONSharp.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonBoolValue.#ctor(System.Boolean)">
+            <summary>
+            Simple public instance constructor that accepts a boolean.
+            </summary>
+            <param name="value">boolean value for this instance</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonBoolValue.ToString">
+            <summary>
+            Required override of the ToString() method.
+            </summary>
+            <returns>boolean value for this instance, as text and lower-cased (either "true" or "false", without quotation marks)</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonBoolValue.PrettyPrint">
+            <summary>
+            Required override of the PrettyPrint() method.
+            </summary>
+            <returns>this.ToString()</returns>
+        </member>
+        <member name="T:Cosmo.Data.Json.Values.MWJsonNumberValue">
+            <summary>
+            JSONNumberValue is very much like a C# number, except that octal and hexadecimal formats 
+            are not used.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Data.Json.Values.MWJsonNumberValue.JavaScriptNumberFormatInfo">
+            <summary>
+            Number formatting object for handling globalization differences with decimal point separators
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.#ctor(System.Int32)">
+            <summary>
+            Public constructor that accepts a value of type int
+            </summary>
+            <param name="value">int (System.Int32) value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.#ctor(System.Double)">
+            <summary>
+            Public constructor that accepts a value of type double
+            </summary>
+            <param name="value">double (System.Double) value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.#ctor(System.Decimal)">
+            <summary>
+            Public constructor that accepts a value of type decimal
+            </summary>
+            <param name="value">decimal (System.Decimal) value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.#ctor(System.Single)">
+            <summary>
+            Public constructor that accepts a value of type single
+            </summary>
+            <param name="value">single (System.Single) value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.#ctor(System.Byte)">
+            <summary>
+            Public constructor that accepts a value of type byte
+            </summary>
+            <param name="value">byte (System.Byte) value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.ToString">
+            <summary>
+            Required override of ToString() method.
+            </summary>
+            <returns>contained numeric value, rendered as a string</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonNumberValue.PrettyPrint">
+            <summary>
+            Required override of the PrettyPrint() method.
+            </summary>
+            <returns>this.ToString()</returns>
+        </member>
+        <member name="T:Cosmo.Data.Json.Values.MWJsonStringValue">
+            <summary>
+            JSONStringValue is a collection of zero or more Unicode characters, wrapped in double quotes, 
+            using backslash escapes. A character is represented as a single character string. A string 
+            is very much like a C# string.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonStringValue.#ctor(System.String)">
+            <summary>
+            Public constructor that accepts a value of type string
+            </summary>
+            <param name="value">string value</param>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonStringValue.ToString">
+            <summary>
+            Required override of the ToString() method.
+            </summary>
+            <returns>contained string in JSON-compliant form</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonStringValue.PrettyPrint">
+            <summary>
+            Required override of the PrettyPrint() method.
+            </summary>
+            <returns>this.ToString()</returns>
+        </member>
+        <member name="M:Cosmo.Data.Json.Values.MWJsonStringValue.ToJSONString(System.String)">
+            <summary>
+            Evaluates all characters in a string and returns a new string,
+            properly formatted for JSON compliance and bounded by double-quotes.
+            </summary>
+            <param name="text">string to be evaluated</param>
+            <returns>new string, in JSON-compliant form</returns>
+        </member>
+    </members>
+</doc>

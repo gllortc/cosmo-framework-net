@@ -1,0 +1,60 @@
+body {
+  background-color:rgb(152,183,211);
+  background-image:url(../images/bg_main.jpg);
+  background-repeat:repeat-x;
+  background-position:top;
+  font-size:11px;
+  font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.page {
+  /*width:600px;
+  \width:620px;
+  w\idth:600px;
+  margin-left:auto;
+  margin-right:auto;*/
+  padding:0;
+  margin:0;
+}
+
+/*****************************************************************************
+   CONTAINER
+*****************************************************************************/
+
+#container {
+  padding: 10px 20px 10px 20px;
+  margin: 0px;
+  border: solid 3px rgb(152,183,211);
+  background-color: rgb(255,255,255);
+  width: auto;
+}
+
+#container h1 {font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;font-size:220%;font-weight:normal;margin:10px 0 3px 0;border-bottom: solid 1px rgb(152,183,211);}
+#container h2 {font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;font-size:160%;font-weight:normal;margin:3px 0 3px 0;}
+/*#container p {font-family:Georgia,"Times New Roman",Times,serif;font-size:1.2em;}*/
+#container a {color:rgb(24,93,160);text-decoration:none;}
+#container a:hover {text-decoration:underline;}
+#container .alt {color:rgb(160,82,45);}
+
+#container ul {line-height:1.5em;list-style-type:square;margin:.3em 0 0 1.5em;padding:0;list-style-image:url(bullet.gif);}
+#container ol {line-height:1.5em;margin:.3em 0 0 3.2em;padding:0;list-style-image:none;}
+#container li {margin-bottom:.1em;}
+#container dt {font-weight:bold;margin-bottom:.1em;}
+#container dl {margin-top:.2em;margin-bottom:.5em;}
+#container dd {line-height:1.5em;margin-left:2em;margin-bottom:.1em;}
+
+/*****************************************************************************
+   FORMULARIOS
+*****************************************************************************/
+
+.form-box {border:solid rgb(191,205,223) 1px;padding:5px 10px 5px 10px;margin:7px 0 7px 0;background:url(../images/bg_form_box.gif) repeat;}
+.form-box p {margin:5px 0 5px 0;padding:0;font-size:11px;font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;}
+.form-box .title {font-size:120%;font-weight:bold;border-bottom:solid rgb(191,205,223) 1px;width:100%;color:rgb(0,0,0);}
+.form-box form {margin:0;padding:0}
+.form-box form .controls {padding:0;padding-top:7px;border-top:solid rgb(191,205,223) 1px;width:100%;margin:10px 0 2px 0;}
+.form-box form p {margin:10px 0 10px 0;font-size:110%;}
+.form-box form textarea {width:430px;font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
+.form-box form .comment {font-size:80%;color:rgb(72,102,142);}
+.form-box form label {padding-bottom:5px;font-size:110%;}

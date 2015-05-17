@@ -1,0 +1,77 @@
+﻿namespace Cosmo.UI.Controls
+{
+   /// <summary>
+   /// Implementa un control de tiopo Pagination para recorrer una lista por páginas.
+   /// </summary>
+   public class PaginationControl : Control
+   {
+      /// <summary>
+      /// TAG que debe incluir el patrón URL que será sustituydo por el número de página.
+      /// </summary>
+      public const string URL_PAGEID_TAG = "--PAGID--";
+
+      // Declaración de variables internas   
+      private int _min;
+      private int _max;
+      private int _current;
+      private string _url;
+
+      /// <summary>
+      /// Devuelve una instancia de <see cref="PaginationControl"/>
+      /// </summary>
+      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      public PaginationControl(ViewContainer container) 
+         : base(container) 
+      {
+         Initialize();
+      }
+
+      /// <summary>
+      /// Devuelve o establece el número mínimo de página.
+      /// </summary>
+      public int Min
+      {
+         get { return _min; }
+         set { _min = value; }
+      }
+
+      /// <summary>
+      /// Devuelve o establece el número máximo de página.
+      /// </summary>
+      public int Max
+      {
+         get { return _max; }
+         set { _max = value; }
+      }
+
+      /// <summary>
+      /// Devuelve o establece el número de página actual.
+      /// </summary>
+      public int Current
+      {
+         get { return _current; }
+         set { _current = value; }
+      }
+
+      /// <summary>
+      /// Devuelve o establece la URL base que servirá para generar la URL particular para cada página.
+      /// Para ello se usa el tag <see cref="URL_PAGEID_TAG"/> como indicador de número de página.
+      /// </summary>
+      public string UrlPattern
+      {
+         get { return _url; }
+         set { _url = value; }
+      }
+
+      /// <summary>
+      /// Inicializa la instancia.
+      /// </summary>
+      private void Initialize()
+      {
+         _min = 1;
+         _max = 25;
+         _current = 1;
+         _url = string.Empty;
+      }
+   }
+}

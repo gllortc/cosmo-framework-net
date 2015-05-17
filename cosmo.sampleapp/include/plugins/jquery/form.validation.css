@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* Style for invalid input */
+.invalidInput{
+	border:1px dotted #F00;
+	background-color: #FFECE6;
+}
+
+/* Style for valid input */
+.validInput{
+	border: 1px dotted #FF0000;
+}

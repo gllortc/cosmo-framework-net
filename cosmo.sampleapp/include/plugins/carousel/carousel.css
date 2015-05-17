@@ -1,0 +1,278 @@
+/*-- required & default rules --*/
+
+.loading {
+left: 210px;
+position: absolute;
+top: 74px;
+}
+
+#slide_holder {
+background-image: url(images/bg_slideshow.png);
+background-repeat: no-repeat;
+height: 253px;
+overflow: hidden;
+position: relative;
+text-align: left;
+width: 524px;
+/* -- width: 1533px; */
+z-index: 1000;
+}
+#slide_holder_inner {
+height: 238px;
+left: 7px;
+overflow: hidden;
+position: absolute;
+top: 8px;
+width: 511px;
+z-index: 2000;
+}
+
+#intro, .intro {
+position: absolute;
+z-index: 9000;
+}
+
+/*-- for slide divs --*/
+
+#slide_holder_inner div {
+position: absolute;
+}
+/*-- for divs in html slides to position relative --*/
+div#slide_holder_inner div.slide div {
+position: relative;
+}
+div#carousel_controls {
+background-image: url(images/bg_controls.png);
+background-position: 0 0;
+background-repeat: no-repeat;
+height: 30px;
+width: 511px;
+z-index: 4000;
+}
+
+/*-- for slide buttons --*/
+
+#slide_buttons li:hover, #pause_button, .prev_button, .next_button, #hover_next_button, #hover_prev_button, #first_button, #last_button {
+cursor: pointer;
+cursor: hand;
+z-index: 5000;
+}
+#carousel_controls #button_selected, #carousel_controls .prev_button_disabled, #carousel_controls  .next_button_disabled, #carousel_controls  .first_button_diabled, #carousel_controls  .last_button_disabled {
+cursor: auto;
+}
+#slide_buttons li span, #pause_button span, .prev_button span, .next_button span, #first_button span, #last_button span, #hover_next_button span, #hover_prev_button span, #water_mark span {
+margin-left: -10000px;
+}
+#slide_buttons li, #pause_button, .prev_button, .next_button, #first_button, #last_button, #water_mark {
+background-repeat: no-repeat;
+overflow: hidden;
+top: 0px;
+}
+ul#slide_buttons {
+padding: 15px 7px 15px 15px;
+position: absolute;
+left: 250px;
+top: -7px;
+z-index: 5000;
+}
+ul#slide_buttons li {
+background-image: url(images/button.png);
+display: block;
+float: left;
+height: 9px;
+list-style: none;
+margin: 0 0 0 3px;
+padding: 2px;
+width: 10px;
+}
+ul#slide_buttons li:hover {
+}
+ul#slide_buttons li#button_selected {
+background-image: url(images/button_selected.png);
+}
+ul#slide_buttons li#button_selected:hover {
+}
+/*-- first & last buttons --*/
+
+#first_button {
+background-image: url(images/first.png);
+height: 29px;
+left: 354px;
+width: 34px;
+background-position: 0 -36px;
+}
+#first_button:hover {
+background-position: 0 0;
+}
+#last_button {
+background-image: url(images/last.png);
+height: 29px;
+left: 474px;
+width: 34px;
+background-position: 0 -36px;
+}
+#last_button:hover {
+background-position: 0 0;
+}
+
+/*-- end first & last buttons --*/
+
+/*-- next & prev buttons --*/
+#nex_prev_buttons {
+position: absolute;
+left: 0;
+z-index: 5000;
+}
+#next_button {
+background-image: url(images/next.png);
+background-position: 0 -36px;
+height: 29px;
+left: 443px;
+width: 31px;
+}
+#next_button:hover {
+background-position: 0 0;
+}
+#prev_button {
+background-image: url(images/prev.png);
+background-position: 0 -36px;
+height: 29px;
+left: 388px;
+width: 31px;
+}
+#prev_button:hover {
+background-position: 0 0;
+}
+/*-- end next & prev buttons --*/
+
+
+/*-- looks like pause button --*/
+.pause_button {
+background-image: url(images/pause.png);
+background-position: 0 -36px;
+height: 29px;
+left: 419px;
+width: 24px;
+}
+.pause_button:hover {
+background-position: 0 0;
+}
+/*-- looks like play button --*/
+.paused_button {
+background-image: url(images/play.png);
+background-position: 0 -36px;
+height: 29px;
+left: 419px;
+width: 24px;
+}
+.paused_button:hover {
+background-position: 0 0;
+}
+
+/*-- hover next & hoverprev buttons --*/
+
+#hover_next_button, #hover_prev_button {
+height: 125px;
+background-repeat: no-repeat;
+display: none;
+overflow: hidden;
+width: 77px;
+top: 35px;
+z-index: 6000;
+}
+#hover_next_button span {
+}
+#hover_next_button {
+background-image: url(images/hover_next.png);
+background-position: 21px 35px;
+padding: 30px 0 30px 30px;
+right: 0;
+}
+#hover_prev_button {
+background-image: url(images/hover_prev.png);
+background-position: 8px 35px;
+padding: 30px 30px 30px 0;
+left: 0;
+}
+
+/*-- end next & prev buttons --*/
+
+/*-- rules for slide captions --*/
+
+#slide_captions {
+color: #333;
+left: 8px;
+overflow: visible;
+top: 5px;
+z-index: 6000;
+}
+#slide_captions span {
+font-family: Tahoma;
+font-size: 15px;
+height: 20px;
+line-height: 20px;
+overflow: visible;
+}
+
+/*-- end rules for slide captions --*/
+
+/*-- rules for watermark --*/
+
+#water_mark {
+background-image: url(images/water_mark.png);
+height: 30px;
+left: 202px;
+width: 246px;
+top: 208px;
+z-index: 6000;
+}
+
+#water_mark span {
+}
+
+/*-- end rules for slide captions --*/
+
+/*-- slide number display --*/
+
+#slide_number_display {
+background-image: url(images/bg_swatch.png);
+background-position: 0 0;
+background-repeat: no-repeat;
+color: #333;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 15px;
+height: 23px;
+padding: 4px;
+right: 7px;
+text-align: center;
+top: 208px;
+width: 37px;
+z-index: 5000;
+}
+
+/*-- for carousel view --*/
+
+#row_of_slides {
+position: absolute;
+top: 0;
+}
+#row_of_slides .slide {
+display: none;
+position: absolute;
+}
+				
+/*-- end for carousel view --*/				
+
+/*-- end number display --*/
+
+/*-- end required & default rules --*/
+
+/*-- example rules --*/
+html body {
+font-family: Arial, Helvetica, sans-serif;
+margin: 20px;
+background-color: #333;
+}
+#slide_holder {
+margin: 20px auto 0 auto;
+}

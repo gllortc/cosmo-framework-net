@@ -1,0 +1,588 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7E97076-48DE-4C11-A296-BE5B4116FC25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cosmo</RootNamespace>
+    <AssemblyName>Cosmo.Core</AssemblyName>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>publicar\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Documentation\Cosmo.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Documentation\Cosmo.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CodeKicker.BBCode, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Controls\BBCode\bin\CodeKicker.BBCode.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.1.0\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Communications\CommunicationsException.cs" />
+    <Compile Include="Communications\CommunicationsService.cs" />
+    <Compile Include="Communications\ICommunicationsModule.cs" />
+    <Compile Include="Communications\Impl\SmtpMailModuleImpl.cs" />
+    <Compile Include="Communications\Impl\TwitterModuleImpl.cs" />
+    <Compile Include="Communications\PrivateMessages\PrivateMessagesService.cs" />
+    <Compile Include="Communications\PrivateMessages\PrivateMessageThread.cs" />
+    <Compile Include="Data\Lists\IDataList.cs" />
+    <Compile Include="Data\Lists\Impl\SqlDataListImpl.cs" />
+    <Compile Include="Data\Lists\Impl\StaticDataListImpl.cs" />
+    <Compile Include="Data\ORM\ValidInteger.cs" />
+    <Compile Include="Data\ORM\OrmException.cs" />
+    <Compile Include="Data\ORM\MappingFieldGroup.cs" />
+    <Compile Include="Data\ORM\MappingField.cs" />
+    <Compile Include="Data\ORM\MappingObject.cs" />
+    <Compile Include="Data\ORM\OrmEngine.cs" />
+    <Compile Include="Data\Validation\IValidator.cs" />
+    <Compile Include="FileSystem\IFileSystemService.cs" />
+    <Compile Include="FileSystem\Impl\CosmoFileSystemImpl.cs" />
+    <Compile Include="Net\Mail.cs" />
+    <Compile Include="Net\UrlRoute.cs" />
+    <Compile Include="REST\RestHandler.cs" />
+    <Compile Include="REST\CommunicationsRestHandler.cs" />
+    <Compile Include="REST\RestMethod.cs" />
+    <Compile Include="REST\RestMethodParameter.cs" />
+    <Compile Include="REST\UIRestHandler.cs" />
+    <Compile Include="REST\FileSystemRestHandler.cs" />
+    <Compile Include="REST\SecurityRestHandler.cs" />
+    <Compile Include="Security\AuthenticationRequired.cs" />
+    <Compile Include="Security\AuthorizationRequired.cs" />
+    <Compile Include="Security\UserNotFoundException.cs" />
+    <Compile Include="Net\DeviceDetector.cs" />
+    <Compile Include="UI\ControlCache.cs" />
+    <Compile Include="UI\Controls\AjaxControl.cs" />
+    <Compile Include="UI\Controls\ButtonSplit.cs" />
+    <Compile Include="UI\Controls\ControlNotFoundException.cs" />
+    <Compile Include="UI\Controls\CookiesAdvisorControl.cs" />
+    <Compile Include="UI\Controls\PictureControl.cs" />
+    <Compile Include="UI\Controls\PictureGalleryControl.cs" />
+    <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
+    <Compile Include="UI\ViewParameter.cs" />
+    <Compile Include="UI\ModalViewContainer.cs" />
+    <Compile Include="UI\PartialViewContainer.cs" />
+    <Compile Include="UI\Modals\IModalAjaxForm.cs" />
+    <Compile Include="UI\Modals\IModalForm.cs" />
+    <Compile Include="UI\Modals\SimpleRestCallModalForm.cs" />
+    <Compile Include="UI\Scripting\AjaxResponse.cs" />
+    <Compile Include="UI\Scripting\AjaxRestSimpleCallScript.cs" />
+    <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
+    <Compile Include="UI\Scripting\AjaxUpdateHtmlScript.cs" />
+    <Compile Include="UI\Controls\BadgeControl.cs" />
+    <Compile Include="UI\Controls\ButtonGroupControl.cs" />
+    <Compile Include="UI\Controls\ErrorControl.cs" />
+    <Compile Include="UI\Controls\FormControl.cs" />
+    <Compile Include="UI\Controls\FormFieldFile.cs" />
+    <Compile Include="UI\Controls\FormFieldImage.cs" />
+    <Compile Include="UI\Controls\FormFieldEditor.cs" />
+    <Compile Include="UI\Controls\FormFieldList.cs" />
+    <Compile Include="UI\Controls\FormFieldBoolean.cs" />
+    <Compile Include="UI\Controls\FormFieldDate.cs" />
+    <Compile Include="UI\Controls\FormFieldHidden.cs" />
+    <Compile Include="UI\Controls\FormFieldCaptcha.cs" />
+    <Compile Include="UI\Controls\FormFieldPassword.cs" />
+    <Compile Include="UI\Controls\FormFieldText.cs" />
+    <Compile Include="UI\Controls\HtmlContentControl.cs" />
+    <Compile Include="UI\Controls\IControlCollectionContainer.cs" />
+    <Compile Include="UI\Controls\IControlSingleContainer.cs" />
+    <Compile Include="UI\Controls\FormField.cs" />
+    <Compile Include="UI\Controls\PaginationControl.cs" />
+    <Compile Include="UI\Controls\ProgressBarControl.cs" />
+    <Compile Include="UI\Scripting\Behaviors\DisableElementBehavior.cs" />
+    <Compile Include="UI\Scripting\Behaviors\NavigateBehavior.cs" />
+    <Compile Include="UI\Scripting\Behaviors\UpdateHtmlBehavior.cs" />
+    <Compile Include="UI\Scripting\Script.cs" />
+    <Compile Include="UI\Scripting\SimpleScript.cs" />
+    <Compile Include="UI\Controls\LayoutContainerControl.cs" />
+    <Compile Include="UI\Controls\DocumentHeaderControl.cs" />
+    <Compile Include="UI\Controls\TabItemControl.cs" />
+    <Compile Include="UI\Controls\TabbedContainerControl.cs" />
+    <Compile Include="UI\Controls\TimelineControl.cs" />
+    <Compile Include="UI\Controls\TimelineItem.cs" />
+    <Compile Include="UI\Controls\TreeViewChildItemControl.cs" />
+    <Compile Include="UI\Controls\PageHeaderControl.cs" />
+    <Compile Include="UI\Controls\SidebarControl.cs" />
+    <Compile Include="UI\Controls\SidebarButton.cs" />
+    <Compile Include="UI\Controls\TreeViewControl.cs" />
+    <Compile Include="UI\PageViewContainer.cs" />
+    <Compile Include="UI\ViewResource.cs" />
+    <Compile Include="UI\CosmoTemplate.cs" />
+    <Compile Include="UI\ViewContainer.cs" />
+    <Compile Include="UI\Menu\IMenuProvider.cs" />
+    <Compile Include="UI\Menu\Impl\DbMenuProviderImpl.cs" />
+    <Compile Include="UI\Menu\Impl\StaticMenuProviderImpl.cs" />
+    <Compile Include="Utils\Collections.cs" />
+    <Compile Include="Utils\ControlCollection.cs" />
+    <Compile Include="Utils\PluginCollection.cs" />
+    <Compile Include="Utils\XmlUtilities.cs" />
+    <Compile Include="WebApp\Admin\AdminUserList.cs" />
+    <Compile Include="WebApp\Admin\AdminUserData.cs" />
+    <Compile Include="WebApp\CommunicationServices\PrivateMessages.cs" />
+    <Compile Include="WebApp\FileSystemServices\ModalFormUpload.cs" />
+    <Compile Include="WebApp\Model\PasswordRecoveryData.cs" />
+    <Compile Include="WebApp\UserServices\UserAuth.cs" />
+    <Compile Include="WebApp\UserServices\UserData.cs" />
+    <Compile Include="WebApp\UserServices\UserJoin.cs" />
+    <Compile Include="WebApp\UserServices\UserJoinVerification.cs" />
+    <Compile Include="WebApp\UserServices\UserPasswordRecovery.cs" />
+    <Compile Include="WorkspaceSettingsException.cs" />
+    <Compile Include="Data\DataService.cs" />
+    <Compile Include="Data\Connection\Impl\SqlServerDataSourceImpl.cs" />
+    <Compile Include="UI\Controls\AlertControl.cs" />
+    <Compile Include="UI\Controls\BreadcrumbControl.cs" />
+    <Compile Include="UI\Controls\BreadcrumbItem.cs" />
+    <Compile Include="UI\Controls\CalloutControl.cs" />
+    <Compile Include="UI\Controls\CarrouselControl.cs" />
+    <Compile Include="UI\Controls\CarrouselSlide.cs" />
+    <Compile Include="UI\Controls\ChatControl.cs" />
+    <Compile Include="UI\Controls\ChatMessage.cs" />
+    <Compile Include="UI\Controls\ChatMessageToolbarButtonControl.cs" />
+    <Compile Include="UI\Controls\FormFieldAutocomplete.cs" />
+    <Compile Include="UI\Controls\ButtonControl.cs" />
+    <Compile Include="UI\Controls\IconControl.cs" />
+    <Compile Include="UI\Controls\Control.cs" />
+    <Compile Include="UI\Controls\JumbotronControl.cs" />
+    <Compile Include="UI\Controls\ListGroupControl.cs" />
+    <Compile Include="UI\Controls\ListItem.cs" />
+    <Compile Include="UI\Controls\LoginFormControl.cs" />
+    <Compile Include="UI\Controls\MediaItem.cs" />
+    <Compile Include="UI\Controls\MediaListControl.cs" />
+    <Compile Include="UI\Controls\NavbarControl.cs" />
+    <Compile Include="UI\Controls\NavbarHeaderControl.cs" />
+    <Compile Include="UI\Controls\NavbarIButtonControl.cs" />
+    <Compile Include="UI\Controls\NavbarPrivateMessagesItem.cs" />
+    <Compile Include="UI\Controls\NavbarLoginItem.cs" />
+    <Compile Include="UI\Controls\PanelControl.cs" />
+    <Compile Include="UI\Controls\PopoverControl.cs" />
+    <Compile Include="UI\Controls\TableControl.cs" />
+    <Compile Include="UI\Controls\TableCell.cs" />
+    <Compile Include="UI\Controls\TableRow.cs" />
+    <Compile Include="Services\CountryDAO.cs" />
+    <Compile Include="UI\Menu\MenuItem.cs" />
+    <Compile Include="UI\Menu\MenuDAO.cs" />
+    <Compile Include="UI\Render\NoRenderModuleAvailableException.cs" />
+    <Compile Include="UI\Render\Impl\AdminLteRenderModuleImpl.cs" />
+    <Compile Include="UI\Render\ControlNotSuportedException.cs" />
+    <Compile Include="UI\Render\RenderModule.cs" />
+    <Compile Include="UI\UIService.cs" />
+    <Compile Include="Data\Connection\IDataModule.cs" />
+    <Compile Include="Data\Validation\CosmoValidationException.cs" />
+    <Compile Include="Data\Validation\ValidationRuleBase.cs" />
+    <Compile Include="Data\Validation\Validator.cs" />
+    <Compile Include="Diagnostics\EventLog.cs" />
+    <Compile Include="Diagnostics\ExceptionHelper.cs" />
+    <Compile Include="Diagnostics\TraceHelper.cs" />
+    <Compile Include="Utils\Drawing\JpegBaseEncoder.cs" />
+    <Compile Include="Utils\Drawing\Imaging.cs" />
+    <Compile Include="Utils\Drawing\DrawingInteropGdi.cs" />
+    <Compile Include="Utils\Drawing\JpegHeader.cs" />
+    <Compile Include="Utils\Drawing\Picture.cs" />
+    <Compile Include="Utils\Drawing\PrintDocuments.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\Drawing\JpegTables.cs" />
+    <Compile Include="Utils\Drawing\DrawingUtils.cs" />
+    <Compile Include="Utils\Drawing\Captcha.cs" />
+    <Compile Include="Utils\Html\Formatter.cs" />
+    <Compile Include="Utils\Html\HtmlAttribute.cs" />
+    <Compile Include="Utils\Html\HtmlDocument.cs" />
+    <Compile Include="Utils\Html\HtmlTag.cs" />
+    <Compile Include="Utils\Html\HtmlText.cs" />
+    <Compile Include="Utils\Html\Parsers\BBCodeParserOld.cs" />
+    <Compile Include="Utils\Html\Parsers\PlainTextParser.cs" />
+    <Compile Include="Utils\Plugin.cs" />
+    <Compile Include="Net\Rss\RssChannel.cs" />
+    <Compile Include="Net\Rss\RssChannelImage.cs" />
+    <Compile Include="Net\Rss\RssItem.cs" />
+    <Compile Include="Utils\KeyValue.cs" />
+    <Compile Include="Utils\TextEncoding.cs" />
+    <Compile Include="Utils\IO\FileReader.cs" />
+    <Compile Include="Utils\IO\PathHelper.cs" />
+    <Compile Include="Net\Url.cs" />
+    <Compile Include="Utils\Calendar.cs" />
+    <Compile Include="Utils\Drawing\Thumbnail.cs" />
+    <Compile Include="Utils\IO\EncodedStringWriter.cs" />
+    <Compile Include="Utils\AssemblyInfo.cs" />
+    <Compile Include="Security\Cryptography\UriCryptography.cs" />
+    <Compile Include="Utils\IO\Compression\ZipStorer.cs" />
+    <Compile Include="Utils\Mime.cs" />
+    <Compile Include="WorkspaceSettings.cs" />
+    <Compile Include="Utils\IO\Shell.cs" />
+    <Compile Include="Utils\Number.cs" />
+    <Compile Include="Security\Cryptography\Cryptography.cs" />
+    <Compile Include="FileSystem\FileSystemService.cs" />
+    <Compile Include="Security\Role.cs" />
+    <Compile Include="Security\Auth\AuthenticationException.cs" />
+    <Compile Include="Diagnostics\Logger.cs" />
+    <Compile Include="Security\SecurityException.cs" />
+    <Compile Include="Security\Auth\AuthenticationService.cs" />
+    <Compile Include="Security\Auth\IAutheticationModule.cs" />
+    <Compile Include="Security\Auth\Impl\LdapAuthenticationImpl.cs" />
+    <Compile Include="Security\Auth\Impl\SqlServerAuthenticationImpl.cs" />
+    <Compile Include="Security\UserNotVerifiedException.cs" />
+    <Compile Include="Security\UserDisabledException.cs" />
+    <Compile Include="Communications\PrivateMessages\PrivateMessageDAO.cs" />
+    <Compile Include="Diagnostics\LogEntry.cs" />
+    <Compile Include="Security\InvalidSessionException.cs" />
+    <Compile Include="Communications\PrivateMessages\PrivateMessage.cs" />
+    <Compile Include="Security\User.cs" />
+    <Compile Include="Services\Country.cs" />
+    <Compile Include="Security\UserRelation.cs" />
+    <Compile Include="Security\UserSearchCriteria.cs" />
+    <Compile Include="Security\UserSession.cs" />
+    <Compile Include="Workspace.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\idr_dll.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repair.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\form_presentation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\msdotnet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_dotnet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\access_intent_wiz.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ost_icon.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checkout_action.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_nav_backward.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_nav_forward.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bkmrk_nav.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\contents_view.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nav_print.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\e_show_all.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help_doc_admin.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help_topic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addauthoritycontraints_wiz_.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NavForward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NavBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\offshore.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_copy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_cut.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_paste.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_import.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saveas_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_results_view.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchu_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\undo_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redo_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc_script.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_export.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_label.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\form_about_background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\form_login_background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\none.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_warning.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_disabled.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_single.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\connection_005.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_open.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_closed.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pub_resource_server_wiz.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_ws.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\innerinterface_public_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Windows XP Cellular Phone.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Windows XP Icon 2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Windows XP PDA.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error_st_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\intf_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error_fatalerror_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warn_tsk.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_warning1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\title_bg.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_prj_obj_2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\package_jworkingSet_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\package_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc_file_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_lateral.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_icon_db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_group_disabled.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_group.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_ws_disabled.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc_inet.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\label_obj.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\server.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db_procedure.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_oft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mobilewhere.3.0.sql" />
+    <None Include="Resources\title_bg_short.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wizard_end.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_italic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_bold.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert_table.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert_image.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert_table_cellspacing.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert_table_cellpadding.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\workspace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
