@@ -37,13 +37,6 @@ namespace Cosmo.Security.Auth
       // Formato del correo para recuperar las credenciales de un usuario del workspace.
       private const string UsersRecoverHTMLFormat = "users.rpwd.html";
 
-      // Comprueba el correo electrónico de los usuario al crear un nuevo usuario (envía un mail de confirmación)
-      private const string SecurityMailVerification = "workspace.security.verifymail";
-      // Lista de IPs bloqueadas.
-      private const string SecurityBloquedIP = "workspace.security.bloquedip";
-      // Clave de encriptación por defecto a usar para encriptar cadenas de texto.
-      private const string SecurityEncryptionKey = "workspace.security.encryptionkey";
-
       // Declaración de variables internas
       private Workspace _ws = null;
       private Dictionary<string, IAuthenticationModule> _modules;
@@ -74,12 +67,20 @@ namespace Cosmo.Security.Auth
       #region Properties
 
       /// <summary>
+      /// Gets a boolean indicating id the security is enabled for the current workspace.
+      /// </summary>
+      public bool SecurityRequired
+      {
+         get { return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].SecurityRequired; }
+      }
+
+      /// <summary>
       /// Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
       /// de verificación.
       /// </summary>
       public bool IsVerificationMailRequired
       {
-         get { return _ws.Settings.GetBoolean(AuthenticationService.SecurityMailVerification); }
+         get { return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].IsVerificationMailRequired; }
       }
 
       /// <summary>
@@ -87,12 +88,22 @@ namespace Cosmo.Security.Auth
       /// </summary>
       public string EncriptionKey
       {
-         get { return _ws.Settings.GetString(AuthenticationService.SecurityEncryptionKey); }
+         get { return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].EncriptionKey; }
       }
 
       #endregion
 
       #region Methods
+
+      /// <summary>
+      /// Check if a IP address can access to workspace.
+      /// </summary>
+      /// <param name="ipAddress">IP address to check.</param>
+      /// <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
+      public bool IsValidIPAddress(string ipAddress)
+      {
+         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].IsValidIPAddress(ipAddress);
+      }
 
       /// <summary>
       /// Autentica al usuario.
@@ -340,16 +351,6 @@ namespace Cosmo.Security.Auth
       public List<Country> ListCountry()
       {
          return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].ListCountry();
-      }
-
-      /// <summary>
-      /// Comprueba si la IP tiene el acceso permitido al Workspace.
-      /// </summary>
-      /// <param name="ipAddress">Dirección IP.</param>
-      /// <returns>Un valor booleano indicando si la IP tiene acceso permitido.</returns>
-      public bool IsValidIPAddress(string ipAddress)
-      {
-         return !_ws.Settings.GetString(AuthenticationService.SecurityBloquedIP).Contains(ipAddress);
       }
 
       /// <summary>

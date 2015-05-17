@@ -55,9 +55,8 @@
     <DocumentationFile>..\Documentation\Cosmo.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeKicker.BBCode, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Controls\BBCode\bin\CodeKicker.BBCode.dll</HintPath>
+    <Reference Include="CodeKicker.BBCode">
+      <HintPath>..\..\lib\CodeKicker\CodeKicker.BBCode.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net40\NLog.dll</HintPath>

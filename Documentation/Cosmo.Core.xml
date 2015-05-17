@@ -11201,6 +11201,13 @@
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
         </member>
+        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidIPAddress(System.String)">
+            <summary>
+            Check if a IP address can access to workspace.
+            </summary>
+            <param name="ipAddress">IP address to check.</param>
+            <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
+        </member>
         <member name="M:Cosmo.Security.Auth.AuthenticationService.Autenticate(System.String,System.String)">
             <summary>
             Autentica al usuario.
@@ -11339,13 +11346,6 @@
             Devuelve una lista de paises.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidIPAddress(System.String)">
-            <summary>
-            Comprueba si la IP tiene el acceso permitido al Workspace.
-            </summary>
-            <param name="ipAddress">Dirección IP.</param>
-            <returns>Un valor booleano indicando si la IP tiene acceso permitido.</returns>
-        </member>
         <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidLogin(System.String)">
             <summary>
             Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
@@ -11426,6 +11426,11 @@
             Carga el módulo que se usará para renderizar los controles del workspace.
             </summary>
         </member>
+        <member name="P:Cosmo.Security.Auth.AuthenticationService.SecurityRequired">
+            <summary>
+            Gets a boolean indicating id the security is enabled for the current workspace.
+            </summary>
+        </member>
         <member name="P:Cosmo.Security.Auth.AuthenticationService.IsVerificationMailRequired">
             <summary>
             Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
@@ -11448,6 +11453,13 @@
             </summary>
             <param name="workspace">Una instancia de <see cref="P:Cosmo.Security.Auth.IAuthenticationModule.Workspace"/> que representa el espacio de trabajo actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
+        </member>
+        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.IsValidIPAddress(System.String)">
+            <summary>
+            Check if a IP address can access to workspace.
+            </summary>
+            <param name="ipAddress">IP address to check.</param>
+            <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Autenticate(System.String,System.String)">
             <summary>
@@ -11604,6 +11616,22 @@
         <member name="P:Cosmo.Security.Auth.IAuthenticationModule.ID">
             <summary>
             Devuelve el nombre (ID) del módulo de autenticación configurado.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.SecurityRequired">
+            <summary>
+            Gets a boolean indicating id the security is enabled for the current workspace.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.IsVerificationMailRequired">
+            <summary>
+            Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
+            de verificación.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.EncriptionKey">
+            <summary>
+             Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
             </summary>
         </member>
         <member name="T:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl">
@@ -12776,11 +12804,6 @@
         <member name="P:Cosmo.Security.UserSession.User">
             <summary>
             Devuelve una instancia de <see cref="P:Cosmo.Security.UserSession.User"/> que representa el usuario que ha generado la sesión.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Security.UserSession.Required">
-            <summary>
-            Devuelve un booleano que indica si el Workspace requiere validación de usuario.
             </summary>
         </member>
         <member name="P:Cosmo.Security.UserSession.IsAuthenticated">

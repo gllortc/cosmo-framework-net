@@ -7,13 +7,10 @@ namespace Cosmo.Security
    /// </summary>
    public class UserSession
    {
-      // Internal data declaration
+      // Internal data declarations
       private string _sessionTiket;
       private Workspace _ws;
       private User _currentUser;
-
-      // Sesión de usuario requerida.
-      private const string SecuritySessionRequired = "workspace.security.enabled";
 
       #region Constructors
 
@@ -46,14 +43,6 @@ namespace Cosmo.Security
       public User User
       {
          get { return _currentUser; }
-      }
-
-      /// <summary>
-      /// Devuelve un booleano que indica si el Workspace requiere validación de usuario.
-      /// </summary>
-      public bool Required
-      {
-         get { return _ws.Settings.GetBoolean(UserSession.SecuritySessionRequired); }
       }
 
       /// <summary>

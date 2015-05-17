@@ -15,6 +15,15 @@ namespace Cosmo.Security.Auth
       private Plugin _plugin;
       private Workspace _ws;
 
+      // Sesión de usuario requerida.
+      private const string SETTING_SECURITY_ENABLED = "security.enabled";
+      // Sesión de usuario requerida.
+      private const string SETTING_SECURITY_BLOQUEDIP = "security.bloquedip";
+      // Comprueba el correo electrónico de los usuario al crear un nuevo usuario (envía un mail de confirmación)
+      private const string SETTING_SECURITY_MAILVERIFICATION = "security.verifymail";
+      // Clave de encriptación por defecto a usar para encriptar cadenas de texto.
+      private const string SETTING_SECURITY_ENCRYPTIONKEY = "security.encryptionkey";
+
       #region Constructors
 
       /// <summary>
@@ -46,6 +55,45 @@ namespace Cosmo.Security.Auth
       public string ID
       {
          get { return _plugin.ID; }
+      }
+
+      /// <summary>
+      /// Gets a boolean indicating id the security is enabled for the current workspace.
+      /// </summary>
+      public bool SecurityRequired 
+      {
+         get { return _plugin.GetBoolean(SETTING_SECURITY_ENABLED); } 
+      }
+
+      /// <summary>
+      /// Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
+      /// de verificación.
+      /// </summary>
+      public bool IsVerificationMailRequired
+      {
+         get { return _plugin.GetBoolean(SETTING_SECURITY_MAILVERIFICATION); }
+      }
+
+      /// <summary>
+      ///  Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
+      /// </summary>
+      public string EncriptionKey
+      {
+         get { return _plugin.GetString(SETTING_SECURITY_ENCRYPTIONKEY); }
+      }
+
+      #endregion
+
+      #region Methods
+
+      /// <summary>
+      /// Check if a IP address can access to workspace.
+      /// </summary>
+      /// <param name="ipAddress">IP address to check.</param>
+      /// <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
+      public bool IsValidIPAddress(string ipAddress)
+      {
+         return !_plugin.GetString(SETTING_SECURITY_BLOQUEDIP).Contains(ipAddress);
       }
 
       #endregion

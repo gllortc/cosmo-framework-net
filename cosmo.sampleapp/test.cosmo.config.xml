@@ -70,7 +70,7 @@
       <param key="cs.sys.defaultDescription" value="Railwaymania.com, el portal de los ferrocarriles europeos. Ferrocarriles, modelismo, AVE, TGV, TEE, anúncios, chat, foros de discusión y nuestro buscador de información"/>
       <param key="cs.sys.defaultKeywords" value="tren, ferrocarril, ferrocarriles, ferroviario, trenes, modelismo, maqueta, maqueta de tren, estación, locomotoras, TEE, carrilets, via, vias, talgo, AVE, TGV, Renfe, railroad, bahn, eisenbahn, modelleisbahn, ibertren, electrotren, marklin, trix, minitrix, mabar, piko, brawa"/>
       <param key="cs.sys.errors" value="1"/>
-      <param key="cs.sys.upload.path" value="C:\Users\Gerard\Dropbox\MobileWhere\Cosmo.CMS.3.5\cosmo.cms.3.0\docs"/>
+      <!--<param key="cs.sys.upload.path" value="C:\Users\Gerard\Dropbox\MobileWhere\Cosmo.CMS.3.5\cosmo.cms.3.0\docs"/>-->
       <param key="cs.sys.upload.pattern" value="[file]{filename}[/file]"/>
       <param key="cs.sys.upload.filter" value="jpg,gif,jpeg,png,pdf,doc,docx,odt,xls,xlsx,ods,ppt,pptx,odp,mp3,mp4"/>
       <param key="cs.sys.upload.maxlength" value="1024"/>
