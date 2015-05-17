@@ -35,8 +35,8 @@ namespace Cosmo.WebApp.Classified
          contactForm = orm.CreateForm(this, request, true);
          contactForm.Action = "ClassifiedView";
 
-         ClassifiedContactModal modal = new ClassifiedContactModal("ad-contact-modal", classifiedId);
-         Modals.Add(modal);
+         // ClassifiedContactModal modal = new ClassifiedContactModal("ad-contact-modal", classifiedId);
+         // Modals.Add(modal);
       }
 
       public override void LoadPage()

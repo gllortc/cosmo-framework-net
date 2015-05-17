@@ -386,6 +386,9 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("      </div>");
             xhtml.AppendLine("      <div id=\"" + modal.DomID + "-body\" class=\"modal-body\">");
 
+            // The modal contents initially is empty and until the form is unload remains empty.
+            // When the modal is loaded, an ajax call is sended to server to start view life cycle.
+
             // Genera el pie de la ventana modal
             xhtml.AppendLine("      </div>");
             xhtml.AppendLine("    </div>");
@@ -472,7 +475,7 @@ namespace Cosmo.UI.Render.Impl
          }
 
          // Genera la cabecera de la ventana modal
-         xhtml.AppendLine("<div class=\"modal fade\" id=\"" + container.DomID + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + container.DomID + "-label\" aria-hidden=\"true\">");
+         /*xhtml.AppendLine("<div class=\"modal fade\" id=\"" + container.DomID + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + container.DomID + "-label\" aria-hidden=\"true\">");
          xhtml.AppendLine("  <div class=\"modal-dialog\">");
          xhtml.AppendLine("    <div class=\"modal-content\">");
          xhtml.AppendLine("      <div class=\"modal-header\">");
@@ -485,16 +488,17 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine(HttpUtility.HtmlDecode(container.Title) + "&nbsp;");
          xhtml.AppendLine("        </h4>");
          xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("      <div id=\"" + container.DomID  + "-body\" class=\"modal-body\">");
+         xhtml.AppendLine("      <div id=\"" + container.DomID  + "-body\" class=\"modal-body\">");*/
 
          // Renderiza controles de página
          xhtml.AppendLine(Render(container.Content, receivedFormID));
 
+         /*
          // Genera el pie de la ventana modal
          xhtml.AppendLine("      </div>");
          xhtml.AppendLine("    </div>");
          xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("</div>");
+         xhtml.AppendLine("</div>");*/
 
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(container));
@@ -675,6 +679,25 @@ namespace Cosmo.UI.Render.Impl
          color = GetCssClassFromControlColor(control.Color);
          color = string.IsNullOrWhiteSpace(color) ? "default" : color;
 
+         /*
+         string cssClass = "btn btn-" + color;
+         cssClass += (control.IsBlock ? " btn-block" : string.Empty);
+         cssClass += (control.Enabled ? string.Empty : " disabled") + " ";
+         cssClass += GetButtonSizeClass(control.Size);
+
+         string jsAction = string.Empty;
+
+         switch (control.Type)
+         {
+            case ButtonControl.ButtonTypes.Submit:
+               xhtml.AppendLine("<button " + control.GetIdParameter() + " " +
+                                             control.GetNameParameter() + " " +
+                                             "class=\"" + cssClass  + "\"" +
+                                             ">");
+               break;
+         }
+         */
+
          xhtml.Append("<" + (string.IsNullOrWhiteSpace(control.Href) ? "button" : "a") + " ");
          xhtml.Append(control.GetIdParameter());
          if (control.Type == ButtonControl.ButtonTypes.Submit)
@@ -685,10 +708,11 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.Append("type=\"button\" ");
          }
-         xhtml.Append("class=\"btn btn-" + color + "" + (control.IsBlock ? " btn-block" : string.Empty) + (control.Enabled ? string.Empty : " disabled") + " " + GetButtonSizeClass(control.Size) + "\" ");
+         xhtml.Append("class=\"btn btn-" + color + (control.IsBlock ? " btn-block" : string.Empty) + (control.Enabled ? string.Empty : " disabled") + " " + GetButtonSizeClass(control.Size) + "\" ");
          xhtml.Append(string.IsNullOrWhiteSpace(control.Href) ? string.Empty : "href=\"" + control.Href + "\" ");
          xhtml.Append(string.IsNullOrWhiteSpace(control.JavaScriptAction) ? string.Empty : "onclick=\"javascript:" + control.JavaScriptAction + "\"");
          xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalForm ? "data-toggle=\"modal\" data-target=\"#" + control.ModalDomId.Trim() + "\" " : string.Empty);
+         xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:open" + control.DomID + "();\"" : string.Empty);
          xhtml.Append(control.Type == ButtonControl.ButtonTypes.CloseModalForm ? "data-dismiss=\"modal\" " : string.Empty);
          xhtml.Append(">");
          xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Caption));
@@ -727,6 +751,7 @@ namespace Cosmo.UI.Render.Impl
             xhtml.Append("       <li><a ");
             xhtml.Append("href=\"" + (string.IsNullOrWhiteSpace(button.Href) ? "#" : button.Href) + "\" ");
             xhtml.Append(!string.IsNullOrWhiteSpace(button.ModalDomId) && button.Type == ButtonControl.ButtonTypes.OpenModalForm ? "data-toggle=\"modal\" data-target=\"#" + button.ModalDomId.Trim() + "\" " : string.Empty);
+            xhtml.Append(!string.IsNullOrWhiteSpace(button.ModalDomId) && button.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:" + button.JavaScriptAction + "\"" : string.Empty);
             xhtml.Append(">" + button.Caption + "</a></li>");
          }
 

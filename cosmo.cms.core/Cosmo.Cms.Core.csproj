@@ -66,7 +66,7 @@
     <Compile Include="WebApp\Forums\ForumMessageEdit.cs" />
     <Compile Include="WebApp\Forums\Modals\ForumThreadToggleStatusModal.cs" />
     <Compile Include="WebApp\Forums\Modals\ForumThreadRemoveModal.cs" />
-    <Compile Include="WebApp\Forums\Modals\ForumThreadMoveModal.cs" />
+    <Compile Include="WebApp\Forums\ForumThreadMoveModal.cs" />
     <Compile Include="WebApp\Forums\ForumThreadsByUser.cs" />
     <Compile Include="WebApp\Forums\ForumThreadView.cs" />
     <Compile Include="WebApp\Forums\ForumFolder.cs" />

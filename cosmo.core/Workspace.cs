@@ -49,6 +49,11 @@ namespace Cosmo
 
       private const string PRODUCT_NAME = "Cosmo Framework";
 
+      // PREDEFINED ROLES
+
+      /// <summary>Users who have administrative role: access all services and server control</summary>
+      public const string ROLE_ADMINISTRATOR = "admin";
+
       // Páginas públicas
 
       /// <summary>Página de inicio</summary>

@@ -34,10 +34,14 @@ namespace Cosmo.UI.Controls
          Normal,
          /// <summary>Envío. Situado en un formulario envia los datos del mismo.</summary>
          Submit,
+         /// <summary>Send form data. In a form send data using JavaScript/jQuery.</summary>
+         SubmitJS,
          /// <summary>Open Modal. Abre un formulario modal habilitado en la página.</summary>
          OpenModalForm,
          /// <summary>Close Modal. Cierra el formulario modal dónde se encuentra el botón.</summary>
-         CloseModalForm
+         CloseModalForm,
+         /// <summary>Open Modal view. Abre un formulario modal habilitado en la página.</summary>
+         OpenModalView
       }
 
       #endregion
@@ -122,6 +126,24 @@ namespace Cosmo.UI.Controls
          Icon = icon;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalForm;
+      }
+
+      /// <summary>
+      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// </summary>
+      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="caption">Texto visible para el botón.</param>
+      /// <param name="modal">Formulario modal que abrirá el botón.</param>
+      public ButtonControl(ViewContainer container, string domId, string caption, ModalViewContainer modal)
+         : base(container, domId)
+      {
+         Initialize();
+
+         Caption = caption;
+         ModalDomId = modal.DomID;
+         Type = ButtonTypes.OpenModalView;
+         JavaScriptAction = modal.GetOpenModalCall();
       }
 
       /// <summary>

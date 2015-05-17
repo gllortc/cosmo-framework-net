@@ -16,6 +16,7 @@ namespace Cosmo.Cms.WebApp.Classified
       // Declaración de variables internas
       FormControl contactForm = null;
 
+      /*
       /// <summary>
       /// Devuelve una instancia de <see cref="ClassifiedContactModal"/>.
       /// </summary>
@@ -25,7 +26,7 @@ namespace Cosmo.Cms.WebApp.Classified
       {
          this.ClassifiedAdID = classifiedAdID;
       }
-
+      */
       /// <summary>
       /// Devuelve o establece el identificador del anuncio para el que se desea generar el 
       /// formulario de contacto.

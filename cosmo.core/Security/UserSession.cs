@@ -71,6 +71,7 @@ namespace Cosmo.Security
       /// </summary>
       /// <remarks>
       /// De no existir sesión autenticada, devolverá <em>false</em>.
+      /// If user have <c>admin</c> role this check returns <c>true</c> (authorized).
       /// </remarks>
       public bool CheckAuthorization(string role)
       {
@@ -81,7 +82,11 @@ namespace Cosmo.Security
 
          foreach (Role userRole in _currentUser.Roles)
          {
-            if (userRole.Name.Trim().ToLower().Equals(role))
+            if (userRole.Name.Trim().ToLower().Equals(role.ToLower()))
+            {
+               return true;
+            }
+            else if (userRole.Name.Trim().ToLower().Equals(Workspace.ROLE_ADMINISTRATOR.ToLower()))
             {
                return true;
             }

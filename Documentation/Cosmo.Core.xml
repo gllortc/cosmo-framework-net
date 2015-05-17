@@ -1725,6 +1725,15 @@
             <param name="icon">Código del icono a mostrar.</param>
             <param name="modal">Formulario modal que abrirá el botón.</param>
         </member>
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
+            </summary>
+            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Identificador del control en la página (DOM ID).</param>
+            <param name="caption">Texto visible para el botón.</param>
+            <param name="modal">Formulario modal que abrirá el botón.</param>
+        </member>
         <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
@@ -1832,11 +1841,17 @@
         <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.Submit">
             <summary>Envío. Situado en un formulario envia los datos del mismo.</summary>
         </member>
+        <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.SubmitJS">
+            <summary>Send form data. In a form send data using JavaScript/jQuery.</summary>
+        </member>
         <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.OpenModalForm">
             <summary>Open Modal. Abre un formulario modal habilitado en la página.</summary>
         </member>
         <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.CloseModalForm">
             <summary>Close Modal. Cierra el formulario modal dónde se encuentra el botón.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.OpenModalView">
+            <summary>Open Modal view. Abre un formulario modal habilitado en la página.</summary>
         </member>
         <member name="M:Cosmo.UI.Controls.ButtonSplit.#ctor(Cosmo.UI.ViewContainer)">
             <summary>
@@ -2251,12 +2266,6 @@
             Indica al servidor web si la instancia es rehusable.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.#ctor(System.String)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.ModalViewContainer"/>.
-            </summary>
-            <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
-        </member>
         <member name="M:Cosmo.UI.ModalViewContainer.ShowError(System.String,System.String)">
             <summary>
             Muestra un mensaje de error.
@@ -2269,6 +2278,16 @@
             Muestra un mensaje de error.
             </summary>
             <param name="exception">Excepción a mostrar.</param>
+        </member>
+        <member name="M:Cosmo.UI.ModalViewContainer.GetOpenModalCall">
+            <summary>
+            Generate JS call from modal. 
+            </summary>
+            <param name="modal"></param>
+            <returns></returns>
+            <remarks>
+            Modal must have initialized properties.
+            </remarks>
         </member>
         <member name="M:Cosmo.UI.ModalViewContainer.StartViewLifecycle">
             <summary>
@@ -12744,6 +12763,7 @@
             </summary>
             <remarks>
             De no existir sesión autenticada, devolverá <em>false</em>.
+            If user have <c>admin</c> role this check returns <c>true</c> (authorized).
             </remarks>
         </member>
         <member name="M:Cosmo.Security.UserSession.CheckAuthorization(System.String[])">
@@ -12831,6 +12851,9 @@
             <summary>
             Implementa un workspace, un espacio de trabajo para aplicaciones Cosmo.
             </summary>
+        </member>
+        <member name="F:Cosmo.Workspace.ROLE_ADMINISTRATOR">
+            <summary>Users who have administrative role: access all services and server control</summary>
         </member>
         <member name="F:Cosmo.Workspace.COSMO_URL_DEFAULT">
             <summary>Página de inicio</summary>

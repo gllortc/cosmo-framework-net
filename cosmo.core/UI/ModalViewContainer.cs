@@ -13,21 +13,6 @@ namespace Cosmo.UI
    public abstract class ModalViewContainer : ViewContainer 
    {
 
-      #region Constructors
-
-      /// <summary>
-      /// Devuelve una instancia de <see cref="ModalViewContainer"/>.
-      /// </summary>
-      /// <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
-      protected ModalViewContainer(string domId)
-      {
-         Initialize();
-
-         this.DomID = domId;
-      }
-
-      #endregion
-
       #region Properties
 
       /// <summary>
@@ -58,16 +43,7 @@ namespace Cosmo.UI
       #endregion
 
       #region Methods
-      /*
-      /// <summary>
-      /// Redirige al cliente hacia otra URL.
-      /// </summary>
-      /// <param name="destinationUrl">La URL de destino.</param>
-      public void Redirect(string destinationUrl)
-      {
-         _context.Response.Redirect(destinationUrl, true);
-      }
-      */
+
       /// <summary>
       /// Muestra un mensaje de error.
       /// </summary>
@@ -131,19 +107,49 @@ namespace Cosmo.UI
          js.AppendSourceLine("  $('#" + this.DomID + "').modal('show');");
          js.AppendSourceLine("  $.ajax({");
          js.AppendSourceLine("    url: '" + this.GetType().Name + "',");
-         js.AppendSourceLine("    data: params,");
+         // js.AppendSourceLine("    data: params,");
          js.AppendSourceLine("    type: \"post\",");
          js.AppendSourceLine("    success: function(response) {");
          js.AppendSourceLine("      $('#" + this.DomID + "-body').html(response.Xhtml);");
          js.AppendSourceLine("    },");
          js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
-         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(err);");
+         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(errorThrown);");
          js.AppendSourceLine("      ");
          js.AppendSourceLine("    }");
          js.AppendSourceLine("  });");
          js.AppendSourceLine("}");
 
          return js;
+      }
+
+      /// <summary>
+      /// Generate JS call from modal. 
+      /// </summary>
+      /// <param name="modal"></param>
+      /// <returns></returns>
+      /// <remarks>
+      /// Modal must have initialized properties.
+      /// </remarks>
+      public string GetOpenModalCall()
+      {
+         string js = string.Empty;
+
+         try
+         {
+            js = string.Empty;
+
+            foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+            {
+               js += (string.IsNullOrEmpty(js) ? string.Empty : ", ") +
+                     this.GetType().GetProperty(param.PropertyName).GetValue(this, null).ToString();
+            }
+
+            return "open" + this.DomID + "(" + js + ");";
+         }
+         catch
+         {
+            return string.Empty;
+         }
       }
 
       #endregion

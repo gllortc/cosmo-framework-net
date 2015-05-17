@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("InforGEST")]
 [assembly: AssemblyProduct("Cosmo.CMS.Core")]
-[assembly: AssemblyCopyright("Copyright © 2009-2014 InforGEST")]
+[assembly: AssemblyCopyright("Copyright © 2009-2015 InforGEST")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
