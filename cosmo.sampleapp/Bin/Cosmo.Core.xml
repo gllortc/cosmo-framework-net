@@ -2266,6 +2266,11 @@
             Indica al servidor web si la instancia es rehusable.
             </summary>
         </member>
+        <member name="M:Cosmo.UI.ModalViewContainer.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.UI.ModalViewContainer"/>.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.ModalViewContainer.ShowError(System.String,System.String)">
             <summary>
             Muestra un mensaje de error.
@@ -2283,7 +2288,6 @@
             <summary>
             Generate JS call from modal. 
             </summary>
-            <param name="modal"></param>
             <returns></returns>
             <remarks>
             Modal must have initialized properties.

@@ -28,7 +28,7 @@ var cosmoUIServices = {
       });
    },
 
-   sendForm: funtion (formId) 
+   sendForm: function (formId) 
    {
       $("#" + formId).submit(function(e)
       {
@@ -54,7 +54,7 @@ var cosmoUIServices = {
       });
    },
 
-   sendMultipartForm: funtion (formId) 
+   sendMultipartForm: function (formId)
    {
       $('#' + formId).submit(function (e) 
       {

@@ -286,18 +286,22 @@ namespace Cosmo.UI
             PropertyInfo property = this.GetType().GetProperty(param.PropertyName);
 
             // Recupera el valor segun el tipo de datos y lo asigna a cada propiedad
-            if (property.DeclaringType == typeof(int) ||
-                property.DeclaringType == typeof(Int16) ||
-                property.DeclaringType == typeof(Int32) ||
-                property.DeclaringType == typeof(Int64) ||
-                property.DeclaringType == typeof(long))
+            if (property.PropertyType == typeof(int) ||
+                property.PropertyType == typeof(Int16) ||
+                property.PropertyType == typeof(Int32) ||
+                property.PropertyType == typeof(Int64) ||
+                property.PropertyType == typeof(long))
             {
                property.SetValue(this, Parameters.GetInteger(param.ParameterName), null);
             }
-            else if (property.DeclaringType == typeof(bool) ||
-                     property.DeclaringType == typeof(Boolean))
+            else if (property.PropertyType == typeof(bool) ||
+                     property.PropertyType == typeof(Boolean))
             {
                property.SetValue(this, Parameters.GetBoolean(param.ParameterName), null);
+            }
+            else if (property.PropertyType == typeof(DateTime))
+            {
+               // TODO: Make dates transferible as a parameter
             }
             else
             {

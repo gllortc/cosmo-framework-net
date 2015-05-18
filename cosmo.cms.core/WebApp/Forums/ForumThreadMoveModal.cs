@@ -3,7 +3,7 @@ using Cosmo.Cms.REST;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 
-namespace Cosmo.Cms.WebApp.Forums
+namespace Cosmo.WebApp.Forums
 {
    /// <summary>
    /// Formulario modal que permite mover un determinado thread a un canal distinto al que se encuentra actualmente.

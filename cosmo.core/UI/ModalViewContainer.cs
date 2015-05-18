@@ -10,8 +10,20 @@ namespace Cosmo.UI
    /// <summary>
    /// Implementa una vista que permite generarse sin estar dentro de una página.
    /// </summary>
-   public abstract class ModalViewContainer : ViewContainer 
+   public abstract class ModalViewContainer : ViewContainer
    {
+
+      #region Constructors
+
+      /// <summary>
+      /// Gets an instance of <see cref="ModalViewContainer"/>.
+      /// </summary>
+      protected ModalViewContainer()
+      {
+         Initialize();
+      }
+
+      #endregion
 
       #region Properties
 
@@ -109,8 +121,8 @@ namespace Cosmo.UI
          js.AppendSourceLine("    url: '" + this.GetType().Name + "',");
          // js.AppendSourceLine("    data: params,");
          js.AppendSourceLine("    type: \"post\",");
-         js.AppendSourceLine("    success: function(response) {");
-         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(response.Xhtml);");
+         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
+         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(data);");
          js.AppendSourceLine("    },");
          js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
          js.AppendSourceLine("      $('#" + this.DomID + "-body').html(errorThrown);");
@@ -125,7 +137,6 @@ namespace Cosmo.UI
       /// <summary>
       /// Generate JS call from modal. 
       /// </summary>
-      /// <param name="modal"></param>
       /// <returns></returns>
       /// <remarks>
       /// Modal must have initialized properties.
