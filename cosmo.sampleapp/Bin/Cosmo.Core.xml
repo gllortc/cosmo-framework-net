@@ -2284,7 +2284,7 @@
             </summary>
             <param name="exception">Excepción a mostrar.</param>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.GetOpenModalCall">
+        <member name="M:Cosmo.UI.ModalViewContainer.GetInvokeFunction">
             <summary>
             Generate JS call from modal. 
             </summary>
@@ -2292,6 +2292,12 @@
             <remarks>
             Modal must have initialized properties.
             </remarks>
+        </member>
+        <member name="M:Cosmo.UI.ModalViewContainer.GetOpenModalScript">
+            <summary>
+            Generates the script that allow load and show modal view.
+            </summary>
+            <returns>A <see cref="T:Cosmo.UI.Scripting.Script"/> instance containing the requestes script.</returns>
         </member>
         <member name="M:Cosmo.UI.ModalViewContainer.StartViewLifecycle">
             <summary>
@@ -8284,18 +8290,33 @@
         </member>
         <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageViewContainer)">
             <summary>
-            Renderiza un control UI.
+            Render a view.
             </summary>
-            <param name="container">Control a renderizar.</param>
-            <returns>Una cadena de texto que contiene el código XHTML para representar el control en el navegador del usuario.</returns>
+            <param name="container">A page view container.</param>
+            <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
         <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageViewContainer,System.String)">
             <summary>
-            Renderiza un control UI.
+            Render a view.
             </summary>
-            <param name="container">Control a renderizar.</param>
+            <param name="container">A page view container.</param>
             <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-            <returns>Una cadena de texto que contiene el código XHTML para representar el control en el navegador del usuario.</returns>
+            <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+        </member>
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Render a view.
+            </summary>
+            <param name="container">A modal view container.</param>
+            <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+        </member>
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalViewContainer,System.String)">
+            <summary>
+            Render a view.
+            </summary>
+            <param name="container">A modal view container.</param>
+            <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+            <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
         <member name="M:Cosmo.UI.UIService.SelectRenderer(System.Web.HttpContext)">
             <summary>

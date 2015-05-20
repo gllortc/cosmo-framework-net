@@ -370,29 +370,9 @@ namespace Cosmo.UI.Render.Impl
          foreach (ModalViewContainer modal in container.Modals)
          {
             // Genera la cabecera de la ventana modal
-            xhtml.AppendLine("<!-- MODAL VIEW [" + modal.DomID + "] -->");
-            xhtml.AppendLine("<div class=\"modal fade\" id=\"" + modal.DomID + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
-            xhtml.AppendLine("  <div class=\"modal-dialog\">");
-            xhtml.AppendLine("    <div class=\"modal-content\">");
-            xhtml.AppendLine("      <div class=\"modal-header\">");
-            if (modal.Closeable)
-            {
-               xhtml.AppendLine("        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
-            }
-            xhtml.AppendLine("        <h4 class=\"modal-title\" id=\"" + modal.DomID + "-label\">");
-            if (!string.IsNullOrWhiteSpace(modal.Icon)) xhtml.AppendLine(IconControl.GetIcon(container, modal.Icon) + "&nbsp;&nbsp;");
-            xhtml.AppendLine(HttpUtility.HtmlDecode(modal.Title) + "&nbsp;");
-            xhtml.AppendLine("        </h4>");
-            xhtml.AppendLine("      </div>");
-            xhtml.AppendLine("      <div id=\"" + modal.DomID + "-body\" class=\"modal-body\">");
-
-            // The modal contents initially is empty and until the form is unload remains empty.
-            // When the modal is loaded, an ajax call is sended to server to start view life cycle.
-
-            // Genera el pie de la ventana modal
-            xhtml.AppendLine("      </div>");
-            xhtml.AppendLine("    </div>");
-            xhtml.AppendLine("  </div>");
+            xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
+            xhtml.AppendLine("<div id=\"" + modal.DomID + "\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
+            xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
             xhtml.AppendLine("</div>");
 
             container.Scripts.Add(modal.GetOpenModalScript());
@@ -475,30 +455,25 @@ namespace Cosmo.UI.Render.Impl
          }
 
          // Genera la cabecera de la ventana modal
-         /*xhtml.AppendLine("<div class=\"modal fade\" id=\"" + container.DomID + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + container.DomID + "-label\" aria-hidden=\"true\">");
-         xhtml.AppendLine("  <div class=\"modal-dialog\">");
-         xhtml.AppendLine("    <div class=\"modal-content\">");
-         xhtml.AppendLine("      <div class=\"modal-header\">");
+         xhtml.AppendLine("<div class=\"modal-content\">");
+         xhtml.AppendLine("  <div class=\"modal-header\">");
          if (container.Closeable)
          {
-            xhtml.AppendLine("        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
+            xhtml.AppendLine("    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
          }
-         xhtml.AppendLine("        <h4 class=\"modal-title\" id=\"" + container.DomID + "-label\">");
+         xhtml.AppendLine("    <h4 class=\"modal-title\">");
          if (!string.IsNullOrWhiteSpace(container.Icon)) xhtml.AppendLine(IconControl.GetIcon(container, container.Icon) + "&nbsp;&nbsp;");
          xhtml.AppendLine(HttpUtility.HtmlDecode(container.Title) + "&nbsp;");
-         xhtml.AppendLine("        </h4>");
-         xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("      <div id=\"" + container.DomID  + "-body\" class=\"modal-body\">");*/
+         xhtml.AppendLine("    </h4>");
+         xhtml.AppendLine("  </div>");
+         xhtml.AppendLine("  <div class=\"modal-body\">");
 
          // Renderiza controles de página
          xhtml.AppendLine(Render(container.Content, receivedFormID));
 
-         /*
          // Genera el pie de la ventana modal
-         xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("    </div>");
          xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("</div>");*/
+         xhtml.AppendLine("</div>");
 
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(container));
@@ -679,8 +654,7 @@ namespace Cosmo.UI.Render.Impl
          color = GetCssClassFromControlColor(control.Color);
          color = string.IsNullOrWhiteSpace(color) ? "default" : color;
 
-         /*
-         string cssClass = "btn btn-" + color;
+         /*string cssClass = "btn btn-" + color;
          cssClass += (control.IsBlock ? " btn-block" : string.Empty);
          cssClass += (control.Enabled ? string.Empty : " disabled") + " ";
          cssClass += GetButtonSizeClass(control.Size);
@@ -690,9 +664,24 @@ namespace Cosmo.UI.Render.Impl
          switch (control.Type)
          {
             case ButtonControl.ButtonTypes.Submit:
+               
+               // jsAction is discarded
+               // HREF     is discarded --> Not link
+
                xhtml.AppendLine("<button " + control.GetIdParameter() + " " +
                                              control.GetNameParameter() + " " +
                                              "class=\"" + cssClass  + "\"" +
+                                             ">");
+               break;
+
+            case ButtonControl.ButtonTypes.SubmitJS:
+
+               // HREF     is discarded --> Not link
+
+               xhtml.AppendLine("<button " + control.GetIdParameter() + " " +
+                                             control.GetNameParameter() + " " +
+                                             "class=\"" + cssClass  + "\" " +
+                                             "onclick=\"javascript:" + control.JavaScriptAction + "\" " +
                                              ">");
                break;
          }
@@ -1077,7 +1066,7 @@ namespace Cosmo.UI.Render.Impl
          // Para formulario con envio AJAX, genera el script necesario
          if (control.SendDataMethod == FormControl.FormSendDataMethod.JSSubmit)
          {
-            AjaxSendFormScript script = new AjaxSendFormScript(control.Container, control);
+            AjaxSendModalFormScript script = new AjaxSendModalFormScript(control.Container, control);
             control.Container.Scripts.Add(script);
          }
 

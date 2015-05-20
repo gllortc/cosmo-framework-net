@@ -95,45 +95,6 @@ namespace Cosmo.UI
          Content.Add(new ErrorControl(this, exception));
       }
 
-      public string GetInvokeFunction()
-      {
-         return "";
-      }
-
-      public Script GetOpenModalScript()
-      {
-         bool first = true;
-         ViewParameter vParam = null;
-         SimpleScript js = new SimpleScript(this);
-         js.ExecutionType = Script.ScriptExecutionMethod.OnFunctionCall;
-
-         js.AppendComment("Open the " + this.DomID + " modal view");
-         js.AppendSource("function open" + this.DomID.Replace("-", "") + "(");
-         foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
-         {
-            if (!first) js.AppendSource(", ");
-            js.AppendSource(param.ParameterName);
-            first = false;
-         }
-         js.AppendSourceLine(") {");
-         js.AppendSourceLine("  $('#" + this.DomID + "').modal('show');");
-         js.AppendSourceLine("  $.ajax({");
-         js.AppendSourceLine("    url: '" + this.GetType().Name + "',");
-         // js.AppendSourceLine("    data: params,");
-         js.AppendSourceLine("    type: \"post\",");
-         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
-         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(data);");
-         js.AppendSourceLine("    },");
-         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
-         js.AppendSourceLine("      $('#" + this.DomID + "-body').html(errorThrown);");
-         js.AppendSourceLine("      ");
-         js.AppendSourceLine("    }");
-         js.AppendSourceLine("  });");
-         js.AppendSourceLine("}");
-
-         return js;
-      }
-
       /// <summary>
       /// Generate JS call from modal. 
       /// </summary>
@@ -141,17 +102,15 @@ namespace Cosmo.UI
       /// <remarks>
       /// Modal must have initialized properties.
       /// </remarks>
-      public string GetOpenModalCall()
+      public string GetInvokeFunction()
       {
-         string js = string.Empty;
-
          try
          {
-            js = string.Empty;
+            string js = string.Empty;
 
             foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
             {
-               js += (string.IsNullOrEmpty(js) ? string.Empty : ", ") +
+               js += (string.IsNullOrEmpty(js) ? string.Empty : ",") +
                      this.GetType().GetProperty(param.PropertyName).GetValue(this, null).ToString();
             }
 
@@ -163,6 +122,97 @@ namespace Cosmo.UI
          }
       }
 
+      /// <summary>
+      /// Generates the script that allow load and show modal view.
+      /// </summary>
+      /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
+      public Script GetOpenModalScript()
+      {
+         bool first = true;
+         int paramCount = 0;
+         string funcParams = string.Empty;
+         string callParams = string.Empty;
+
+         foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+         {
+            // Generate function parameters
+            if (!first) funcParams += ",";
+            funcParams += param.ParameterName;
+
+            // Generate AJAX call parameters
+            if (!first) callParams += ",";
+            callParams += param.ParameterName + ":arguments[" + paramCount + "]";
+
+            first = false;
+            paramCount++;
+         }
+
+         SimpleScript js = new SimpleScript(this);
+         js.ExecutionType = Script.ScriptExecutionMethod.OnFunctionCall;
+         js.AppendSourceLine("function open" + this.DomID.Replace("-", "") + "(" + funcParams + ") {");
+         js.AppendSourceLine("  $('#" + this.DomID + "').modal('show');");
+         js.AppendSourceLine("  $.ajax({");
+         js.AppendSourceLine("    url: '" + this.GetType().Name + "',");
+         js.AppendSourceLine("    data: {" + callParams + "},");
+         js.AppendSourceLine("    type: \"POST\",");
+         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
+         js.AppendSourceLine("      $('#" + this.DomID + " .modal-dialog').html(data);");
+         js.AppendSourceLine("    },");
+         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
+         js.AppendSourceLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
+         js.AppendSourceLine("      ");
+         js.AppendSourceLine("    }");
+         js.AppendSourceLine("  });");
+         js.AppendSourceLine("}");
+
+         return js;
+      }
+      /*
+      /// <summary>
+      /// Generates the script that allow send form without reloading the entire page.
+      /// </summary>
+      /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
+      public Script GetSendFormScript(FormControl form)
+      {
+         SimpleScript js = new SimpleScript(this);
+         js.ExecutionType = Script.ScriptExecutionMethod.Standalone;
+
+         // Declara el evento Submit
+         js.AppendSourceLine("$('#" + form.DomID + "').submit(function(e) {");
+
+         // Recoge los datos del formulario
+         if (!form.IsMultipart)
+         {
+            js.AppendSourceLine("  var fData = $(this).serializeArray();");
+         }
+         else
+         {
+            js.AppendSourceLine("  var fData = new FormData(this);");
+         }
+
+         js.AppendSourceLine("  $.ajax({");
+         js.AppendSourceLine("    url: '" + form.Action + "',");
+         js.AppendSourceLine("    type: 'POST',");
+         js.AppendSourceLine("    data: fData,");
+         if (form.IsMultipart)
+         {
+            js.AppendSourceLine("    mimeType: 'multipart/form-data',");
+            js.AppendSourceLine("    cache: false,");
+            js.AppendSourceLine("    processData: false,");
+         }
+         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
+         js.AppendSourceLine("      $('#" + form.DomID + " .modal-dialog').html(data);");
+         js.AppendSourceLine("    },");
+         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
+         js.AppendSourceLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
+         js.AppendSourceLine("    }");
+         js.AppendSourceLine("  });");
+         js.AppendSourceLine("  e.preventDefault();");
+         js.AppendSourceLine("});");
+
+         return js;
+      }
+      */
       #endregion
 
       #region #ViewContainer Implementation
@@ -209,7 +259,7 @@ namespace Cosmo.UI
 
          // Renderiza la página
          Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.Render(Content, receivedFormID));
+         Response.Write(Workspace.UIService.RenderPage(this, receivedFormID));
 
          watch.Stop();
          Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");

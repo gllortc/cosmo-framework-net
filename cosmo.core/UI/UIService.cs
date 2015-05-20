@@ -127,24 +127,45 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Renderiza un control UI.
+      /// Render a view.
       /// </summary>
-      /// <param name="container">Control a renderizar.</param>
-      /// <returns>Una cadena de texto que contiene el código XHTML para representar el control en el navegador del usuario.</returns>
-      public string RenderPage(PageViewContainer page)
+      /// <param name="container">A page view container.</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(PageViewContainer container)
       {
-         return RenderPage(page, string.Empty);
+         return RenderPage(container, string.Empty);
       }
 
       /// <summary>
-      /// Renderiza un control UI.
+      /// Render a view.
       /// </summary>
-      /// <param name="container">Control a renderizar.</param>
+      /// <param name="container">A page view container.</param>
       /// <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-      /// <returns>Una cadena de texto que contiene el código XHTML para representar el control en el navegador del usuario.</returns>
-      public string RenderPage(PageViewContainer page, string receivedFormID)
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(PageViewContainer container, string receivedFormID)
       {
-         return _renderers[_activeRenderer].RenderPage(page, receivedFormID);
+         return _renderers[_activeRenderer].RenderPage(container, receivedFormID);
+      }
+
+      /// <summary>
+      /// Render a view.
+      /// </summary>
+      /// <param name="container">A modal view container.</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(ModalViewContainer container)
+      {
+         return RenderPage(container, string.Empty);
+      }
+
+      /// <summary>
+      /// Render a view.
+      /// </summary>
+      /// <param name="container">A modal view container.</param>
+      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(ModalViewContainer container, string receivedFormID)
+      {
+         return _renderers[_activeRenderer].RenderPage(container, receivedFormID);
       }
 
       /// <summary>

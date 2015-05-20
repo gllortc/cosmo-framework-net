@@ -143,7 +143,7 @@ namespace Cosmo.UI.Controls
          Caption = caption;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
-         JavaScriptAction = modal.GetOpenModalCall();
+         JavaScriptAction = modal.GetInvokeFunction();
       }
 
       /// <summary>

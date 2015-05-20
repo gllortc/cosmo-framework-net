@@ -39,9 +39,10 @@ namespace Cosmo.WebApp.Forums
 
          FormControl form = new FormControl(this, "frmMoveThread");
          form.UsePanel = false;
+         form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, CmsApi.COMMAND_FORUM_THREAD_MOVE);
          form.AddFormSetting(ForumsDAO.PARAM_THREAD_ID, this.ThreadID);
-         form.FormButtons.Add(new ButtonControl(this, "cmdAccept", "Mover", ButtonControl.ButtonTypes.SubmitJS));
+         form.FormButtons.Add(new ButtonControl(this, "cmdAccept", "Mover", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdClose", "Cancelar", ButtonControl.ButtonTypes.CloseModalForm));
 
          ForumsDAO fdao = new ForumsDAO(Workspace);
@@ -65,11 +66,25 @@ namespace Cosmo.WebApp.Forums
             ForumsDAO fdao = new ForumsDAO(Workspace);
             fdao.MoveThread(threadId, channelId);
 
-            Redirect(ForumsDAO.GetChannelUrl(channelId));
+            Content.Clear();
+
+            CalloutControl callout = new CalloutControl(this);
+            callout.Title = "Operación completada con éxito";
+            callout.Icon = IconControl.ICON_CHECK;
+            callout.Text = "El hilo se ha movido con éxito.";
+            callout.Type = ComponentColorScheme.Success;
+
+            Content.Add(callout);
          }
          catch
          {
-            // SendResponse(new AjaxResponse(5001, "Se ha producido un error interno y no ha sido posible mover el hilo solicitado."));
+            CalloutControl callout = new CalloutControl(this);
+            callout.Title = "ERROR";
+            callout.Icon = IconControl.ICON_WARNING;
+            callout.Text = "Se ha producido un error al intentar completar la operación.";
+            callout.Type = ComponentColorScheme.Error;
+
+            Content.Add(callout);
          }
       }
 

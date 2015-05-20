@@ -130,7 +130,7 @@
     <Compile Include="UI\Modals\SimpleRestCallModalForm.cs" />
     <Compile Include="UI\Scripting\AjaxResponse.cs" />
     <Compile Include="UI\Scripting\AjaxRestSimpleCallScript.cs" />
-    <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
+    <Compile Include="UI\Scripting\AjaxSendModalFormScript.cs" />
     <Compile Include="UI\Scripting\AjaxUpdateHtmlScript.cs" />
     <Compile Include="UI\Controls\BadgeControl.cs" />
     <Compile Include="UI\Controls\ButtonGroupControl.cs" />
