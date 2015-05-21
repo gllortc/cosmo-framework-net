@@ -1,6 +1,7 @@
 ﻿using Cosmo.UI.Controls;
 using Cosmo.Utils;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
@@ -11,10 +12,8 @@ namespace Cosmo.UI
    /// </summary>
    public abstract class PartialViewContainer : ViewContainer 
    {
-      // Declaracción de variables internas
-      // private bool _postback;
-      // private Url _url;
-      // private HttpContext _context;
+      // Internal data declarations
+      private List<ModalViewContainer> _modals;
 
       #region Constructors
 
@@ -30,53 +29,24 @@ namespace Cosmo.UI
 
       #region Properties
 
-      /*
-      /// <summary>
-      /// Devuelve una instancia de <see cref="HttpRequest"/> que representa el contexto de llamada a la página.
-      /// </summary>
-      public HttpRequest Request
-      {
-         get { return _context.Request; }
-      }
-
-      /// <summary>
-      /// Indica al servidor web si la instancia es rehusable.
-      /// </summary>
-      public bool IsReusable
-      {
-         get { return false; }
-      }
-      */
       /// <summary>
       /// Devuelve o establece el contenido de la página.
       /// </summary>
       public ControlCollection Content { get; set; }
-      /*
-      /// <summary>
-      /// Indica si existe un usuario autenticado.
-      /// </summary>
-      /// <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
-      public bool IsAuthenticated
-      {
-         get { return AuthenticationService.IsAuthenticated(_context.Session); }
-      }
 
       /// <summary>
-      /// Devuelve la colección de parámetros de llamada (o de un formulario) que ha recibido la página.
+      /// Gets a modal views used by this view.
       /// </summary>
-      public Url Parameters
+      public List<ModalViewContainer> Modals
       {
-         get { return _url; }
+         get
+         {
+            if (_modals == null) _modals = new List<ModalViewContainer>();
+            return _modals;
+         }
+         set { _modals = value; }
       }
-      
-      /// <summary>
-      /// Indica si la carga de la página corresponde a un envío de formulario.
-      /// </summary>
-      public bool IsFormPostBack
-      {
-         get { return IsFormReceived(); }
-      }
-*/
+
       #endregion
 
       #region Methods
@@ -209,16 +179,9 @@ namespace Cosmo.UI
       private void Initialize()
       {
          this.Content = new ControlCollection();
+         this._modals = null;
       }
-      /*
-      /// <summary>
-      /// Devuelve <c>true</c> si la llamada corresponde al envio de un formulario o <c>false</c> en cualquier otro caso.
-      /// </summary>
-      private bool IsFormReceived()
-      {
-         return Parameters.GetString(Cosmo.Workspace.PARAM_ACTION).Equals(Form.FORM_ACTION_SEND);
-      }
-      */
+      
       /// <summary>
       /// Devuelve la instancia de <see cref="FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
       /// es correcta o <c>null</c> en cualquier otro caso.

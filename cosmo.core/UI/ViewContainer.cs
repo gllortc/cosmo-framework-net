@@ -2,14 +2,12 @@
 using Cosmo.Security;
 using Cosmo.Security.Auth;
 using Cosmo.UI.Controls;
-using Cosmo.UI.Modals;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
-using System.Web.Caching;
 using System.Web.SessionState;
 
 namespace Cosmo.UI
@@ -122,7 +120,7 @@ namespace Cosmo.UI
       {
          get { return _device; }
       }
-
+      /*
       /// <summary>
       /// Lista de formularios modales que se van a invocar desde la vista actual.
       /// </summary>
@@ -135,7 +133,7 @@ namespace Cosmo.UI
          }
          set { _modalForms = value; }
       }
-
+      */
       /// <summary>
       /// Lista de los componentes <see cref="Script"/> que se deben usar para representar correctamente el contenido.
       /// </summary>
@@ -177,7 +175,7 @@ namespace Cosmo.UI
 
       public void AddControlToCache(Control control)
       {
-
+         throw new NotImplementedException();
       }
 
       #endregion

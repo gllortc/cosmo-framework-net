@@ -1,6 +1,4 @@
 ﻿using Cosmo.Cms.Forums;
-using Cosmo.Cms.WebApp.Forums;
-using Cosmo.Cms.WebApp.Forums.Modals;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
@@ -205,33 +203,26 @@ namespace Cosmo.WebApp.Forums
       private void AddAdministrationTools(PanelControl panel, int threadId, int channelId)
       {
          // Genera el formulario para mover el hilo actual a otro canal.
-         ModalForms.Add(new ForumThreadToggleStatusModal(this, threadId));
-         // ModalForms.Add(new ForumThreadMoveModal(this, threadId, channelId));
-         ModalForms.Add(new ForumThreadRemoveModal(this, threadId, channelId));
-
-         ForumThreadMoveModal frmMove = new ForumThreadMoveModal();
-         frmMove.DomID = "frmThreadMove";
-         frmMove.ThreadID = threadId;
-         frmMove.ChannelID = channelId;
-         Modals.Add(frmMove);
+         Modals.Add(new ForumThreadToggleStatusModal(threadId));
+         Modals.Add(new ForumThreadRemoveModal(threadId));
+         Modals.Add(new ForumThreadMoveModal(threadId, channelId));
 
          ButtonSplit adminDropdown = new ButtonSplit(this);
          adminDropdown.Caption = "Moderación";
          adminDropdown.Icon = IconControl.ICON_WRENCH;
          adminDropdown.Size = ButtonControl.ButtonSizes.Small;
          adminDropdown.MenuOptions.Add(new ButtonControl(this,
-                                                  "mnu-admin-close",
-                                                  "Cerrar/reactivar hilo",
-                                                  (ForumThreadToggleStatusModal)ModalForms.Get(0)));
+            "mnu-admin-close",
+            "Cerrar/reactivar hilo",
+            Modals[0]));
          adminDropdown.MenuOptions.Add(new ButtonControl(this,
-                                                  "mnu-admin-delete",
-                                                  "Eliminar hilo",
-                                                  (ForumThreadRemoveModal)ModalForms.Get(1)));
-
+            "mnu-admin-delete",
+            "Eliminar hilo",
+            Modals[1]));
          adminDropdown.MenuOptions.Add(new ButtonControl(this,
-                                                         "mnu-admin-move",
-                                                         "Mover hilo a otro canal",
-                                                         Modals[0]));
+            "mnu-admin-move",
+            "Mover hilo a otro canal",
+            Modals[2]));
 
          panel.ButtonBar.Buttons.Add(adminDropdown);
       }

@@ -1,19 +1,45 @@
 ﻿using Cosmo.Cms.Forums;
-using Cosmo.Cms.REST;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 
 namespace Cosmo.WebApp.Forums
 {
    /// <summary>
-   /// Formulario modal que permite mover un determinado thread a un canal distinto al que se encuentra actualmente.
+   /// Formulario modal que permite mover un determinado thread a un canal 
+   /// distinto al que se encuentra actualmente.
    /// </summary>
    [ViewParameter(ParameterName = ForumsDAO.PARAM_THREAD_ID,
                   PropertyName = "ThreadID")]
    [ViewParameter(ParameterName = ForumsDAO.PARAM_CHANNEL_ID,
                   PropertyName = "ChannelID")]
-   public class ForumThreadMoveModal : ModalViewContainer // SimpleRestCallModalForm
+   public class ForumThreadMoveModal : ModalViewContainer
    {
+      // Modal element unique identifier
+      private const string DOM_ID = "forum-thread-move-modal";
+
+      #region Constructors
+
+      /// <summary>
+      /// Gets an instance of <see cref="ForumThreadMoveModal"/>.
+      /// </summary>
+      public ForumThreadMoveModal() : base() 
+      {
+         this.DomID = ForumThreadMoveModal.DOM_ID;
+      }
+
+      /// <summary>
+      /// Gets an instance of <see cref="ForumThreadMoveModal"/>.
+      /// </summary>
+      /// <param name="threadId">Thread identifier.</param>
+      /// <param name="channelId">Current thread channel identifier.</param>
+      public ForumThreadMoveModal(int threadId, int channelId) : base() 
+      {
+         this.DomID = ForumThreadMoveModal.DOM_ID;
+         this.ChannelID = channelId;
+         this.ThreadID = threadId;
+      }
+
+      #endregion
 
       #region Properties
 
@@ -40,7 +66,6 @@ namespace Cosmo.WebApp.Forums
          FormControl form = new FormControl(this, "frmMoveThread");
          form.UsePanel = false;
          form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
-         form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, CmsApi.COMMAND_FORUM_THREAD_MOVE);
          form.AddFormSetting(ForumsDAO.PARAM_THREAD_ID, this.ThreadID);
          form.FormButtons.Add(new ButtonControl(this, "cmdAccept", "Mover", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdClose", "Cancelar", ButtonControl.ButtonTypes.CloseModalForm));
@@ -58,15 +83,15 @@ namespace Cosmo.WebApp.Forums
       {
          // Obtiene los parámetros de la llamada.
          int threadId = receivedForm.GetIntFieldValue(ForumsDAO.PARAM_THREAD_ID);
-         int channelId = Parameters.GetInteger(ForumsDAO.PARAM_CHANNEL_ID);
+         int channelId = receivedForm.GetIntFieldValue(ForumsDAO.PARAM_CHANNEL_ID);
+
+         Content.Clear();
 
          try
          {
             // Ejecuta el método para mover el hilo
             ForumsDAO fdao = new ForumsDAO(Workspace);
             fdao.MoveThread(threadId, channelId);
-
-            Content.Clear();
 
             CalloutControl callout = new CalloutControl(this);
             callout.Title = "Operación completada con éxito";
@@ -86,6 +111,9 @@ namespace Cosmo.WebApp.Forums
 
             Content.Add(callout);
          }
+
+         ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
+         Content.Add(cmdClose);
       }
 
       public override void FormDataLoad(string formDomID)

@@ -122,15 +122,13 @@
     <Compile Include="UI\Controls\PictureControl.cs" />
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
+    <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
     <Compile Include="UI\ViewParameter.cs" />
     <Compile Include="UI\ModalViewContainer.cs" />
     <Compile Include="UI\PartialViewContainer.cs" />
-    <Compile Include="UI\Modals\IModalAjaxForm.cs" />
-    <Compile Include="UI\Modals\IModalForm.cs" />
-    <Compile Include="UI\Modals\SimpleRestCallModalForm.cs" />
     <Compile Include="UI\Scripting\AjaxResponse.cs" />
     <Compile Include="UI\Scripting\AjaxRestSimpleCallScript.cs" />
-    <Compile Include="UI\Scripting\AjaxSendModalFormScript.cs" />
+    <Compile Include="UI\Scripting\ModalViewSendFormScript.cs" />
     <Compile Include="UI\Scripting\AjaxUpdateHtmlScript.cs" />
     <Compile Include="UI\Controls\BadgeControl.cs" />
     <Compile Include="UI\Controls\ButtonGroupControl.cs" />

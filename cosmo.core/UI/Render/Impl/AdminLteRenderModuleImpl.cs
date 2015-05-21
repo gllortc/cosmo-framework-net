@@ -1,6 +1,5 @@
 ﻿using Cosmo.REST;
 using Cosmo.UI.Controls;
-using Cosmo.UI.Modals;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using Cosmo.Utils.Html;
@@ -239,10 +238,6 @@ namespace Cosmo.UI.Render.Impl
          {
             return RenderError((ErrorControl)control);
          }
-         else if (typeof(IModalForm).IsAssignableFrom(control.GetType()))
-         {
-            return RenderModalForm((IModalForm)control);
-         }
          else if (typeof(BadgeControl).IsAssignableFrom(control.GetType()))
          {
             return RenderBadge((BadgeControl)control);
@@ -360,23 +355,8 @@ namespace Cosmo.UI.Render.Impl
          // Renderiza controles de página
          xhtml.AppendLine(Render(container.Layout, receivedFormID));
 
-         // Renderiza formularios modales
-         foreach (IModalForm modal in container.ModalForms)
-         {
-            xhtml.AppendLine(Render(modal, receivedFormID));
-         }
-
          // Renderiza las ventanas modales
-         foreach (ModalViewContainer modal in container.Modals)
-         {
-            // Genera la cabecera de la ventana modal
-            xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
-            xhtml.AppendLine("<div id=\"" + modal.DomID + "\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
-            xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
-            xhtml.AppendLine("</div>");
-
-            container.Scripts.Add(modal.GetOpenModalScript());
-         }
+         xhtml.AppendLine(RenderModalViews(container, container.Modals));
 
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(container));
@@ -418,6 +398,9 @@ namespace Cosmo.UI.Render.Impl
 
          // Renderiza controles de página
          xhtml.AppendLine(Render(container.Content, receivedFormID));
+
+         // Renderiza las ventanas modales
+         xhtml.AppendLine(RenderModalViews(container, container.Modals));
 
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(container));
@@ -497,13 +480,13 @@ namespace Cosmo.UI.Render.Impl
 
          // Renderiza controles de página
          xhtml.AppendLine(Render(template.Content));
-
+         /*
          // Renderiza formularios modales
          foreach (IModalForm modal in template.ModalForms)
          {
             xhtml.AppendLine(Render(modal));
          }
-
+         */
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(template));
 
@@ -701,7 +684,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.Append(string.IsNullOrWhiteSpace(control.Href) ? string.Empty : "href=\"" + control.Href + "\" ");
          xhtml.Append(string.IsNullOrWhiteSpace(control.JavaScriptAction) ? string.Empty : "onclick=\"javascript:" + control.JavaScriptAction + "\"");
          xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalForm ? "data-toggle=\"modal\" data-target=\"#" + control.ModalDomId.Trim() + "\" " : string.Empty);
-         xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:open" + control.DomID + "();\"" : string.Empty);
+         xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:open" + Script.ConvertToFunctionName(control.DomID) + "();\"" : string.Empty);
          xhtml.Append(control.Type == ButtonControl.ButtonTypes.CloseModalForm ? "data-dismiss=\"modal\" " : string.Empty);
          xhtml.Append(">");
          xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Caption));
@@ -1066,7 +1049,7 @@ namespace Cosmo.UI.Render.Impl
          // Para formulario con envio AJAX, genera el script necesario
          if (control.SendDataMethod == FormControl.FormSendDataMethod.JSSubmit)
          {
-            AjaxSendModalFormScript script = new AjaxSendModalFormScript(control.Container, control);
+            ModalViewSendFormScript script = new ModalViewSendFormScript((ModalViewContainer)control.Container, control);
             control.Container.Scripts.Add(script);
          }
 
@@ -1510,54 +1493,6 @@ namespace Cosmo.UI.Render.Impl
          {
             return "<i class=\"" + control.Code + " " + GetCssClassFromBackgroundColor(control.BackgroundColor) + "\"></i>";
          }
-      }
-
-      #endregion
-
-      #region IModalForm Control
-
-      /// <summary>
-      /// Renderiza un control de tipo <see cref="IModalForm"/>.
-      /// </summary>
-      private string RenderModalForm(IModalForm control)
-      {
-         StringBuilder xhtml = new StringBuilder();
-
-         // Invoca el método para generar el código del formulario
-         // Esto permite al modal usar controles de su ParentViewport 
-         // u otros elementos de la página contenedora
-         control.PreRenderForm();
-
-         xhtml.AppendLine("<div class=\"modal fade\" " + control.GetIdParameter() + " tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + control.DomID + "-label\" aria-hidden=\"true\">");
-         xhtml.AppendLine("  <div class=\"modal-dialog\">");
-         xhtml.AppendLine("    <div class=\"modal-content\">");
-         xhtml.AppendLine("      <div class=\"modal-header\">");
-         if (control.Closeable)
-         {
-            xhtml.AppendLine("        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
-         }
-         xhtml.AppendLine("        <h4 class=\"modal-title\" id=\"" + control.DomID + "-label\">");
-         if (!string.IsNullOrWhiteSpace(control.TitleIcon)) xhtml.AppendLine(IconControl.GetIcon(control.Container, control.TitleIcon) + "&nbsp;&nbsp;");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(control.Title) + "&nbsp;");
-         xhtml.AppendLine("        </h4>");
-         xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("      <div class=\"modal-body\">");
-
-         xhtml.AppendLine(Render(control.Form));
-
-         xhtml.AppendLine("      </div>");
-         // xhtml.AppendLine("      <div class=\"modal-footer\">");
-         // xhtml.AppendLine("        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>");
-         // xhtml.AppendLine("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>");
-         // xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("    </div>");
-         xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("</div>");
-
-         // Agrega los scripts a la pagina contenedora
-         control.Container.Scripts.AddRange(control.Scripts);
-
-         return xhtml.ToString();
       }
 
       #endregion
@@ -2681,6 +2616,28 @@ namespace Cosmo.UI.Render.Impl
             default:
                return string.Empty;
          }
+      }
+
+      /// <summary>
+      /// Render modal forms.
+      /// </summary>
+      private string RenderModalViews(ViewContainer container, List<ModalViewContainer> modalList)
+      {
+         StringBuilder xhtml = new StringBuilder();
+
+         // Renderiza las ventanas modales
+         foreach (ModalViewContainer modal in modalList)
+         {
+            // Genera la cabecera de la ventana modal
+            xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
+            xhtml.AppendLine("<div id=\"" + modal.DomID + "\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
+            xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
+            xhtml.AppendLine("</div>");
+
+            container.Scripts.Add(modal.GetOpenModalScript());
+         }
+
+         return xhtml.ToString();
       }
 
       #endregion

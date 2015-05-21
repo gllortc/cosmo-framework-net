@@ -74,8 +74,8 @@ namespace Cosmo.WebApp.Content
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
-         ModalFormUpload frmUpload = new ModalFormUpload(this, "frmUpload", doc.ID.ToString());
-         ModalForms.Add(frmUpload);
+         ModalFormUpload frmUpload = new ModalFormUpload(doc.ID);
+         Modals.Add(frmUpload);
 
          //-------------------------------
          // Configuración de la vista

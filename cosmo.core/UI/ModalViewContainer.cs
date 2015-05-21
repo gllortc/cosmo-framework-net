@@ -28,18 +28,27 @@ namespace Cosmo.UI
       #region Properties
 
       /// <summary>
-      /// Indica si la vista modal debe contener un botón que permita cerrarla.
+      /// Gets the unique identifier in DOM for this element.
       /// </summary>
-      public string DomID { get; set; }
+      /// <remarks>
+      /// This property have a protected <c>setter</c> because every modal view must have a 
+      /// constant DOM unique identifier. You can set this property only in a implementations
+      /// of the abstract class <see cref="ModalViewContainer"/>.
+      /// </remarks>
+      public string DomID { get; protected set; }
 
       /// <summary>
-      /// Devuelve o establece el título que se mostrará en la ventana modal.
+      /// Gets or sets the modal title.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el icono que se mostrará en la ventana modal, justo delante del título.
+      /// Gets or sets the modal title icon.
       /// </summary>
+      /// <remarks>
+      /// This property must be set with an icon code. You have all codes in <see cref="IconControl"/>
+      /// as a <c>ICON_xxxx</c> constants
+      /// </remarks>
       public string Icon { get; set; }
 
       /// <summary>
@@ -114,7 +123,7 @@ namespace Cosmo.UI
                      this.GetType().GetProperty(param.PropertyName).GetValue(this, null).ToString();
             }
 
-            return "open" + this.DomID + "(" + js + ");";
+            return "open" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
          }
          catch
          {
@@ -128,91 +137,9 @@ namespace Cosmo.UI
       /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
       public Script GetOpenModalScript()
       {
-         bool first = true;
-         int paramCount = 0;
-         string funcParams = string.Empty;
-         string callParams = string.Empty;
-
-         foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
-         {
-            // Generate function parameters
-            if (!first) funcParams += ",";
-            funcParams += param.ParameterName;
-
-            // Generate AJAX call parameters
-            if (!first) callParams += ",";
-            callParams += param.ParameterName + ":arguments[" + paramCount + "]";
-
-            first = false;
-            paramCount++;
-         }
-
-         SimpleScript js = new SimpleScript(this);
-         js.ExecutionType = Script.ScriptExecutionMethod.OnFunctionCall;
-         js.AppendSourceLine("function open" + this.DomID.Replace("-", "") + "(" + funcParams + ") {");
-         js.AppendSourceLine("  $('#" + this.DomID + "').modal('show');");
-         js.AppendSourceLine("  $.ajax({");
-         js.AppendSourceLine("    url: '" + this.GetType().Name + "',");
-         js.AppendSourceLine("    data: {" + callParams + "},");
-         js.AppendSourceLine("    type: \"POST\",");
-         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
-         js.AppendSourceLine("      $('#" + this.DomID + " .modal-dialog').html(data);");
-         js.AppendSourceLine("    },");
-         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
-         js.AppendSourceLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
-         js.AppendSourceLine("      ");
-         js.AppendSourceLine("    }");
-         js.AppendSourceLine("  });");
-         js.AppendSourceLine("}");
-
-         return js;
+         return new ModalViewOpenScript(this);
       }
-      /*
-      /// <summary>
-      /// Generates the script that allow send form without reloading the entire page.
-      /// </summary>
-      /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
-      public Script GetSendFormScript(FormControl form)
-      {
-         SimpleScript js = new SimpleScript(this);
-         js.ExecutionType = Script.ScriptExecutionMethod.Standalone;
 
-         // Declara el evento Submit
-         js.AppendSourceLine("$('#" + form.DomID + "').submit(function(e) {");
-
-         // Recoge los datos del formulario
-         if (!form.IsMultipart)
-         {
-            js.AppendSourceLine("  var fData = $(this).serializeArray();");
-         }
-         else
-         {
-            js.AppendSourceLine("  var fData = new FormData(this);");
-         }
-
-         js.AppendSourceLine("  $.ajax({");
-         js.AppendSourceLine("    url: '" + form.Action + "',");
-         js.AppendSourceLine("    type: 'POST',");
-         js.AppendSourceLine("    data: fData,");
-         if (form.IsMultipart)
-         {
-            js.AppendSourceLine("    mimeType: 'multipart/form-data',");
-            js.AppendSourceLine("    cache: false,");
-            js.AppendSourceLine("    processData: false,");
-         }
-         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
-         js.AppendSourceLine("      $('#" + form.DomID + " .modal-dialog').html(data);");
-         js.AppendSourceLine("    },");
-         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
-         js.AppendSourceLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
-         js.AppendSourceLine("    }");
-         js.AppendSourceLine("  });");
-         js.AppendSourceLine("  e.preventDefault();");
-         js.AppendSourceLine("});");
-
-         return js;
-      }
-      */
       #endregion
 
       #region #ViewContainer Implementation
@@ -301,6 +228,57 @@ namespace Cosmo.UI
             return null;
          }
       }
+
+      #endregion
+
+      #region Disabled Code
+
+      /*
+      /// <summary>
+      /// Generates the script that allow send form without reloading the entire page.
+      /// </summary>
+      /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
+      public Script GetSendFormScript(FormControl form)
+      {
+         SimpleScript js = new SimpleScript(this);
+         js.ExecutionType = Script.ScriptExecutionMethod.Standalone;
+
+         // Declara el evento Submit
+         js.AppendSourceLine("$('#" + form.DomID + "').submit(function(e) {");
+
+         // Recoge los datos del formulario
+         if (!form.IsMultipart)
+         {
+            js.AppendSourceLine("  var fData = $(this).serializeArray();");
+         }
+         else
+         {
+            js.AppendSourceLine("  var fData = new FormData(this);");
+         }
+
+         js.AppendSourceLine("  $.ajax({");
+         js.AppendSourceLine("    url: '" + form.Action + "',");
+         js.AppendSourceLine("    type: 'POST',");
+         js.AppendSourceLine("    data: fData,");
+         if (form.IsMultipart)
+         {
+            js.AppendSourceLine("    mimeType: 'multipart/form-data',");
+            js.AppendSourceLine("    cache: false,");
+            js.AppendSourceLine("    processData: false,");
+         }
+         js.AppendSourceLine("    success: function(data, textStatus, jqXHR) {");
+         js.AppendSourceLine("      $('#" + form.DomID + " .modal-dialog').html(data);");
+         js.AppendSourceLine("    },");
+         js.AppendSourceLine("    error: function(jqXHR, textStatus, errorThrown) {");
+         js.AppendSourceLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
+         js.AppendSourceLine("    }");
+         js.AppendSourceLine("  });");
+         js.AppendSourceLine("  e.preventDefault();");
+         js.AppendSourceLine("});");
+
+         return js;
+      }
+      */
 
       #endregion
 

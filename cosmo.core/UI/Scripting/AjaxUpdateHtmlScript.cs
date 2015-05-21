@@ -72,7 +72,7 @@ namespace Cosmo.UI.Scripting
          }
 
          // Genera el mensaje de error por si se produce un error AJAX
-         CalloutControl callout = new CalloutControl(this.ViewPort);
+         CalloutControl callout = new CalloutControl(this.Container);
          callout.Title = "Se ha producido un error";
          callout.Text = "Se ha producido un error al ejecutar la acción y no se ha completado.";
          callout.Icon = IconControl.ICON_WARNING;
@@ -95,7 +95,7 @@ namespace Cosmo.UI.Scripting
          }
          js.AppendLine("};");
 
-         js.AppendLine("var " + _id + "err = '" + this.ViewPort.Workspace.UIService.Render(callout).Replace("'", "\\'") + "'");
+         js.AppendLine("var " + _id + "err = '" + this.Container.Workspace.UIService.Render(callout).Replace("'", "\\'") + "'");
 
          js.AppendLine("$.ajax({");
          js.AppendLine("  url: '" + Url.Filename + "',");

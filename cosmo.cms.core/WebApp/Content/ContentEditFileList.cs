@@ -58,8 +58,8 @@ namespace Cosmo.WebApp.Content
          //-------------------------------
          // Habilita formularios modales
          //-------------------------------
-         ModalFormUpload frmUpload = new ModalFormUpload(this, "frmUpload", doc.ID.ToString());
-         ModalForms.Add(frmUpload);
+         ModalFormUpload frmUpload = new ModalFormUpload(doc.ID);
+         Modals.Add(frmUpload);
 
          //-------------------------------
          // Configuración de la vista
@@ -71,7 +71,7 @@ namespace Cosmo.WebApp.Content
 
          ButtonGroupControl btnFiles = new ButtonGroupControl(this);
          btnFiles.Size = ButtonControl.ButtonSizes.Small;
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", IconControl.ICON_UPLOAD, frmUpload));
+         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", frmUpload));
          btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
          Content.Add(btnFiles);
 

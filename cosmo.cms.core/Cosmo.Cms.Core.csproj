@@ -64,8 +64,8 @@
     <Compile Include="REST\CmsApi.cs" />
     <Compile Include="WebApp\Classified\ClassifiedContactModal.cs" />
     <Compile Include="WebApp\Forums\ForumMessageEdit.cs" />
-    <Compile Include="WebApp\Forums\Modals\ForumThreadToggleStatusModal.cs" />
-    <Compile Include="WebApp\Forums\Modals\ForumThreadRemoveModal.cs" />
+    <Compile Include="WebApp\Forums\ForumThreadToggleStatusModal.cs" />
+    <Compile Include="WebApp\Forums\ForumThreadRemoveModal.cs" />
     <Compile Include="WebApp\Forums\ForumThreadMoveModal.cs" />
     <Compile Include="WebApp\Forums\ForumThreadsByUser.cs" />
     <Compile Include="WebApp\Forums\ForumThreadView.cs" />

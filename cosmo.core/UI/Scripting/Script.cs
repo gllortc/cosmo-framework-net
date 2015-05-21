@@ -37,7 +37,7 @@ namespace Cosmo.UI.Scripting
       {
          Initialize();
 
-         this.ViewPort = container;
+         this.Container = container;
       }
 
       /// <summary>
@@ -49,7 +49,7 @@ namespace Cosmo.UI.Scripting
       {
          Initialize();
 
-         this.ViewPort = container;
+         this.Container = container;
          this.Source.AppendLine(source);
       }
 
@@ -62,7 +62,7 @@ namespace Cosmo.UI.Scripting
       {
          Initialize();
 
-         this.ViewPort = container;
+         this.Container = container;
          this.Source = source;
       }
 
@@ -79,7 +79,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve la pPágina o contenedor dónde se representará el control.
       /// </summary>
-      public ViewContainer ViewPort { get; internal set; }
+      public ViewContainer Container { get; internal set; }
 
       /// <summary>
       /// Devuelve o establece el código fuente del script.
@@ -180,6 +180,16 @@ namespace Cosmo.UI.Scripting
          }
       }
 
+      /// <summary>
+      /// Transform a DOM ID to a string that can be used as a part of a JavaScript function name.
+      /// </summary>
+      /// <param name="domId">DOM ID to be converted.</param>
+      /// <returns>A string that can be used as a part of a JavaScript function name.</returns>
+      public static string ConvertToFunctionName(string domId)
+      {
+         return domId.Trim().Replace("_", string.Empty).Replace(" ", string.Empty).Replace("-", string.Empty);
+      }
+
       #endregion
 
       #region Private Members
@@ -190,7 +200,7 @@ namespace Cosmo.UI.Scripting
       private void Initialize()
       {
          this.ExecutionType = ScriptExecutionMethod.Standalone;
-         this.ViewPort = null;
+         this.Container = null;
          this.Source = new StringBuilder();
       }
 

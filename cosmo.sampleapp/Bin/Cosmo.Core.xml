@@ -1706,26 +1706,16 @@
             <param name="icon">Código del icono a mostrar.</param>
             <param name="type">Tipo de botón a representar.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Modals.IModalForm)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
-            </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="domId">Identificador del control en la página (DOM ID).</param>
-            <param name="caption">Texto visible para el botón.</param>
-            <param name="modal">Formulario modal que abrirá el botón.</param>
-        </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,Cosmo.UI.Modals.IModalForm)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
-            </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="domId">Identificador del control en la página (DOM ID).</param>
-            <param name="caption">Texto visible para el botón.</param>
-            <param name="icon">Código del icono a mostrar.</param>
-            <param name="modal">Formulario modal que abrirá el botón.</param>
-        </member>
         <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
+            </summary>
+            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Identificador del control en la página (DOM ID).</param>
+            <param name="caption">Texto visible para el botón.</param>
+            <param name="modal">Formulario modal que abrirá el botón.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,Cosmo.UI.ModalViewContainer)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
@@ -2053,6 +2043,13 @@
             <param name="field">Campo para el que se desea obtener el valor (actualmente sólo funciona para campos de tipo INPUT y SELECT).</param>
             <returns>Una secuéncia JavaScript (JQuery) que obtiene el valor del campo.</returns>
         </member>
+        <member name="M:Cosmo.UI.Scripting.Script.ConvertToFunctionName(System.String)">
+            <summary>
+            Transform a DOM ID to a string that can be used as a part of a JavaScript function name.
+            </summary>
+            <param name="domId">DOM ID to be converted.</param>
+            <returns>A string that can be used as a part of a JavaScript function name.</returns>
+        </member>
         <member name="M:Cosmo.UI.Scripting.Script.Initialize">
             <summary>
             Inicializa la instancia.
@@ -2064,7 +2061,7 @@
             de <em>jQuery</em>.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.Script.ViewPort">
+        <member name="P:Cosmo.UI.Scripting.Script.Container">
             <summary>
             Devuelve la pPágina o contenedor dónde se representará el control.
             </summary>
@@ -2101,6 +2098,24 @@
         <member name="P:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.DomID">
             <summary>
             Devuelve o establece el identificador del elemento a actualizar.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.#ctor(Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
+            </summary>
+            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.GetSource">
+            <summary>
+            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
+            </summary>
+            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.Initialize">
+            <summary>
+            Inicializa la instancia.
             </summary>
         </member>
         <member name="T:Cosmo.UI.ViewParameter">
@@ -2246,11 +2261,6 @@
             Devuelve el tipo de dispositivo usado para acceder a la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.ModalForms">
-            <summary>
-            Lista de formularios modales que se van a invocar desde la vista actual.
-            </summary>
-        </member>
         <member name="P:Cosmo.UI.ViewContainer.Scripts">
             <summary>
             Lista de los componentes <see cref="T:Cosmo.UI.Scripting.Script"/> que se deben usar para representar correctamente el contenido.
@@ -2317,18 +2327,27 @@
         </member>
         <member name="P:Cosmo.UI.ModalViewContainer.DomID">
             <summary>
-            Indica si la vista modal debe contener un botón que permita cerrarla.
+            Gets the unique identifier in DOM for this element.
             </summary>
+            <remarks>
+            This property have a protected <c>setter</c> because every modal view must have a 
+            constant DOM unique identifier. You can set this property only in a implementations
+            of the abstract class <see cref="T:Cosmo.UI.ModalViewContainer"/>.
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.ModalViewContainer.Title">
             <summary>
-            Devuelve o establece el título que se mostrará en la ventana modal.
+            Gets or sets the modal title.
             </summary>
         </member>
         <member name="P:Cosmo.UI.ModalViewContainer.Icon">
             <summary>
-            Devuelve o establece el icono que se mostrará en la ventana modal, justo delante del título.
+            Gets or sets the modal title icon.
             </summary>
+            <remarks>
+            This property must be set with an icon code. You have all codes in <see cref="T:Cosmo.UI.Controls.IconControl"/>
+            as a <c>ICON_xxxx</c> constants
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.ModalViewContainer.Content">
             <summary>
@@ -2384,138 +2403,9 @@
             Devuelve o establece el contenido de la página.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.Modals.IModalAjaxForm">
+        <member name="P:Cosmo.UI.PartialViewContainer.Modals">
             <summary>
-            Implementa una clase abstracta que deben implementar todas las ventanas modales.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalAjaxForm.#ctor(Cosmo.UI.ViewContainer,System.String)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Modals.IModalForm"/>.
-            </summary>
-            <param name="container"></param>
-            <param name="domId"></param>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalAjaxForm.PreRenderForm">
-            <summary>
-            Procesa el formulario y prepara todos los componentes para el renderizado. 
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalAjaxForm.Initialize(System.String)">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalAjaxForm.Title">
-            <summary>
-            Devuelve o establece el título del formulario.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalAjaxForm.TitleIcon">
-            <summary>
-            Devuelve o establece el código del icono que se mostrará junto al título.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalAjaxForm.Closeable">
-            <summary>
-            Indica si el formulario modal debe contener un botón para cerrar el diálogo.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalAjaxForm.Form">
-            <summary>
-            Devuelve o establece la lista de controles que contiene la zona de contenidos de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalAjaxForm.Scripts">
-            <summary>
-            Devuelve una lista de los scripts <see cref="T:Cosmo.UI.Scripting.Script"/> que usará el modal para su representación.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.Modals.IModalForm">
-            <summary>
-            Implementa una clase abstracta que deben implementar todas las ventanas modales.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalForm.#ctor(Cosmo.UI.ViewContainer,System.String)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Modals.IModalForm"/>.
-            </summary>
-            <param name="container"></param>
-            <param name="id"></param>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalForm.PreRenderForm">
-            <summary>
-            Procesa el formulario y prepara todos los componentes para el renderizado. 
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.IModalForm.Initialize(System.String)">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalForm.Title">
-            <summary>
-            Devuelve o establece el título del formulario.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalForm.TitleIcon">
-            <summary>
-            Devuelve o establece el código del icono que se mostrará junto al título.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalForm.Closeable">
-            <summary>
-            Indica si el formulario modal debe contener un botón para cerrar el diálogo.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalForm.Form">
-            <summary>
-            Devuelve o establece la lista de controles que contiene la zona de contenidos de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.IModalForm.Scripts">
-            <summary>
-            Devuelve una lista de los scripts <see cref="T:Cosmo.UI.Scripting.Script"/> que usará el modal para su representación.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.Modals.SimpleRestCallModalForm">
-            <summary>
-            Implementa un formulario modal cuyos datos se mandan mediante una llamada AJAX a la
-            API REST de Cosmo. La llamada debe ser simple, es decir, devolverá un token JSON
-            indicando el resultado satisfactorio o erróneo de la llamada.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.SimpleRestCallModalForm.#ctor(Cosmo.UI.ViewContainer,System.String)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Modals.SimpleRestCallModalForm"/>.
-            </summary>
-            <param name="container">Instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que contiene el control.</param>
-            <param name="id">Identificador único (DOM) del formulario modal.</param>
-        </member>
-        <member name="M:Cosmo.UI.Modals.SimpleRestCallModalForm.PreRenderForm">
-            <summary>
-            Procesa el formulario y prepara todos los componentes para el renderizado. 
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Modals.SimpleRestCallModalForm.Initialize">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.SimpleRestCallModalForm.RestURL">
-            <summary>
-            Devuelve o establece el nombre del script a invocar.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.SimpleRestCallModalForm.OnSuccess">
-            <summary>
-            Devuelve o establece el nombre del script a invocar.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Modals.SimpleRestCallModalForm.FormDomId">
-            <summary>
-            Devuelve o establece el identificador único (DOM) del formulario que permite recoger los 
-            datos a enviar via AJAX.
+            Gets a modal views used by this view.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Scripting.AjaxResponse">
@@ -2642,49 +2532,49 @@
             cadenas (el valor se debe especificar entre comillas: "string").
             </remarks>
         </member>
-        <member name="T:Cosmo.UI.Scripting.AjaxSendFormScript">
+        <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
             <summary>
             Implementa un script para enviar el contenido de un formulario via AJAX a un 
             <see cref="T:Cosmo.REST.RestHandler"/>, <see cref="T:Cosmo.UI.PageViewContainer"/> o 
             <see cref="T:Cosmo.UI.PartialViewContainer"/> .
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.#ctor(Cosmo.UI.ViewContainer,Cosmo.UI.Controls.FormControl)">
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.#ctor(Cosmo.UI.ModalViewContainer,Cosmo.UI.Controls.FormControl)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.AjaxSendFormScript"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
         </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.GetSource">
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.GetSource">
             <summary>
             Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
             </summary>
             <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.Initialize">
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxSendFormScript.Form">
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.Form">
             <summary>
             Devuelve o establece el formulario para el que se desea generar el script.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxSendFormScript.OnCallSuccess">
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallSuccess">
             <summary>
             Llista de acciones a ejecutar si la llamada tiene éxito (evento <c>success</c> de la llamada AJAX, 
             con respuesta de éxito por parte del handler).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxSendFormScript.OnCallFail">
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallFail">
             <summary>
             Llista de acciones a ejecutar si la llamada falla (evento <c>success</c> de la llamada AJAX, 
             con respuesta de error por parte del handler).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxSendFormScript.OnCallError">
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallError">
             <summary>
             Llista de acciones a ejecutar si no se puede realizar la llamada (evento <c>error</c> de la llamada AJAX).
             </summary>
@@ -5511,12 +5401,15 @@
             Implementa un formulario modal para subir archivos al servidor.
             </summary>
         </member>
-        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.#ctor">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.ModalFormUpload"/>.
             </summary>
-            <param name="container">Contenedor principal dónde se encuentra el control.</param>
-            <param name="domID">Identificador único (DOM) del formulario.</param>
+        </member>
+        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.#ctor(System.Int32)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.ModalFormUpload"/>.
+            </summary>
             <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
         </member>
         <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.Initialize">
@@ -8098,11 +7991,6 @@
             Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.IconControl"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalForm(Cosmo.UI.Modals.IModalForm)">
-            <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Modals.IModalForm"/>.
-            </summary>
-        </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderJumbotron(Cosmo.UI.Controls.JumbotronControl)">
             <summary>
             Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
@@ -8221,6 +8109,11 @@
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTreeViewChils(Cosmo.UI.Controls.TreeViewChildItemControl,System.Boolean)">
             <summary>
             Renderiza un nodo de un control <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalViews(Cosmo.UI.ViewContainer,System.Collections.Generic.List{Cosmo.UI.ModalViewContainer})">
+            <summary>
+            Render modal forms.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Render.ControlNotSuportedException">

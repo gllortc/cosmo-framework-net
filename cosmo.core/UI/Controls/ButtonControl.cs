@@ -1,6 +1,4 @@
-﻿using Cosmo.UI.Modals;
-
-namespace Cosmo.UI.Controls
+﻿namespace Cosmo.UI.Controls
 {
    /// <summary>
    /// Implementa un botón de comando.
@@ -99,48 +97,31 @@ namespace Cosmo.UI.Controls
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, IModalForm modal)
-         : base(container, domId)
-      {
-         Initialize();
-
-         Caption = caption;
-         ModalDomId = modal.DomID;
-         Type = ButtonTypes.OpenModalForm;
-      }
-
-      /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
-      /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
-      /// <param name="caption">Texto visible para el botón.</param>
-      /// <param name="icon">Código del icono a mostrar.</param>
-      /// <param name="modal">Formulario modal que abrirá el botón.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, string icon, IModalForm modal)
-         : base(container, domId)
-      {
-         Initialize();
-
-         Caption = caption;
-         Icon = icon;
-         ModalDomId = modal.DomID;
-         Type = ButtonTypes.OpenModalForm;
-      }
-
-      /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
-      /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
-      /// <param name="caption">Texto visible para el botón.</param>
-      /// <param name="modal">Formulario modal que abrirá el botón.</param>
       public ButtonControl(ViewContainer container, string domId, string caption, ModalViewContainer modal)
          : base(container, domId)
       {
          Initialize();
 
          Caption = caption;
+         ModalDomId = modal.DomID;
+         Type = ButtonTypes.OpenModalView;
+         JavaScriptAction = modal.GetInvokeFunction();
+      }
+
+      /// <summary>
+      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// </summary>
+      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="caption">Texto visible para el botón.</param>
+      /// <param name="modal">Formulario modal que abrirá el botón.</param>
+      public ButtonControl(ViewContainer container, string domId, string caption, string icon, ModalViewContainer modal)
+         : base(container, domId)
+      {
+         Initialize();
+
+         Caption = caption;
+         Icon = icon;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
          JavaScriptAction = modal.GetInvokeFunction();
