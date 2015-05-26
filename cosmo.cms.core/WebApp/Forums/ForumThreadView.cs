@@ -3,6 +3,7 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Forums
@@ -53,6 +54,10 @@ namespace Cosmo.WebApp.Forums
 
          // Agrega la meta-información de la página
          Title = ForumsDAO.SERVICE_NAME + " - " + thread.Title;
+
+         // Insert a modal to show user data
+         UserDataModal userData = new UserDataModal();
+         Modals.Add(userData);
 
          //--------------------------------------------------------------
          // Genera la lista de mensajes
@@ -133,7 +138,7 @@ namespace Cosmo.WebApp.Forums
             item = new TimelineItem();
             item.ID = "msg" + message.ID;
             item.Type = TimelineItem.TimelineItemType.Entry;
-            item.Title = IconControl.GetIcon(this, IconControl.ICON_USER) + "&nbsp;<a href=\"#\">" + message.Name + "</a>";
+            item.Title = IconControl.GetIcon(this, IconControl.ICON_USER) + "&nbsp;<a href=\"javascript:" + userData.GetInvokeFunctionWithParameters(new object[] { message.UserID }) + "\">" + message.Name + "</a>";
             item.Icon = message.ParentMessageID == 0 ? IconControl.ICON_ENVELOPE : IconControl.ICON_REPLY;
             item.Body = formatter.bbCodeParser(message.Body); 
             item.Time = message.Date.ToString(Formatter.FORMAT_DATETIME);

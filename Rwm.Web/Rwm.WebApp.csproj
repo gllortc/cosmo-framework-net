@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\AspxAdapterHandler.cs" />
-    <Compile Include="Home.cs" />
+    <Compile Include="RwmForumRules.cs" />
+    <Compile Include="RwmHomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RwmPrivacy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cosmo.cms.core\Cosmo.Cms.Core.csproj">

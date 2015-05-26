@@ -13,7 +13,7 @@ namespace Cosmo.UI.Controls
    {
       /// <summary>Blank space character.</summary>
       public const string HTML_SPACE = "&nbsp;";
-      /// <summary>Nrew line tag.</summary>
+      /// <summary>New line tag.</summary>
       public const string HTML_NEW_LINE = "<br/>";
 
       #region Constructors
@@ -138,6 +138,27 @@ namespace Cosmo.UI.Controls
       public HtmlContentControl AppendLink(string url, string text, bool openInNewWindow)
       {
          this.Html.AppendLine(HtmlContentControl.Link(url, text, openInNewWindow));
+
+         return this;
+      }
+
+      /// <summary>
+      /// Adds a data list structure to the HTML content.
+      /// </summary>
+      /// <param name="values">List of values. <c>KeyValue.Label</c> is used as a title, <c>KeyValue.Label</c> is used as a text.</param>
+      /// <returns>The current instance updated with the new data list.</returns>
+      public HtmlContentControl AppendDataList(List<KeyValue> values)
+      {
+         this.Html.AppendLine("<dl class=\"dl-horizontal\">");
+         foreach (KeyValue value in values)
+         {
+            if (!string.IsNullOrWhiteSpace(value.Label))
+            {
+               this.Html.AppendLine("<dt>" + value.Label + "</dt>");
+            }
+            this.Html.AppendLine("<dd>" + value.Value + "</dd>");
+         }
+         this.Html.AppendLine("</dl>");
 
          return this;
       }

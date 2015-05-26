@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Cosmo.UI.Scripting
 {
+   /// <summary>
+   /// Implementation of script that open a Modal View.
+   /// </summary>
    public class ModalViewOpenScript : Script
    {
 
@@ -11,7 +14,6 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve una instancia de <see cref="ModalViewSendFormScript"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
       public ModalViewOpenScript(ModalViewContainer modalView)
          : base(modalView) 
@@ -60,6 +62,7 @@ namespace Cosmo.UI.Scripting
          }
 
          Source.AppendLine("function open" + Script.ConvertToFunctionName(this.ModalView.DomID) + "(" + funcParams + ") {");
+         Source.AppendLine("  $('#" + ModalView.DomID + " .modal-dialog').html('<br/><br/><br/><br/><br/><br/><div class=\"overlay\"></div><div class=\"loading-img\"></div>');");
          Source.AppendLine("  $('#" + ModalView.DomID + "').modal('show');");
          Source.AppendLine("  $.ajax({");
          Source.AppendLine("    url: '" + ModalView.GetType().Name + "',");

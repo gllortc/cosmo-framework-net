@@ -2100,11 +2100,15 @@
             Devuelve o establece el identificador del elemento a actualizar.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Scripting.ModalViewOpenScript">
+            <summary>
+            Implementation of script that open a Modal View.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.#ctor(Cosmo.UI.ModalViewContainer)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.GetSource">
@@ -2293,6 +2297,15 @@
             Muestra un mensaje de error.
             </summary>
             <param name="exception">Excepción a mostrar.</param>
+        </member>
+        <member name="M:Cosmo.UI.ModalViewContainer.GetInvokeFunctionWithParameters(System.Object[])">
+            <summary>
+            Generate JS call for modal using data passed as method parameters. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize modal properties.
+            </remarks>
         </member>
         <member name="M:Cosmo.UI.ModalViewContainer.GetInvokeFunction">
             <summary>
@@ -4013,7 +4026,7 @@
             <summary>Blank space character.</summary>
         </member>
         <member name="F:Cosmo.UI.Controls.HtmlContentControl.HTML_NEW_LINE">
-            <summary>Nrew line tag.</summary>
+            <summary>New line tag.</summary>
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.#ctor(Cosmo.UI.ViewContainer)">
             <summary>
@@ -4064,6 +4077,13 @@
             <param name="text">Tenxto del enlace</param>
             <param name="openInNewWindow">Indica si se debe abrir el enlace en una nueva ventana.</param>
             <returns>Una cadena que contiene el código HTML correspondiente a un enlace.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendDataList(System.Collections.Generic.List{Cosmo.Utils.KeyValue})">
+            <summary>
+            Adds a data list structure to the HTML content.
+            </summary>
+            <param name="values">List of values. <c>KeyValue.Label</c> is used as a title, <c>KeyValue.Label</c> is used as a text.</param>
+            <returns>The current instance updated with the new data list.</returns>
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.Link(System.String,System.String,System.Boolean)">
             <summary>
@@ -5462,6 +5482,27 @@
             Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
+        </member>
+        <member name="T:Cosmo.WebApp.UserServices.UserDataModal">
+            <summary>
+            Implements a view that show the user public data.
+            </summary>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserDataModal.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.WebApp.UserServices.UserDataModal"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserDataModal.#ctor(System.Int32)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.WebApp.UserServices.UserDataModal"/>.
+            </summary>
+            <param name="userId">User identifier.</param>
+        </member>
+        <member name="P:Cosmo.WebApp.UserServices.UserDataModal.UserID">
+            <summary>
+            Gets or sets the user identifier.
+            </summary>
         </member>
         <member name="T:Cosmo.WebApp.UserServices.UserJoin">
             <summary>
@@ -9765,6 +9806,9 @@
             <summary>
             Implementa un contenedor de valores para usar en controles UI tipo lista (u cualquier otro ámbito).
             </summary>
+            <remarks>
+            This class should be substituted by <see cref="!:KeyValuePair"/> in a short future.
+            </remarks>
         </member>
         <member name="M:Cosmo.Utils.KeyValue.#ctor">
             <summary>

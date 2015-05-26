@@ -3,7 +3,6 @@ using Cosmo.Security;
 using Cosmo.Security.Auth;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
-using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -20,7 +19,6 @@ namespace Cosmo.UI
       // Internal data declaration
       private List<ViewResource> _resources;
       private List<Script> _scripts;
-      private ControlCollection _modalForms;
       private Url _url;
       private HttpContext _context;
       private DeviceDetector.DeviceType _device;
@@ -260,7 +258,6 @@ namespace Cosmo.UI
       /// </summary>
       private void Initialize()
       {
-         _modalForms = null;
          _resources = null;
          _scripts = null;
          _url = null;
@@ -282,28 +279,30 @@ namespace Cosmo.UI
          {
             // Obtiene la propiedad y sus características
             PropertyInfo property = this.GetType().GetProperty(param.PropertyName);
-
-            // Recupera el valor segun el tipo de datos y lo asigna a cada propiedad
-            if (property.PropertyType == typeof(int) ||
-                property.PropertyType == typeof(Int16) ||
-                property.PropertyType == typeof(Int32) ||
-                property.PropertyType == typeof(Int64) ||
-                property.PropertyType == typeof(long))
+            if (property != null)
             {
-               property.SetValue(this, Parameters.GetInteger(param.ParameterName), null);
-            }
-            else if (property.PropertyType == typeof(bool) ||
-                     property.PropertyType == typeof(Boolean))
-            {
-               property.SetValue(this, Parameters.GetBoolean(param.ParameterName), null);
-            }
-            else if (property.PropertyType == typeof(DateTime))
-            {
-               // TODO: Make dates transferible as a parameter
-            }
-            else
-            {
-               property.SetValue(this, Parameters.GetString(param.ParameterName), null);
+               // Recupera el valor segun el tipo de datos y lo asigna a cada propiedad
+               if (property.PropertyType == typeof(int) ||
+                   property.PropertyType == typeof(Int16) ||
+                   property.PropertyType == typeof(Int32) ||
+                   property.PropertyType == typeof(Int64) ||
+                   property.PropertyType == typeof(long))
+               {
+                  property.SetValue(this, Parameters.GetInteger(param.ParameterName), null);
+               }
+               else if (property.PropertyType == typeof(bool) ||
+                        property.PropertyType == typeof(Boolean))
+               {
+                  property.SetValue(this, Parameters.GetBoolean(param.ParameterName), null);
+               }
+               else if (property.PropertyType == typeof(DateTime))
+               {
+                  // TODO: Make dates transferible as a parameter
+               }
+               else
+               {
+                  property.SetValue(this, Parameters.GetString(param.ParameterName), null);
+               }
             }
          }
       }

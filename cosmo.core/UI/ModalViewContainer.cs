@@ -105,6 +105,34 @@ namespace Cosmo.UI
       }
 
       /// <summary>
+      /// Generate JS call for modal using data passed as method parameters. 
+      /// </summary>
+      /// <returns></returns>
+      /// <remarks>
+      /// This method allows to get invoke call without initialize modal properties.
+      /// </remarks>
+      public string GetInvokeFunctionWithParameters(params object[] parameters)
+      {
+         try
+         {
+            int index = 0;
+            string js = string.Empty;
+
+            foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+            {
+               js += (string.IsNullOrEmpty(js) ? string.Empty : ",") + "'" + parameters[index] + "'";
+               index++;
+            }
+
+            return "open" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
+         }
+         catch
+         {
+            return string.Empty;
+         }
+      }
+
+      /// <summary>
       /// Generate JS call from modal. 
       /// </summary>
       /// <returns></returns>

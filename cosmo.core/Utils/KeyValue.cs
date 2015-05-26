@@ -3,6 +3,9 @@
    /// <summary>
    /// Implementa un contenedor de valores para usar en controles UI tipo lista (u cualquier otro ámbito).
    /// </summary>
+   /// <remarks>
+   /// This class should be substituted by <see cref="KeyValuePair"/> in a short future.
+   /// </remarks>
    public class KeyValue
    {
 

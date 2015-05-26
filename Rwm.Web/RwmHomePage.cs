@@ -2,12 +2,12 @@
 using Cosmo.UI.Controls;
 using System;
 
-namespace Rwn.WebApp
+namespace Rwm.WebApp
 {
    /// <summary>
    /// Descripción breve de Home
    /// </summary>
-   public class Home : Cosmo.UI.PageViewContainer
+   public class RwmHomePage : Cosmo.UI.PageViewContainer
    {
       public override void LoadPage()
       {
