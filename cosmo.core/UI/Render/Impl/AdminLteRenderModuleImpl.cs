@@ -27,7 +27,7 @@ namespace Cosmo.UI.Render.Impl
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
       public AdminLteRenderModuleImpl(Workspace workspace, Plugin plugin)
-         : base(workspace, plugin) 
+         : base(workspace, plugin)
       { }
 
       #endregion
@@ -266,6 +266,10 @@ namespace Cosmo.UI.Render.Impl
          {
             return RenderCookiesAdvisor((CookiesAdvisorControl)control);
          }
+         else if (typeof(UserLinkControl).IsAssignableFrom(control.GetType()))
+         {
+            return RenderUserLink((UserLinkControl)control);
+         }
 
          // throw new ControlNotSuportedException("No se puede renderizar el control de tipo " + control.GetType().AssemblyQualifiedName);
 
@@ -476,17 +480,10 @@ namespace Cosmo.UI.Render.Impl
       public string RenderTemplate(CosmoTemplate template)
       {
          StringBuilder xhtml = new StringBuilder();
-         StringBuilder js = new StringBuilder();
 
          // Renderiza controles de página
          xhtml.AppendLine(Render(template.Content));
-         /*
-         // Renderiza formularios modales
-         foreach (IModalForm modal in template.ModalForms)
-         {
-            xhtml.AppendLine(Render(modal));
-         }
-         */
+
          // Renderiza scripts
          xhtml.AppendLine(RenderScripts(template));
 
@@ -1207,7 +1204,7 @@ namespace Cosmo.UI.Render.Impl
 
       private string RenderInputTag(FormFieldText control, string type)
       {
-         return "  <input " + control.GetIdParameter() + 
+         return "  <input " + control.GetIdParameter() +
                               control.GetNameParameter() + " " +
                               (!string.IsNullOrWhiteSpace(type) ? "type=\"" + type + "\"" : string.Empty) + " " +
                               "class=\"form-control\" " +
@@ -2267,7 +2264,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine(RenderSidebarButton(btn));
          }
-         
+
          xhtml.AppendLine("  </ul>");
          xhtml.AppendLine("</section>");
 
@@ -2406,13 +2403,17 @@ namespace Cosmo.UI.Render.Impl
             }
             else
             {
-               if (string.IsNullOrWhiteSpace(cell.Href))
+               if (!string.IsNullOrWhiteSpace(cell.Href))
                {
-                  content = cell.Value.ToString();
+                  content = "<a href=\"" + cell.Href + "\">" + cell.Value.ToString() + "</a>";
+               }
+               else if (cell.Value is Control)
+               {
+                  content = Render((Control)cell.Value);
                }
                else
                {
-                  content = "<a href=\"" + cell.Href + "\">" + cell.Value.ToString() + "</a>";
+                  content = cell.Value.ToString();
                }
             }
 
@@ -2474,7 +2475,14 @@ namespace Cosmo.UI.Render.Impl
                }
 
                xhtml.AppendLine("         </span>");
-               xhtml.AppendLine("         <h3 class=\"timeline-header\">" + item.Title + "</h3>");
+               if (item.TitleControl != null && item.TitleControl is Control)
+               {
+                  xhtml.AppendLine("         <h3 class=\"timeline-header\">" + Render((Control)item.TitleControl) + "</h3>");
+               }
+               else
+               {
+                  xhtml.AppendLine("         <h3 class=\"timeline-header\">" + item.Title + "</h3>");
+               }
                xhtml.AppendLine("         <div class=\"timeline-body\">");
                xhtml.AppendLine(item.Body);
                xhtml.AppendLine("         </div>");
@@ -2527,7 +2535,7 @@ namespace Cosmo.UI.Render.Impl
 
          xhtml.AppendLine("      </ul>");
          xhtml.AppendLine("    </div>");
-         
+
          // xhtml.AppendLine("  </div>");
          // xhtml.AppendLine("</div>");
 
@@ -2562,10 +2570,10 @@ namespace Cosmo.UI.Render.Impl
          }
          else
          {*/
-            if (!string.IsNullOrWhiteSpace(childItem.Href)) xhtml.AppendLine("</a>");
+         if (!string.IsNullOrWhiteSpace(childItem.Href)) xhtml.AppendLine("</a>");
          //}
-         
-         xhtml.AppendLine("  </span>"); 
+
+         xhtml.AppendLine("  </span>");
 
          if (childItem.ChildItems.Count > 0)
          {
@@ -2578,6 +2586,32 @@ namespace Cosmo.UI.Render.Impl
          }
 
          xhtml.AppendLine("</li>");
+
+         return xhtml.ToString();
+      }
+
+      #endregion
+
+      #region UserLink Control
+
+      /// <summary>
+      /// Render a <see cref="UserLinkControl"/> instance.
+      /// </summary>
+      private string RenderUserLink(UserLinkControl control)
+      {
+         StringBuilder xhtml = new StringBuilder();
+
+         xhtml.Append(IconControl.GetIcon(control.Container, IconControl.ICON_USER));
+         xhtml.Append(" ");
+
+         if (control.Container.Workspace.CurrentUser.IsAuthenticated)
+         {
+            xhtml.Append("<a href=\"javascript:" + control.ModalView.GetInvokeFunctionWithParameters(new object[] { control.UserID }) + "\" title=\"Detalles del usuario\">" + control.UserDisplayName + "</a>");
+         }
+         else
+         {
+            xhtml.Append(control.UserDisplayName);
+         }
 
          return xhtml.ToString();
       }

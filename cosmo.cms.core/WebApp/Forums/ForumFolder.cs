@@ -2,6 +2,7 @@
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Forums
@@ -50,6 +51,10 @@ namespace Cosmo.WebApp.Forums
          // Agrega la meta-información de la página
          Title = ForumsDAO.SERVICE_NAME + " - " + folder.Name;
 
+         // Insert a modal to show user data
+         UserDataModal userData = new UserDataModal();
+         Modals.Add(userData);
+
          //--------------------------------------------------------------
          // Genera la lista de anuncios a mostrar
          //--------------------------------------------------------------
@@ -67,16 +72,10 @@ namespace Cosmo.WebApp.Forums
 
             foreach (ForumThread thread in threads)
             {
-               // Genera la URL del thread
-               //thUrl = new Url(ForumsDAO.URL_THREAD);
-               //thUrl.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, folder.ID);
-               //thUrl.AddParameter(ForumsDAO.PARAM_THREAD_ID, thread.ID);
-               //thUrl.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx);
-
                // Genera el elemento de la lista
                row = new TableRow("row-th-" + thread.ID,
                                   IconControl.GetIcon(this, IconControl.ICON_COMMENT, thread.Closed) + " " + HtmlContentControl.Link(ForumsDAO.GetThreadUrl(thread.ID, folder.ID, pageIdx), thread.Title, false),
-                                  IconControl.GetIcon(this, IconControl.ICON_USER) + " " + thread.AuthorName,
+                                  new UserLinkControl(this, thread.AuthorID, thread.AuthorName, userData),
                                   (thread.MessageCount - 1).ToString(),
                                   thread.LastReply.ToString(Formatter.FORMAT_DATETIME));
 

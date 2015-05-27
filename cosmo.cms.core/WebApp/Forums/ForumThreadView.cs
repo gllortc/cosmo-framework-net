@@ -138,7 +138,7 @@ namespace Cosmo.WebApp.Forums
             item = new TimelineItem();
             item.ID = "msg" + message.ID;
             item.Type = TimelineItem.TimelineItemType.Entry;
-            item.Title = IconControl.GetIcon(this, IconControl.ICON_USER) + "&nbsp;<a href=\"javascript:" + userData.GetInvokeFunctionWithParameters(new object[] { message.UserID }) + "\">" + message.Name + "</a>";
+            item.TitleControl = new UserLinkControl(this, message.UserID, message.Name, userData);
             item.Icon = message.ParentMessageID == 0 ? IconControl.ICON_ENVELOPE : IconControl.ICON_REPLY;
             item.Body = formatter.bbCodeParser(message.Body); 
             item.Time = message.Date.ToString(Formatter.FORMAT_DATETIME);

@@ -9,6 +9,7 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils;
 using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -34,9 +35,6 @@ namespace Cosmo.WebApp.Classified
          OrmEngine orm = new OrmEngine();
          contactForm = orm.CreateForm(this, request, true);
          contactForm.Action = "ClassifiedView";
-
-         // ClassifiedContactModal modal = new ClassifiedContactModal("ad-contact-modal", classifiedId);
-         // Modals.Add(modal);
       }
 
       public override void LoadPage()

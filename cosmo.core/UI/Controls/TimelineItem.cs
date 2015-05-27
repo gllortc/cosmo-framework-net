@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Cosmo.UI.Controls
 {
    /// <summary>
@@ -56,6 +57,11 @@ namespace Cosmo.UI.Controls
          get { return _title; }
          set { _title = value; }
       }
+
+      /// <summary>
+      /// Gets or sets the control which will be rendered as the title.
+      /// </summary>
+      public Control TitleControl { get; set; }
 
       /// <summary>
       /// Devuelve o establece el texto que indica el tiempo de publicación.
@@ -142,6 +148,8 @@ namespace Cosmo.UI.Controls
          _bgColor = ComponentBackgroundColor.None;
          _type = TimelineItemType.Entry;
          _buttons = new List<ButtonControl>();
+
+         this.TitleControl = null;
       }
    }
 }

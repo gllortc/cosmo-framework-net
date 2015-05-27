@@ -121,6 +121,7 @@
     <Compile Include="UI\Controls\CookiesAdvisorControl.cs" />
     <Compile Include="UI\Controls\PictureControl.cs" />
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
+    <Compile Include="UI\Controls\UserLinkControl.cs" />
     <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
     <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
     <Compile Include="UI\ViewParameter.cs" />

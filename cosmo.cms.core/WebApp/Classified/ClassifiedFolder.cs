@@ -3,6 +3,7 @@ using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 
@@ -50,49 +51,10 @@ namespace Cosmo.WebApp.Classified
          // Agrega la meta-información de la página
          Title = ClassifiedAdsDAO.SERVICE_NAME + " - " + folder.Name;
 
-         /*
-         //--------------------------------------------------------------
-         // Lista de carpetas
-         //--------------------------------------------------------------
+         // Insert a modal to show user data
+         UserDataModal userData = new UserDataModal();
+         Modals.Add(userData);
 
-         Panel panelFolders = new Panel(this);
-         panelFolders.Caption = "Secciones";
-         panelFolders.Content.Add(LayoutAdapter.ClassifiedAds.ConvertSectionsToListGroup(this, ads.GetFolders(true), folder.ID));
-
-         RightContent.Add(panelFolders);
-
-         // Panel de herramientas administrativas
-
-         Button btnTool;
-         
-
-         Panel adminPanel = new Panel(this);
-
-         url = new Url("ClassifiedEdit");
-         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
-
-         btnTool = new Button(this);
-         btnTool.Icon = "fa-plus-square-o";
-         btnTool.Caption = "Nuevo anuncio";
-         btnTool.Color = ComponentColorScheme.Success;
-         btnTool.IsBlock = true;
-         btnTool.Href = url.ToString(true);
-
-         adminPanel.Content.Add(btnTool);
-
-         url = new Url("ClassifiedManage");
-
-         btnTool = new Button(this);
-         btnTool.Icon = "fa-plus-square-o";
-         btnTool.Caption = "Mis anuncios";
-         btnTool.Color = ComponentColorScheme.Success;
-         btnTool.IsBlock = true;
-         btnTool.Href = url.ToString(true);
-
-         adminPanel.Content.Add(btnTool);
-
-         RightContent.Add(adminPanel);
-         */
          //--------------------------------------------------------------
          // Genera la lista de anuncios a mostrar
          //--------------------------------------------------------------
@@ -115,7 +77,7 @@ namespace Cosmo.WebApp.Classified
                                   IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(ClassifiedAdsDAO.GetClassifiedAdsViewURL(ad.Id), ad.Title, false),
                                   ad.Price <= 0 ? IconControl.GetIcon(this, IconControl.ICON_MINUS) : string.Format("{0:C}", ad.Price),
                                   ad.Updated.ToString(Formatter.FORMAT_DATE),
-                                  IconControl.GetIcon(this, IconControl.ICON_USER) + " " + ad.UserLogin);
+                                  new UserLinkControl(this, ad.UserID, ad.UserLogin, userData));
 
                table.Rows.Add(row);
             }

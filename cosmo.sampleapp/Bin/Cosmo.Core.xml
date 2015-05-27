@@ -1972,6 +1972,40 @@
             Inicializa la instancia.
             </summary>
         </member>
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
+            </summary>
+            <param name="view">Container view of the control.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer,System.Int32,System.String,Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
+            </summary>
+            <param name="view">Container view of the control.</param>
+            <param name="userId">User unique identifier.</param>
+            <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.Initialize">
+            <summary>
+            Initializes the instance.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.UserLinkControl.UserID">
+            <summary>
+            Gets or sets the user unique identifier.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.UserLinkControl.UserDisplayName">
+            <summary>
+            Gets or sets the user display name (usually the <c>login</c>.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.UserLinkControl.ModalView">
+            <summary>
+            Gets or sets the modal view used to show the user data.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior">
             <summary>
             JavaScript Behavior:
@@ -4564,6 +4598,11 @@
         <member name="P:Cosmo.UI.Controls.TimelineItem.Title">
             <summary>
             Devuelve o establece el título del elemento.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.TimelineItem.TitleControl">
+            <summary>
+            Gets or sets the control which will be rendered as the title.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Controls.TimelineItem.Time">
@@ -8150,6 +8189,11 @@
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTreeViewChils(Cosmo.UI.Controls.TreeViewChildItemControl,System.Boolean)">
             <summary>
             Renderiza un nodo de un control <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderUserLink(Cosmo.UI.Controls.UserLinkControl)">
+            <summary>
+            Render a <see cref="T:Cosmo.UI.Controls.UserLinkControl"/> instance.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalViews(Cosmo.UI.ViewContainer,System.Collections.Generic.List{Cosmo.UI.ModalViewContainer})">
