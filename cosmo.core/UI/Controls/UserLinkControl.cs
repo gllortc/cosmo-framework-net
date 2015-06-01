@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Cosmo.Security;
 
 namespace Cosmo.UI.Controls
 {
+
+   /// <summary>
+   /// Implements a control that allow to open a modal form with its public data.
+   /// </summary>
    public class UserLinkControl : Control
    {
 
@@ -33,6 +34,22 @@ namespace Cosmo.UI.Controls
 
          this.UserID = userId;
          this.UserDisplayName = userDisplayName;
+         this.ModalView = modalView;
+      }
+
+      /// <summary>
+      /// Gets an instance of <see cref="UserLinkControl"/>.
+      /// </summary>
+      /// <param name="view">Container view of the control.</param>
+      /// <param name="user">An instance of <see cref="User"/> representing the user.</param>
+      /// <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
+      public UserLinkControl(ViewContainer view, User user, ModalViewContainer modalView)
+         : base(view)
+      {
+         Initialize();
+
+         this.UserID = user.ID;
+         this.UserDisplayName = user.GetDisplayName();
          this.ModalView = modalView;
       }
 

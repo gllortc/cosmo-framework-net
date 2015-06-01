@@ -136,6 +136,13 @@ namespace Cosmo.Security.Auth
       public abstract User GetUser(int uid);
 
       /// <summary>
+      /// Gets the user location (city and country name) with a standard format.
+      /// </summary>
+      /// <param name="uid">User unique identifier.</param>
+      /// <returns>A string with formatted city and country information.</returns>
+      public abstract string GetUserLocation(int uid);
+
+      /// <summary>
       /// Crea una nueva cuenta de usuario.
       /// </summary>
       /// <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>

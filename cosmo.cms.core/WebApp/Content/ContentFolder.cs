@@ -107,7 +107,7 @@ namespace Cosmo.WebApp.Content
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_PLUS;
-            btnTool.Caption = "Nuevo artículo";
+            btnTool.Text = "Nuevo artículo";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
             btnTool.Href = DocumentDAO.GetDocumentAddURL(folder.ID);

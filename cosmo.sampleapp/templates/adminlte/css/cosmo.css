@@ -31,6 +31,12 @@
    padding-bottom: 5px;
 }
 
+/* PANEL CONTROL */
+
+.box .box-header .box-title {
+   margin-bottom: -15px;
+}
+
 /* PICTURE GALLERY */
 
 .picture-box {

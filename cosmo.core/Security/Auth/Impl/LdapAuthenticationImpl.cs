@@ -23,6 +23,8 @@ namespace Cosmo.Security.Auth.Impl
 
       private const string USER_FIELDS = "usrid,usrlogin,usrmail,usrmail2,usrname,usrcity,usrcountryid,usrphone,usrdesc,usroptions,usrstatus,usrlastlogon,usrlogoncount,usrowner,usrcreated,usrpwd";
 
+      #region Constructors
+
       /// <summary>
       /// Devuelve una instancia de <see cref="LdapAuthenticationImpl"/>.
       /// </summary>
@@ -31,6 +33,10 @@ namespace Cosmo.Security.Auth.Impl
       public LdapAuthenticationImpl(Workspace workspace, Plugin plugin) 
          : base(workspace, plugin) 
       { }
+
+      #endregion
+
+      #region Methods
 
       /// <summary>
       /// Devuelve una lista de todos los usuarios
@@ -67,6 +73,16 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="uid">Identificador del usuario.</param>
       /// <returns>Una instáncia MWUser.</returns>
       public override User GetUser(int uid)
+      {
+         throw new NotImplementedException();
+      }
+
+      /// <summary>
+      /// Gets the user location (city and country name) with a standard format.
+      /// </summary>
+      /// <param name="uid">User unique identifier.</param>
+      /// <returns>A string with formatted city and country information.</returns>
+      public override string GetUserLocation(int uid)
       {
          throw new NotImplementedException();
       }
@@ -220,39 +236,6 @@ namespace Cosmo.Security.Auth.Impl
          throw new NotImplementedException();
       }
 
-      /*/// <summary>
-      /// Obtiene una lista de los roles de un usuario.
-      /// </summary>
-      /// <param name="uid">Identificador único del usuario.</param>
-      /// <returns>Una instancia de <see cref="System.Collections.Generic.List&lt;T&gt;"/> rellenada con la lista de roles.</returns>
-      public override List<Role> GetUserRoles(int uid)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
-      /// Obtiene una lista de los roles de un usuario.
-      /// </summary>
-      /// <param name="login">Login del usuario.</param>
-      /// <returns>Una instancia de <see cref="System.Collections.Generic.List&lt;T&gt;"/> rellenada con la lista de roles.</returns>
-      public override List<Role> GetUserRoles(string login)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
-      /// Devuelve una lista de usuarios que tienen un rol específico.
-      /// </summary>
-      /// <param name="roleId">Identificador del rol.</param>
-      /// <returns>
-      /// Una inatsnacia de <see cref="System.Collections.Generic.List&lt;T&gt;"/> que contiene las inatancias de <see cref="User"/> que 
-      /// pretenecen al rol solicitado.
-      /// </returns>
-      public override List<User> GetRoleUsers(int roleId)
-      {
-         throw new NotImplementedException();
-      }*/
-
       /// <summary>
       /// Selecciona un grupo de usuarios
       /// </summary>
@@ -295,5 +278,8 @@ namespace Cosmo.Security.Auth.Impl
          CountryDAO cdao = new CountryDAO(_ws);
          return cdao.GetCountryList();
       }
+
+      #endregion
+
    }
 }

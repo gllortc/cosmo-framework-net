@@ -53,8 +53,8 @@ namespace Cosmo.Security.Auth.Impl
       /// <returns>Una lista de objetos <see cref="User"/>.</returns>
       public override List<User> GetUsersList(User.UserStatus status)
       {
+         string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<User> users = new List<User>();
 
          try
@@ -62,19 +62,22 @@ namespace Cosmo.Security.Auth.Impl
             // Abre una conexión a la BBDD
             _ws.DataSource.Connect();
 
-            string sql = "SELECT    " + SQL_USER_FIELDS + " " +
-                         "FROM      " + SQL_USER_TABLE + " " +
-                         ((int)status < 3 ? "WHERE usrstatus=@usrstatus " : string.Empty) +
-                         "ORDER BY  usrlogin";
+            sql = "SELECT    " + SQL_USER_FIELDS + " " +
+                  "FROM      " + SQL_USER_TABLE + " " +
+                  ((int)status < 3 ? "WHERE usrstatus=@usrstatus " : string.Empty) +
+                  "ORDER BY  usrlogin";
+
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             if (status >= 0) cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)status));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               User user = ReadUserFields(reader);
-               users.Add(user);
+               while (reader.Read())
+               {
+                  User user = ReadUserFields(reader);
+                  users.Add(user);
+               }
             }
-            reader.Close();
 
             return users;
          }
@@ -87,10 +90,6 @@ namespace Cosmo.Security.Auth.Impl
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
-            reader.Dispose();
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -101,7 +100,6 @@ namespace Cosmo.Security.Auth.Impl
       /// <returns>Una lista de objetos <see cref="User"/>.</returns>
       public override List<User> GetUsersList()
       {
-         // return GetUsersList(User.UserStatus.Unknown);
          return GetUsersList(User.UserStatus.AllStates);
       }
 
@@ -115,7 +113,6 @@ namespace Cosmo.Security.Auth.Impl
          string sql = string.Empty;
          User user = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          if (string.IsNullOrWhiteSpace(login))
          {
@@ -133,9 +130,13 @@ namespace Cosmo.Security.Auth.Impl
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@usrlogin", login.Trim().ToUpper()));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read()) user = ReadUserFields(reader);
-            reader.Close();
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               if (reader.Read())
+               {
+                  user = ReadUserFields(reader);
+               }
+            }
 
             // Obtiene las relaciones con otros usuarios
             sql = @"SELECT userid, touserid, status, created, updated 
@@ -145,35 +146,31 @@ namespace Cosmo.Security.Auth.Impl
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@userid", user.ID));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               UserRelation relation = new UserRelation();
-               relation.FromUserID = reader.GetInt32(0);
-               relation.ToUserID = reader.GetInt32(2);
-               relation.Status = (UserRelation.UserRelationStatus)reader.GetInt32(3);
-               relation.Created = (reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4));
-               relation.Updated = (reader.IsDBNull(5) ? DateTime.MinValue : reader.GetDateTime(5));
-               user.Relations.Add(relation);
+               if (reader.Read())
+               {
+                  UserRelation relation = new UserRelation();
+                  relation.FromUserID = reader.GetInt32(0);
+                  relation.ToUserID = reader.GetInt32(2);
+                  relation.Status = (UserRelation.UserRelationStatus)reader.GetInt32(3);
+                  relation.Created = (reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4));
+                  relation.Updated = (reader.IsDBNull(5) ? DateTime.MinValue : reader.GetDateTime(5));
+                  user.Relations.Add(relation);
+               }
             }
-            reader.Close();
-
-            // Obtiene los roles del usuario
-            // user.Roles = GetUserRoles(user.Login);
 
             return user;
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUser", 
+            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUser(string)", 
                                         ex.Message, 
                                         LogEntry.LogEntryType.EV_ERROR));
             throw ex;
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -656,7 +653,9 @@ namespace Cosmo.Security.Auth.Impl
             cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
             cmd.Parameters.Add(new SqlParameter("@usrpwd", password));
             if ((int)cmd.ExecuteScalar() <= 0)
+            {
                throw new AuthenticationException("Login o contraseña erróneos.");
+            }
 
             // Actualiza la fecha del último acceso
             sql = "UPDATE " + SQL_USER_TABLE + " " +
@@ -844,7 +843,6 @@ namespace Cosmo.Security.Auth.Impl
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<User> find = new List<User>();
 
          try
@@ -856,13 +854,13 @@ namespace Cosmo.Security.Auth.Impl
                   this.SelectorSQL(selector) +
                   "ORDER BY usrlogin Asc";
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               find.Add(ReadUserFields(reader));
+               while (reader.Read())
+               {
+                  find.Add(ReadUserFields(reader));
+               }
             }
-            reader.Close();
 
             return find;
          }
@@ -875,10 +873,6 @@ namespace Cosmo.Security.Auth.Impl
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
-            reader.Dispose();
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -907,7 +901,6 @@ namespace Cosmo.Security.Auth.Impl
       {
          List<User> users = new List<User>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          if (login.Equals(string.Empty) && city.Equals(string.Empty) && countryId == 0)
          {
@@ -936,10 +929,12 @@ namespace Cosmo.Security.Auth.Impl
                                  "FROM          " + SQL_USER_TABLE + " " + 
                                  "WHERE         " + condition + " " +
                                  "ORDER BY      usrlogin Asc", _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               users.Add(ReadUserFields(reader));
+               while (reader.Read())
+               {
+                  users.Add(ReadUserFields(reader));
+               }
             }
 
             return users;
@@ -953,10 +948,6 @@ namespace Cosmo.Security.Auth.Impl
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
-            reader.Dispose();
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -968,6 +959,81 @@ namespace Cosmo.Security.Auth.Impl
       {
          CountryDAO cdao = new CountryDAO(_ws);
          return cdao.GetCountryList();
+      }
+
+      /// <summary>
+      /// Gets the user location (city and country name) with a standard format.
+      /// </summary>
+      /// <param name="uid">User unique identifier.</param>
+      /// <returns>A string with formatted city and country information.</returns>
+      public override string GetUserLocation(int uid)
+      {
+         string sql = string.Empty;
+         string location = string.Empty;
+         SqlCommand cmd = null;
+
+         try
+         {
+            _ws.DataSource.Connect();
+
+            sql = @"SELECT u.USRCITY, c.COUNTRYNAME 
+                    FROM   " + SQL_USER_TABLE + @" u 
+                           Inner Join COUNTRY c On (c.COUNTRYID = u.USRCOUNTRYID) 
+                    WHERE  u.USRID = @UserId";
+
+            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            cmd.Parameters.Add(new SqlParameter("UserId", uid));
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               if (reader.Read())
+               {
+                  if (reader.IsDBNull(0) && reader.IsDBNull(1))
+                  {
+                     location = "Ubicación desconocida";
+                  }
+                  else if (reader.IsDBNull(0) || string.IsNullOrWhiteSpace(reader.GetString(0)))
+                  {
+                     if (string.IsNullOrWhiteSpace(reader.GetString(1)))
+                     {
+                        location = "Ubicación desconocida";
+                     }
+                     else
+                     {
+                        location = reader.GetString(1);
+                     }
+                  }
+                  else if (reader.IsDBNull(1) || string.IsNullOrWhiteSpace(reader.GetString(1)))
+                  {
+                     if (string.IsNullOrWhiteSpace(reader.GetString(0)))
+                     {
+                        location = "Ubicación desconocida";
+                     }
+                     else
+                     {
+                        location = reader.GetString(0);
+                     }
+                  }
+                  else
+                  {
+                     location = reader.GetString(0) + " (" + reader.GetString(1) + ")";
+                  }
+               }
+            }
+
+            return location;
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUserLocation(int)",
+                                        ex.Message,
+                                        LogEntry.LogEntryType.EV_ERROR));
+            throw ex;
+         }
+         finally
+         {
+            _ws.DataSource.Disconnect();
+         }
       }
 
       #endregion

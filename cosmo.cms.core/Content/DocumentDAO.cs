@@ -1,6 +1,8 @@
 ﻿using Cosmo.Cms.Photos;
+using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
 using Cosmo.Net;
+using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -62,7 +64,6 @@ namespace Cosmo.Cms.Content
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          Document reldoc = null;
          Document doc = null;
 
@@ -80,16 +81,17 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docid", docID));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               doc = ReadDocument(reader);
+               if (reader.Read())
+               {
+                  doc = ReadDocument(reader);
 
-               // Reemplaza los smartTAGS del contenido HTML
-               doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-               doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+                  // Reemplaza los smartTAGS del contenido HTML
+                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
+                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+               }
             }
-            reader.Close();
 
             // Obtiene los documentos relacionados
 
@@ -102,16 +104,17 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docsourceid", doc.ID));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               reldoc = ReadDocument(reader);
-               if (reldoc != null)
+               while (reader.Read())
                {
-                  doc.RelatedDocuments.Add(reldoc);
+                  reldoc = ReadDocument(reader);
+                  if (reldoc != null)
+                  {
+                     doc.RelatedDocuments.Add(reldoc);
+                  }
                }
             }
-            reader.Close();
 
             // Obtiene las imágenes relacionadas
             sql = "SELECT imgid,imfolder,imgtemplate,imgfile,imgwidth,imgheight,imgthumb,imgthwidth,imgthheigth,imgdesc,imgauthory,imgdate,imgshows " +
@@ -121,27 +124,28 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@iddocid", doc.ID));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               Photo picture = new Photo();
-               picture.ID = reader.GetInt32(0);
-               picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-               picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-               picture.PictureFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
-               picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
-               picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
-               picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
-               picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
-               picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
-               picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
-               picture.Author = reader.IsDBNull(10) ? string.Empty : reader.GetString(10);
-               picture.Created = reader.GetDateTime(11);
-               picture.Shows = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
+               while (reader.Read())
+               {
+                  Photo picture = new Photo();
+                  picture.ID = reader.GetInt32(0);
+                  picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                  picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
+                  picture.PictureFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
+                  picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
+                  picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
+                  picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
+                  picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
+                  picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
+                  picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
+                  picture.Author = reader.IsDBNull(10) ? string.Empty : reader.GetString(10);
+                  picture.Created = reader.GetDateTime(11);
+                  picture.Shows = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
 
-               doc.RelatedPictures.Add(picture);
+                  doc.RelatedPictures.Add(picture);
+               }
             }
-            reader.Close();
 
             return doc;
          }
@@ -155,8 +159,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -181,13 +184,17 @@ namespace Cosmo.Cms.Content
          {
             picfile = new FileInfo(document.Thumbnail);
             if (!picfile.Exists)
+            {
                throw new Exception("No se encuentra el archivo correspondiente a la imagen miniatura.");
+            }
          }
          if (!String.IsNullOrEmpty(document.Attachment))
          {
             attfile = new FileInfo(document.Attachment);
             if (!attfile.Exists)
+            {
                throw new Exception("No se encuentra el archivo correspondiente al contenido adjunto.");
+            }
          }
 
          try
@@ -197,9 +204,9 @@ namespace Cosmo.Cms.Content
 
             // Inserta el registro en la BBDD
             sql = "INSERT INTO " + SQL_TABLE_OBJECTS + "kk " +
-                     "(docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile) " +
+                     "(docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile,docowner) " +
                   "VALUES " +
-                     "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile)";
+                     "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
             cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
@@ -211,6 +218,7 @@ namespace Cosmo.Cms.Content
             cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
             cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
             cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
+            cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : AuthenticationService.ACCOUNT_SUPER ));
             cmd.ExecuteNonQuery();
 
             // Obtiene el nuevo ID
@@ -241,7 +249,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -264,7 +272,9 @@ namespace Cosmo.Cms.Content
             {
                picfile = new FileInfo(document.Thumbnail);
                if (!picfile.Exists)
+               {
                   throw new Exception("No se encuentra o no está accesible el archivo correspondiente a la imagen miniatura.");
+               }
 
                // Si existe un archivo con el mismo nombre lo sobreescribe
                picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
@@ -275,7 +285,9 @@ namespace Cosmo.Cms.Content
             {
                attfile = new FileInfo(document.Attachment);
                if (!attfile.Exists)
+               {
                   throw new Exception("No se encuentra o no está accesible el archivo adjunto.");
+               }
 
                // Si existe un archivo con el mismo nombre lo sobreescribe
                attfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), attfile.Name));
@@ -319,7 +331,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -337,7 +349,6 @@ namespace Cosmo.Cms.Content
          Document document = null;
          List<Document> list = new List<Document>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          _ws.DataSource.Connect();
 
@@ -357,11 +368,13 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderId", folderid));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               document = ReadDocument(reader);
-               if (document != null) list.Add(document);
+               while (reader.Read())
+               {
+                  document = ReadDocument(reader);
+                  if (document != null) list.Add(document);
+               }
             }
 
             return list;
@@ -376,10 +389,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -395,7 +405,6 @@ namespace Cosmo.Cms.Content
          DocumentFolder folder = null;
          List<DocumentFolder> folders = new List<DocumentFolder>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          _ws.DataSource.Connect();
 
@@ -413,13 +422,14 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderparentid", parentId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folder = ReadFolder(reader, true);
-               folders.Add(folder);
+               while (reader.Read())
+               {
+                  folder = ReadFolder(reader, true);
+                  folders.Add(folder);
+               }
             }
-            reader.Close();
 
             return folders;
          }
@@ -433,8 +443,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -455,7 +464,6 @@ namespace Cosmo.Cms.Content
          string sql = string.Empty;
          DocumentFolder folder = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          // Evita realizar consultas de objetos no existentes
          if (folderId <= 0)
@@ -477,12 +485,13 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderid", folderId));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folder = ReadFolder(reader, true);
+               if (reader.Read())
+               {
+                  folder = ReadFolder(reader, true);
+               }
             }
-            reader.Close();
 
             if (folder == null)
             {
@@ -513,8 +522,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -530,7 +538,6 @@ namespace Cosmo.Cms.Content
          Document doc = null;
          List<Document> docs = new List<Document>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          _ws.DataSource.Connect();
 
@@ -547,20 +554,21 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               doc = ReadDocument(reader);
-               if (doc != null)
+               while (reader.Read())
                {
-                  // Reemplaza los smartTAGS del contenido HTML
-                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+                  doc = ReadDocument(reader);
+                  if (doc != null)
+                  {
+                     // Reemplaza los smartTAGS del contenido HTML
+                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
+                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
 
-                  docs.Add(doc);
+                     docs.Add(doc);
+                  }
                }
             }
-            reader.Close();
 
             return docs;
          }
@@ -574,8 +582,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -591,7 +598,6 @@ namespace Cosmo.Cms.Content
          int actfolder = folderId;
          int parentid = 0;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          DocumentFolder folder = null;
          List<DocumentFolder> items = new List<DocumentFolder>();
 
@@ -608,25 +614,26 @@ namespace Cosmo.Cms.Content
 
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
                cmd.Parameters.Add(new SqlParameter("@folderid", actfolder));
-               reader = cmd.ExecuteReader();
-               if (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadFolder(reader, false);
-
-                  if (actfolder == folderId)
+                  if (reader.Read())
                   {
-                     items.Add(folder);
-                     parentid = folder.ParentID;
-                  }
-                  else
-                  {
-                     // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
-                     items.Add(folder);
-                  }
+                     folder = ReadFolder(reader, false);
 
-                  actfolder = folder.ParentID;
+                     if (actfolder == folderId)
+                     {
+                        items.Add(folder);
+                        parentid = folder.ParentID;
+                     }
+                     else
+                     {
+                        // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
+                        items.Add(folder);
+                     }
+
+                     actfolder = folder.ParentID;
+                  }
                }
-               reader.Close();
             }
 
             // Agrega el inicio
@@ -659,8 +666,7 @@ namespace Cosmo.Cms.Content
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }

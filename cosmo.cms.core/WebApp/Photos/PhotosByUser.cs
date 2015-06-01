@@ -115,13 +115,13 @@ namespace Cosmo.WebApp.Photos
 
          ButtonControl navBtn = new ButtonControl(this);
          navBtn.Icon = IconControl.ICON_SITEMAP;
-         navBtn.Caption = "Navegar por carpetas";
+         navBtn.Text = "Navegar por carpetas";
          navBtn.IsBlock = true;
          navBtn.Href = PhotoDAO.GetBrowseFoldersURL();
 
          ButtonControl recentBtn = new ButtonControl(this);
          recentBtn.Icon = IconControl.ICON_CALENDAR;
-         recentBtn.Caption = "Fotografias recientes";
+         recentBtn.Text = "Fotografias recientes";
          recentBtn.IsBlock = true;
          recentBtn.Href = PhotoDAO.GetRecentPhotosURL();
 

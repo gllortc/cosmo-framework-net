@@ -68,7 +68,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          Type = type;
       }
 
@@ -85,7 +85,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          Icon = icon;
          Type = type;
       }
@@ -102,7 +102,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
          JavaScriptAction = modal.GetInvokeFunction();
@@ -120,7 +120,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          Icon = icon;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
@@ -140,7 +140,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          Type = ButtonTypes.Normal;
          Href = href;
          JavaScriptAction = jsAction;
@@ -160,7 +160,7 @@
       {
          Initialize();
 
-         Caption = caption;
+         Text = caption;
          Icon = icon;
          Type = ButtonTypes.Normal;
          Href = href;
@@ -184,7 +184,7 @@
       /// <summary>
       /// Devuelve o establece el texto visible que mostrará el componente.
       /// </summary>
-      public string Caption { get; set; }
+      public string Text { get; set; }
 
       /// <summary>
       /// Devuelve o establece el código del icono que se mostrará en el componente.
@@ -235,7 +235,7 @@
       {
          Enabled = true;
          IsBlock = false;
-         Caption = string.Empty;
+         Text = string.Empty;
          Icon = string.Empty;
          JavaScriptAction = string.Empty;
          Href = string.Empty;

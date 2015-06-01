@@ -122,7 +122,7 @@ namespace Cosmo.WebApp.Classified
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_EDIT;
-            btnTool.Caption = "Editar";
+            btnTool.Text = "Editar";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
             btnTool.Href = new Url("ContentEdit").AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, classified.Id).

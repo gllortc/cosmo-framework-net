@@ -1760,7 +1760,7 @@
             Indica si es un botón <em>block</em> (si ocupa todo el ancho disponible en el contenedor).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.ButtonControl.Caption">
+        <member name="P:Cosmo.UI.Controls.ButtonControl.Text">
             <summary>
             Devuelve o establece el texto visible que mostrará el componente.
             </summary>
@@ -1892,6 +1892,38 @@
             Return or set the content ID that contains more detailed information about legal aspects.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Controls.DocumentHeaderControl">
+            <summary>
+            Implementa un control para incrustar en la cabecera de un documento y que permite mostrar
+            el título del contenido y una descripción.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
+            </summary>
+            <param name="container">Página o contenedor dónde se representará el control.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.Initialize">
+            <summary>
+            Inicializa la instancia.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Title">
+            <summary>
+            Devuelve o establece el título de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.SubTitle">
+            <summary>
+            Devuelve o establece el subtítulo de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Icon">
+            <summary>
+            Devuelve o establece el código del icono que acompaña el título.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Controls.PictureControl">
             <summary>
             Implementa una imagen representable en un control <see cref="T:Cosmo.UI.Controls.PictureGalleryControl"/>.
@@ -1972,6 +2004,11 @@
             Inicializa la instancia.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Controls.UserLinkControl">
+            <summary>
+            Implements a control that allow to open a modal form with its public data.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
@@ -1984,6 +2021,14 @@
             </summary>
             <param name="view">Container view of the control.</param>
             <param name="userId">User unique identifier.</param>
+            <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer,Cosmo.Security.User,Cosmo.UI.ModalViewContainer)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
+            </summary>
+            <param name="view">Container view of the control.</param>
+            <param name="user">An instance of <see cref="T:Cosmo.Security.User"/> representing the user.</param>
             <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.UserLinkControl.Initialize">
@@ -4434,38 +4479,6 @@
             Las páginas de un sólo control permiten, por ejemplo, implementar formularios, login, registro, etc.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.Controls.DocumentHeaderControl">
-            <summary>
-            Implementa un control para incrustar en la cabecera de un documento y que permite mostrar
-            el título del contenido y una descripción.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
-            </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-        </member>
-        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.Initialize">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Title">
-            <summary>
-            Devuelve o establece el título de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.SubTitle">
-            <summary>
-            Devuelve o establece el subtítulo de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Icon">
-            <summary>
-            Devuelve o establece el código del icono que acompaña el título.
-            </summary>
-        </member>
         <member name="T:Cosmo.UI.Controls.TabItemControl">
             <summary>
             Implementa una pestaña que puede contener controles.
@@ -4728,13 +4741,13 @@
         </member>
         <member name="M:Cosmo.UI.Controls.PageHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
+            Gets an instance of <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="container">Owner view of the control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PageHeaderControl.Initialize">
             <summary>
-            Inicializa la instancia.
+            Initializes the instance.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Controls.PageHeaderControl.Title">
@@ -7509,7 +7522,7 @@
         </member>
         <member name="M:Cosmo.Services.CountryDAO.#ctor(Cosmo.Workspace)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Services.CountryDAO"/>.
+            Gets an instance of <see cref="T:Cosmo.Services.CountryDAO"/>.
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
         </member>
@@ -7542,7 +7555,7 @@
         </member>
         <member name="M:Cosmo.Services.CountryDAO.Initialize">
             <summary>
-            Inicializa la instancia.
+            Initializes the instance.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Menu.MenuItem">
@@ -7998,7 +8011,7 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderDocumentHeader(Cosmo.UI.Controls.DocumentHeaderControl)">
             <summary>
-            Renderiza un control del tipo <see cref="T:Cosmo.UI.Controls.DocumentHeaderControl"/>.
+            Renderize a control of type <see cref="T:Cosmo.UI.Controls.DocumentHeaderControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderError(Cosmo.UI.Controls.ErrorControl)">
@@ -11267,6 +11280,13 @@
             <param name="uid">Identificador único del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
+        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUserLocation(System.Int32)">
+            <summary>
+            Gets the user location (city and country name) with a standard format.
+            </summary>
+            <param name="uid">User unique identifier.</param>
+            <returns>A string with formatted city and country information.</returns>
+        </member>
         <member name="M:Cosmo.Security.Auth.AuthenticationService.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario.
@@ -11521,6 +11541,13 @@
             <param name="uid">Identificador único del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
+        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUserLocation(System.Int32)">
+            <summary>
+            Gets the user location (city and country name) with a standard format.
+            </summary>
+            <param name="uid">User unique identifier.</param>
+            <returns>A string with formatted city and country information.</returns>
+        </member>
         <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario.
@@ -11700,6 +11727,13 @@
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una instáncia MWUser.</returns>
+        </member>
+        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUserLocation(System.Int32)">
+            <summary>
+            Gets the user location (city and country name) with a standard format.
+            </summary>
+            <param name="uid">User unique identifier.</param>
+            <returns>A string with formatted city and country information.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
@@ -11988,6 +12022,13 @@
             <summary>
             Devuelve una lista de paises.
             </summary>
+        </member>
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUserLocation(System.Int32)">
+            <summary>
+            Gets the user location (city and country name) with a standard format.
+            </summary>
+            <param name="uid">User unique identifier.</param>
+            <returns>A string with formatted city and country information.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.ConvertUidToLogin(System.Int32)">
             <summary>

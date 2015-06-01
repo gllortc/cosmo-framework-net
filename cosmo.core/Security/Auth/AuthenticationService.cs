@@ -175,6 +175,16 @@ namespace Cosmo.Security.Auth
       }
 
       /// <summary>
+      /// Gets the user location (city and country name) with a standard format.
+      /// </summary>
+      /// <param name="uid">User unique identifier.</param>
+      /// <returns>A string with formatted city and country information.</returns>
+      public String GetUserLocation(int uid)
+      {
+         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetUserLocation(uid);
+      }
+
+      /// <summary>
       /// Crea una nueva cuenta de usuario.
       /// </summary>
       /// <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>

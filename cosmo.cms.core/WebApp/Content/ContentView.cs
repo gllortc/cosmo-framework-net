@@ -1,7 +1,11 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Cms.Utils;
+using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
+using System;
 using System.Web;
 
 namespace Cosmo.WebApp.Content
@@ -24,15 +28,29 @@ namespace Cosmo.WebApp.Content
          // Obtención de datos
          //-------------------------------
 
-         // Inicializaciones
+         // Initialize the persistence managers
          DocumentDAO docs = new DocumentDAO(Workspace);
 
-         // Obtiene el documento y la carpeta
+         // Get document 
          Document doc = docs.Item(docId);
+         if (doc == null)
+         {
+            ShowError("Documento no encontrado",
+                      "El documento solicitado no existe o bien no se encuentra disponible en estos momentos." + HtmlContentControl.HTML_NEW_LINE + "Disculpe las moléstias.");
+            return;
+         }
+
+         // Get folder
          DocumentFolder folder = docs.GetFolder(doc.FolderId, false);
+         if (folder == null)
+         {
+            ShowError("Documento no disponible",
+                      "El documento solicitado no se encuentra disponible en estos momentos." + HtmlContentControl.HTML_NEW_LINE + "Disculpe las moléstias.");
+            return;
+         }
 
          //-------------------------------
-         // Configuración de la vista
+         // View construction
          //-------------------------------
 
          Title = doc.Title + " | " + DocumentDAO.SERVICE_NAME;
@@ -55,7 +73,7 @@ namespace Cosmo.WebApp.Content
          docHead.Title = doc.Title;
          docHead.SubTitle = doc.Description;
 
-         // Contenido
+         // Content
          HtmlContentControl html = new HtmlContentControl(this, doc.Content);
 
          PanelControl docPanel = new PanelControl(this);
@@ -76,20 +94,45 @@ namespace Cosmo.WebApp.Content
             MainContent.Add(relPanel);
          }
 
+         // Add information about the publish of content
+         User author = Workspace.AuthenticationService.GetUser(doc.Owner);
+         if (author != null)
+         {
+            UserDataModal userData = new UserDataModal();
+            Modals.Add(userData);
+
+            HtmlContentControl authContent = new HtmlContentControl(this);
+            authContent.AppendParagraph(Workspace.UIService.Render(new UserLinkControl(this, author, userData)));
+            if (doc.Created != DateTime.MinValue)
+            {
+               authContent.AppendParagraph(HtmlContentControl.BoldText("Publicado el") + HtmlContentControl.HTML_NEW_LINE +
+                                           doc.Created.ToString(Formatter.FORMAT_SHORTDATE));
+            }
+            if (doc.Updated != DateTime.MinValue)
+            {
+               authContent.AppendParagraph(HtmlContentControl.BoldText("Actualizado el") + HtmlContentControl.HTML_NEW_LINE +
+                                           doc.Updated.ToString(Formatter.FORMAT_SHORTDATE));
+            }
+            
+            PanelControl authPanel = new PanelControl(this);
+            authPanel.Caption = "Autor";
+            authPanel.Content.Add(authContent);
+
+            RightContent.Add(authPanel);
+         }
+
          // Archivos adjuntos
          if (!string.IsNullOrWhiteSpace(doc.Attachment))
          {
-            ListItem attachment = new ListItem();
-            attachment.Caption = "Descargar archivo";
-            attachment.Icon = "fa-download";
-            attachment.Href = doc.Attachment;
-
-            ListGroupControl attachments = new ListGroupControl(this);
-            attachments.Add(attachment);
+            ButtonControl btnAttach = new ButtonControl(this);
+            btnAttach.Href = doc.Attachment;
+            btnAttach.IsBlock = true;
+            btnAttach.Text = "Descargar archivo";
+            btnAttach.Icon = "fa-download";
 
             PanelControl attachPanel = new PanelControl(this);
             attachPanel.Caption = "Archivos adjuntos";
-            attachPanel.Content.Add(attachments);
+            attachPanel.Content.Add(btnAttach);
 
             RightContent.Add(attachPanel);
          }
@@ -100,7 +143,7 @@ namespace Cosmo.WebApp.Content
 
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\" href=\"https://twitter.com/intent/tweet?text=" + HttpUtility.UrlEncode(doc.Title) + "&url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
 
          RightContent.Add(sharePanel);
          
@@ -114,7 +157,7 @@ namespace Cosmo.WebApp.Content
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_EDIT;
-            btnTool.Caption = "Editar";
+            btnTool.Text = "Editar";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
             btnTool.Href = DocumentDAO.GetDocumentEditURL(doc.ID);

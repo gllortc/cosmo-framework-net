@@ -123,7 +123,6 @@ namespace Cosmo.Cms.Photos
          string sql = string.Empty;
          PhotoFolder folder = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -137,12 +136,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@ifid", folderId));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folder = ReadFolder(reader, true);
+               if (reader.Read())
+               {
+                  folder = ReadFolder(reader, true);
+               }
             }
-            reader.Close();
 
             // Obtiene las subcarpetas
             if (getSubfolders && (folder != null))
@@ -163,8 +163,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -178,7 +177,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<PhotoFolder> folders = new List<PhotoFolder>();
 
          try
@@ -194,12 +192,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folders.Add(ReadFolder(reader, false));
+               while (reader.Read())
+               {
+                  folders.Add(ReadFolder(reader, false));
+               }
             }
-            reader.Close();
 
             // Recupera el número de objetos que contiene cada carpeta
             foreach (PhotoFolder pfolder in folders)
@@ -220,8 +219,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -244,7 +242,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<PhotoFolder> folders = new List<PhotoFolder>();
 
          try
@@ -260,12 +257,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folders.Add(ReadFolder(reader, false));
+               while (reader.Read())
+               {
+                  folders.Add(ReadFolder(reader, false));
+               }
             }
-            reader.Close();
 
             // Obtiene subcarpetas
             foreach (PhotoFolder pfolder in folders)
@@ -286,9 +284,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(reader);
             IDataModule.CloseAndDispose(cmd);
-
             _ws.DataSource.Disconnect();
          }
       }
@@ -303,7 +299,6 @@ namespace Cosmo.Cms.Photos
          string sql = string.Empty;
          Photo picture = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -315,12 +310,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@imgid", pictureId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               picture = ReadPicture(reader);
+               while (reader.Read())
+               {
+                  picture = ReadPicture(reader);
+               }
             }
-            reader.Close();
 
             return picture;
          }
@@ -335,8 +331,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -350,8 +345,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
-         // CSPicture picture = null;
          List<Photo> pictures = new List<Photo>();
 
          try
@@ -365,12 +358,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@imfolder", folderId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               pictures.Add(ReadPicture(reader));
+               while (reader.Read())
+               {
+                  pictures.Add(ReadPicture(reader));
+               }
             }
-            reader.Close();
 
             return pictures;
          }
@@ -385,8 +379,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -400,8 +393,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
-         // CSPicture picture = null;
          List<Photo> pictures = new List<Photo>();
 
          try
@@ -413,12 +404,13 @@ namespace Cosmo.Cms.Photos
                   "ORDER BY imgdate DESC";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               pictures.Add(ReadPicture(reader));
+               while (reader.Read())
+               {
+                  pictures.Add(ReadPicture(reader));
+               }
             }
-            reader.Close();
 
             return pictures;
          }
@@ -433,8 +425,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -448,8 +439,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
-         // CSPicture picture = null;
          List<Photo> pictures = new List<Photo>();
 
          try
@@ -463,12 +452,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@creationDate", fromDate));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               pictures.Add(ReadPicture(reader));
+               while (reader.Read())
+               {
+                  pictures.Add(ReadPicture(reader));
+               }
             }
-            reader.Close();
 
             return pictures;
          }
@@ -483,8 +473,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -498,7 +487,6 @@ namespace Cosmo.Cms.Photos
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<Photo> pictures = new List<Photo>();
 
          try
@@ -512,12 +500,13 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@imguserid", uid));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               pictures.Add(ReadPicture(reader));
+               while (reader.Read())
+               {
+                  pictures.Add(ReadPicture(reader));
+               }
             }
-            reader.Close();
 
             return pictures;
          }
@@ -532,8 +521,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -554,18 +542,26 @@ namespace Cosmo.Cms.Photos
                // Averigua si existen los archivos originales
                FileInfo picfile = new FileInfo(picture.PictureFile);
                if (!picfile.Exists)
+               {
                   throw new Exception("No se encuentra el archivo correspondiente a la imagen.");
+               }
                FileInfo thfile = new FileInfo(picture.ThumbnailFile);
                if (!thfile.Exists)
+               {
                   throw new Exception("No se encuentra el archivo correspondiente a la imagen miniatura.");
+               }
 
                // Averigua si existen los archivos en el destino
                FileInfo picfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, picfile.Name));
                if (!picfile.Exists)
+               {
                   throw new Exception("Ya existe una imagen que usa el mismo nombre de archivo (" + picfile.Exists + ").");
+               }
                FileInfo thfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, thfile.Name));
                if (!thfiledest.Exists)
+               {
                   throw new Exception("Ya existe una imagen miniatura que usa el mismo nombre de archivo (" + thfiledest.Exists + ").");
+               }
 
                // Copia los archivos
                picfile.CopyTo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, picfile.Name));
@@ -609,7 +605,7 @@ namespace Cosmo.Cms.Photos
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -647,7 +643,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -681,7 +677,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -720,7 +716,7 @@ namespace Cosmo.Cms.Photos
          finally
          {
             // Cierra la conexión con la BBDD
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -736,7 +732,6 @@ namespace Cosmo.Cms.Photos
          int actfolder = folderId;
          int parentid = 0;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PhotoFolder folder = null;
          List<PhotoFolder> items = new List<PhotoFolder>();
 
@@ -753,25 +748,26 @@ namespace Cosmo.Cms.Photos
 
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
                cmd.Parameters.Add(new SqlParameter("@ifid", actfolder));
-               reader = cmd.ExecuteReader();
-               if (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadFolder(reader, false);
-
-                  if (actfolder == folderId)
+                  if (reader.Read())
                   {
-                     items.Add(folder);
-                     parentid = folder.ParentID;
-                  }
-                  else
-                  {
-                     // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
-                     items.Add(folder);
-                  }
+                     folder = ReadFolder(reader, false);
 
-                  actfolder = folder.ParentID;
+                     if (actfolder == folderId)
+                     {
+                        items.Add(folder);
+                        parentid = folder.ParentID;
+                     }
+                     else
+                     {
+                        // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
+                        items.Add(folder);
+                     }
+
+                     actfolder = folder.ParentID;
+                  }
                }
-               reader.Close();
             }
 
             // Agrega el inicio
@@ -804,8 +800,7 @@ namespace Cosmo.Cms.Photos
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -878,7 +873,6 @@ namespace Cosmo.Cms.Photos
          string name = "image_%ROWS%";
          string extension = "jpg";
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          // Recupera la extensión del nombre del archivo
          originalFileName = originalFileName.Trim().ToLower();
@@ -897,44 +891,46 @@ namespace Cosmo.Cms.Photos
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@ifid", folderid));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               // Obtiene el patrón del nombre
-               name = reader.GetString(2).Trim();
-               if (string.IsNullOrWhiteSpace(name)) return originalFileName;
-
-               // Reemplaza los TAGs del patrón
-               string tag = string.Empty;
-               int row = 0;
-
-               if (name.Contains("%ROW%"))
+               if (reader.Read())
                {
-                  tag = "%ROW%";
-                  row = reader.GetInt32(0);
-               }
-               else if (name.Contains("%ROWS%"))
-               {
-                  tag = "%ROWS%";
-                  row = reader.GetInt32(1);
+                  // Obtiene el patrón del nombre
+                  name = reader.GetString(2).Trim();
+                  if (string.IsNullOrWhiteSpace(name)) return originalFileName;
+
+                  // Reemplaza los TAGs del patrón
+                  string tag = string.Empty;
+                  int row = 0;
+
+                  if (name.Contains("%ROW%"))
+                  {
+                     tag = "%ROW%";
+                     row = reader.GetInt32(0);
+                  }
+                  else if (name.Contains("%ROWS%"))
+                  {
+                     tag = "%ROWS%";
+                     row = reader.GetInt32(1);
+                  }
+                  else
+                  {
+                     return originalFileName;
+                  }
+
+                  FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
+                  while (file.Exists)
+                  {
+                     row++;
+                     file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
+                  }
+
+                  return file.Name;
                }
                else
                {
-                  return originalFileName;
+                  throw new Exception("No se ha podido acceder a la carpeta solicitada.");
                }
-
-               FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
-               while (file.Exists)
-               {
-                  row++;
-                  file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
-               }
-
-               return file.Name;
-            }
-            else
-            {
-               throw new Exception("No se ha podido acceder a la carpeta solicitada.");
             }
          }
          catch (Exception ex)
@@ -947,11 +943,8 @@ namespace Cosmo.Cms.Photos
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
             // Cierra la conexión con la BBDD
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }

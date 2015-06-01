@@ -102,19 +102,19 @@ namespace Cosmo.WebApp.Photos
 
          ButtonControl navBtn = new ButtonControl(this);
          navBtn.Icon = IconControl.ICON_SITEMAP;
-         navBtn.Caption = "Navegar por carpetas";
+         navBtn.Text = "Navegar por carpetas";
          navBtn.IsBlock = true;
          navBtn.Href = PhotoDAO.GetBrowseFoldersURL();
 
          ButtonControl recentBtn = new ButtonControl(this);
          recentBtn.Icon = IconControl.ICON_CALENDAR;
-         recentBtn.Caption = "Fotografias recientes";
+         recentBtn.Text = "Fotografias recientes";
          recentBtn.IsBlock = true;
          recentBtn.Href = PhotoDAO.GetRecentPhotosURL();
 
          ButtonControl myBtn = new ButtonControl(this);
          myBtn.Icon = IconControl.ICON_USER;
-         myBtn.Caption = "Mis fotografias";
+         myBtn.Text = "Mis fotografias";
          myBtn.IsBlock = true;
          myBtn.Href = PhotoDAO.GetUserPhotosURL();
 
@@ -137,7 +137,7 @@ namespace Cosmo.WebApp.Photos
 
             ButtonControl addBtn = new ButtonControl(this);
             addBtn.Icon = IconControl.ICON_UPLOAD;
-            addBtn.Caption = "Enviar fotografia";
+            addBtn.Text = "Enviar fotografia";
             addBtn.Color = ComponentColorScheme.Primary;
             addBtn.IsBlock = true;
             addBtn.Href = PhotoDAO.GetUploadURL(folderid);

@@ -84,7 +84,7 @@ namespace Cosmo.WebApp.UserServices
 
          List<KeyValue> values = new List<KeyValue>();
          values.Add(new KeyValue("Nombre", user.GetDisplayName()));
-         values.Add(new KeyValue("Localización", "")); // user.GetLocalization()));
+         values.Add(new KeyValue("Localización", Workspace.AuthenticationService.GetUserLocation(user.ID)));
          values.Add(new KeyValue("Descripción", user.Description));
          values.Add(new KeyValue("Fecha de alta", user.Created.ToString(Formatter.FORMAT_SHORTDATE)));
 

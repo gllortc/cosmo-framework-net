@@ -1,4 +1,6 @@
-﻿namespace Cosmo.UI.Controls
+﻿using System;
+
+namespace Cosmo.UI.Controls
 {
    /// <summary>
    /// Implementa un control para incrustar en la cabecera de un documento o página y que permite mostrar
@@ -6,67 +8,59 @@
    /// </summary>
    public class PageHeaderControl : Control
    {
-      // Declaración de variables internas
-      private string _title;
-      private string _subtitle;
-      private string _icon;
-      private BreadcrumbControl _breadcrumb;
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PageHeaderControl"/>.
+      /// Gets an instance of <see cref="PageHeaderControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="container">Owner view of the control.</param>
       public PageHeaderControl(ViewContainer container)
          : base(container)
       {
          Initialize();
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
       /// Devuelve o establece el título de la página.
       /// </summary>
-      public string Title
-      {
-         get { return _title; }
-         set { _title = value; }
-      }
+      public string Title { get; set; }
 
       /// <summary>
       /// Devuelve o establece el subtítulo de la página.
       /// </summary>
-      public string SubTitle
-      {
-         get { return _subtitle; }
-         set { _subtitle = value; }
-      }
+      public string SubTitle { get; set; }
 
       /// <summary>
       /// Devuelve o establece el icono que acompaña el título.
       /// </summary>
-      public string Icon
-      {
-         get { return _icon; }
-         set { _icon = value; }
-      }
+      public string Icon { get; set; }
 
       /// <summary>
       /// Devuelve o establece el componente que permite integrar una ruta a la cabecera de página.
       /// </summary>
-      public BreadcrumbControl Breadcrumb
-      {
-         get { return _breadcrumb; }
-         set { _breadcrumb = value; }
-      }
+      public BreadcrumbControl Breadcrumb { get; set; }
+
+      #endregion
+
+      #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance.
       /// </summary>
       private void Initialize()
       {
-         _title = string.Empty;
-         _subtitle = string.Empty;
-         _icon = string.Empty;
-         _breadcrumb = null;
+         this.Title = string.Empty;
+         this.SubTitle = string.Empty;
+         this.Icon = string.Empty;
+         this.Breadcrumb = null;
       }
+
+      #endregion
+
    }
 }

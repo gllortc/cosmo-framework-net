@@ -684,7 +684,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:open" + Script.ConvertToFunctionName(control.DomID) + "();\"" : string.Empty);
          xhtml.Append(control.Type == ButtonControl.ButtonTypes.CloseModalForm ? "data-dismiss=\"modal\" " : string.Empty);
          xhtml.Append(">");
-         xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Caption));
+         xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Text));
          xhtml.Append("</" + (string.IsNullOrWhiteSpace(control.Href) ? "button" : "a") + ">\n");
 
          return xhtml.ToString();
@@ -710,7 +710,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.Append("<div class=\"btn-group\">");
          xhtml.Append("   <button type=\"button\" class=\"btn btn-" + color + " " + GetButtonSizeClass(control.Size) + " dropdown-toggle\" data-toggle=\"dropdown\">");
          if (!string.IsNullOrWhiteSpace(control.Icon)) xhtml.AppendLine(IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;");
-         xhtml.Append(control.Caption + "&nbsp;&nbsp;<span class=\"caret\"></span>");
+         xhtml.Append(control.Text + "&nbsp;&nbsp;<span class=\"caret\"></span>");
          xhtml.Append("<span class=\"sr-only\">Toggle Dropdown</span>");
          xhtml.Append("   </button>");
          xhtml.Append("   <ul class=\"dropdown-menu\" role=\"menu\">");
@@ -721,7 +721,7 @@ namespace Cosmo.UI.Render.Impl
             xhtml.Append("href=\"" + (string.IsNullOrWhiteSpace(button.Href) ? "#" : button.Href) + "\" ");
             xhtml.Append(!string.IsNullOrWhiteSpace(button.ModalDomId) && button.Type == ButtonControl.ButtonTypes.OpenModalForm ? "data-toggle=\"modal\" data-target=\"#" + button.ModalDomId.Trim() + "\" " : string.Empty);
             xhtml.Append(!string.IsNullOrWhiteSpace(button.ModalDomId) && button.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:" + button.JavaScriptAction + "\"" : string.Empty);
-            xhtml.Append(">" + button.Caption + "</a></li>");
+            xhtml.Append(">" + button.Text + "</a></li>");
          }
 
          xhtml.Append("   </ul>");
@@ -950,15 +950,15 @@ namespace Cosmo.UI.Render.Impl
       #region DocumentHeader Control
 
       /// <summary>
-      /// Renderiza un control del tipo <see cref="DocumentHeaderControl"/>.
+      /// Renderize a control of type <see cref="DocumentHeaderControl"/>.
       /// </summary>
-      private string RenderDocumentHeader(DocumentHeaderControl docHead)
+      private string RenderDocumentHeader(DocumentHeaderControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<h4 class=\"page-header\">");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(docHead.Title));
-         xhtml.AppendLine("<small>" + HttpUtility.HtmlDecode(docHead.SubTitle) + "</small>");
+         xhtml.AppendLine(HttpUtility.HtmlDecode(control.Title));
+         xhtml.AppendLine("<small>" + HttpUtility.HtmlDecode(control.SubTitle) + "</small>");
          xhtml.AppendLine("</h4>");
 
          return xhtml.ToString();
@@ -2469,7 +2469,7 @@ namespace Cosmo.UI.Render.Impl
                   {
                      button.Size = ButtonControl.ButtonSizes.ExtraSmall;
                      // xhtml.AppendLine("            " + RenderButton(button));
-                     xhtml.AppendLine("&nbsp;<a href=\"" + button.Href + "\" title=\"" + HttpUtility.HtmlDecode(button.Caption) + "\">" + IconControl.GetIcon(control.Container, button.Icon) + "</a>");
+                     xhtml.AppendLine("&nbsp;<a href=\"" + button.Href + "\" title=\"" + HttpUtility.HtmlDecode(button.Text) + "\">" + IconControl.GetIcon(control.Container, button.Icon) + "</a>");
                   }
                   xhtml.AppendLine("            </span>");
                }

@@ -11,24 +11,35 @@ namespace Cosmo.Services
    /// </summary>
    public class CountryDAO
    {
-      private Workspace _ws;
+      // Internal data declarations
+      private Workspace workspace;
+
+      // SQL definitions
+      private const string SQL_COUNTRY_TABLE = "country";
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="CountryDAO"/>.
+      /// Gets an instance of <see cref="CountryDAO"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public CountryDAO(Workspace workspace)
       {
          Initialize();
 
-         _ws = workspace;
+         workspace = workspace;
       }
+
+      #endregion
+
+      #region Methods
 
       /// <summary>
       /// Devuelve una lista de paises
       /// </summary>
       public List<Country> GetCountryList()
       {
+         string sql = string.Empty;
          Country country = null;
          SqlCommand cmd = null;
          SqlDataReader reader = null;
@@ -37,10 +48,13 @@ namespace Cosmo.Services
          try
          {
             // Abre una conexión a la BBDD
-            _ws.DataSource.Connect();
+            workspace.DataSource.Connect();
 
-            string sql = "SELECT countryid,countryname,countrylstdef FROM country ORDER BY countryname ASC";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            sql = @"SELECT    countryid, countryname, countrylstdef 
+                    FROM      " + SQL_COUNTRY_TABLE + @" 
+                    ORDER BY  countryname ASC";
+
+            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -57,8 +71,11 @@ namespace Cosmo.Services
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(this.GetType().Name + ".ListCountry", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-            throw;
+            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".ListCountry", 
+                                        ex.Message, 
+                                        LogEntry.LogEntryType.EV_ERROR));
+
+            throw ex;
          }
          finally
          {
@@ -66,7 +83,7 @@ namespace Cosmo.Services
 
             reader.Dispose();
             cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            workspace.DataSource.Disconnect();
          }
       }
 
@@ -79,16 +96,20 @@ namespace Cosmo.Services
       public void CreateCountryDropDownList(DropDownList list, int selectedId)
       {
          int id = 0;
+         string sql = string.Empty;
          SqlCommand cmd = null;
          SqlDataReader reader = null;
 
          try
          {
-            _ws.DataSource.Connect();
+            workspace.DataSource.Connect();
 
             // Rellena el control
-            string sql = "SELECT * FROM country ORDER BY countryname ASC";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            sql = @"SELECT    * 
+                    FROM      " + SQL_COUNTRY_TABLE + @" 
+                    ORDER BY  countryname ASC";
+
+            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
             reader = cmd.ExecuteReader();
             list.DataSource = reader;
             list.DataTextField = "countryname";
@@ -99,8 +120,11 @@ namespace Cosmo.Services
             // Preselecciona el elemento
             if (selectedId <= 0)
             {
-               sql = "SELECT Top 1 countryid FROM country WHERE countrylstdef=1";
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+               sql = @"SELECT Top 1 countryid 
+                       FROM   " + SQL_COUNTRY_TABLE + @" 
+                       WHERE  countrylstdef = 1";
+
+               cmd = new SqlCommand(sql, workspace.DataSource.Connection);
                reader = cmd.ExecuteReader();
                if (reader.Read())
                {
@@ -116,8 +140,11 @@ namespace Cosmo.Services
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry("CSWebsite.CreateCountryDropDownList(DropDownList, int)", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-            throw;
+            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".CreateCountryDropDownList(DropDownList, int)", 
+                                        ex.Message, 
+                                        LogEntry.LogEntryType.EV_ERROR));
+
+            throw ex;
          }
          finally
          {
@@ -125,7 +152,7 @@ namespace Cosmo.Services
             reader.Dispose();
             cmd.Dispose();
 
-            _ws.DataSource.Disconnect();
+            workspace.DataSource.Disconnect();
          }
       }
 
@@ -146,37 +173,48 @@ namespace Cosmo.Services
       /// <returns>Una cadena que contiene el nombre del pais</returns>
       public string GetCountryName(int countryId)
       {
+         string sql = string.Empty;
          SqlCommand cmd = null;
 
          try
          {
-            _ws.DataSource.Connect();
+            workspace.DataSource.Connect();
 
             // Rellena el control
-            string sql = "SELECT countryname FROM country WHERE countryid=@countryid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            sql = @"SELECT countryname 
+                    FROM   " + SQL_COUNTRY_TABLE + @" 
+                    WHERE countryid = @countryid";
+
+            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@countryid", countryId));
 
             return (string)cmd.ExecuteScalar();
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry("CSWebsite.GetCountryName(int)", ex.Message, LogEntry.LogEntryType.EV_ERROR));
+            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".GetCountryName(int)", ex.Message, LogEntry.LogEntryType.EV_ERROR));
             throw;
          }
          finally
          {
             cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            workspace.DataSource.Disconnect();
          }
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance.
       /// </summary>
       public void Initialize()
       {
-         _ws = null;
+         workspace = null;
       }
+
+      #endregion
+
    }
 }

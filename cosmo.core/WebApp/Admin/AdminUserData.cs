@@ -268,7 +268,7 @@ namespace Cosmo.WebApp.Admin
 
          btnTool = new ButtonControl(this);
          btnTool.Icon = IconControl.ICON_REMOVE;
-         btnTool.Caption = "Cancelar cuenta";
+         btnTool.Text = "Cancelar cuenta";
          btnTool.Color = ComponentColorScheme.Error;
          btnTool.IsBlock = true;
          btnTool.Href = SecurityRestHandler.GetCancelAccountUrl(user.ID).ToString();

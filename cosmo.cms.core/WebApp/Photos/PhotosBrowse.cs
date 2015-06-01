@@ -54,13 +54,13 @@ namespace Cosmo.WebApp.Photos
 
          ButtonControl recentBtn = new ButtonControl(this);
          recentBtn.Icon = IconControl.ICON_CALENDAR;
-         recentBtn.Caption = "Fotografias recientes";
+         recentBtn.Text = "Fotografias recientes";
          recentBtn.IsBlock = true;
          recentBtn.Href = PhotoDAO.GetRecentPhotosURL();
 
          ButtonControl myBtn = new ButtonControl(this);
          myBtn.Icon = IconControl.ICON_USER;
-         myBtn.Caption = "Mis fotografias";
+         myBtn.Text = "Mis fotografias";
          myBtn.IsBlock = true;
          myBtn.Href = PhotoDAO.GetUserPhotosURL();
          

@@ -87,13 +87,13 @@ namespace Cosmo.WebApp.Photos
 
          ButtonControl navBtn = new ButtonControl(this);
          navBtn.Icon = IconControl.ICON_SITEMAP;
-         navBtn.Caption = "Navegar por carpetas";
+         navBtn.Text = "Navegar por carpetas";
          navBtn.IsBlock = true;
          navBtn.Href = PhotoDAO.GetBrowseFoldersURL();
 
          ButtonControl myBtn = new ButtonControl(this);
          myBtn.Icon = IconControl.ICON_USER;
-         myBtn.Caption = "Mis fotografias";
+         myBtn.Text = "Mis fotografias";
          myBtn.IsBlock = true;
          myBtn.Href = PhotoDAO.GetUserPhotosURL();
 

@@ -119,6 +119,7 @@
     <Compile Include="UI\Controls\ButtonSplit.cs" />
     <Compile Include="UI\Controls\ControlNotFoundException.cs" />
     <Compile Include="UI\Controls\CookiesAdvisorControl.cs" />
+    <Compile Include="UI\Controls\DocumentHeaderControl.cs" />
     <Compile Include="UI\Controls\PictureControl.cs" />
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Controls\UserLinkControl.cs" />
@@ -157,7 +158,6 @@
     <Compile Include="UI\Scripting\Script.cs" />
     <Compile Include="UI\Scripting\SimpleScript.cs" />
     <Compile Include="UI\Controls\LayoutContainerControl.cs" />
-    <Compile Include="UI\Controls\DocumentHeaderControl.cs" />
     <Compile Include="UI\Controls\TabItemControl.cs" />
     <Compile Include="UI\Controls\TabbedContainerControl.cs" />
     <Compile Include="UI\Controls\TimelineControl.cs" />
