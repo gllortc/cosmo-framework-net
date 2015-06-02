@@ -27,7 +27,7 @@
       /// <summary>
       /// Devuelve o establece el título visible del elemento.
       /// </summary>
-      public string Caption
+      public string Text
       {
          get { return _caption; }
          set { _caption = value; }

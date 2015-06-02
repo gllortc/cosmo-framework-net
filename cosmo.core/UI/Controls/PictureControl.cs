@@ -5,6 +5,8 @@
    /// </summary>
    public class PictureControl : Control
    {
+      // Internal data declarations
+      private SplitButtonControl menu;
 
       #region Constructors
 
@@ -69,6 +71,30 @@
       /// </summary>
       public ComponentColorScheme Type { get; set; }
 
+      /// <summary>
+      /// Gets a boolean value indicatin if action menú is used.
+      /// </summary>
+      public bool HasActionMenu
+      {
+         get { return (this.menu != null); }
+      }
+
+      /// <summary>
+      /// Gets or sets the SplitButton (menú) associated with the control.
+      /// </summary>
+      public SplitButtonControl ActionMenu
+      {
+         get 
+         {
+            if (this.menu == null)
+            {
+               this.menu = new SplitButtonControl(this.Container);
+            }
+            return this.menu;
+         }
+         set { this.menu = value; }
+      }
+
       #endregion
 
       #region Private Members
@@ -85,6 +111,8 @@
          Text = string.Empty;
          Footer = string.Empty;
          Type = ComponentColorScheme.Normal;
+
+         this.menu = null;
       }
 
       #endregion

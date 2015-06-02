@@ -129,6 +129,7 @@ namespace Cosmo.WebApp.Content
             btnAttach.IsBlock = true;
             btnAttach.Text = "Descargar archivo";
             btnAttach.Icon = "fa-download";
+            btnAttach.Color = ComponentColorScheme.Primary;
 
             PanelControl attachPanel = new PanelControl(this);
             attachPanel.Caption = "Archivos adjuntos";

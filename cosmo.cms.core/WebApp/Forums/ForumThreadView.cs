@@ -212,7 +212,7 @@ namespace Cosmo.WebApp.Forums
          Modals.Add(new ForumThreadRemoveModal(threadId));
          Modals.Add(new ForumThreadMoveModal(threadId, channelId));
 
-         ButtonSplit adminDropdown = new ButtonSplit(this);
+         SplitButtonControl adminDropdown = new SplitButtonControl(this);
          adminDropdown.Text = "Moderación";
          adminDropdown.Icon = IconControl.ICON_WRENCH;
          adminDropdown.Size = ButtonControl.ButtonSizes.Small;

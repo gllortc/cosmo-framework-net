@@ -87,7 +87,7 @@ namespace Cosmo.WebApp.CommunicationServices
                url.AddParameter(Cosmo.Workspace.PARAM_USER_ID, thread.RemoteUserId);
 
                litem = new ListItem();
-               litem.Caption = thread.RemoteUser.GetDisplayName();
+               litem.Text = thread.RemoteUser.GetDisplayName();
                litem.Href = url.ToString();
                litem.IsActive = (Parameters.GetInteger(Cosmo.Workspace.PARAM_USER_ID) == thread.RemoteUserId);
 

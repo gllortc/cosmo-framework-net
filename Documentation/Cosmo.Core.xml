@@ -1671,7 +1671,7 @@
             <param name="container"></param>
             <param name="domId"></param>
         </member>
-        <member name="T:Cosmo.UI.Controls.ButtonSplit">
+        <member name="T:Cosmo.UI.Controls.SplitButtonControl">
             <summary>
             Implementa un botón que al ser pulsado muestra un menú de opciones.
             </summary>
@@ -1843,18 +1843,18 @@
         <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.OpenModalView">
             <summary>Open Modal view. Abre un formulario modal habilitado en la página.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonSplit.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.SplitButtonControl.#ctor(Cosmo.UI.ViewContainer)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonSplit"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.SplitButtonControl"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonSplit.Initialize">
+        <member name="M:Cosmo.UI.Controls.SplitButtonControl.Initialize">
             <summary>
             Inicialización de la clase.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.ButtonSplit.MenuOptions">
+        <member name="P:Cosmo.UI.Controls.SplitButtonControl.MenuOptions">
             <summary>
             Contiene la lista de opciones que se presentarán al desplegar el menú.
             </summary>
@@ -1979,6 +1979,16 @@
         <member name="P:Cosmo.UI.Controls.PictureControl.Type">
             <summary>
             Devuelve o establece el color del cuadro de la imagen (dependerá del renderizador dónde se aplique el color).
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.PictureControl.HasActionMenu">
+            <summary>
+            Gets a boolean value indicatin if action menú is used.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.PictureControl.ActionMenu">
+            <summary>
+            Gets or sets the SplitButton (menú) associated with the control.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Controls.PictureGalleryControl">
@@ -7984,9 +7994,9 @@
             Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderButtonSplit(Cosmo.UI.Controls.ButtonSplit)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderButtonSplit(Cosmo.UI.Controls.SplitButtonControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ButtonSplit"/>.
+            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.SplitButtonControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderCallout(Cosmo.UI.Controls.CalloutControl)">

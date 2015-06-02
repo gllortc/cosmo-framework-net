@@ -116,7 +116,7 @@
     <Compile Include="Net\DeviceDetector.cs" />
     <Compile Include="UI\ControlCache.cs" />
     <Compile Include="UI\Controls\AjaxControl.cs" />
-    <Compile Include="UI\Controls\ButtonSplit.cs" />
+    <Compile Include="UI\Controls\SplitButtonControl.cs" />
     <Compile Include="UI\Controls\ControlNotFoundException.cs" />
     <Compile Include="UI\Controls\CookiesAdvisorControl.cs" />
     <Compile Include="UI\Controls\DocumentHeaderControl.cs" />

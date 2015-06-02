@@ -26,7 +26,7 @@ namespace Cosmo.Cms.Utils
          public static ListItem ConvertFolderToListItem(ViewContainer parentViewport, DocumentFolder folder)
          {
             ListItem listItem = new ListItem();
-            listItem.Caption = folder.Name;
+            listItem.Text = folder.Name;
             listItem.Description = string.Empty; // folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
@@ -68,7 +68,7 @@ namespace Cosmo.Cms.Utils
             if (folder.ParentID > 0)
             {
                listItem = new ListItem();
-               listItem.Caption = "..";
+               listItem.Text = "..";
                listItem.Icon = IconControl.ICON_ARROW_UP;
                listItem.Href = DocumentDAO.GetDocumentFolderURL(folder.ParentID);
 
@@ -211,7 +211,7 @@ namespace Cosmo.Cms.Utils
          public static ListItem ConvertFolderToListItem(PhotoFolder folder)
          {
             ListItem listItem = new ListItem();
-            listItem.Caption = folder.Name;
+            listItem.Text = folder.Name;
             listItem.Description = folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
@@ -253,7 +253,7 @@ namespace Cosmo.Cms.Utils
             if (folder.ParentID > 0)
             {
                listItem = new ListItem();
-               listItem.Caption = "..";
+               listItem.Text = "..";
                listItem.Icon = IconControl.ICON_ARROW_UP;
                listItem.Href = PhotoDAO.GetFolderURL(folder.ParentID);
 
@@ -350,7 +350,7 @@ namespace Cosmo.Cms.Utils
          public static ListItem ConvertSectionToListItem(ClassifiedAdsSection folder)
          {
             ListItem listItem = new ListItem();
-            listItem.Caption = folder.Name;
+            listItem.Text = folder.Name;
             // listItem.Description = folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
@@ -407,7 +407,7 @@ namespace Cosmo.Cms.Utils
          public static ListItem ConvertSectionToListItem(ForumChannel folder)
          {
             ListItem listItem = new ListItem();
-            listItem.Caption = folder.Name;
+            listItem.Text = folder.Name;
             // listItem.Description = folder.Description;
             listItem.BadgeText = folder.MessageCount.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;

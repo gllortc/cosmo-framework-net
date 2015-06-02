@@ -113,9 +113,9 @@ namespace Cosmo.UI.Render.Impl
          {
             return RenderButton((ButtonControl)control);
          }
-         else if (control.GetType() == typeof(ButtonSplit))
+         else if (control.GetType() == typeof(SplitButtonControl))
          {
-            return RenderButtonSplit((ButtonSplit)control);
+            return RenderButtonSplit((SplitButtonControl)control);
          }
          else if (control.GetType() == typeof(CalloutControl))
          {
@@ -691,9 +691,9 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ButtonSplit"/>.
+      /// Renderiza un control de tipo <see cref="SplitButtonControl"/>.
       /// </summary>
-      private string RenderButtonSplit(ButtonSplit control)
+      private string RenderButtonSplit(SplitButtonControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
@@ -1672,7 +1672,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("    " + IconControl.GetIcon(list.Container, listItem.Icon) + " ");
          }
-         xhtml.AppendLine("    " + HttpUtility.HtmlDecode(listItem.Caption) + "<br />");
+         xhtml.AppendLine("    " + HttpUtility.HtmlDecode(listItem.Text) + "<br />");
          if (!string.IsNullOrWhiteSpace(listItem.Description))
          {
             if (!string.IsNullOrWhiteSpace(listItem.Icon))
@@ -2194,7 +2194,28 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("  <div class=\"box-footer picture-box-footer clearfix\">");
          xhtml.AppendLine("    <p class=\"pull-left\">" + control.Footer + "</p>");
-         xhtml.AppendLine("    <a href=\"#\" class=\"btn btn-default btn-xs pull-right\">" + IconControl.GetIcon(control.Container, IconControl.ICON_WRENCH) + "</a>");
+
+         if (control.HasActionMenu)
+         {
+            xhtml.AppendLine(@"  <button type=""button"" class=""btn btn-default dropdown-toggle btn-xs"" data-toggle=""dropdown"">");
+            xhtml.AppendLine(@"    <i class=""fa fa-wrench""></i> " + control.ActionMenu.Text);
+            xhtml.AppendLine(@"    <span class=""caret""></span>");
+            xhtml.AppendLine(@"    <span class=""sr-only"">Toggle Dropdown</span>");
+            xhtml.AppendLine(@"  </button>");
+            xhtml.AppendLine(@"  <ul class=""dropdown-menu"" role=""menu"">");
+
+            foreach (ButtonControl button in control.ActionMenu.MenuOptions)
+            {
+               xhtml.AppendLine(@"    <li><a href=""" + button.Href + @""">" + button.Text + "</a></li>");
+            }
+
+            // xhtml.AppendLine(@"    <li><a href=""#"">Another action</a></li>");
+            // xhtml.AppendLine(@"    <li><a href=""#"">Something else here</a></li>");
+            // xhtml.AppendLine(@"    <li class=""divider""></li>");
+            // xhtml.AppendLine(@"    <li><a href=""#"">Separated link</a></li>");
+            xhtml.AppendLine(@"  </ul>");
+         }
+
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
