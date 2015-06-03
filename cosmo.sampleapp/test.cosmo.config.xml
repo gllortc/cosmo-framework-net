@@ -176,11 +176,11 @@
       
       <menu id="sidebar" driver="Cosmo.UI.Menu.Impl.StaticMenuProviderImpl">
          <menuitem id="home" name="Inicio" icon="fa-home" href="Home"            />
-         <menuitem id="news" name="Novedades" icon="fa-bell" href="ContentFolder?fid=26" />
+         <menuitem id="news" name="Novedades" icon="fa-bell" href="ContentByFolder?fid=26" />
          <menuitem id="docs" name="Artículos" icon="fa-book" href="#">
-            <menuitem id="model" name="Modelismo" icon="fa-angle-double-right" href="ContentFolder?fid=21" />
-            <menuitem id="rroad" name="Tren real" icon="fa-angle-double-right" href="ContentFolder?fid=20" />
-            <menuitem id="digital" name="Software" icon="fa-angle-double-right" href="ContentFolder?fid=22" />
+            <menuitem id="model" name="Modelismo" icon="fa-angle-double-right" href="ContentByFolder?fid=21" />
+            <menuitem id="rroad" name="Tren real" icon="fa-angle-double-right" href="ContentByFolder?fid=20" />
+            <menuitem id="digital" name="Software" icon="fa-angle-double-right" href="ContentByFolder?fid=22" />
          </menuitem>
          <menuitem id="photos" name="Fotos" icon="fa-camera" href="PhotosBrowse"    />
          <menuitem id="forum" name="Foros" icon="fa-comments" href="cs_forum.aspx">

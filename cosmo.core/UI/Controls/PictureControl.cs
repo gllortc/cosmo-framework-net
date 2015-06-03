@@ -62,9 +62,13 @@
       public string Text { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto a mostrar al pie de la imagen.
+      /// Gets or sets the content to show in the footer section.
       /// </summary>
-      public string Footer { get; set; }
+      /// <remarks>
+      /// If a <see cref="Control"/> is used, it will be rendered, otherwise the render shown
+      /// a <c>ToString()</c> result.
+      /// </remarks>
+      public object Footer { get; set; }
 
       /// <summary>
       /// Devuelve o establece el color del cuadro de la imagen (dependerá del renderizador dónde se aplique el color).
@@ -74,7 +78,7 @@
       /// <summary>
       /// Gets a boolean value indicatin if action menú is used.
       /// </summary>
-      public bool HasActionMenu
+      public bool HasSplitButton
       {
          get { return (this.menu != null); }
       }
@@ -82,7 +86,7 @@
       /// <summary>
       /// Gets or sets the SplitButton (menú) associated with the control.
       /// </summary>
-      public SplitButtonControl ActionMenu
+      public SplitButtonControl SplitButton
       {
          get 
          {

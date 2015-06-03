@@ -92,7 +92,7 @@
     <Compile Include="WebApp\Photos\PhotosBrowse.cs" />
     <Compile Include="WebApp\Photos\PhotosByUser.cs" />
     <Compile Include="WebApp\Photos\PhotosByFolder.cs" />
-    <Compile Include="WebApp\Content\ContentFolder.cs" />
+    <Compile Include="WebApp\Content\ContentByFolder.cs" />
     <Compile Include="WebApp\Home.cs" />
     <Compile Include="Content\Document.cs" />
     <Compile Include="Content\DocumentDAO.cs" />

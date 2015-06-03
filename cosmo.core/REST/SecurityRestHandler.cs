@@ -426,7 +426,7 @@ namespace Cosmo.REST
       /// <summary>
       /// Cancel a user account.
       /// </summary>
-      [AuthorizationRequired( "admin" )]
+      [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
       [RestMethod( CommandName = COMMAND_USER_CANCEL,
                    DataType = RestMethod.RestMethodReturnType.StandardRestResponse )]
       [RestMethodParameter(DataType = typeof(Int32),

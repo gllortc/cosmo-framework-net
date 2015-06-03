@@ -17,7 +17,7 @@ namespace Cosmo.WebApp.Admin
    /// Version: 1.0.0
    /// Copyright (c) InforGEST
    /// </remarks>
-   [AuthorizationRequired("admin")]
+   [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
    public class AdminUserData : PageViewContainer
    {
       // Internal data declarartions

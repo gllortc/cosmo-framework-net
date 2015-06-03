@@ -113,7 +113,7 @@ namespace Cosmo.WebApp.Classified
          RightContent.Add(sharePanel);
          
          // Panel de herramientas administrativas
-         if (Workspace.CurrentUser.CheckAuthorization("admin", "publisher"))
+         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
          {
             ButtonControl btnTool;
 

@@ -24,8 +24,8 @@ namespace Cosmo.Cms.Content
       /// <summary>Rol correspondiente a publicador de contenido</summary>
       public const string ROLE_CONTENT_EDITOR = "content.editor";
 
-      private const string URL_CONTENT_FOLDER_VIEW = "ContentFolder";    // "cs_docs_folder.aspx";
-      private const string URL_CONTENT_VIEW = "ContentView";             // "cs_docs_folder.aspx";
+      private const string URL_CONTENT_FOLDER_VIEW = "ContentByFolder";
+      private const string URL_CONTENT_VIEW = "ContentView";
       private const string URL_CONTENT_EDIT = "ContentEdit";
 
       private const string SMARTTAG_OBJECT_ID = "%DOCID%";

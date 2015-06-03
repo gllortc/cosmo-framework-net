@@ -1973,20 +1973,24 @@
         </member>
         <member name="P:Cosmo.UI.Controls.PictureControl.Footer">
             <summary>
-            Devuelve o establece el texto a mostrar al pie de la imagen.
+            Gets or sets the content to show in the footer section.
             </summary>
+            <remarks>
+            If a <see cref="T:Cosmo.UI.Controls.Control"/> is used, it will be rendered, otherwise the render shown
+            a <c>ToString()</c> result.
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.Controls.PictureControl.Type">
             <summary>
             Devuelve o establece el color del cuadro de la imagen (dependerá del renderizador dónde se aplique el color).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.PictureControl.HasActionMenu">
+        <member name="P:Cosmo.UI.Controls.PictureControl.HasSplitButton">
             <summary>
             Gets a boolean value indicatin if action menú is used.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.PictureControl.ActionMenu">
+        <member name="P:Cosmo.UI.Controls.PictureControl.SplitButton">
             <summary>
             Gets or sets the SplitButton (menú) associated with the control.
             </summary>
@@ -6844,7 +6848,7 @@
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.ListItem.Caption">
+        <member name="P:Cosmo.UI.Controls.ListItem.Text">
             <summary>
             Devuelve o establece el título visible del elemento.
             </summary>

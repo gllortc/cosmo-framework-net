@@ -1,7 +1,6 @@
 ﻿using Cosmo.Cms.Photos;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using System;
 using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Photos
@@ -10,9 +9,6 @@ namespace Cosmo.WebApp.Photos
    {
       public override void LoadPage()
       {
-         List<PhotoFolder> tree = null;
-         PhotoDAO docs = null;
-
          // Agrega la meta-información de la página
          Title = PhotoDAO.SERVICE_NAME;
          ActiveMenuId = "photos";
@@ -27,20 +23,6 @@ namespace Cosmo.WebApp.Photos
 
          // Barra de navegación lateral
          LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
-
-         // Obtiene la carpeta a mostrar
-         // int folderid = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
-
-         // Obtiene el árbol d ecarpetas
-         /*docs = new PhotoDAO(Workspace);
-         tree = docs.GetFoldersTree(0);
-
-         if (tree == null || tree.Count <= 0)
-         {
-            ShowError("Servicio no disponible",
-                      "No se ha encontrado ninguna carpeta de fotografias.");
-            return;
-         }*/
 
          //-------------------------------------------------------------------
          // Árbol de carpetas
@@ -155,5 +137,6 @@ namespace Cosmo.WebApp.Photos
       }
 
       #endregion
+
    }
 }

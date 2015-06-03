@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Content
 {
-   public class ContentFolder : PageViewContainer
+   public class ContentByFolder : PageViewContainer
    {
       public override void LoadPage()
       {
@@ -98,7 +98,7 @@ namespace Cosmo.WebApp.Content
 
          // Panel de herramientas administrativas
 
-         if (Workspace.CurrentUser.CheckAuthorization("admin", "publisher"))
+         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
          {
             ButtonControl btnTool;
 

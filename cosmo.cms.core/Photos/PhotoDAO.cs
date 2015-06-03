@@ -25,6 +25,9 @@ namespace Cosmo.Cms.Photos
       /// <summary>Nombre de la carpeta del servicio dentro de la raíz del sistema de archivos de aplicaciones del workspace</summary>
       public const string SERVICE_FOLDER = "imgdb";
 
+      /// <summary>Role for managing and publishing photos.</summary>
+      public const string ROLE_PHOTOS_EDITOR = "content.editor";
+
       // Vistas del servicio
       private const string URL_HOME = "PhotosBrowse";     // "cs_img.aspx";
       private const string URL_ADD = "PhotosUpload";      // "cs_img_add.aspx";

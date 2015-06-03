@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Cosmo.WebApp.Content
 {
-   [AuthorizationRequired("admin", "publisher")]
+   [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
    public class ContentEdit : PageViewContainer
    {
       // Declaración de nombres de parámetros

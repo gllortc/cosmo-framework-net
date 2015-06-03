@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Cosmo.WebApp.Classified
 {
-   [AuthorizationRequired("admin", "publisher")]
+   [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
    public class ClassifiedEdit : PageViewContainer
    {
       // Declaración de nombres de parámetros

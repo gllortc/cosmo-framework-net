@@ -1,7 +1,9 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Cms.Photos;
+using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Photos
@@ -10,7 +12,7 @@ namespace Cosmo.WebApp.Photos
    {
       public override void LoadPage()
       {
-         // PictureFolder folder = null;
+         User author = null;
          PhotoDAO phdao = null;
 
          // Agrega la meta-información de la página
@@ -30,6 +32,10 @@ namespace Cosmo.WebApp.Photos
 
          // Obtiene la carpeta solicitada
          phdao = new PhotoDAO(Workspace);
+
+         // Insert a modal to show user data
+         UserDataModal userData = new UserDataModal();
+         Modals.Add(userData);
 
          //--------------------------------------------------------------
          // Cabecera
@@ -64,6 +70,25 @@ namespace Cosmo.WebApp.Photos
                picture.DomID = "photo-" + photo.ID;
                picture.ImageUrl = photo.ThumbnailFile;
                picture.Text = photo.Description;
+
+               if (!string.IsNullOrWhiteSpace(photo.Author))
+               {
+                  picture.Footer = photo.Author;
+               }
+               else if (photo.UserID > 0)
+               {
+                  author = Workspace.AuthenticationService.GetUser(photo.UserID);
+                  picture.Footer = new UserLinkControl(this, author, userData);
+               }
+
+               if (IsAuthenticated && (Workspace.CurrentUser.User.ID == photo.UserID ||
+                   Workspace.CurrentUser.CheckAuthorization(PhotoDAO.ROLE_PHOTOS_EDITOR)))
+               {
+                  picture.SplitButton.Icon = IconControl.ICON_WRENCH;
+                  picture.SplitButton.Text = "Herramientas";
+                  picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-edit", "Editar", IconControl.ICON_EDIT, "#", string.Empty));
+                  picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-del", "Eliminar", IconControl.ICON_DELETE, "#", string.Empty));
+               }
 
                picGallery.Pictures.Add(picture);
             }

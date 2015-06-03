@@ -51,7 +51,7 @@ namespace Cosmo.WebApp.Classified
          btnTool.IsBlock = true;
          btnTool.Href = "ContentEdit?" + Cosmo.Workspace.PARAM_FOLDER_ID + "=" + 0 + "&" +
                                          Cosmo.Workspace.PARAM_COMMAND + "=" + Cosmo.Workspace.COMMAND_ADD;
-         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization("admin", "publisher");
+         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR);
 
          adminPanel.Content.Add(btnTool);
 
@@ -62,7 +62,7 @@ namespace Cosmo.WebApp.Classified
          btnTool.IsBlock = true;
          btnTool.Href = "ContentEdit?" + Cosmo.Workspace.PARAM_FOLDER_ID + "=" + 0 + "&" +
                                          Cosmo.Workspace.PARAM_COMMAND + "=" + Cosmo.Workspace.COMMAND_ADD;
-         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization("admin", "publisher");
+         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR);
 
          adminPanel.Content.Add(btnTool);
 

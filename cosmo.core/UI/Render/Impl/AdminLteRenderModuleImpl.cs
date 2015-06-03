@@ -2193,18 +2193,29 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("    <p style=\"font-size:0.85em;\">" + control.Text + "</p>");
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("  <div class=\"box-footer picture-box-footer clearfix\">");
-         xhtml.AppendLine("    <p class=\"pull-left\">" + control.Footer + "</p>");
 
-         if (control.HasActionMenu)
+         if (control.Footer is Control)
          {
-            xhtml.AppendLine(@"  <button type=""button"" class=""btn btn-default dropdown-toggle btn-xs"" data-toggle=""dropdown"">");
-            xhtml.AppendLine(@"    <i class=""fa fa-wrench""></i> " + control.ActionMenu.Text);
+            xhtml.AppendLine("    <p class=\"pull-left\">" + Render((Control)control.Footer) + "</p>");
+         }
+         else
+         {
+            xhtml.AppendLine("    <p class=\"pull-left\">" + control.Footer.ToString() + "</p>");
+         }
+
+         if (control.HasSplitButton)
+         {
+            control.SplitButton.Size = ButtonControl.ButtonSizes.ExtraSmall;
+            xhtml.AppendLine(Render(control.SplitButton));
+
+            /*xhtml.AppendLine(@"  <button type=""button"" class=""btn btn-default dropdown-toggle btn-xs"" data-toggle=""dropdown"">");
+            xhtml.AppendLine(@"    <i class=""fa fa-wrench""></i> " + control.SplitButton.Text);
             xhtml.AppendLine(@"    <span class=""caret""></span>");
             xhtml.AppendLine(@"    <span class=""sr-only"">Toggle Dropdown</span>");
             xhtml.AppendLine(@"  </button>");
             xhtml.AppendLine(@"  <ul class=""dropdown-menu"" role=""menu"">");
 
-            foreach (ButtonControl button in control.ActionMenu.MenuOptions)
+            foreach (ButtonControl button in control.SplitButton.MenuOptions)
             {
                xhtml.AppendLine(@"    <li><a href=""" + button.Href + @""">" + button.Text + "</a></li>");
             }
@@ -2213,7 +2224,7 @@ namespace Cosmo.UI.Render.Impl
             // xhtml.AppendLine(@"    <li><a href=""#"">Something else here</a></li>");
             // xhtml.AppendLine(@"    <li class=""divider""></li>");
             // xhtml.AppendLine(@"    <li><a href=""#"">Separated link</a></li>");
-            xhtml.AppendLine(@"  </ul>");
+            xhtml.AppendLine(@"  </ul>");*/
          }
 
          xhtml.AppendLine("  </div>");
