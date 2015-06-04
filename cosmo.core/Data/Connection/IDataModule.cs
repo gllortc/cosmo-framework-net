@@ -114,6 +114,21 @@ namespace Cosmo.Data.Connection
          }
       }
 
+      /// <summary>
+      /// Close and dispose a <see cref="SqlDataAdapter"/> instance.
+      /// </summary>
+      public static void CloseAndDispose(SqlDataAdapter dataAdapter)
+      {
+         try
+         {
+            dataAdapter.Dispose();
+         }
+         catch
+         {
+            // Nothing to do
+         }
+      }
+
       #endregion
 
       #region Private Members

@@ -53,6 +53,9 @@ namespace Cosmo.WebApp.Photos
          UserDataModal userData = new UserDataModal();
          Modals.Add(userData);
 
+         PhotosRemoveModal photoDeleteModal = new PhotosRemoveModal();
+         Modals.Add(photoDeleteModal);
+
          //--------------------------------------------------------------
          // Cabecera
          //--------------------------------------------------------------
@@ -103,7 +106,7 @@ namespace Cosmo.WebApp.Photos
                   picture.SplitButton.Icon = IconControl.ICON_WRENCH;
                   picture.SplitButton.Text = "Herramientas";
                   picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-edit", "Editar", IconControl.ICON_EDIT, "#", string.Empty));
-                  picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-del", "Eliminar", IconControl.ICON_DELETE, "#", string.Empty));
+                  picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-del", "Eliminar", photoDeleteModal));
                }
 
                picGallery.Pictures.Add(picture);

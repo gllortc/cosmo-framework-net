@@ -1,3 +1,4 @@
+using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
 using Cosmo.Net;
 using Cosmo.Security;
@@ -106,7 +107,6 @@ namespace Cosmo.Cms.Forums
          string sql = string.Empty;
          ForumChannel forum = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -120,15 +120,13 @@ namespace Cosmo.Cms.Forums
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@forumid", channelid));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               forum = ReadForum(reader);
+               if (reader.Read())
+               {
+                  forum = ReadForum(reader);
+               }
             }
-            // else
-            //   throw new Exception("El canal " + channelid + " no existe o no está disponible en estos momentos.");
-
-            reader.Close();
 
             return forum;
          }
@@ -142,8 +140,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -163,7 +161,6 @@ namespace Cosmo.Cms.Forums
          List<ForumChannel> forums = new List<ForumChannel>();
          SqlCommand cmd = null;
          SqlParameter param = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -179,12 +176,13 @@ namespace Cosmo.Cms.Forums
             param.Value = published;
             cmd.Parameters.Add(param);
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               forums.Add(ReadForum(reader));
+               while (reader.Read())
+               {
+                  forums.Add(ReadForum(reader));
+               }
             }
-            reader.Close();
 
             return forums;
          }
@@ -198,8 +196,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -212,7 +210,6 @@ namespace Cosmo.Cms.Forums
          string sql = string.Empty;
          List<ForumChannel> forums = new List<ForumChannel>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -224,12 +221,14 @@ namespace Cosmo.Cms.Forums
                   "FROM   " + SQL_TABLE_FORUMS + " ";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               forums.Add(ReadForum(reader));
+               while (reader.Read())
+               {
+                  forums.Add(ReadForum(reader));
+               }
             }
-            reader.Close();
 
             return forums;
          }
@@ -243,8 +242,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -283,7 +282,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -306,7 +306,6 @@ namespace Cosmo.Cms.Forums
       {
          SqlCommand cmd = null;
          SqlParameter param = null;
-         SqlDataReader reader = null;
          List<ForumThread> threads = new List<ForumThread>();
 
          try
@@ -328,12 +327,13 @@ namespace Cosmo.Cms.Forums
             param.Value = rowsperpage;
             cmd.Parameters.Add(param);
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               threads.Add(ReadThread(reader, false));
+               while (reader.Read())
+               {
+                  threads.Add(ReadThread(reader, false));
+               }
             }
-            reader.Close();
 
             return threads;
          }
@@ -347,7 +347,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -398,7 +399,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -434,7 +436,6 @@ namespace Cosmo.Cms.Forums
          ForumThread thread = null;
          SqlCommand cmd = null;
          SqlParameter param = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -450,49 +451,49 @@ namespace Cosmo.Cms.Forums
                param.Value = threadid;
                cmd.Parameters.Add(param);
 
-               reader = cmd.ExecuteReader();
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  if (head)
+                  while (reader.Read())
                   {
-                     thread = new ForumThread();
-                     thread.ID = reader.GetInt32(0);
-                     thread.AuthorID = reader.GetInt32(1);
-                     thread.ForumID = reader.GetInt32(2);
-                     thread.MessageCount = reader.GetInt32(3);
-                     thread.AuthorName = reader.IsDBNull(5) ? "<unknown>" : reader.GetString(5);
-                     thread.Title = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
-                     thread.Created = reader.GetDateTime(9);
-                     thread.LastReply = reader.GetDateTime(10);
-                     thread.Closed = reader.GetBoolean(13);
-
-                     // Verifica si el hilo está cerrado
-                     if (thread.Created < DateTime.Now.AddMonths(-4))
+                     if (head)
                      {
-                        if (thread.LastReply < DateTime.Now.AddDays(-7))
+                        thread = new ForumThread();
+                        thread.ID = reader.GetInt32(0);
+                        thread.AuthorID = reader.GetInt32(1);
+                        thread.ForumID = reader.GetInt32(2);
+                        thread.MessageCount = reader.GetInt32(3);
+                        thread.AuthorName = reader.IsDBNull(5) ? "<unknown>" : reader.GetString(5);
+                        thread.Title = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
+                        thread.Created = reader.GetDateTime(9);
+                        thread.LastReply = reader.GetDateTime(10);
+                        thread.Closed = reader.GetBoolean(13);
+
+                        // Verifica si el hilo está cerrado
+                        if (thread.Created < DateTime.Now.AddMonths(-4))
                         {
-                           thread.Closed = true;
+                           if (thread.LastReply < DateTime.Now.AddDays(-7))
+                           {
+                              thread.Closed = true;
+                           }
                         }
+                        head = false;
                      }
 
-                     head = false;
+                     ForumMessage message = new ForumMessage();
+                     message.ThreadClosed = reader.GetBoolean(13);
+                     message.ID = reader.GetInt32(0);
+                     message.UserID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                     message.ForumID = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
+                     message.ParentMessageID = threadid;
+                     message.Name = reader.IsDBNull(5) ? "<unknown>" : reader.GetString(5);
+                     message.Body = reader.IsDBNull(7) ? string.Empty : reader.GetString(7);
+                     message.IP = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
+                     message.Date = reader.GetDateTime(9);
+                     message.BBCodes = reader.GetBoolean(14);
+
+                     thread.Messages.Add(message);
                   }
-
-                  ForumMessage message = new ForumMessage();
-                  message.ThreadClosed = reader.GetBoolean(13);
-                  message.ID = reader.GetInt32(0);
-                  message.UserID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-                  message.ForumID = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
-                  message.ParentMessageID = threadid;
-                  message.Name = reader.IsDBNull(5) ? "<unknown>" : reader.GetString(5);
-                  message.Body = reader.IsDBNull(7) ? string.Empty : reader.GetString(7);
-                  message.IP = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
-                  message.Date = reader.GetDateTime(9);
-                  message.BBCodes = reader.GetBoolean(14);
-
-                  thread.Messages.Add(message);
                }
-               reader.Close();
 
                // Si se especifica un órden descendiente, se reordena la lista de mensajes
                if (order == ThreadMessagesOrder.Descending)
@@ -509,12 +510,13 @@ namespace Cosmo.Cms.Forums
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
                cmd.Parameters.Add(new SqlParameter("@fldauto", threadid));
 
-               reader = cmd.ExecuteReader();
-               if (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  thread = ReadThread(reader, false);
+                  if (reader.Read())
+                  {
+                     thread = ReadThread(reader, false);
+                  }
                }
-               reader.Close();
             }
 
             return thread;
@@ -529,8 +531,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -545,7 +547,6 @@ namespace Cosmo.Cms.Forums
          bool closed = false;
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -564,13 +565,14 @@ namespace Cosmo.Cms.Forums
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@fldauto", thid));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               closed = reader.GetBoolean(1);
-               if (!closed) closed = (reader.GetInt32(0) >= 6);
+               if (reader.Read())
+               {
+                  closed = reader.GetBoolean(1);
+                  if (!closed) closed = (reader.GetInt32(0) >= 6);
+               }
             }
-            reader.Close();
 
             return !closed;
          }
@@ -584,8 +586,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -612,7 +614,6 @@ namespace Cosmo.Cms.Forums
          List<ForumThread> threads = new List<ForumThread>();
          SqlDataAdapter adapter = null;
          DataSet dataSet = null;
-         DataTableReader reader = null;
 
          try
          {
@@ -628,14 +629,15 @@ namespace Cosmo.Cms.Forums
             adapter = new SqlDataAdapter(sql, _ws.DataSource.Connection);
             dataSet = new DataSet();
             adapter.Fill(dataSet, (page - 1) * rowsperpage, rowsperpage, "forum");
-            reader = dataSet.CreateDataReader();
 
-            // Carga la página
-            while (reader.Read())
+            using (DataTableReader reader = dataSet.CreateDataReader())
             {
-               threads.Add(ReadThread(reader));
+               // Carga la página
+               while (reader.Read())
+               {
+                  threads.Add(ReadThread(reader));
+               }
             }
-            reader.Close();
 
             return threads;
          }
@@ -649,8 +651,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            adapter.Dispose();
+            IDataModule.CloseAndDispose(adapter);
             _ws.DataSource.Disconnect();
          }
       }
@@ -701,7 +702,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -752,7 +753,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -800,7 +801,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -820,7 +821,6 @@ namespace Cosmo.Cms.Forums
          string sql = string.Empty;
          ForumMessage message = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -835,15 +835,17 @@ namespace Cosmo.Cms.Forums
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@fldauto", messageid));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadMessage(reader);
+               if (reader.Read())
+               {
+                  message = ReadMessage(reader);
+               }
+               else
+               {
+                  throw new Exception("El mensaje #" + messageid + " no existe o no está disponible en estos momentos.");
+               }
             }
-            else
-               throw new Exception("El mensaje #" + messageid + " no existe o no está disponible en estos momentos.");
-
-            reader.Close();
 
             return message;
          }
@@ -857,8 +859,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -871,7 +872,6 @@ namespace Cosmo.Cms.Forums
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlTransaction dbtrans = null;
 
          // Comprobaciones de seguridad
          if (message.ParentMessageID == 0)
@@ -905,64 +905,62 @@ namespace Cosmo.Cms.Forums
          {
             // Abre una conexión con la BBDD err inicia una transacción
             _ws.DataSource.Connect();
-            dbtrans = _ws.DataSource.Connection.BeginTransaction();
 
-            // Genera la senténcia T/SQL a ejecutar
-            if (message.ParentMessageID == 0)
+            using (SqlTransaction dbtrans = _ws.DataSource.Connection.BeginTransaction())
             {
-               cmd = new SqlCommand("cs_Forum_NewThread", _ws.DataSource.Connection, dbtrans);
-               cmd.CommandType = CommandType.StoredProcedure;
-               cmd.Parameters.Add(new SqlParameter("@sTitle", message.Title));
-               cmd.Parameters.Add(new SqlParameter("@sBody", message.Body));
-               cmd.Parameters.Add(new SqlParameter("@sUser", message.Name));
-               cmd.Parameters.Add(new SqlParameter("@sMail", string.Empty));
-               cmd.Parameters.Add(new SqlParameter("@sIPAdd", message.IP));
-               cmd.Parameters.Add(new SqlParameter("@iChannel", message.ForumID));
-               cmd.Parameters.Add(new SqlParameter("@iUserID", message.UserID));
-               cmd.Parameters.Add(new SqlParameter("@bbcodes", message.BBCodes));
+               // Genera la senténcia T/SQL a ejecutar
+               if (message.ParentMessageID == 0)
+               {
+                  cmd = new SqlCommand("cs_Forum_NewThread", _ws.DataSource.Connection, dbtrans);
+                  cmd.CommandType = CommandType.StoredProcedure;
+                  cmd.Parameters.Add(new SqlParameter("@sTitle", message.Title));
+                  cmd.Parameters.Add(new SqlParameter("@sBody", message.Body));
+                  cmd.Parameters.Add(new SqlParameter("@sUser", message.Name));
+                  cmd.Parameters.Add(new SqlParameter("@sMail", string.Empty));
+                  cmd.Parameters.Add(new SqlParameter("@sIPAdd", message.IP));
+                  cmd.Parameters.Add(new SqlParameter("@iChannel", message.ForumID));
+                  cmd.Parameters.Add(new SqlParameter("@iUserID", message.UserID));
+                  cmd.Parameters.Add(new SqlParameter("@bbcodes", message.BBCodes));
+               }
+               else
+               {
+                  cmd = new SqlCommand("cs_Forum_ThreadAddPost", _ws.DataSource.Connection, dbtrans);
+                  cmd.CommandType = CommandType.StoredProcedure;
+                  cmd.Parameters.Add(new SqlParameter("@iThread", message.ParentMessageID));
+                  cmd.Parameters.Add(new SqlParameter("@sBody", message.Body));
+                  cmd.Parameters.Add(new SqlParameter("@sUser", message.Name));
+                  cmd.Parameters.Add(new SqlParameter("@sMail", string.Empty));
+                  cmd.Parameters.Add(new SqlParameter("@sIPAdd", message.IP));
+                  cmd.Parameters.Add(new SqlParameter("@iChannel", message.ForumID));
+                  cmd.Parameters.Add(new SqlParameter("@iUserID", message.UserID));
+                  cmd.Parameters.Add(new SqlParameter("@bbcodes", message.BBCodes));
+               }
+
+               cmd.ExecuteNonQuery();
+
+               // Averigua el Id del nuevo mensaje
+               sql = "SELECT     TOP 1 fldauto AS id " +
+                     "FROM       " + SQL_TABLE_MESSAGES + " " +
+                     "ORDER BY   fldauto DESC";
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, dbtrans);
+               message.ID = (int)cmd.ExecuteScalar();
+
+               // Cierra la transacción
+               dbtrans.Commit();
             }
-            else
-            {
-               cmd = new SqlCommand("cs_Forum_ThreadAddPost", _ws.DataSource.Connection, dbtrans);
-               cmd.CommandType = CommandType.StoredProcedure;
-               cmd.Parameters.Add(new SqlParameter("@iThread", message.ParentMessageID));
-               cmd.Parameters.Add(new SqlParameter("@sBody", message.Body));
-               cmd.Parameters.Add(new SqlParameter("@sUser", message.Name));
-               cmd.Parameters.Add(new SqlParameter("@sMail", string.Empty));
-               cmd.Parameters.Add(new SqlParameter("@sIPAdd", message.IP));
-               cmd.Parameters.Add(new SqlParameter("@iChannel", message.ForumID));
-               cmd.Parameters.Add(new SqlParameter("@iUserID", message.UserID));
-               cmd.Parameters.Add(new SqlParameter("@bbcodes", message.BBCodes));
-            }
-
-            cmd.ExecuteNonQuery();
-
-            // Averigua el Id del nuevo mensaje
-            sql = "SELECT     TOP 1 fldauto AS id " +
-                  "FROM       " + SQL_TABLE_MESSAGES + " " +
-                  "ORDER BY   fldauto DESC";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, dbtrans);
-            message.ID = (int)cmd.ExecuteScalar();
-
-            // Cierra la transacción
-            dbtrans.Commit();
 
             return message;
          }
          catch (TooManyUserObjectsException)
          {
-            dbtrans.Rollback();
-            throw;
+            throw new TooManyUserObjectsException();
          }
          catch (SecurityException)
          {
-            dbtrans.Rollback();
-            throw;
+            throw new SecurityException();
          }
          catch (Exception ex)
          {
-            dbtrans.Rollback();
-
             _ws.Logger.Add(new LogEntry(Cms.ProductName,
                                         GetType().Name + ".AddMessage(ForumMessage)",
                                         ex.Message,
@@ -971,9 +969,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            if (cmd != null) cmd.Dispose();
-            if (dbtrans != null) dbtrans.Dispose();
-
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -1037,7 +1033,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -1067,14 +1063,20 @@ namespace Cosmo.Cms.Forums
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
                cmd.Parameters.Add(new SqlParameter("@flreply", messageId));
                if ((int)cmd.ExecuteScalar() > 0)
+               {
                   throw new Exception("El mensaje que desea eliminar contiene mensajes asociados y no se puede eliminar.");
+               }
             }
 
             // Elimina el mensaje
             sql = "DELETE " +
                   "FROM    " + SQL_TABLE_MESSAGES + " " +
                   "WHERE   fldauto = @fldauto";
-            if (deleteRelatedMessages) sql += " Or fldreply = @fldauto";
+
+            if (deleteRelatedMessages)
+            {
+               sql += " Or fldreply = @fldauto";
+            }
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@fldauto", messageId));
@@ -1090,7 +1092,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -1104,15 +1106,10 @@ namespace Cosmo.Cms.Forums
       /// <returns>Un array de objetos CSForumMessage.</returns>
       public List<ForumMessage> GetThreadMessages(int threadid, ThreadMessagesOrder order)
       {
-         // bool closed = false;
-         // int idx = 0;
-         // CSForumMessage message = null;
-
          string sql = string.Empty;
          List<ForumMessage> messages = new List<ForumMessage>();
          SqlCommand cmd = null;
          SqlParameter param = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -1135,12 +1132,13 @@ namespace Cosmo.Cms.Forums
             param.Value = threadid;
             cmd.Parameters.Add(param);
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               messages.Add(ReadMessage(reader));
+               while (reader.Read())
+               {
+                  messages.Add(ReadMessage(reader));
+               }
             }
-            reader.Close();
 
             return messages;
          }
@@ -1154,8 +1152,7 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -1200,7 +1197,8 @@ namespace Cosmo.Cms.Forums
          }
          finally
          {
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 
@@ -1229,14 +1227,17 @@ namespace Cosmo.Cms.Forums
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          if (string.IsNullOrEmpty(message.IP))
+         {
             return true;
+         }
 
          // Permite a los superusuarios mandar siempre mensajes
          if (message.Name.ToLower().Equals("webmaster") || message.Name.ToLower().Equals("sa"))
+         {
             return true;
+         }
 
          try
          {
@@ -1259,23 +1260,23 @@ namespace Cosmo.Cms.Forums
             cmd.Parameters.Add(new SqlParameter("@fldip", message.IP));
             cmd.Parameters.Add(new SqlParameter("@fldname", message.Name));
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               // Check: Identidad múltiple
-               if (Cosmo.Utils.Calendar.DateDiff(Cosmo.Utils.Calendar.DateInterval.Hour, reader.GetDateTime(7), DateTime.Now) <= 2)
+               while (reader.Read())
                {
-                  string msg = "Identidad múltiple: El usuario " + message.Name.ToUpper() + " intenta escribir en el hilo " + message.ParentMessageID + " con identidad distinta a " + reader.GetString(4).ToUpper() + " usando la IP " + message.IP;
+                  // Check: Identidad múltiple
+                  if (Cosmo.Utils.Calendar.DateDiff(Cosmo.Utils.Calendar.DateInterval.Hour, reader.GetDateTime(7), DateTime.Now) <= 2)
+                  {
+                     string msg = "Identidad múltiple: El usuario " + message.Name.ToUpper() + " intenta escribir en el hilo " + message.ParentMessageID + " con identidad distinta a " + reader.GetString(4).ToUpper() + " usando la IP " + message.IP;
 
-                  _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                              "ForumsDAO.CheckIP()",
-                                              msg,
-                                              LogEntry.LogEntryType.EV_SECURITY));
-                  reader.Close();
-                  return false;
+                     _ws.Logger.Add(new LogEntry(Cms.ProductName,
+                                                 "ForumsDAO.CheckIP()",
+                                                 msg,
+                                                 LogEntry.LogEntryType.EV_SECURITY));
+                     return false;
+                  }
                }
             }
-            reader.Close();
 
             return true;
          }
@@ -1285,12 +1286,12 @@ namespace Cosmo.Cms.Forums
                                         "ForumsDAO.CheckIP()",
                                         ex.Message,
                                         LogEntry.LogEntryType.EV_ERROR));
-            throw;
+            throw ex;
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
          }
       }
 

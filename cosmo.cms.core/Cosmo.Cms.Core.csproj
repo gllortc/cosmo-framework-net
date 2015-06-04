@@ -74,6 +74,7 @@
     <Compile Include="Forums\ForumMessage.cs" />
     <Compile Include="Forums\ForumsDAO.cs" />
     <Compile Include="Forums\ForumThread.cs" />
+    <Compile Include="WebApp\Photos\PhotosRemoveModal.cs" />
     <Compile Include="WebApp\Photos\PhotosRecent.cs" />
     <Compile Include="WebApp\Photos\PhotosUpload.cs" />
     <Compile Include="Utils\LayoutAdapter.cs" />

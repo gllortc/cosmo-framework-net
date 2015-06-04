@@ -848,6 +848,14 @@
             <param name="objectId">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
         </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.DeleteFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Delete a file associated to an object.
+            </summary>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">File name without path.</param>
+            <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
+        </member>
         <member name="M:Cosmo.FileSystem.IFileSystemService.GetFolderName(Cosmo.FileSystem.WorkspaceFolders)">
             <summary>
             Devuelve el nombre de una carpeta Cosmo
@@ -971,6 +979,14 @@
             </summary>
             <param name="objectId">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.DeleteFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Delete a file associated to an object.
+            </summary>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">File name without path.</param>
+            <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
         <member name="P:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.RootFolderName">
             <summary>
@@ -5738,6 +5754,11 @@
         <member name="M:Cosmo.Data.Connection.IDataModule.CloseAndDispose(System.Data.SqlClient.SqlCommand)">
             <summary>
             Cierra i dispone un objeto de tipo <see cref="T:System.Data.SqlClient.SqlCommand"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Data.Connection.IDataModule.CloseAndDispose(System.Data.SqlClient.SqlDataAdapter)">
+            <summary>
+            Close and dispose a <see cref="T:System.Data.SqlClient.SqlDataAdapter"/> instance.
             </summary>
         </member>
         <member name="M:Cosmo.Data.Connection.IDataModule.Initialize">
@@ -11045,6 +11066,14 @@
             </summary>
             <param name="objectId">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.DeleteFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Delete a file associated to an object.
+            </summary>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">File name without path.</param>
+            <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.LoadController">
             <summary>

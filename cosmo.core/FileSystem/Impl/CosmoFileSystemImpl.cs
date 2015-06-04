@@ -1,6 +1,7 @@
 ﻿using Cosmo.Net;
 using Cosmo.Utils;
 using Cosmo.Utils.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -247,6 +248,28 @@ namespace Cosmo.FileSystem.Impl
          }
 
          return files;
+      }
+
+      /// <summary>
+      /// Delete a file associated to an object.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="filename">File name without path.</param>
+      /// <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
+      public override void DeleteFile(string objectId, string filename, bool throwError)
+      {
+         try
+         {
+            string path = Path.Combine(Path.Combine(RootPath, objectId), filename);
+            File.Delete(path);
+         }
+         catch (Exception ex)
+         {
+            if (throwError)
+            {
+               throw ex;
+            }
+         }
       }
 
       #endregion

@@ -29,9 +29,9 @@ namespace Cosmo.Cms.Photos
       public const string ROLE_PHOTOS_EDITOR = "content.editor";
 
       // Vistas del servicio
-      private const string URL_HOME = "PhotosBrowse";     // "cs_img.aspx";
-      private const string URL_ADD = "PhotosUpload";      // "cs_img_add.aspx";
-      private const string URL_FOLDER = "PhotosByFolder"; // "cs_img_folder.aspx";
+      private const string URL_HOME = "PhotosBrowse";
+      private const string URL_ADD = "PhotosUpload";
+      private const string URL_FOLDER = "PhotosByFolder";
       private const string URL_BYUSER = "PhotosByUser";
       private const string URL_RECENT = "PhotosRecent";
 
@@ -603,6 +603,73 @@ namespace Cosmo.Cms.Photos
             _ws.Logger.Add(new LogEntry(Cms.ProductName, 
                                         GetType().Name + ".Add()", 
                                         ex.Message, 
+                                        LogEntry.LogEntryType.EV_ERROR));
+            throw ex;
+         }
+         finally
+         {
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Delete a photo and all its associated files.
+      /// </summary>
+      /// <param name="pictureId">Photo unique identifier.</param>
+      public void Delete(int pictureId)
+      {
+         Delete(pictureId, true);
+      }
+
+      /// <summary>
+      /// Delete a photo and all its associated files.
+      /// </summary>
+      /// <param name="pictureId">Photo unique identifier.</param>
+      /// <param name="deleteFiles">Indicate if the files must be deleted.</param>
+      public void Delete(int pictureId, bool deleteFiles)
+      {
+         string sql = string.Empty;
+         SqlCommand cmd = null;
+
+         // Obtiene la imagen
+         Photo picture = GetPicture(pictureId);
+
+         try
+         {
+            // Connect with database
+            _ws.DataSource.Connect();
+
+            // Start a transaction block
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
+            {
+               // Elimina los archivos relacionados
+               if (deleteFiles)
+               {
+                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.PictureFile, false);
+                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.ThumbnailFile, false);
+               }
+
+               // Elimina el registro de la base de datos
+               sql = "DELETE FROM images WHERE imgid=@imgid";
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               cmd.Parameters.Add(new SqlParameter("@imgid", picture.ID));
+               cmd.ExecuteNonQuery();
+
+               // Elimina las relaciones con documentos
+               sql = "DELETE FROM docsimages WHERE idimgid=@idimgid";
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               cmd.Parameters.Add(new SqlParameter("@idimgid", picture.ID));
+               cmd.ExecuteNonQuery();
+
+               trans.Commit();
+            }
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Add(new LogEntry(Cms.ProductName,
+                                        GetType().Name + ".Delete(int)",
+                                        ex.Message,
                                         LogEntry.LogEntryType.EV_ERROR));
             throw ex;
          }

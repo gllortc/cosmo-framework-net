@@ -142,6 +142,14 @@ namespace Cosmo.FileSystem
       /// <returns>Una lista de instancias de <see cref="FileInfo"/> que representan los archivos asociados al objeto.</returns>
       public abstract List<FileInfo> GetObjectFiles(string objectId);
 
+      /// <summary>
+      /// Delete a file associated to an object.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="filename">File name without path.</param>
+      /// <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
+      public abstract void DeleteFile(string objectId, string filename, bool throwError);
+
       #endregion
 
       #region Static Members

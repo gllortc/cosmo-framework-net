@@ -72,15 +72,13 @@ namespace Cosmo.Cms.Content
          try
          {
             // Obtiene el documento
-            sql = "SELECT " + 
-                     SQL_DOC_SELECT + " " +
-                  "FROM " + 
-                     SQL_TABLE_OBJECTS + " " +
-                  "WHERE " +
-                     "docid=@docid";
+            sql = "SELECT  " + SQL_DOC_SELECT + " " +
+                  "FROM    " + SQL_TABLE_OBJECTS + " " +
+                  "WHERE   docid = @docid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docid", docID));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                if (reader.Read())
@@ -104,6 +102,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docsourceid", doc.ID));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                while (reader.Read())
@@ -124,6 +123,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@iddocid", doc.ID));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                while (reader.Read())
@@ -175,7 +175,6 @@ namespace Cosmo.Cms.Content
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlTransaction trans = null;
          FileInfo picfile = null;
          FileInfo attfile = null;
 
@@ -200,47 +199,47 @@ namespace Cosmo.Cms.Content
          try
          {
             _ws.DataSource.Connect();
-            trans = _ws.DataSource.Connection.BeginTransaction();
 
-            // Inserta el registro en la BBDD
-            sql = "INSERT INTO " + SQL_TABLE_OBJECTS + "kk " +
-                     "(docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile,docowner) " +
-                  "VALUES " +
-                     "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
+            {
+               // Inserta el registro en la BBDD
+               sql = "INSERT INTO " + SQL_TABLE_OBJECTS + "kk " +
+                        "(docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile,docowner) " +
+                     "VALUES " +
+                        "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-            cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
-            cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
-            cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
-            cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-            cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
-            cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-            cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
-            cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
-            cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
-            cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : AuthenticationService.ACCOUNT_SUPER ));
-            cmd.ExecuteNonQuery();
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
+               cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
+               cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
+               cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
+               cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
+               cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
+               cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
+               cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
+               cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
+               cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : AuthenticationService.ACCOUNT_SUPER));
+               cmd.ExecuteNonQuery();
 
-            // Obtiene el nuevo ID
-            sql = "SELECT Top 1 Max(docid) " +
-                  "FROM " + SQL_TABLE_OBJECTS;
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-            document.ID = (int)cmd.ExecuteScalar();
+               // Obtiene el nuevo ID
+               sql = "SELECT Top 1 Max(docid) " +
+                     "FROM " + SQL_TABLE_OBJECTS;
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               document.ID = (int)cmd.ExecuteScalar();
 
-            // Genera la carpeta particular del documento
-            DirectoryInfo folder = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(document.ID.ToString()));
-            folder.Create();
+               // Genera la carpeta particular del documento
+               DirectoryInfo folder = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(document.ID.ToString()));
+               folder.Create();
 
-            // Copia los archivos (thumbnail y adjunto) a la carpeta del documento
-            if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
-            if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), attfile.Name));
+               // Copia los archivos (thumbnail y adjunto) a la carpeta del documento
+               if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
+               if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), attfile.Name));
 
-            trans.Commit();
+               trans.Commit();
+            }
          }
          catch (Exception ex)
          {
-            trans.Rollback();
-
             _ws.Logger.Add(new LogEntry(Cms.ProductName,
                                         GetType().Name + ".Add()",
                                         ex.Message,
@@ -368,6 +367,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderId", folderid));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                while (reader.Read())
@@ -422,6 +422,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderparentid", parentId));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                while (reader.Read())
@@ -485,6 +486,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderid", folderId));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                if (reader.Read())
@@ -554,6 +556,7 @@ namespace Cosmo.Cms.Content
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                while (reader.Read())
@@ -614,6 +617,7 @@ namespace Cosmo.Cms.Content
 
                cmd = new SqlCommand(sql, _ws.DataSource.Connection);
                cmd.Parameters.Add(new SqlParameter("@folderid", actfolder));
+
                using (SqlDataReader reader = cmd.ExecuteReader())
                {
                   if (reader.Read())

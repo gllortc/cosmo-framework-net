@@ -10,7 +10,7 @@ namespace Cosmo.FileSystem
    /// </summary>
    public class FileSystemService
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
       private IFileSystemService _controller = null;
 
@@ -119,6 +119,17 @@ namespace Cosmo.FileSystem
       public List<FileInfo> GetObjectFiles(string objectId)
       {
          return _controller.GetObjectFiles(objectId);
+      }
+
+      /// <summary>
+      /// Delete a file associated to an object.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="filename">File name without path.</param>
+      /// <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
+      public void DeleteFile(string objectId, string filename, bool throwError)
+      {
+         _controller.DeleteFile(objectId, filename, throwError);
       }
 
       #endregion
