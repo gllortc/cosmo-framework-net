@@ -15,7 +15,7 @@
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldImage(ViewContainer parentViewport, string domId)
+      public FormFieldImage(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -27,7 +27,7 @@
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
-      public FormFieldImage(ViewContainer parentViewport, string domId, string label)
+      public FormFieldImage(View parentViewport, string domId, string label)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -42,7 +42,7 @@
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldImage(ViewContainer parentViewport, string domId, string label, string value)
+      public FormFieldImage(View parentViewport, string domId, string label, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -59,7 +59,7 @@
       /// <param name="label"></param>
       /// <param name="description"></param>
       /// <param name="value"></param>
-      public FormFieldImage(ViewContainer parentViewport, string domId, string label, string description, string value)
+      public FormFieldImage(View parentViewport, string domId, string label, string description, string value)
          : base(parentViewport, domId)
       {
          Initialize();

@@ -13,8 +13,8 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve una instancia de <see cref="SimpleScript"/>.
       /// </summary>
-      /// <param name="viewport">Instancia de <see cref="ViewContainer"/> que actúa de contenedor del control actual.</param>
-      public SimpleScript(ViewContainer viewport)
+      /// <param name="viewport">Instancia de <see cref="View"/> que actúa de contenedor del control actual.</param>
+      public SimpleScript(View viewport)
          : base(viewport)
       {
 
@@ -23,9 +23,9 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve una instancia de <see cref="SimpleScript"/>.
       /// </summary>
-      /// <param name="viewport">Instancia de <see cref="ViewContainer"/> que actúa de contenedor del control actual.</param>
+      /// <param name="viewport">Instancia de <see cref="View"/> que actúa de contenedor del control actual.</param>
       /// <param name="source">Una cadena que contiene el código JavaScript.</param>
-      public SimpleScript(ViewContainer viewport, string source)
+      public SimpleScript(View viewport, string source)
          : base(viewport, source)
       { }
 
@@ -34,7 +34,7 @@ namespace Cosmo.UI.Scripting
       /// </summary>
       /// <param name="viewport">Instancia de <see cref="ICosmoViewport"/> que actúa de contenedor del control actual.</param>
       /// <param name="source"´>Una instancia de <see cref="StringBuilder"/> que contiene código JavaScript.</param>
-      public SimpleScript(ViewContainer viewport, StringBuilder source)
+      public SimpleScript(View viewport, StringBuilder source)
          : base(viewport, source)
       { }
 

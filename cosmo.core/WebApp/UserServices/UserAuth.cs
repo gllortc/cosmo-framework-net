@@ -3,7 +3,7 @@ using Cosmo.UI.Controls;
 
 namespace Cosmo.WebApp.UserServices
 {
-   public class UserAuth : PageViewContainer
+   public class UserAuth : PageView
    {
       public override void LoadPage()
       {

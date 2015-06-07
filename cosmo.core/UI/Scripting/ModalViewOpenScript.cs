@@ -15,7 +15,7 @@ namespace Cosmo.UI.Scripting
       /// Devuelve una instancia de <see cref="ModalViewSendFormScript"/>.
       /// </summary>
       /// <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
-      public ModalViewOpenScript(ModalViewContainer modalView)
+      public ModalViewOpenScript(ModalView modalView)
          : base(modalView) 
       {
          Initialize();
@@ -27,9 +27,9 @@ namespace Cosmo.UI.Scripting
 
       #region Properties
 
-      public ModalViewContainer ModalView 
+      public ModalView ModalView 
       {
-         get { return (ModalViewContainer)this.Container; } 
+         get { return (ModalView)this.ParentView; } 
       }
 
       #endregion

@@ -13,9 +13,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="BadgeControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public BadgeControl(ViewContainer container) : 
-         base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public BadgeControl(View parentView) : 
+         base(parentView)
       {
          Initialize();
       }
@@ -23,12 +23,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="BadgeControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text">Texto que contiene el control.</param>
       /// <param name="type">Tipo (color) de mensaje a representar.</param>
       /// <param name="roundedBorders">Indica si se debe representar con los bordes redondeados.</param>
-      public BadgeControl(ViewContainer container, string text, ComponentColorScheme type, bool roundedBorders) :
-         base(container)
+      public BadgeControl(View parentView, string text, ComponentColorScheme type, bool roundedBorders) :
+         base(parentView)
       {
          Initialize();
 

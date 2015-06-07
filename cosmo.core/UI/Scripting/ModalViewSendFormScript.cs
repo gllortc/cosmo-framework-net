@@ -5,8 +5,8 @@ namespace Cosmo.UI.Scripting
 {
    /// <summary>
    /// Implementa un script para enviar el contenido de un formulario via AJAX a un 
-   /// <see cref="Cosmo.REST.RestHandler"/>, <see cref="Cosmo.UI.PageViewContainer"/> o 
-   /// <see cref="Cosmo.UI.PartialViewContainer"/> .
+   /// <see cref="Cosmo.REST.RestHandler"/>, <see cref="Cosmo.UI.PageView"/> o 
+   /// <see cref="Cosmo.UI.PartialView"/> .
    /// </summary>
    public class ModalViewSendFormScript : Script
    {
@@ -16,10 +16,10 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve una instancia de <see cref="ModalViewSendFormScript"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-      public ModalViewSendFormScript(ModalViewContainer container, FormControl form) 
-         : base(container) 
+      public ModalViewSendFormScript(ModalView parentView, FormControl form) 
+         : base(parentView) 
       {
          Initialize();
 
@@ -87,7 +87,7 @@ namespace Cosmo.UI.Scripting
             Source.AppendLine("    processData: false,");
          }
          Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
-         Source.AppendLine("      $('#" + ((ModalViewContainer)Form.Container).DomID + " .modal-dialog').html(data);");
+         Source.AppendLine("      $('#" + ((ModalView)Form.ParentView).DomID + " .modal-dialog').html(data);");
          Source.AppendLine("    },");
          Source.AppendLine("    error: function(jqXHR, textStatus, errorThrown) {");
          Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");

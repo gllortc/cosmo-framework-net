@@ -11,7 +11,7 @@ namespace Cosmo.Cms.WebApp.Classified
    /// Implementa un formulario de contacto con el autor de un anuncio clasificado.
    /// </summary>
    [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID)]
-   public class ClassifiedContactModal : ModalViewContainer
+   public class ClassifiedContactModal : ModalView
    {
       // Declaración de variables internas
       FormControl contactForm = null;

@@ -10,17 +10,17 @@ namespace Cosmo.UI
    /// <summary>
    /// Implementa una vista que permite generarse sin estar dentro de una página.
    /// </summary>
-   public abstract class PartialViewContainer : ViewContainer 
+   public abstract class PartialView : View 
    {
       // Internal data declarations
-      private List<ModalViewContainer> _modals;
+      private List<ModalView> _modals;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PartialViewContainer"/>.
+      /// Devuelve una instancia de <see cref="PartialView"/>.
       /// </summary>
-      protected PartialViewContainer()
+      protected PartialView()
       {
          Initialize();
       }
@@ -37,11 +37,11 @@ namespace Cosmo.UI
       /// <summary>
       /// Gets a modal views used by this view.
       /// </summary>
-      public List<ModalViewContainer> Modals
+      public List<ModalView> Modals
       {
          get
          {
-            if (_modals == null) _modals = new List<ModalViewContainer>();
+            if (_modals == null) _modals = new List<ModalView>();
             return _modals;
          }
          set { _modals = value; }

@@ -12,10 +12,10 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="NavigateBehavior"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
-      public UpdateHtmlBehavior(ViewContainer container, string domId)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
+      public UpdateHtmlBehavior(View parentView, string domId)
+         : base(parentView)
       {
          this.DomID = domId;
       }

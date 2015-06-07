@@ -12,10 +12,10 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="NavigateBehavior"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
-      public NavigateBehavior(ViewContainer container, string url)
-         : base(container)
+      public NavigateBehavior(View parentView, string url)
+         : base(parentView)
       {
          this.URL = url;
       }

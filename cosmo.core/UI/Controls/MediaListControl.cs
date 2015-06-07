@@ -28,9 +28,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="MediaListControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public MediaListControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public MediaListControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

@@ -14,9 +14,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="JumbotronControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public JumbotronControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public JumbotronControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -24,10 +24,10 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="JumbotronControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del componente en una vista (DOM).</param>
-      public JumbotronControl(ViewContainer container, string domId)
-         : base(container, domId)
+      public JumbotronControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }

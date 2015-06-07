@@ -7,7 +7,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class ListGroupControl : Control
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _paddingDescription;
       private List<ListItem> _items;
       private ListGroupStyle _style;
@@ -32,9 +32,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="ListGroupControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public ListGroupControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public ListGroupControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

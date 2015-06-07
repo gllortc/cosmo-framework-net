@@ -13,9 +13,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="AlertControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public PictureGalleryControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public PictureGalleryControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -23,10 +23,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="AlertControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId"></param>
-      public PictureGalleryControl(ViewContainer container, string domId)
-         : base(container)
+      public PictureGalleryControl(View parentView, string domId)
+         : base(parentView)
       {
          Initialize();
 

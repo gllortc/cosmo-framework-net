@@ -13,9 +13,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="TreeViewControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public TreeViewControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public TreeViewControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -23,10 +23,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="TreeViewControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador del componente en una vista (DOM).</param>
-      public TreeViewControl(ViewContainer container, string domId)
-         : base(container, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Identificador del componente en una vista (DOM).</param>
+      public TreeViewControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }

@@ -16,7 +16,7 @@
          Left
       }
 
-      // Declaración de variables sinternas
+      // Internal data declarations
       private int _percentage;
       private ComponentColorScheme _color;
       private string _description;
@@ -24,9 +24,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public ProgressBarControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public ProgressBarControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -34,11 +34,11 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="percentage"></param>
       /// <param name="color"></param>
-      public ProgressBarControl(ViewContainer container, int percentage, ComponentColorScheme color)
-         : base(container)
+      public ProgressBarControl(View parentView, int percentage, ComponentColorScheme color)
+         : base(parentView)
       {
          Initialize();
 
@@ -49,12 +49,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="percentage"></param>
       /// <param name="color"></param>
       /// <param name="description"></param>
-      public ProgressBarControl(ViewContainer container, int percentage, ComponentColorScheme color, string description)
-         : base(container)
+      public ProgressBarControl(View parentView, int percentage, ComponentColorScheme color, string description)
+         : base(parentView)
       {
          Initialize();
 

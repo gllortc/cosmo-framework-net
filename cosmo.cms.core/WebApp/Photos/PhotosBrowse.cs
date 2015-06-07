@@ -1,17 +1,22 @@
 ﻿using Cosmo.Cms.Photos;
+using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Photos
 {
-   public class PhotosBrowse : PageViewContainer
+   public class PhotosBrowse : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          // Agrega la meta-información de la página
          Title = PhotoDAO.SERVICE_NAME;
-         ActiveMenuId = "photos";
+         ActiveMenuId = "photo-browse";
 
          PageHeaderControl header = new PageHeaderControl(this);
          header.Title = PhotoDAO.SERVICE_NAME;
@@ -38,14 +43,14 @@ namespace Cosmo.WebApp.Photos
          recentBtn.Icon = IconControl.ICON_CALENDAR;
          recentBtn.Text = "Fotografias recientes";
          recentBtn.IsBlock = true;
-         recentBtn.Href = PhotoDAO.GetRecentPhotosURL();
+         recentBtn.Href = PhotosByFolder.GetPhotosRecentUrl();
 
          ButtonControl myBtn = new ButtonControl(this);
          myBtn.Icon = IconControl.ICON_USER;
          myBtn.Text = "Mis fotografias";
          myBtn.IsBlock = true;
-         myBtn.Href = PhotoDAO.GetUserPhotosURL();
-         
+         myBtn.Href = PhotosByFolder.GetPhotosByUserUrl();
+
          PanelControl toolsPanel = new PanelControl(this);
          toolsPanel.Content.Add(recentBtn);
          toolsPanel.Content.Add(myBtn);
@@ -77,6 +82,22 @@ namespace Cosmo.WebApp.Photos
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets the URL to show a tree with photos folders.
+      /// </summary>
+      /// <returns>A string representing the relative URL requested.</returns>
+      public static string GetPhotosBrowseUrl()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
+      }
+
+      #endregion
 
       #region Private Members
 
@@ -121,7 +142,7 @@ namespace Cosmo.WebApp.Photos
          child.DomID = "photo-folder-" + folder.ID;
          child.Caption = folder.Name;
          child.Description = folder.Description;
-         child.Href = PhotoDAO.GetFolderURL(folder.ID);
+         child.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
 
          if (folder.Subfolders.Count > 0)
             child.Icon = "glyphicon-chevron-right";

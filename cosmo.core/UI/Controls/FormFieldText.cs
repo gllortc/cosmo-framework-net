@@ -40,10 +40,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
-      public FormFieldText(ViewContainer container, string domId)
-         : base(container, domId)
+      public FormFieldText(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
@@ -51,12 +51,12 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
-      public FormFieldText(ViewContainer container, string domId, string label, FieldDataType type)
-         : base(container, domId)
+      public FormFieldText(View parentView, string domId, string label, FieldDataType type)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -67,13 +67,13 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldText(ViewContainer container, string domId, string label, FieldDataType type, string value)
-         : base(container, domId)
+      public FormFieldText(View parentView, string domId, string label, FieldDataType type, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -159,7 +159,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            _value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            _value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {

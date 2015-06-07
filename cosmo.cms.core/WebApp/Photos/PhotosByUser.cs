@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Cosmo.WebApp.Photos
 {
    [AuthenticationRequired]
-   public class PhotosByUser : PageViewContainer
+   public class PhotosByUser : PageView
    {
       public override void LoadPage()
       {

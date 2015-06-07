@@ -11,7 +11,7 @@ using System.IO;
 namespace Cosmo.WebApp.Content
 {
    [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
-   public class ContentEdit : PageViewContainer
+   public class ContentEdit : PageView
    {
       // Declaración de nombres de parámetros
       private const string FIELD_TITLE = "tit";

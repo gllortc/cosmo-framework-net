@@ -75,7 +75,6 @@
     <Compile Include="Forums\ForumsDAO.cs" />
     <Compile Include="Forums\ForumThread.cs" />
     <Compile Include="WebApp\Photos\PhotosRemoveModal.cs" />
-    <Compile Include="WebApp\Photos\PhotosRecent.cs" />
     <Compile Include="WebApp\Photos\PhotosUpload.cs" />
     <Compile Include="Utils\LayoutAdapter.cs" />
     <Compile Include="NodeNotEmptyException.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="WebApp\Content\ContentEdit.cs" />
     <Compile Include="WebApp\Content\ContentEditFileList.cs" />
     <Compile Include="WebApp\Photos\PhotosBrowse.cs" />
-    <Compile Include="WebApp\Photos\PhotosByUser.cs" />
     <Compile Include="WebApp\Photos\PhotosByFolder.cs" />
     <Compile Include="WebApp\Content\ContentByFolder.cs" />
     <Compile Include="WebApp\Home.cs" />

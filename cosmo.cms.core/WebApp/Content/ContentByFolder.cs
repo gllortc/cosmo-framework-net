@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Content
 {
-   public class ContentByFolder : PageViewContainer
+   public class ContentByFolder : PageView
    {
       public override void LoadPage()
       {

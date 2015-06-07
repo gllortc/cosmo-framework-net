@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Rwm.WebApp
 {
-   public class RwmPrivacy : Cosmo.UI.PageViewContainer
+   public class RwmPrivacy : Cosmo.UI.PageView
    {
       #region PageViewContainer Implementation
 

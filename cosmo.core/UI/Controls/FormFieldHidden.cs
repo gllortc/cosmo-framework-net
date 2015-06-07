@@ -17,7 +17,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del campo en el formulario.</param>
-      public FormFieldHidden(ViewContainer parentViewport, string domId)
+      public FormFieldHidden(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -29,7 +29,7 @@ namespace Cosmo.UI.Controls
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del campo en el formulario.</param>
       /// <param name="value">Valor inicial del campo.</param>
-      public FormFieldHidden(ViewContainer parentViewport, string domId, string value)
+      public FormFieldHidden(View parentViewport, string domId, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -79,7 +79,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            _value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            _value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
             return true;
          }
          catch

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Cosmo.WebApp.Photos
 {
-   public class PhotosRecent : PageViewContainer
+   public class PhotosRecent : PageView
    {
       public override void LoadPage()
       {
@@ -53,9 +53,9 @@ namespace Cosmo.WebApp.Photos
          //-------------------------------------------------------------------
 
          // Genera la lista de documentos de la carpeta
-         List<Photo> documents = phdao.GetLatestPictures(20);
+         List<Photo> photos = phdao.GetLatestPictures(20);
 
-         if (documents.Count > 0)
+         if (photos.Count > 0)
          {
             PanelControl panel = new PanelControl(this);
             panel.Caption = Title;
@@ -64,7 +64,7 @@ namespace Cosmo.WebApp.Photos
             PictureControl picture = null;
             PictureGalleryControl picGallery = new PictureGalleryControl(this);
             picGallery.Columns = phdao.GalleryColumnsCount;
-            foreach (Photo photo in documents)
+            foreach (Photo photo in photos)
             {
                picture = new PictureControl(this);
                picture.DomID = "photo-" + photo.ID;

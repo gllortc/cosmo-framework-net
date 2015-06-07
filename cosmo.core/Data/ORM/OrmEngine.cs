@@ -172,7 +172,7 @@ namespace Cosmo.Data.ORM
       /// <remarks>
       /// Los campos del formulario tomarán como valor el que se obtenga de las propiedades de la instancia.
       /// </remarks>
-      public FormControl CreateForm(ViewContainer viewPort, Object instance, bool enableHumanCheck)
+      public FormControl CreateForm(View viewPort, Object instance, bool enableHumanCheck)
       {
          FormControl form = null;
          Type type = instance.GetType();
@@ -203,7 +203,7 @@ namespace Cosmo.Data.ORM
       /// <param name="type">Tipo correspondiente al objeto para el qual se desea representar el formulario.</param>
       /// <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
       /// <returns>Una instancia de <see cref="FormControl"/> que representa el formulario correspondiente al objeto.</returns>
-      public FormControl CreateForm(ViewContainer viewPort, Type type, bool enableHumanCheck)
+      public FormControl CreateForm(View viewPort, Type type, bool enableHumanCheck)
       {
          FormControl form = new FormControl(viewPort);
          form.Method = "post";
@@ -275,10 +275,10 @@ namespace Cosmo.Data.ORM
          // Genera la cabecera del grupo
          if (group != null)
          {
-            HtmlContentControl adsContent = new HtmlContentControl(form.Container);
+            HtmlContentControl adsContent = new HtmlContentControl(form.ParentView);
             adsContent.AppendParagraph(group.Description);
 
-            form.Content.Add(new HtmlContentControl(form.Container, "<h2 class=\"page-header\">" + HttpUtility.HtmlDecode(group.Title) + "</h2>"));
+            form.Content.Add(new HtmlContentControl(form.ParentView, "<h2 class=\"page-header\">" + HttpUtility.HtmlDecode(group.Title) + "</h2>"));
             form.Content.Add(adsContent);
          }
 
@@ -350,13 +350,13 @@ namespace Cosmo.Data.ORM
       /// <param name="modal">La instancia de <see cref="FormControl"/> dónde se agregará el control.</param>
       private void AddHumanCheck(FormControl form)
       {
-         FormFieldCaptcha captcha = new FormFieldCaptcha(form.Container);
+         FormFieldCaptcha captcha = new FormFieldCaptcha(form.ParentView);
          captcha.Label = "Código de verificación";
          captcha.Placeholder = "Copie aquí el código que aparece a la izquierda";
 
          // Genera la cabecera del grupo
-         form.Content.Add(new HtmlContentControl(form.Container, "<h2 class=\"page-header\">Verificación</h2>"));
-         form.Content.Add(new HtmlContentControl(form.Container).AppendParagraph("Para evitar envios automatizados (<em>spam</em>), debe copiar el código en el campo de texto, respetando mayúsculas y minúsculas."));
+         form.Content.Add(new HtmlContentControl(form.ParentView, "<h2 class=\"page-header\">Verificación</h2>"));
+         form.Content.Add(new HtmlContentControl(form.ParentView).AppendParagraph("Para evitar envios automatizados (<em>spam</em>), debe copiar el código en el campo de texto, respetando mayúsculas y minúsculas."));
          form.Content.Add(captcha);
       }
 
@@ -381,12 +381,12 @@ namespace Cosmo.Data.ORM
                   break;
 
                case MappingDataType.Boolean:
-                  FormFieldBoolean boolField = new FormFieldBoolean(form.Container, field.FieldName, field.Label);
+                  FormFieldBoolean boolField = new FormFieldBoolean(form.ParentView, field.FieldName, field.Label);
                   boolField.Required = field.Required;
                   return boolField;
 
                case MappingDataType.Date:
-                  FormFieldDate dateField = new FormFieldDate(form.Container, field.FieldName, field.Label, FormFieldDate.FieldDateType.Date);
+                  FormFieldDate dateField = new FormFieldDate(form.ParentView, field.FieldName, field.Label, FormFieldDate.FieldDateType.Date);
                   dateField.Required = field.Required;
                   return dateField;
 
@@ -399,43 +399,43 @@ namespace Cosmo.Data.ORM
                   break;
 
                case MappingDataType.Login:
-                  FormFieldText loginField = new FormFieldText(form.Container, field.FieldName, field.Label, FormFieldText.FieldDataType.Text);
+                  FormFieldText loginField = new FormFieldText(form.ParentView, field.FieldName, field.Label, FormFieldText.FieldDataType.Text);
                   loginField.Required = field.Required;
                   return loginField;
 
                case MappingDataType.Mail:
-                  FormFieldText mailField = new FormFieldText(form.Container, field.FieldName, field.Label, FormFieldText.FieldDataType.Email);
+                  FormFieldText mailField = new FormFieldText(form.ParentView, field.FieldName, field.Label, FormFieldText.FieldDataType.Email);
                   mailField.Required = field.Required;
                   return mailField;
 
                case MappingDataType.MultilineString:
-                  FormFieldEditor txaField = new FormFieldEditor(form.Container, field.FieldName, field.Label, FormFieldEditor.FieldEditorType.Simple);
+                  FormFieldEditor txaField = new FormFieldEditor(form.ParentView, field.FieldName, field.Label, FormFieldEditor.FieldEditorType.Simple);
                   txaField.Required = field.Required;
                   return txaField;
 
                case MappingDataType.Password:
-                  FormFieldPassword pwdField = new FormFieldPassword(form.Container, field.FieldName, field.Label);
+                  FormFieldPassword pwdField = new FormFieldPassword(form.ParentView, field.FieldName, field.Label);
                   pwdField.Required = field.Required;
                   pwdField.RewriteRequired = field.RewriteRequired;
                   pwdField.RewriteFieldPlaceholder = "Vuelva a escribir aquí la contraseña";
                   return pwdField;
 
                case MappingDataType.Url:
-                  FormFieldText urlField = new FormFieldText(form.Container, field.FieldName, field.Label, FormFieldText.FieldDataType.Url);
+                  FormFieldText urlField = new FormFieldText(form.ParentView, field.FieldName, field.Label, FormFieldText.FieldDataType.Url);
                   urlField.Required = field.Required;
                   return urlField;
 
                default:
-                  FormFieldText txtField = new FormFieldText(form.Container, field.FieldName, field.Label, FormFieldText.FieldDataType.Text);
+                  FormFieldText txtField = new FormFieldText(form.ParentView, field.FieldName, field.Label, FormFieldText.FieldDataType.Text);
                   txtField.Required = field.Required;
                   return txtField;
             }
          }
          else
          {
-            FormFieldList list = new FormFieldList(form.Container, field.FieldName, field.Label, FormFieldList.ListType.Single);
-            list.Values = form.Container.Workspace.DataService.GetDataList(field.DataListID).Values;
-            list.Value = form.Container.Workspace.DataService.GetDataList(field.DataListID).DefaultValue;
+            FormFieldList list = new FormFieldList(form.ParentView, field.FieldName, field.Label, FormFieldList.ListType.Single);
+            list.Values = form.ParentView.Workspace.DataService.GetDataList(field.DataListID).Values;
+            list.Value = form.ParentView.Workspace.DataService.GetDataList(field.DataListID).DefaultValue;
 
             return list;
          }

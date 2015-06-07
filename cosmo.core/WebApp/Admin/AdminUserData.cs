@@ -18,7 +18,7 @@ namespace Cosmo.WebApp.Admin
    /// Copyright (c) InforGEST
    /// </remarks>
    [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
-   public class AdminUserData : PageViewContainer
+   public class AdminUserData : PageView
    {
       // Internal data declarartions
       private FormControl userData = null;

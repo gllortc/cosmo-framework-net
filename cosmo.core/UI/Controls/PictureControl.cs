@@ -13,9 +13,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PictureControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public PictureControl(ViewContainer container) : 
-         base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public PictureControl(View parentView) : 
+         base(parentView)
       {
          Initialize();
       }
@@ -23,9 +23,10 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PictureControl"/>.
       /// </summary>
-      /// <param name="id">Identificador del elemento en el documento (DOM).</param>
-      public PictureControl(ViewContainer container, string domId) :
-         base(container)
+      /// <param name="parentView">The view that contains the control.</param>
+      /// <param name="domId">Identificador del elemento en el documento (DOM).</param>
+      public PictureControl(View parentView, string domId) :
+         base(parentView)
       {
          Initialize();
 
@@ -92,7 +93,7 @@
          {
             if (this.menu == null)
             {
-               this.menu = new SplitButtonControl(this.Container);
+               this.menu = new SplitButtonControl(this.ParentView);
             }
             return this.menu;
          }

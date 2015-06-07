@@ -7,7 +7,7 @@ namespace Rwm.WebApp
    /// <summary>
    /// Descripción breve de Home
    /// </summary>
-   public class RwmHomePage : Cosmo.UI.PageViewContainer
+   public class RwmHomePage : Cosmo.UI.PageView
    {
       public override void LoadPage()
       {

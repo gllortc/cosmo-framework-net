@@ -49,9 +49,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public FormControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public FormControl(View parentView)
+         : base(parentView)
       {
          Initialize();
 
@@ -63,10 +63,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
-      public FormControl(ViewContainer container, string domId)
-         : base(container, domId)
+      public FormControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
@@ -137,7 +137,7 @@ namespace Cosmo.UI.Controls
       /// <param name="value">Valor.</param>
       public void AddFormSetting(string key, string value)
       {
-         Content.Add(new FormFieldHidden(Container, key, value));
+         Content.Add(new FormFieldHidden(ParentView, key, value));
       }
 
       /// <summary>
@@ -430,7 +430,7 @@ namespace Cosmo.UI.Controls
          this.UsePanel = true;
          this.Icon = string.Empty;
          this.Caption = string.Empty;
-         this.Action = Container.Workspace.Context.Request.Path;
+         this.Action = ParentView.Workspace.Context.Request.Path;
          this.Method = "post";
          this.Content = new ControlCollection();
          this.FormButtons = new List<ButtonControl>();

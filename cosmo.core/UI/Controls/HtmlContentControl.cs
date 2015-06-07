@@ -21,9 +21,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="HtmlContentControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public HtmlContentControl(ViewContainer container) 
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public HtmlContentControl(View parentView) 
+         : base(parentView)
       {
          Initialize();
       }
@@ -31,10 +31,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="HtmlContentControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="html">Una cadena que contiene el código HTML que será renderizado.</param>
-      public HtmlContentControl(ViewContainer container, string html)
-         : base(container)
+      public HtmlContentControl(View parentView, string html)
+         : base(parentView)
       {
          Initialize();
 

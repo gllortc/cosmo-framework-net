@@ -358,6 +358,14 @@ namespace Cosmo
          get { return Workspace.PRODUCT_NAME; }
       }
 
+      /// <summary>
+      /// Gets the current relative URL and query string.
+      /// </summary>
+      public string CurrentUrl
+      {
+         get { return Context.Request.Url.PathAndQuery; }
+      }
+
       #endregion
 
       #region Static Members

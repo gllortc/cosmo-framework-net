@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Cosmo.WebApp.Admin
 {
    [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
-   public class AdminUserList : PageViewContainer
+   public class AdminUserList : PageView
    {
       public override void InitPage()
       {

@@ -14,7 +14,7 @@ namespace Cosmo.WebApp.Classified
    /// Muestra el contenido de una categoria.
    /// </summary>
    [AuthenticationRequired]
-   public class ClassifiedManage : PageViewContainer
+   public class ClassifiedManage : PageView
    {
       public override void LoadPage()
       {

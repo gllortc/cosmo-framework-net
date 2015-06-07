@@ -20,7 +20,7 @@ namespace Cosmo.UI.Controls
       /// Devuelve una instancia de <see cref="FormFieldCaptcha"/>.
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public FormFieldCaptcha(ViewContainer parentViewport)
+      public FormFieldCaptcha(View parentViewport)
          : base(parentViewport)
       {
          Initialize();
@@ -33,7 +33,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldCaptcha(ViewContainer parentViewport, string domId)
+      public FormFieldCaptcha(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -45,7 +45,7 @@ namespace Cosmo.UI.Controls
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
-      public FormFieldCaptcha(ViewContainer parentViewport, string domId, string label)
+      public FormFieldCaptcha(View parentViewport, string domId, string label)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -60,7 +60,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id"></param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldCaptcha(ViewContainer parentViewport, string id, string label, string value)
+      public FormFieldCaptcha(View parentViewport, string id, string label, string value)
          : base(parentViewport)
       {
          Initialize();
@@ -117,7 +117,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            this.Value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            this.Value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {
@@ -135,7 +135,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            return _value.Equals(Container.Workspace.Context.Session[Captcha.SESSION_CAPTCHA]);
+            return _value.Equals(ParentView.Workspace.Context.Session[Captcha.SESSION_CAPTCHA]);
          }
          catch
          {

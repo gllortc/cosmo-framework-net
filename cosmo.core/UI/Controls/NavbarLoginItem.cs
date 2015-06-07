@@ -5,36 +5,29 @@
    /// </summary>
    public class NavbarLoginItem : NavbarIButtonControl
    {
-      // Declaración de variables internas.
-      private Workspace _ws;
 
       #region Constructors
 
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarLoginItem"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
-      public NavbarLoginItem(ViewContainer container, Workspace workspace) 
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public NavbarLoginItem(View parentView) //, Workspace workspace) 
+         : base(parentView)
       {
          Initialize();
-
-         _ws = workspace;
       }
 
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarLoginItem"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="modalFormId">El ID (DOM) del formulario modal de login definido en el componente <see cref="LoginFormControl"/>.</param>
-      public NavbarLoginItem(ViewContainer container, Workspace workspace, string modalFormId)
-         : base(container)
+      public NavbarLoginItem(View parentView, string modalFormId)
+         : base(parentView)
       {
          Initialize();
 
-         _ws = workspace;
          this.ModalFormId = modalFormId;
       }
 
@@ -59,7 +52,6 @@
       private void Initialize()
       {
          this.ModalFormId = string.Empty;
-         _ws = null;
       }
 
       #endregion

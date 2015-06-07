@@ -14,7 +14,7 @@ namespace Cosmo.UI
    /// <summary>
    /// Implements a container that represents a web page.
    /// </summary>
-   public abstract class ViewContainer : IHttpHandler, IRequiresSessionState
+   public abstract class View : IHttpHandler, IRequiresSessionState
    {
       // Internal data declaration
       private List<ViewResource> _resources;
@@ -27,9 +27,9 @@ namespace Cosmo.UI
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ViewContainer"/>.
+      /// Devuelve una instancia de <see cref="View"/>.
       /// </summary>
-      protected ViewContainer()
+      protected View()
       {
          Initialize();
       }
@@ -248,6 +248,21 @@ namespace Cosmo.UI
       /// Método invocado durante la carga de la página.
       /// </summary>
       public abstract void LoadPage();
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets the name of view.
+      /// </summary>
+      /// <remarks>
+      /// This name is useful to use in URL creation.
+      /// </remarks>
+      public static string ViewName
+      {
+         get { return MethodBase.GetCurrentMethod().DeclaringType.Name; }
+      }
 
       #endregion
 

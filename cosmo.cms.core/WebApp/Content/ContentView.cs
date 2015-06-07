@@ -13,7 +13,7 @@ namespace Cosmo.WebApp.Content
    /// <summary>
    /// Muestra el contenido de un artículo.
    /// </summary>
-   public class ContentView : PageViewContainer
+   public class ContentView : PageView
    {
       public override void LoadPage()
       {

@@ -15,7 +15,7 @@ namespace Cosmo.UI.Controls
       /// Gets an instance of <see cref="UserLinkControl"/>.
       /// </summary>
       /// <param name="view">Container view of the control.</param>
-      public UserLinkControl(ViewContainer view)
+      public UserLinkControl(View view)
          : base(view)
       {
          Initialize();
@@ -27,7 +27,7 @@ namespace Cosmo.UI.Controls
       /// <param name="view">Container view of the control.</param>
       /// <param name="userId">User unique identifier.</param>
       /// <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
-      public UserLinkControl(ViewContainer view, int userId, string userDisplayName, ModalViewContainer modalView)
+      public UserLinkControl(View view, int userId, string userDisplayName, ModalView modalView)
          : base(view)
       {
          Initialize();
@@ -43,7 +43,7 @@ namespace Cosmo.UI.Controls
       /// <param name="view">Container view of the control.</param>
       /// <param name="user">An instance of <see cref="User"/> representing the user.</param>
       /// <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
-      public UserLinkControl(ViewContainer view, User user, ModalViewContainer modalView)
+      public UserLinkControl(View view, User user, ModalView modalView)
          : base(view)
       {
          Initialize();
@@ -70,7 +70,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets or sets the modal view used to show the user data.
       /// </summary>
-      public ModalViewContainer ModalView { get; set; }
+      public ModalView ModalView { get; set; }
 
       #endregion
 

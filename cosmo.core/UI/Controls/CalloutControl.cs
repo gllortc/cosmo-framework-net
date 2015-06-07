@@ -13,9 +13,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="CalloutControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public CalloutControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public CalloutControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -23,10 +23,10 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="CalloutControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="type">Tipo de mensaje a mostrar.</param>
-      public CalloutControl(ViewContainer container, ComponentColorScheme type)
-         : base(container)
+      public CalloutControl(View parentView, ComponentColorScheme type)
+         : base(parentView)
       {
          Initialize();
 

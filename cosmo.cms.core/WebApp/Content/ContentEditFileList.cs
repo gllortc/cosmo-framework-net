@@ -13,7 +13,7 @@ namespace Cosmo.WebApp.Content
    /// Representa la lista de archivos adjuntos de un documento.
    /// </summary>
    [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
-   public class ContentEditFileList : PartialViewContainer
+   public class ContentEditFileList : PartialView
    {
 
       public override void InitPage()

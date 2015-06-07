@@ -32,7 +32,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldList(ViewContainer parentViewport, string domId)
+      public FormFieldList(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -45,7 +45,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
-      public FormFieldList(ViewContainer parentViewport, string domId, string label, ListType type)
+      public FormFieldList(View parentViewport, string domId, string label, ListType type)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -62,7 +62,7 @@ namespace Cosmo.UI.Controls
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldList(ViewContainer parentViewport, string domId, string label, ListType type, string value)
+      public FormFieldList(View parentViewport, string domId, string label, ListType type, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -131,8 +131,8 @@ namespace Cosmo.UI.Controls
       /// <param name="dataListID">Identificador del <c>DataList</c>.</param>
       public void LoadValuesFromDataList(string dataListID)
       {
-         Values = Container.Workspace.DataService.GetDataList(dataListID).Values;
-         Value = Container.Workspace.DataService.GetDataList(dataListID).DefaultValue;
+         Values = ParentView.Workspace.DataService.GetDataList(dataListID).Values;
+         Value = ParentView.Workspace.DataService.GetDataList(dataListID).DefaultValue;
       }
 
       /// <summary>
@@ -142,7 +142,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            Value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            Value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {

@@ -15,7 +15,7 @@ namespace Cosmo.WebApp.UserServices
    /// Version: 1.0.0
    /// Copyright (c) InforGEST
    /// </remarks>
-   public class UserJoinVerification : PageViewContainer
+   public class UserJoinVerification : PageView
    {
       /// <summary>Parámetro que contiene la clave de verificación de una cuenta de correo.</summary>
       private const string PARAM_VERIFY_KEY = "data";

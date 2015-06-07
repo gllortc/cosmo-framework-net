@@ -102,7 +102,7 @@ namespace Cosmo.UI.Menu
       /// </summary>
       /// <param name="activeMenuItemId">Identificador del elemento activo actualmente.</param>
       /// <returns>Una instancia de <see cref="SidebarControl"/> que representa el menú solicitado.</returns>
-      public SidebarControl GenerateSidebar(ViewContainer parentViewport, string activeMenuItemId)
+      public SidebarControl GenerateSidebar(View parentViewport, string activeMenuItemId)
       {
          SidebarButton btn;
 
@@ -125,7 +125,7 @@ namespace Cosmo.UI.Menu
       /// </summary>
       /// <param name="activeMenuItemId">Una cadena que contiene el identificador del elemento de menú que debe aparecer activo.</param>
       /// <returns>Una instancia de <see cref="NavbarControl"/> convenientemente configurada y lista para ser renderizada.</returns>
-      public NavbarControl GenerateNavbar(ViewContainer parentViewport, string activeMenuItemId)
+      public NavbarControl GenerateNavbar(View parentViewport, string activeMenuItemId)
       {
          NavbarIButtonControl btn;
 
@@ -159,7 +159,7 @@ namespace Cosmo.UI.Menu
       /// <summary>
       /// Convierte la instancia <see cref="MenuItem"/> en <see cref="SidebarButton"/>.
       /// </summary>
-      private SidebarButton ConvertToSidebarButton(ViewContainer parentViewport, MenuItem item, string activeMenuItemId)
+      private SidebarButton ConvertToSidebarButton(View parentViewport, MenuItem item, string activeMenuItemId)
       {
          SidebarButton sbtn;
 
@@ -188,7 +188,7 @@ namespace Cosmo.UI.Menu
       /// <summary>
       /// Convierte la instancia <see cref="MenuItem"/> en <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      private NavbarIButtonControl ConvertToNavbarButton(ViewContainer parentViewport, MenuItem item, string activeMenuItemId)
+      private NavbarIButtonControl ConvertToNavbarButton(View parentViewport, MenuItem item, string activeMenuItemId)
       {
          NavbarIButtonControl btn;
          NavbarIButtonControl sbtn;
@@ -199,10 +199,10 @@ namespace Cosmo.UI.Menu
                // No devuelve nada (se trata a parte mediante el método GetBrand())
                return null;
             case MenuItem.MenuItemType.UserProfile:
-               btn = new NavbarLoginItem(parentViewport, Workspace);
+               btn = new NavbarLoginItem(parentViewport);
                break;
             case MenuItem.MenuItemType.PrivateMessages:
-               btn = new NavbarPrivateMessagesItem(parentViewport, Workspace);
+               btn = new NavbarPrivateMessagesItem(parentViewport);
                break;
             default:
                btn = new NavbarIButtonControl(parentViewport);

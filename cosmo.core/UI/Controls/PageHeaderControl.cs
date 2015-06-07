@@ -14,9 +14,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets an instance of <see cref="PageHeaderControl"/>.
       /// </summary>
-      /// <param name="container">Owner view of the control.</param>
-      public PageHeaderControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Owner view of the control.</param>
+      public PageHeaderControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

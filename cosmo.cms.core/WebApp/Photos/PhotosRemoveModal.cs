@@ -7,7 +7,7 @@ namespace Cosmo.WebApp.Photos
 {
    [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID,
                   PropertyName = "PhotoID")]
-   public class PhotosRemoveModal : ModalViewContainer
+   public class PhotosRemoveModal : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "photo-delete-modal";
@@ -60,7 +60,7 @@ namespace Cosmo.WebApp.Photos
          FormControl form = new FormControl(this, "frmRemovePhoto");
          form.UsePanel = false;
          form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
-         form.AddFormSetting(ForumsDAO.PARAM_THREAD_ID, this.PhotoID);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, this.PhotoID);
 
          CalloutControl callout = new CalloutControl(this);
          callout.Type = ComponentColorScheme.Warning;

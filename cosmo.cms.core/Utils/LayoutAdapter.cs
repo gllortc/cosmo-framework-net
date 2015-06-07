@@ -4,6 +4,7 @@ using Cosmo.Cms.Forums;
 using Cosmo.Cms.Photos;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.WebApp.Photos;
 using System.Collections.Generic;
 
 namespace Cosmo.Cms.Utils
@@ -23,7 +24,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folder">Una instancia de <see cref="DocumentFolder"/> que representa la carpeta a convertir.</param>
          /// <returns>Una instancia de <see cref="ListItem"/> que representa la carpeta convertida.</returns>
-         public static ListItem ConvertFolderToListItem(ViewContainer parentViewport, DocumentFolder folder)
+         public static ListItem ConvertFolderToListItem(View parentViewport, DocumentFolder folder)
          {
             ListItem listItem = new ListItem();
             listItem.Text = folder.Name;
@@ -40,7 +41,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folders">Lista de instancias de <see cref="DocumentFolder"/> que representan las carpetas a listar.</param>
          /// <returns>El componente listo para ser representado al cliente.</returns>
-         public static ListGroupControl ConvertFoldersToListGroup(ViewContainer parentViewport, List<DocumentFolder> folders)
+         public static ListGroupControl ConvertFoldersToListGroup(View parentViewport, List<DocumentFolder> folders)
          {
             ListGroupControl folderList = new ListGroupControl(parentViewport);
 
@@ -60,7 +61,7 @@ namespace Cosmo.Cms.Utils
          /// <param name="folder">La carpeta que contiene las subcarpetas.</param>
          /// <param name="showUpOption">Indica si se debe mostrar la opción de subir de nivel en la lista.</param>
          /// <returns>El componente listo para ser representado al cliente.</returns>
-         public static ListGroupControl ConvertFoldersToListGroup(ViewContainer parentViewport, DocumentFolder folder, bool showUpOption)
+         public static ListGroupControl ConvertFoldersToListGroup(View parentViewport, DocumentFolder folder, bool showUpOption)
          {
             ListItem listItem = null;
             ListGroupControl folderList = new ListGroupControl(parentViewport);
@@ -90,7 +91,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="document">La instancia de <see cref="Document"/> que se desea convertir.</param>
          /// <returns>Una instancia de <see cref="MediaItem"/> que representa el documento original.</returns>
-         public static MediaItem ConvertToMediaItem(ViewContainer parentViewport, Document document)
+         public static MediaItem ConvertToMediaItem(View parentViewport, Document document)
          {
             MediaItem item = new MediaItem();
             item.Title = document.Title;
@@ -106,7 +107,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="documentList">La lista de instancias <see cref="Document"/> a convertir.</param>
          /// <returns>Una de medios de Bootstrap.</returns>
-         public static MediaListControl ConvertToMediaList(ViewContainer parentViewport, List<Document> documentList)
+         public static MediaListControl ConvertToMediaList(View parentViewport, List<Document> documentList)
          {
             MediaItem item = null;
             MediaListControl list = new MediaListControl(parentViewport);
@@ -142,7 +143,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folders">Lista de carpetas </param>
          /// <returns></returns>
-         public static BreadcrumbControl ConvertToBreadcrumb(ViewContainer parentViewport, List<DocumentFolder> folders)
+         public static BreadcrumbControl ConvertToBreadcrumb(View parentViewport, List<DocumentFolder> folders)
          {
             BreadcrumbControl breadcrumb = new BreadcrumbControl(parentViewport);
 
@@ -169,7 +170,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folders">La lista de las carpetas y subcarpetas del servicio.</param>
          /// <returns>Una instancia de <see cref="TreeViewControl"/> lista para ser representada.</returns>
-         public static TreeViewControl ConvertToTreeView(ViewContainer parentViewport, List<PhotoFolder> folders)
+         public static TreeViewControl ConvertToTreeView(View parentViewport, List<PhotoFolder> folders)
          {
             TreeViewControl treeView = new TreeViewControl(parentViewport);
 
@@ -181,14 +182,14 @@ namespace Cosmo.Cms.Utils
             return treeView;
          }
 
-         private static TreeViewChildItemControl ConvertToChildItem(ViewContainer parentViewport, PhotoFolder folder)
+         private static TreeViewChildItemControl ConvertToChildItem(View parentViewport, PhotoFolder folder)
          {
             TreeViewChildItemControl child = new TreeViewChildItemControl(parentViewport);
 
             child.DomID = "photo-folder-" + folder.ID;
             child.Caption = folder.Name;
             child.Description = folder.Description;
-            child.Href = PhotoDAO.GetFolderURL(folder.ID);
+            child.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
 
             if (folder.Subfolders.Count > 0)
                child.Icon = "glyphicon-chevron-right";
@@ -215,7 +216,7 @@ namespace Cosmo.Cms.Utils
             listItem.Description = folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
-            listItem.Href = PhotoDAO.GetFolderURL(folder.ID);
+            listItem.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
 
             return listItem;
          }
@@ -225,7 +226,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folders">Lista de instancias de <see cref="DocumentFolder"/> que representan las carpetas a listar.</param>
          /// <returns>El componente listo para ser representado al cliente.</returns>
-         public static ListGroupControl ConvertFoldersToListGroup(ViewContainer parentViewport, List<PhotoFolder> folders)
+         public static ListGroupControl ConvertFoldersToListGroup(View parentViewport, List<PhotoFolder> folders)
          {
             ListGroupControl folderList = new ListGroupControl(parentViewport);
 
@@ -245,7 +246,7 @@ namespace Cosmo.Cms.Utils
          /// <param name="folder">La carpeta que contiene las subcarpetas.</param>
          /// <param name="showUpOption">Indica si se debe mostrar la opción de subir de nivel en la lista.</param>
          /// <returns>El componente listo para ser representado al cliente.</returns>
-         public static ListGroupControl ConvertFoldersToListGroup(ViewContainer parentViewport, PhotoFolder folder, bool showUpOption)
+         public static ListGroupControl ConvertFoldersToListGroup(View parentViewport, PhotoFolder folder, bool showUpOption)
          {
             ListItem listItem = null;
             ListGroupControl folderList = new ListGroupControl(parentViewport);
@@ -255,7 +256,7 @@ namespace Cosmo.Cms.Utils
                listItem = new ListItem();
                listItem.Text = "..";
                listItem.Icon = IconControl.ICON_ARROW_UP;
-               listItem.Href = PhotoDAO.GetFolderURL(folder.ParentID);
+               listItem.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ParentID);
 
                folderList.Add(listItem);
             }
@@ -292,7 +293,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="documentList">La lista de instancias <see cref="Document"/> a convertir.</param>
          /// <returns>Una de medios de Bootstrap.</returns>
-         public static MediaListControl ConvertToMediaList(ViewContainer parentViewport, List<Photo> documentList)
+         public static MediaListControl ConvertToMediaList(View parentViewport, List<Photo> documentList)
          {
             MediaListControl list = new MediaListControl(parentViewport);
             list.Style = MediaListControl.MediaListStyle.Media;
@@ -312,7 +313,7 @@ namespace Cosmo.Cms.Utils
          /// <returns></returns>
          public static BreadcrumbItem ConvertToBreadcrumbItem(PhotoFolder folder)
          {
-            return new BreadcrumbItem(folder.Name, PhotoDAO.GetFolderURL(folder.ID));
+            return new BreadcrumbItem(folder.Name, PhotosByFolder.GetPhotosByFolderUrl(folder.ID));
          }
 
          /// <summary>
@@ -320,7 +321,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="folders">Lista de carpetas </param>
          /// <returns></returns>
-         public static BreadcrumbControl ConvertToBreadcrumb(ViewContainer parentViewport, List<PhotoFolder> folders)
+         public static BreadcrumbControl ConvertToBreadcrumb(View parentViewport, List<PhotoFolder> folders)
          {
             BreadcrumbControl breadcrumb = new BreadcrumbControl(parentViewport);
 
@@ -364,7 +365,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="sections"></param>
          /// <returns></returns>
-         public static ListGroupControl ConvertSectionsToListGroup(ViewContainer parentViewport, List<ClassifiedAdsSection> sections, int activeFolderId)
+         public static ListGroupControl ConvertSectionsToListGroup(View parentViewport, List<ClassifiedAdsSection> sections, int activeFolderId)
          {
             ListItem item;
             ListGroupControl folderList = new ListGroupControl(parentViewport);
@@ -388,7 +389,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="sections"></param>
          /// <returns></returns>
-         public static ListGroupControl ConvertSectionsToListGroup(ViewContainer parentViewport, List<ClassifiedAdsSection> sections)
+         public static ListGroupControl ConvertSectionsToListGroup(View parentViewport, List<ClassifiedAdsSection> sections)
          {
             return ConvertSectionsToListGroup(parentViewport, sections, -1);
          }
@@ -421,7 +422,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="sections"></param>
          /// <returns></returns>
-         public static ListGroupControl ConvertSectionsToListGroup(ViewContainer parentViewport, List<ForumChannel> sections, int activeFolderId)
+         public static ListGroupControl ConvertSectionsToListGroup(View parentViewport, List<ForumChannel> sections, int activeFolderId)
          {
             ListItem item;
             ListGroupControl folderList = new ListGroupControl(parentViewport);
@@ -445,7 +446,7 @@ namespace Cosmo.Cms.Utils
          /// </summary>
          /// <param name="sections"></param>
          /// <returns></returns>
-         public static ListGroupControl ConvertSectionsToListGroup(ViewContainer parentViewport, List<ForumChannel> sections)
+         public static ListGroupControl ConvertSectionsToListGroup(View parentViewport, List<ForumChannel> sections)
          {
             return ConvertSectionsToListGroup(parentViewport, sections, -1);
          }

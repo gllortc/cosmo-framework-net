@@ -32,37 +32,37 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve una instancia de <see cref="Script"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      protected Script(ViewContainer container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      protected Script(View parentView)
       {
          Initialize();
 
-         this.Container = container;
+         this.ParentView = parentView;
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IScript"/>.
+      /// Devuelve una instancia de <see cref="Script"/>.
       /// </summary>
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       /// <param name="source"´>Una cadena que contiene código JavaScript.</param>
-      protected Script(ViewContainer container, string source)
+      protected Script(View parentView, string source)
       {
          Initialize();
 
-         this.Container = container;
+         this.ParentView = parentView;
          this.Source.AppendLine(source);
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IScript"/>.
+      /// Devuelve una instancia de <see cref="Script"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="source">Una instancia de <see cref="StringBuilder"/> que contiene código JavaScript.</param>
-      protected Script(ViewContainer container, StringBuilder source)
+      protected Script(View parentView, StringBuilder source)
       {
          Initialize();
 
-         this.Container = container;
+         this.ParentView = parentView;
          this.Source = source;
       }
 
@@ -79,7 +79,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Devuelve la pPágina o contenedor dónde se representará el control.
       /// </summary>
-      public ViewContainer Container { get; internal set; }
+      public View ParentView { get; internal set; }
 
       /// <summary>
       /// Devuelve o establece el código fuente del script.
@@ -200,7 +200,7 @@ namespace Cosmo.UI.Scripting
       private void Initialize()
       {
          this.ExecutionType = ScriptExecutionMethod.Standalone;
-         this.Container = null;
+         this.ParentView = null;
          this.Source = new StringBuilder();
       }
 

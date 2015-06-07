@@ -1,25 +1,30 @@
 ﻿using Cosmo.Cms.Photos;
+using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Photos
 {
    [AuthenticationRequired]
-   public class PhotosUpload : PageViewContainer
+   public class PhotosUpload : PageView
    {
+      // Internal data declarations
       int folderId;
       FormControl form = null;
       PhotoFolder folder = null;
       PhotoDAO pictureDao = null;
 
+      #region PageView Implementation
+
       public override void InitPage()
       {
          Title = PhotoDAO.SERVICE_NAME;
-         ActiveMenuId = "photos";
+         ActiveMenuId = "photo-browse";
 
          // Cabecera
          HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
@@ -86,8 +91,8 @@ namespace Cosmo.WebApp.Photos
          form.Content.Add(date);
 
          FormFieldText author = new FormFieldText(this, "author", "Autor de la fotografia", FormFieldText.FieldDataType.Text);
-         author.Required = true;
          author.Value = Workspace.CurrentUser.User.GetDisplayName();
+         author.Description = "Rellena este campo sólo si tu no eres el autor.";
          form.Content.Add(author);
 
          FormFieldText link = new FormFieldText(this, "link", "Enlace (<em>link</em>)", FormFieldText.FieldDataType.Text);
@@ -133,8 +138,7 @@ namespace Cosmo.WebApp.Photos
          picture.Description = receivedForm.GetStringFieldValue("body") + "<br />" +
                                "<em>" + receivedForm.GetStringFieldValue("site") + ", " + 
                                receivedForm.GetDateFieldValue("date").ToString(Formatter.FORMAT_DATE) + "</em>";
-         // picture.Author = (chkCopyright.Checked ? "&copy; " : string.Empty) +
-         //                  (txtAuthorLink.Text.Trim().Equals(string.Empty) ? txtAuthor.Text.Trim() : Cosmo.Net.Url.ConvertToLink(txtAuthorLink.Text.Trim().ToLower(), txtAuthor.Text.Trim()));
+         picture.Author = receivedForm.GetStringFieldValue("author");
          picture.Created = DateTime.Now;
 
          // Obtiene el nombre de la miniatura
@@ -158,6 +162,27 @@ namespace Cosmo.WebApp.Photos
          // Nothing to do
       }
 
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Permite obtener una URL para poder subir fotos a una determinada carpeta.
+      /// </summary>
+      /// <param name="folderId">Identificador de la carpeta.</param>
+      /// <returns>Una cadena que contiene la URL solicitada.</returns>
+      public static string GetPhotosUploadURL(int folderId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Workspace.PARAM_FOLDER_ID, folderId.ToString());
+
+         return url.ToString(true);
+      }
+
+      #endregion
+
+      #region Private Members
+
       /// <summary>
       /// Devuelve el nombre que debe recibir el archivo.
       /// </summary>
@@ -171,5 +196,8 @@ namespace Cosmo.WebApp.Photos
 
          return string.Empty;
       }
+
+      #endregion
+
    }
 }

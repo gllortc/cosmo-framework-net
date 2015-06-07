@@ -288,39 +288,6 @@ namespace Cosmo.Security.Auth
          _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].SetPassword(uid, oldPassword, newPassword, newPasswordVerification);
       }
 
-      /*/// <summary>
-      /// Obtiene una lista de los roles de un usuario.
-      /// </summary>
-      /// <param name="uid">Identificador único del usuario.</param>
-      /// <returns>Una instancia de <see cref="System.Collections.Generic.List&lt;T&gt;"/> rellenada con la lista de roles.</returns>
-      public List<Role> GetUserRoles(int uid)
-      {
-         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetUserRoles(uid);
-      }
-
-      /// <summary>
-      /// Obtiene una lista de los roles de un usuario.
-      /// </summary>
-      /// <param name="login">Login del usuario.</param>
-      /// <returns>Una lista rellenada con la lista de roles.</returns>
-      public List<Role> GetUserRoles(string login)
-      {
-         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetUserRoles(login);
-      }
-
-      /// <summary>
-      /// Devuelve una lista de usuarios que tienen un rol específico.
-      /// </summary>
-      /// <param name="roleId">Identificador del rol.</param>
-      /// <returns>
-      /// Una lista que contiene las inatancias de <see cref="User"/> que 
-      /// pretenecen al rol solicitado.
-      /// </returns>
-      public List<User> GetRoleUsers(int roleId)
-      {
-         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetRoleUsers(roleId);
-      }*/
-
       /// <summary>
       /// Obtiene una lista de usuarios que cumplen los criterios de selección.
       /// </summary>
@@ -364,18 +331,22 @@ namespace Cosmo.Security.Auth
       }
 
       /// <summary>
-      /// Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
+      /// Generates the login view Url.
       /// </summary>
-      /// <param name="login">Login a testear.</param>
-      /// <returns>Un valor booleano que indica si es válido o no.</returns>
-      /// <remarks>
-      /// Regular Expression obtenida de:
-      /// http://immike.net/blog/2007/04/06/5-regular-expressions-every-web-programmer-should-know/
-      /// (Usar "[a-zA-Z0-9]" para verificar sólo si admite letras y números)
-      /// </remarks>
-      public static bool IsValidLogin(string login)
+      /// <returns>A string containing the requested url.</returns>
+      public string GetLoginUrl()
       {
-         return Regex.IsMatch(login, @"^(?=[a-zA-Z])[-\w.]{4,23}([a-zA-Z\d]|(?<![-.])_)$");
+         return GetLoginUrl(string.Empty);
+      }
+
+      /// <summary>
+      /// Generates the login view Url.
+      /// </summary>
+      /// <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
+      /// <returns>A string containing the requested url.</returns>
+      public string GetLoginUrl(string redirectToUrl)
+      {
+         return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetLoginUrl(redirectToUrl);
       }
 
       /// <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
@@ -631,6 +602,21 @@ namespace Cosmo.Security.Auth
                                 context.Request.RawUrl.Replace(context.Request.ApplicationPath, string.Empty).Replace("/", ""));
 
          // TODO: Revisar si no és Request.Url.OriginalString el tercer paràmetre
+      }
+
+      /// <summary>
+      /// Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
+      /// </summary>
+      /// <param name="login">Login a testear.</param>
+      /// <returns>Un valor booleano que indica si es válido o no.</returns>
+      /// <remarks>
+      /// Regular Expression obtenida de:
+      /// http://immike.net/blog/2007/04/06/5-regular-expressions-every-web-programmer-should-know/
+      /// (Usar "[a-zA-Z0-9]" para verificar sólo si admite letras y números)
+      /// </remarks>
+      public static bool IsValidLogin(string login)
+      {
+         return Regex.IsMatch(login, @"^(?=[a-zA-Z])[-\w.]{4,23}([a-zA-Z\d]|(?<![-.])_)$");
       }
 
       #endregion

@@ -12,9 +12,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PageHeaderControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public DocumentHeaderControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public DocumentHeaderControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

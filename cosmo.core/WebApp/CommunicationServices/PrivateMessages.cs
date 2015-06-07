@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Cosmo.WebApp.CommunicationServices
 {
    [AuthenticationRequired]
-   public class PrivateMessages : PageViewContainer
+   public class PrivateMessages : PageView
    {
       public override void InitPage()
       {

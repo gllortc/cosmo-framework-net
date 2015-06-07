@@ -49,9 +49,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public ButtonControl(ViewContainer container) 
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public ButtonControl(View parentView) 
+         : base(parentView)
       {
          Initialize();
       }
@@ -59,12 +59,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="type">Tipo de botón a representar.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, ButtonTypes type)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, ButtonTypes type)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -75,13 +75,13 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>
       /// <param name="type">Tipo de botón a representar.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, string icon, ButtonTypes type)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, string icon, ButtonTypes type)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -93,12 +93,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, ModalViewContainer modal)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, ModalView modal)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -111,12 +111,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, string icon, ModalViewContainer modal)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, string icon, ModalView modal)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -130,13 +130,13 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="href">Enlace dónde se redirige al hacer clic.</param>
       /// <param name="jsAction">Acción JS que se ejecutará al hacer clic.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, string href, string jsAction)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, string href, string jsAction)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -149,14 +149,14 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del control en la página (DOM ID).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>
       /// <param name="href">Enlace dónde se redirige al hacer clic.</param>
       /// <param name="jsAction">Acción JS que se ejecutará al hacer clic.</param>
-      public ButtonControl(ViewContainer container, string domId, string caption, string icon, string href, string jsAction)
-         : base(container, domId)
+      public ButtonControl(View parentView, string domId, string caption, string icon, string href, string jsAction)
+         : base(parentView, domId)
       {
          Initialize();
 

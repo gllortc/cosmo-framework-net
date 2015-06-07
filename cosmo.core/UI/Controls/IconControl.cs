@@ -133,9 +133,9 @@
       /// Devuelve una instancia de <see cref="IconControl"/>.
       /// </summary>
       /// <param name="code">Código de icono a representar.</param>
-      /// <param name="container">El contenedor dónde se representará el control.</param>
-      public IconControl(ViewContainer container, string code)
-         : base(container)
+      /// <param name="parentView">El contenedor dónde se representará el control.</param>
+      public IconControl(View parentView, string code)
+         : base(parentView)
       {
          Initialize();
 
@@ -145,11 +145,11 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="IconControl"/>.
       /// </summary>
-      /// <param name="container">El contenedor dónde se representará el control.</param>
+      /// <param name="parentView">El contenedor dónde se representará el control.</param>
       /// <param name="code">Código de icono a representar.</param>
       /// <param name="banned">Indica si l icono debe mostrarse baneado (con una señal de prohibición justo encima).</param>
-      public IconControl(ViewContainer container, string code, bool banned)
-         : base(container)
+      public IconControl(View parentView, string code, bool banned)
+         : base(parentView)
       {
          Initialize();
 
@@ -162,9 +162,9 @@
       /// </summary>
       /// <param name="code">Código de icono a representar.</param>
       /// <param name="bgColor">Color de fondo.</param>
-      /// <param name="container">El contenedor dónde se representará el control.</param>
-      public IconControl(ViewContainer container, string code, ComponentBackgroundColor bgColor)
-         : base(container)
+      /// <param name="parentView">El contenedor dónde se representará el control.</param>
+      public IconControl(View parentView, string code, ComponentBackgroundColor bgColor)
+         : base(parentView)
       {
          Initialize();
 
@@ -206,7 +206,7 @@
       /// <param name="viewport"></param>
       /// <param name="code"></param>
       /// <returns></returns>
-      public static string GetIcon(ViewContainer viewport, string code)
+      public static string GetIcon(View viewport, string code)
       {
          return new IconControl(viewport, code).ToXhtml();
       }
@@ -218,7 +218,7 @@
       /// <param name="code"></param>
       /// <param name="banned"></param>
       /// <returns></returns>
-      public static string GetIcon(ViewContainer viewport, string code, bool banned)
+      public static string GetIcon(View viewport, string code, bool banned)
       {
          return new IconControl(viewport, code, banned).ToXhtml();
       }
@@ -230,7 +230,7 @@
       /// <param name="code"></param>
       /// <param name="bgColor"></param>
       /// <returns></returns>
-      public static string GetIcon(ViewContainer viewport, string code, ComponentBackgroundColor bgColor)
+      public static string GetIcon(View viewport, string code, ComponentBackgroundColor bgColor)
       {
          return new IconControl(viewport, code, bgColor).ToXhtml();
       }

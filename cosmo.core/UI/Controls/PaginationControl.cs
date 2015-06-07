@@ -10,7 +10,7 @@
       /// </summary>
       public const string URL_PAGEID_TAG = "--PAGID--";
 
-      // Declaración de variables internas   
+      // Internal data declarations
       private int _min;
       private int _max;
       private int _current;
@@ -19,9 +19,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PaginationControl"/>
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public PaginationControl(ViewContainer container) 
-         : base(container) 
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public PaginationControl(View parentView) 
+         : base(parentView) 
       {
          Initialize();
       }

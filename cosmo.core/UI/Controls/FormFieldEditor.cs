@@ -34,7 +34,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldEditor(ViewContainer parentViewport, string domId)
+      public FormFieldEditor(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -47,7 +47,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
-      public FormFieldEditor(ViewContainer parentViewport, string domId, string label, FieldEditorType type)
+      public FormFieldEditor(View parentViewport, string domId, string label, FieldEditorType type)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -64,7 +64,7 @@ namespace Cosmo.UI.Controls
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldEditor(ViewContainer parentViewport, string domId, string label, FieldEditorType type, string value)
+      public FormFieldEditor(View parentViewport, string domId, string label, FieldEditorType type, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -141,7 +141,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            _value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            _value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {

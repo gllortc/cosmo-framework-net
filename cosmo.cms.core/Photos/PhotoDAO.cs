@@ -1,6 +1,5 @@
 using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
-using Cosmo.Net;
 using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
@@ -47,6 +46,7 @@ namespace Cosmo.Cms.Photos
       private const string SQL_SELECT_FOLDER = "ifid,ifparentid,ifname,ifhtml,iflink,iforder,ifenabled,ifowner,iffilepattern";
       private const string SQL_TABLE_FOLDERS = "imagefolders";
       private const string SQL_TABLE_IMAGES = "images";
+      private const string SQL_TABLE_DOCIMAGES = "CMS_DOCSIMAGES";
 
       #region Constructors
 
@@ -643,13 +643,6 @@ namespace Cosmo.Cms.Photos
             // Start a transaction block
             using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
             {
-               // Elimina los archivos relacionados
-               if (deleteFiles)
-               {
-                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.PictureFile, false);
-                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.ThumbnailFile, false);
-               }
-
                // Elimina el registro de la base de datos
                sql = "DELETE FROM images WHERE imgid=@imgid";
                cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
@@ -657,10 +650,17 @@ namespace Cosmo.Cms.Photos
                cmd.ExecuteNonQuery();
 
                // Elimina las relaciones con documentos
-               sql = "DELETE FROM docsimages WHERE idimgid=@idimgid";
+               sql = "DELETE FROM " + SQL_TABLE_DOCIMAGES + " WHERE idimgid=@idimgid";
                cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
                cmd.Parameters.Add(new SqlParameter("@idimgid", picture.ID));
                cmd.ExecuteNonQuery();
+
+               // Elimina los archivos relacionados
+               if (deleteFiles)
+               {
+                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.PictureFile, false);
+                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.ThumbnailFile, false);
+               }
 
                trans.Commit();
             }
@@ -1029,56 +1029,6 @@ namespace Cosmo.Cms.Photos
       public static DateTime NewPicturesDate
       {
          get { return System.DateTime.Now.AddDays(-30); }
-      }
-
-      /// <summary>
-      /// Devuelve la URL que permite navegar por carpetas.
-      /// </summary>
-      public static string GetBrowseFoldersURL()
-      {
-         return PhotoDAO.URL_HOME;
-      }
-
-      /// <summary>
-      /// Devuelve la URL para navegar por las fotos del usuario actualmente conectado.
-      /// </summary>
-      public static string GetUserPhotosURL()
-      {
-         return PhotoDAO.URL_BYUSER;
-      }
-
-      /// <summary>
-      /// Devuelve la URL para navegar por las fotos más recientes.
-      /// </summary>
-      public static string GetRecentPhotosURL()
-      {
-         return PhotoDAO.URL_RECENT;
-      }
-
-      /// <summary>
-      /// Permite obtener una URL para poder subir fotos a una determinada carpeta.
-      /// </summary>
-      /// <param name="folderId">Identificador de la carpeta.</param>
-      /// <returns>Una cadena que contiene la URL solicitada.</returns>
-      public static string GetFolderURL(int folderId)
-      {
-         Url url = new Url(PhotoDAO.URL_FOLDER);
-         url.AddParameter(Workspace.PARAM_FOLDER_ID, folderId.ToString());
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Permite obtener una URL para poder subir fotos a una determinada carpeta.
-      /// </summary>
-      /// <param name="folderId">Identificador de la carpeta.</param>
-      /// <returns>Una cadena que contiene la URL solicitada.</returns>
-      public static string GetUploadURL(int folderId)
-      {
-         Url url = new Url(URL_ADD);
-         url.AddParameter(Workspace.PARAM_FOLDER_ID, folderId.ToString());
-
-         return url.ToString(true);
       }
 
       #endregion

@@ -15,7 +15,7 @@
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del elemento.</param>
       /// <param name="disabled"><c>true</c> para inhabilitar el elemento o <c>false</c> para habilitarlo.</param>
-      public DisableElementBehavior(ViewContainer parentViewport, string domId, bool disabled)
+      public DisableElementBehavior(View parentViewport, string domId, bool disabled)
          : base(parentViewport)
       {
          this.DomId = domId;

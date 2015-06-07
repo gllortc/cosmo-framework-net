@@ -11,9 +11,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarHeaderControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public NavbarHeaderControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public NavbarHeaderControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -21,11 +21,11 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarHeaderControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption">Texto visible del elemento.</param>
       /// <param name="href">URL para el enlace del elemento.</param>
-      public NavbarHeaderControl(ViewContainer container, string caption, string href)
-         : base(container)
+      public NavbarHeaderControl(View parentView, string caption, string href)
+         : base(parentView)
       {
          Initialize();
 

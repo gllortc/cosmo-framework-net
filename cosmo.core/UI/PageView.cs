@@ -10,21 +10,21 @@ namespace Cosmo.UI
    /// <summary>
    /// Implementa una página de Cosmo que se genera si usar la capa System.Web.UI.
    /// </summary>
-   public abstract class PageViewContainer : ViewContainer
+   public abstract class PageView : View
    {
       /// <summary>Nombre del enlace interno de inicio de página</summary>
       public const string LINK_TOP_PAGE = "page-top";
 
       // Declaracción de variables internas
       private LayoutContainerControl _layout;
-      private List<ModalViewContainer> _modals;
+      private List<ModalView> _modals;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PageViewContainer"/>.
+      /// Devuelve una instancia de <see cref="PageView"/>.
       /// </summary>
-      protected PageViewContainer()
+      protected PageView()
       {
          Initialize();
       }
@@ -119,11 +119,11 @@ namespace Cosmo.UI
       /// <summary>
       /// Lista de ventanas modales que se van a invocar desde la vista actual.
       /// </summary>
-      public List<ModalViewContainer> Modals
+      public List<ModalView> Modals
       {
          get
          {
-            if (_modals == null) _modals = new List<ModalViewContainer>();
+            if (_modals == null) _modals = new List<ModalView>();
             return _modals;
          }
          set { _modals = value; }

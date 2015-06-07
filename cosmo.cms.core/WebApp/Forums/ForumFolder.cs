@@ -11,7 +11,7 @@ namespace Cosmo.WebApp.Forums
    /// FOROS.
    /// Muestra los threads de un canal del foro.
    /// </summary>
-   public class ForumFolder : PageViewContainer
+   public class ForumFolder : PageView
    {
       public override void LoadPage()
       {

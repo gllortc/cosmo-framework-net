@@ -25,7 +25,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldFile(ViewContainer parentViewport, string domId)
+      public FormFieldFile(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -37,7 +37,7 @@ namespace Cosmo.UI.Controls
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
-      public FormFieldFile(ViewContainer parentViewport, string domId, string label)
+      public FormFieldFile(View parentViewport, string domId, string label)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -52,7 +52,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldFile(ViewContainer parentViewport, string domId, string label, string value)
+      public FormFieldFile(View parentViewport, string domId, string label, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -69,7 +69,7 @@ namespace Cosmo.UI.Controls
       /// <param name="label"></param>
       /// <param name="description"></param>
       /// <param name="value"></param>
-      public FormFieldFile(ViewContainer parentViewport, string domId, string label, string description, string value)
+      public FormFieldFile(View parentViewport, string domId, string label, string description, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -202,7 +202,7 @@ namespace Cosmo.UI.Controls
             if (valid)
             {
                // Obtiene el archivo
-               HttpPostedFile file = Container.Workspace.Context.Request.Files[this.DomID];
+               HttpPostedFile file = ParentView.Workspace.Context.Request.Files[this.DomID];
 
                // Genera el nombre del archivo
                string filePath = string.IsNullOrWhiteSpace(this.FileName) ? file.FileName : this.FileName;
@@ -241,20 +241,20 @@ namespace Cosmo.UI.Controls
          if (this.Required)
          {
             // Verifica el envio del archivo
-            if (Container.Workspace.Context.Request.Files.Count <= 0)
+            if (ParentView.Workspace.Context.Request.Files.Count <= 0)
                return false;
 
-            if (Container.Workspace.Context.Request.Files[this.DomID] == null)
+            if (ParentView.Workspace.Context.Request.Files[this.DomID] == null)
                return false;
 
             // Verifica que el archivo contenga datos
-            if (Container.Workspace.Context.Request.Files[this.DomID].ContentLength <= 0)
+            if (ParentView.Workspace.Context.Request.Files[this.DomID].ContentLength <= 0)
                return false;
 
             // Verifica el tamaño máximo del archivo
             if (this.MaxLength > 0)
             {
-               if (Container.Workspace.Context.Request.Files[this.DomID].ContentLength > this.MaxLength)
+               if (ParentView.Workspace.Context.Request.Files[this.DomID].ContentLength > this.MaxLength)
                   return false;
             }
 
@@ -265,7 +265,7 @@ namespace Cosmo.UI.Controls
             {
                foreach (string ext in _allowedExt)
                {
-                  file = new FileInfo(Container.Workspace.Context.Request.Files[this.DomID].FileName);
+                  file = new FileInfo(ParentView.Workspace.Context.Request.Files[this.DomID].FileName);
                   isAllowed = isAllowed | file.Extension.ToLower().Equals("." + ext.ToLower());
                }
 

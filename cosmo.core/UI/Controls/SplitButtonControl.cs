@@ -13,9 +13,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="SplitButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public SplitButtonControl(ViewContainer container) 
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public SplitButtonControl(View parentView) 
+         : base(parentView)
       {
          Initialize();
       }

@@ -12,7 +12,7 @@ using System.IO;
 namespace Cosmo.WebApp.Classified
 {
    [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
-   public class ClassifiedEdit : PageViewContainer
+   public class ClassifiedEdit : PageView
    {
       // Declaración de nombres de parámetros
       private const string FIELD_TITLE = "tit";

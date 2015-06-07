@@ -8,7 +8,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class PanelControl : Control, IControlSingleContainer
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _caption;
       private string _captionIcon;
       private ControlCollection _controls;
@@ -20,9 +20,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="PanelControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public PanelControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public PanelControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -30,10 +30,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="PanelControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
-      public PanelControl(ViewContainer container, string domId)
-         : base(container, domId)
+      public PanelControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
@@ -99,7 +99,7 @@ namespace Cosmo.UI.Controls
       {
          get 
          {
-            if (_buttons == null) _buttons = new ButtonGroupControl(this.Container);
+            if (_buttons == null) _buttons = new ButtonGroupControl(this.ParentView);
             return _buttons;
          }
          set { _buttons = value; }

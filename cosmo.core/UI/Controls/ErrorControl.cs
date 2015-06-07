@@ -13,9 +13,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="ErrorControl"/>
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public ErrorControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public ErrorControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -23,10 +23,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="ErrorControl"/>
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="exception">La excepción que contiene los detalles a mostrar.</param>
-      public ErrorControl(ViewContainer container, Exception exception)
-         : base(container)
+      public ErrorControl(View parentView, Exception exception)
+         : base(parentView)
       {
          Initialize();
 

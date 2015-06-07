@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Cosmo.WebApp.Forums
 {
    [AuthenticationRequired]
-   public class ForumMessageEdit :PageViewContainer
+   public class ForumMessageEdit :PageView
    {
       private int messageId;
       private int parentMsgId;

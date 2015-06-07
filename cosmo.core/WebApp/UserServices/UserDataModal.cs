@@ -14,7 +14,7 @@ namespace Cosmo.WebApp.UserServices
    [AuthenticationRequired]
    [ViewParameter(ParameterName = Workspace.PARAM_USER_ID,
                   PropertyName = "ThreadID")]
-   public class UserDataModal : Cosmo.UI.ModalViewContainer
+   public class UserDataModal : Cosmo.UI.ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "user-data-modal";

@@ -7,15 +7,15 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class SidebarControl : Control
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private List<SidebarButton> _buttons;
 
       /// <summary>
       /// Devuelve una instancia de <see cref="SidebarControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public SidebarControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public SidebarControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

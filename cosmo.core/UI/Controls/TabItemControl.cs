@@ -7,7 +7,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class TabItemControl : Control, IControlSingleContainer
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _active;
       private string _caption;
       private string _icon;
@@ -17,9 +17,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="TabbedContainerControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public TabItemControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public TabItemControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -27,11 +27,11 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="TabbedContainerControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="id"></param>
       /// <param name="caption"></param>
-      public TabItemControl(ViewContainer container, string id, string caption)
-         : base(container)
+      public TabItemControl(View parentView, string id, string caption)
+         : base(parentView)
       {
          Initialize();
 

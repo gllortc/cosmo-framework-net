@@ -1,7 +1,9 @@
-﻿using Cosmo.Services;
+﻿using Cosmo.Net;
+using Cosmo.Services;
 using Cosmo.Utils;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace Cosmo.Security.Auth
 {
@@ -94,6 +96,22 @@ namespace Cosmo.Security.Auth
       public bool IsValidIPAddress(string ipAddress)
       {
          return !_plugin.GetString(SETTING_SECURITY_BLOQUEDIP).Contains(ipAddress);
+      }
+
+      /// <summary>
+      /// Generates the login view Url.
+      /// </summary>
+      /// <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
+      /// <returns>A string containing the requested url.</returns>
+      public string GetLoginUrl(string redirectToUrl)
+      {
+         Url url = new Url(_plugin.GetString("security.LoginView", Cosmo.Workspace.COSMO_URL_LOGIN));
+         if (!string.IsNullOrWhiteSpace(redirectToUrl))
+         {
+            url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, redirectToUrl);
+         }
+
+         return url.ToString();
       }
 
       #endregion
@@ -246,6 +264,7 @@ namespace Cosmo.Security.Auth
       /// <param name="login">Login o fracción a buscar</param>
       /// <param name="city">Ciudad o fracción a buscar</param>
       /// <param name="countryId">Identificador del pais a buscar</param>
+      /// <param name="onlyEnabledUsers">Indicates if the methos must show only the enabled users.</param>
       /// <returns></returns>
       public abstract List<User> Find(string login, string city, int countryId, bool onlyEnabledUsers);
 

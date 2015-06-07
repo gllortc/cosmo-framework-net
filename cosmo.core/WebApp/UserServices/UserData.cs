@@ -15,7 +15,7 @@ namespace Cosmo.WebApp.UserServices
    /// Copyright (c) InforGEST
    /// </remarks>
    [AuthenticationRequired]
-   public class UserData : PageViewContainer
+   public class UserData : PageView
    {
       // private Form modal;
 

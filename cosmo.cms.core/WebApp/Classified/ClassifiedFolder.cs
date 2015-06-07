@@ -13,7 +13,7 @@ namespace Cosmo.WebApp.Classified
    /// ANUNCIOS CLASIFICADOS.
    /// Muestra el contenido de una categoria.
    /// </summary>
-   public class ClassifiedFolder : PageViewContainer
+   public class ClassifiedFolder : PageView
    {
       public override void LoadPage()
       {

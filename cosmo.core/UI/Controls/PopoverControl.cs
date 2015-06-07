@@ -16,7 +16,7 @@
          Left
       }
 
-      // Declaración de variables sinternas
+      // Internal data declarations
       private string _caption;
       private string _content;
       private PopoverDirections _direction;
@@ -24,9 +24,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public PopoverControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public PopoverControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }

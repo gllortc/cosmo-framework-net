@@ -12,7 +12,7 @@ namespace Cosmo.WebApp.Forums
    /// FORUM SERVICE.
    /// Muestra el contenido de un thread.
    /// </summary>
-   public class ForumThreadView : PageViewContainer
+   public class ForumThreadView : PageView
    {
       ForumsDAO fdao = null;
 

@@ -440,7 +440,7 @@ namespace Cosmo.REST
 
             SendResponse(new AjaxResponse());
          }
-         catch (Exception ex)
+         catch
          {
             SendResponse(new AjaxResponse(1002, "Ha ocurrido un error y no ha sido posible cancelar la cuenta solicitada."));
          }
@@ -467,16 +467,16 @@ namespace Cosmo.REST
       /// <summary>
       /// Agrega un fragmento de código JavaScript.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="System.Web.UI.Page"/>.</param>
+      /// <param name="ownerView">Una instancia de <see cref="System.Web.UI.Page"/>.</param>
       /// <param name="code">Código JavaScript.</param>
-      public static void AddJavaScriptCode(System.Web.UI.Page container, string code)
+      public static void AddJavaScriptCode(System.Web.UI.Page ownerView, string code)
       {
          // Agrega el código JavaScript
          HtmlGenericControl js = new HtmlGenericControl("script");
          js.Attributes["type"] = "text/javascript";
          js.InnerHtml = code;
 
-         container.Header.Controls.Add(js);
+         ownerView.Header.Controls.Add(js);
       }
       
       /// <summary>

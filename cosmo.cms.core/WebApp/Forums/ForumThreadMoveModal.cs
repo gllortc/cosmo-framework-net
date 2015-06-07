@@ -12,7 +12,7 @@ namespace Cosmo.WebApp.Forums
                   PropertyName = "ThreadID")]
    [ViewParameter(ParameterName = ForumsDAO.PARAM_CHANNEL_ID,
                   PropertyName = "ChannelID")]
-   public class ForumThreadMoveModal : ModalViewContainer
+   public class ForumThreadMoveModal : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "forum-thread-move-modal";

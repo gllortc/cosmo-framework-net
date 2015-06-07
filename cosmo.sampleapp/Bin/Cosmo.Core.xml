@@ -616,7 +616,7 @@
             <param name="parameters">Parámetros recibidos del cliente.</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.ViewContainer,System.Object,System.Boolean)">
+        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.Object,System.Boolean)">
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
@@ -628,7 +628,7 @@
             Los campos del formulario tomarán como valor el que se obtenga de las propiedades de la instancia.
             </remarks>
         </member>
-        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.ViewContainer,System.Type,System.Boolean)">
+        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.Type,System.Boolean)">
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
@@ -1571,7 +1571,7 @@
         </member>
         <member name="T:Cosmo.UI.ControlCache">
             <summary>
-            Implements a control cache for implementatios of <see cref="T:Cosmo.UI.ViewContainer"/> class.
+            Implements a control cache for implementatios of <see cref="T:Cosmo.UI.View"/> class.
             </summary>
         </member>
         <member name="F:Cosmo.UI.ControlCache.DEFAULT_CACHE_TIME">
@@ -1630,17 +1630,17 @@
             Clase abstracta que deben implementar todos los componentes de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.Control.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.Control.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.Control"/>.
             </summary>
-            <param name="container">Instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que contiene el control.</param>
+            <param name="parentView">Instancia de <see cref="T:Cosmo.UI.View"/> que contiene el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.Control.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.Control.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.Control"/>.
             </summary>
-            <param name="container">Instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que contiene el control.</param>
+            <param name="parentView">Instancia de <see cref="T:Cosmo.UI.View"/> que contiene el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.Control.AddScript(Cosmo.UI.Scripting.Script)">
@@ -1675,16 +1675,16 @@
             Sólo se debe establecer este valor si se desea acceder al componente a través de JavaScript.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.Control.Container">
+        <member name="P:Cosmo.UI.Controls.Control.ParentView">
             <summary>
-            Devuelve o establece la instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que contiene el control.
+            Devuelve o establece la instancia de <see cref="T:Cosmo.UI.View"/> que contiene el control.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.AjaxControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.AjaxControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             
             </summary>
-            <param name="container"></param>
+            <param name="ownerView"></param>
             <param name="domId"></param>
         </member>
         <member name="T:Cosmo.UI.Controls.SplitButtonControl">
@@ -1697,64 +1697,64 @@
             Implementa un botón de comando.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.ButtonControl.ButtonTypes)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.ButtonControl.ButtonTypes)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="type">Tipo de botón a representar.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,Cosmo.UI.Controls.ButtonControl.ButtonTypes)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,System.String,Cosmo.UI.Controls.ButtonControl.ButtonTypes)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="icon">Código del icono a mostrar.</param>
             <param name="type">Tipo de botón a representar.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.ModalView)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="modal">Formulario modal que abrirá el botón.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,System.String,Cosmo.UI.ModalView)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="modal">Formulario modal que abrirá el botón.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="href">Enlace dónde se redirige al hacer clic.</param>
             <param name="jsAction">Acción JS que se ejecutará al hacer clic.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.ButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del control en la página (DOM ID).</param>
             <param name="caption">Texto visible para el botón.</param>
             <param name="icon">Código del icono a mostrar.</param>
@@ -1859,11 +1859,11 @@
         <member name="F:Cosmo.UI.Controls.ButtonControl.ButtonTypes.OpenModalView">
             <summary>Open Modal view. Abre un formulario modal habilitado en la página.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.SplitButtonControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.SplitButtonControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.SplitButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.SplitButtonControl.Initialize">
             <summary>
@@ -1914,11 +1914,11 @@
             el título del contenido y una descripción.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.DocumentHeaderControl.Initialize">
             <summary>
@@ -1945,17 +1945,18 @@
             Implementa una imagen representable en un control <see cref="T:Cosmo.UI.Controls.PictureGalleryControl"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PictureControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PictureControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PictureControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.PictureControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.PictureControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PictureControl"/>.
             </summary>
-            <param name="id">Identificador del elemento en el documento (DOM).</param>
+            <param name="parentView">The view that contains the control.</param>
+            <param name="domId">Identificador del elemento en el documento (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PictureControl.Initialize">
             <summary>
@@ -2016,17 +2017,17 @@
             Implementa una galeria de imágenes.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PictureGalleryControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PictureGalleryControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.PictureGalleryControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.PictureGalleryControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId"></param>
         </member>
         <member name="M:Cosmo.UI.Controls.PictureGalleryControl.Initialize">
@@ -2039,13 +2040,13 @@
             Implements a control that allow to open a modal form with its public data.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.View)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
             </summary>
             <param name="view">Container view of the control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer,System.Int32,System.String,Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.View,System.Int32,System.String,Cosmo.UI.ModalView)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
             </summary>
@@ -2053,7 +2054,7 @@
             <param name="userId">User unique identifier.</param>
             <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.ViewContainer,Cosmo.Security.User,Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Controls.UserLinkControl.#ctor(Cosmo.UI.View,Cosmo.Security.User,Cosmo.UI.ModalView)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
             </summary>
@@ -2093,18 +2094,18 @@
             Interface que deben implementar todos los scripts.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Script"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.ViewContainer,System.String)" -->
-        <member name="M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.ViewContainer,System.Text.StringBuilder)">
+        <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.View,System.String)" -->
+        <member name="M:Cosmo.UI.Scripting.Script.#ctor(Cosmo.UI.View,System.Text.StringBuilder)">
             <summary>
-            Devuelve una instancia de <see cref="!:IScript"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Script"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="source">Una instancia de <see cref="T:System.Text.StringBuilder"/> que contiene código JavaScript.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.Script.AppendComment(System.String)">
@@ -2170,7 +2171,7 @@
             de <em>jQuery</em>.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.Script.Container">
+        <member name="P:Cosmo.UI.Scripting.Script.ParentView">
             <summary>
             Devuelve la pPágina o contenedor dónde se representará el control.
             </summary>
@@ -2191,12 +2192,12 @@
         <member name="F:Cosmo.UI.Scripting.Script.ScriptExecutionMethod.OnEvent">
             <summary>Se ejecuta cuando el documento está completamente cargado.</summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.GetSource">
             <summary>
@@ -2214,7 +2215,7 @@
             Implementation of script that open a Modal View.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.#ctor(Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.#ctor(Cosmo.UI.ModalView)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
@@ -2256,158 +2257,166 @@
             Devuelve o establece el nombre de la propiedad a la que se debe asociar.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.ModalViewContainer">
+        <member name="T:Cosmo.UI.ModalView">
             <summary>
             Implementa una vista que permite generarse sin estar dentro de una página.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.ViewContainer">
+        <member name="T:Cosmo.UI.View">
             <summary>
             Implements a container that represents a web page.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.#ctor">
+        <member name="M:Cosmo.UI.View.#ctor">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.ViewContainer"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.View"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.Redirect(System.String)">
+        <member name="M:Cosmo.UI.View.Redirect(System.String)">
             <summary>
             Redirige al cliente hacia otra URL.
             </summary>
             <param name="destinationUrl">La URL de destino.</param>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.ProcessRequest(System.Web.HttpContext)">
+        <member name="M:Cosmo.UI.View.ProcessRequest(System.Web.HttpContext)">
             <summary>
             Evento que se lanza al recibir una petición.
             Equivale al ciclo de vida de la página.
             </summary>
             <param name="context">Contexto del servidor en el momento de la llamada.</param>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.StartViewLifecycle">
+        <member name="M:Cosmo.UI.View.StartViewLifecycle">
             <summary>
             Inicia el ciclo de vida de la vista.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.InitPage">
+        <member name="M:Cosmo.UI.View.InitPage">
             <summary>
             Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.FormDataReceived(Cosmo.UI.Controls.FormControl)">
+        <member name="M:Cosmo.UI.View.FormDataReceived(Cosmo.UI.Controls.FormControl)">
             <summary>
             Método invocado al recibir datos de un formulario.
             </summary>
             <param name="receivedForm">Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.FormDataLoad(System.String)">
+        <member name="M:Cosmo.UI.View.FormDataLoad(System.String)">
             <summary>
             Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.LoadPage">
+        <member name="M:Cosmo.UI.View.LoadPage">
             <summary>
             Método invocado durante la carga de la página.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.Initialize">
+        <member name="M:Cosmo.UI.View.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.ReadParameters">
+        <member name="M:Cosmo.UI.View.ReadParameters">
             <summary>
             Lee los parámetros de llamada defenidos mediante <see cref="T:Cosmo.UI.ViewParameter"/> i los coloca
             ens las correspondientes propiedades.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ViewContainer.CheckSecurityConstrains">
+        <member name="M:Cosmo.UI.View.CheckSecurityConstrains">
             <summary>
             Comprueba las reglas de seguridad para acceder a la página actual.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Workspace">
+        <member name="P:Cosmo.UI.View.Workspace">
             <summary>
             Devuelve o establece el workspace actual.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Cache">
+        <member name="P:Cosmo.UI.View.Cache">
             <summary>
             Return an instance of <see cref="T:Cosmo.UI.ControlCache"/> that allow to store and retrieve controls in cache.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Request">
+        <member name="P:Cosmo.UI.View.Request">
             <summary>
             Devuelve una instancia de <see cref="T:System.Web.HttpRequest"/> que representa el contexto de llamada a la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Response">
+        <member name="P:Cosmo.UI.View.Response">
             <summary>
             Devuelve una instancia de <see cref="T:System.Web.HttpResponse"/> que representa la respuesta del servidor.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Parameters">
+        <member name="P:Cosmo.UI.View.Parameters">
             <summary>
             Devuelve la colección de parámetros de llamada (o de un formulario) que ha recibido la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.IsAuthenticated">
+        <member name="P:Cosmo.UI.View.IsAuthenticated">
             <summary>
             Indica si existe un usuario autenticado.
             </summary>
             <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.IsFormReceived">
+        <member name="P:Cosmo.UI.View.IsFormReceived">
             <summary>
             Devuelve <c>true</c> si la llamada corresponde al envio de un formulario o <c>false</c> 
             en cualquier otro caso.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.FormReceivedDomID">
+        <member name="P:Cosmo.UI.View.FormReceivedDomID">
             <summary>
             Returns the DOM identifier of the form taht is being received.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.DeviceType">
+        <member name="P:Cosmo.UI.View.DeviceType">
             <summary>
             Devuelve el tipo de dispositivo usado para acceder a la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Scripts">
+        <member name="P:Cosmo.UI.View.Scripts">
             <summary>
             Lista de los componentes <see cref="T:Cosmo.UI.Scripting.Script"/> que se deben usar para representar correctamente el contenido.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.Resources">
+        <member name="P:Cosmo.UI.View.Resources">
             <summary>
             Lista de los recursos <see cref="T:Cosmo.UI.ViewResource"/> (archivos CSS, JS, fuentes, etc.) que se deben usar para representar correctamente el contenido.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ViewContainer.IsReusable">
+        <member name="P:Cosmo.UI.View.IsReusable">
             <summary>
             Indica al servidor web si la instancia es rehusable.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.#ctor">
+        <member name="P:Cosmo.UI.View.ViewName">
             <summary>
-            Gets an instance of <see cref="T:Cosmo.UI.ModalViewContainer"/>.
+            Gets the name of view.
+            </summary>
+            <remarks>
+            This name is useful to use in URL creation.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.ModalView.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.UI.ModalView"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.ShowError(System.String,System.String)">
+        <member name="M:Cosmo.UI.ModalView.ShowError(System.String,System.String)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="title">Título del error.</param>
             <param name="description">Descripción del error.</param>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.ShowError(System.Exception)">
+        <member name="M:Cosmo.UI.ModalView.ShowError(System.Exception)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="exception">Excepción a mostrar.</param>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.GetInvokeFunctionWithParameters(System.Object[])">
+        <member name="M:Cosmo.UI.ModalView.GetInvokeFunctionWithParameters(System.Object[])">
             <summary>
             Generate JS call for modal using data passed as method parameters. 
             </summary>
@@ -2416,7 +2425,7 @@
             This method allows to get invoke call without initialize modal properties.
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.GetInvokeFunction">
+        <member name="M:Cosmo.UI.ModalView.GetInvokeFunction">
             <summary>
             Generate JS call from modal. 
             </summary>
@@ -2425,44 +2434,44 @@
             Modal must have initialized properties.
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.GetOpenModalScript">
+        <member name="M:Cosmo.UI.ModalView.GetOpenModalScript">
             <summary>
             Generates the script that allow load and show modal view.
             </summary>
             <returns>A <see cref="T:Cosmo.UI.Scripting.Script"/> instance containing the requestes script.</returns>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.StartViewLifecycle">
+        <member name="M:Cosmo.UI.ModalView.StartViewLifecycle">
             <summary>
             Inicia el ciclo de vida de la vista.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.Initialize">
+        <member name="M:Cosmo.UI.ModalView.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalViewContainer.GetProcessedForm">
+        <member name="M:Cosmo.UI.ModalView.GetProcessedForm">
             <summary>
             Devuelve la instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
             es correcta o <c>null</c> en cualquier otro caso.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ModalViewContainer.DomID">
+        <member name="P:Cosmo.UI.ModalView.DomID">
             <summary>
             Gets the unique identifier in DOM for this element.
             </summary>
             <remarks>
             This property have a protected <c>setter</c> because every modal view must have a 
             constant DOM unique identifier. You can set this property only in a implementations
-            of the abstract class <see cref="T:Cosmo.UI.ModalViewContainer"/>.
+            of the abstract class <see cref="T:Cosmo.UI.ModalView"/>.
             </remarks>
         </member>
-        <member name="P:Cosmo.UI.ModalViewContainer.Title">
+        <member name="P:Cosmo.UI.ModalView.Title">
             <summary>
             Gets or sets the modal title.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ModalViewContainer.Icon">
+        <member name="P:Cosmo.UI.ModalView.Icon">
             <summary>
             Gets or sets the modal title icon.
             </summary>
@@ -2471,61 +2480,61 @@
             as a <c>ICON_xxxx</c> constants
             </remarks>
         </member>
-        <member name="P:Cosmo.UI.ModalViewContainer.Content">
+        <member name="P:Cosmo.UI.ModalView.Content">
             <summary>
             Devuelve o establece el contenido de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.ModalViewContainer.Closeable">
+        <member name="P:Cosmo.UI.ModalView.Closeable">
             <summary>
             Indica si la vista modal debe contener un botón que permita cerrarla.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.PartialViewContainer">
+        <member name="T:Cosmo.UI.PartialView">
             <summary>
             Implementa una vista que permite generarse sin estar dentro de una página.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.#ctor">
+        <member name="M:Cosmo.UI.PartialView.#ctor">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.PartialViewContainer"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.PartialView"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.StartViewLifecycle">
+        <member name="M:Cosmo.UI.PartialView.StartViewLifecycle">
             <summary>
             Inicia el ciclo de vida de la vista.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.ShowError(System.String,System.String)">
+        <member name="M:Cosmo.UI.PartialView.ShowError(System.String,System.String)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="title">Título del error.</param>
             <param name="description">Descripción del error.</param>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.ShowError(System.Exception)">
+        <member name="M:Cosmo.UI.PartialView.ShowError(System.Exception)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="exception">Excepción a mostrar.</param>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.Initialize">
+        <member name="M:Cosmo.UI.PartialView.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PartialViewContainer.GetProcessedForm">
+        <member name="M:Cosmo.UI.PartialView.GetProcessedForm">
             <summary>
             Devuelve la instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
             es correcta o <c>null</c> en cualquier otro caso.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PartialViewContainer.Content">
+        <member name="P:Cosmo.UI.PartialView.Content">
             <summary>
             Devuelve o establece el contenido de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PartialViewContainer.Modals">
+        <member name="P:Cosmo.UI.PartialView.Modals">
             <summary>
             Gets a modal views used by this view.
             </summary>
@@ -2617,7 +2626,7 @@
             de Cosmo y que devuelve un token JSON. La llamada se realiza siempre por POST.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.AjaxRestSimpleCallScript"/>.
             </summary>
@@ -2657,15 +2666,15 @@
         <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
             <summary>
             Implementa un script para enviar el contenido de un formulario via AJAX a un 
-            <see cref="T:Cosmo.REST.RestHandler"/>, <see cref="T:Cosmo.UI.PageViewContainer"/> o 
-            <see cref="T:Cosmo.UI.PartialViewContainer"/> .
+            <see cref="T:Cosmo.REST.RestHandler"/>, <see cref="T:Cosmo.UI.PageView"/> o 
+            <see cref="T:Cosmo.UI.PartialView"/> .
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.#ctor(Cosmo.UI.ModalViewContainer,Cosmo.UI.Controls.FormControl)">
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.#ctor(Cosmo.UI.ModalView,Cosmo.UI.Controls.FormControl)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.GetSource">
@@ -2706,7 +2715,7 @@
             Implementa un script que permite actualizar un elemento del DOM con el contenido devuelto por una llamada AJAX.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxUpdateHtmlScript.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Scripting.AjaxUpdateHtmlScript.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.AjaxUpdateHtmlScript"/>.
             </summary>
@@ -2751,17 +2760,17 @@
             Implementa un control de tipo <em>badge</em>, insertable en diversos controles.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.BadgeControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.BadgeControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.BadgeControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.BadgeControl.#ctor(Cosmo.UI.ViewContainer,System.String,Cosmo.UI.Controls.ComponentColorScheme,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.BadgeControl.#ctor(Cosmo.UI.View,System.String,Cosmo.UI.Controls.ComponentColorScheme,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.BadgeControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="text">Texto que contiene el control.</param>
             <param name="type">Tipo (color) de mensaje a representar.</param>
             <param name="roundedBorders">Indica si se debe representar con los bordes redondeados.</param>
@@ -2792,11 +2801,11 @@
             http://getbootstrap.com/components/#btn-groups
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ButtonGroupControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ButtonGroupControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ButtonGroupControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.ButtonGroupControl.Initialize">
             <summary>
@@ -2823,17 +2832,17 @@
             Implementa un aviso de error.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ErrorControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ErrorControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ErrorControl"/>
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ErrorControl.#ctor(Cosmo.UI.ViewContainer,System.Exception)">
+        <member name="M:Cosmo.UI.Controls.ErrorControl.#ctor(Cosmo.UI.View,System.Exception)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ErrorControl"/>
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="exception">La excepción que contiene los detalles a mostrar.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.ErrorControl.Initialize">
@@ -2867,17 +2876,17 @@
         <member name="F:Cosmo.UI.Controls.FormControl.FORM_ID">
             <summary>Parámetro que contiene el identificador de formulario enviado.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.FormControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.FormControl.AddFormSetting(System.String,System.String)">
@@ -3091,17 +3100,17 @@
         <member name="F:Cosmo.UI.Controls.FormField.FIELD_CHECK_POST_DOMID">
             <summary>Cadena que debe concatenarse al final del DomID del campo original para obtener el campo de verificación.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormField.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.FormField.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormField"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormField.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormField.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormField"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.FormField.LoadValueFromRequest">
@@ -3155,14 +3164,14 @@
         <member name="F:Cosmo.UI.Controls.FormField.FieldTypes.Check">
             <summary>Campos de comprobación (capchas, etc.)</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
             </summary>
@@ -3170,7 +3179,7 @@
             <param name="id">Identificador único del componente dentro de una vista.</param>
             <param name="label"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
             </summary>
@@ -3179,7 +3188,7 @@
             <param name="label"></param>
             <param name="value"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldFile.#ctor(Cosmo.UI.View,System.String,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
             </summary>
@@ -3308,14 +3317,14 @@
             Implementa un campo que permite seleccionar una imagen.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
             </summary>
@@ -3323,7 +3332,7 @@
             <param name="id">Identificador único del componente dentro de una vista.</param>
             <param name="label"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
             </summary>
@@ -3332,7 +3341,7 @@
             <param name="label"></param>
             <param name="value"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldImage.#ctor(Cosmo.UI.View,System.String,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
             </summary>
@@ -3398,14 +3407,14 @@
             Implementa un campo editor de texto (TextArea) que permite editar texto sencillo, HTML o BBCode.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldEditor"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldEditor.FieldEditorType)">
+        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldEditor.FieldEditorType)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3414,7 +3423,7 @@
             <param name="label"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldEditor.FieldEditorType,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldEditor.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldEditor.FieldEditorType,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3504,14 +3513,14 @@
             Implementa un campo de texto simple (Input).
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType)">
+        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
             </summary>
@@ -3520,7 +3529,7 @@
             <param name="label"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
             </summary>
@@ -3608,14 +3617,14 @@
             Implementa un campo booleano (CheckBox).
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de la vista (DOM).</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
             </summary>
@@ -3623,7 +3632,7 @@
             <param name="id">Identificador único del control en la página.</param>
             <param name="label">Texto visible del control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.FormFieldBoolean.#ctor(Cosmo.UI.View,System.String,System.String,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
             </summary>
@@ -3678,14 +3687,14 @@
             Implementa un campo de tipo fecha/hora.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldDate.FieldDateType)">
+        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldDate.FieldDateType)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3694,7 +3703,7 @@
             <param name="label"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldDate.FieldDateType,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldDate.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldDate.FieldDateType,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3774,14 +3783,14 @@
             Implementa un campo oculto.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldHidden.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldHidden.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del campo en el formulario.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldHidden.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldHidden.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3824,20 +3833,20 @@
         <member name="F:Cosmo.UI.Controls.FormFieldCaptcha.CAPTCHA_FIELD_NAME">
             <summary>Nombre del campo por defecto.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
             </summary>
@@ -3845,7 +3854,7 @@
             <param name="id">Identificador único del componente dentro de una vista.</param>
             <param name="label"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldCaptcha.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
             </summary>
@@ -3908,14 +3917,14 @@
             Implementa un campo de contraseña.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
             <param name="container">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador único del componente dentro de una vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -3923,7 +3932,7 @@
             <param name="id">Identificador único del componente dentro de una vista.</param>
             <param name="label"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldPassword.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
@@ -4003,27 +4012,27 @@
             Implementa un campo de texto simple (Input).
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldText.FieldDataType)">
+        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldText.FieldDataType)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
             <param name="label"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,Cosmo.UI.Controls.FormFieldText.FieldDataType,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldText.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldText.FieldDataType,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
             <param name="label"></param>
             <param name="type"></param>
@@ -4137,17 +4146,17 @@
         <member name="F:Cosmo.UI.Controls.HtmlContentControl.HTML_NEW_LINE">
             <summary>New line tag.</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.HtmlContentControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.HtmlContentControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.HtmlContentControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.HtmlContentControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.HtmlContentControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.HtmlContentControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="html">Una cadena que contiene el código HTML que será renderizado.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendHeader(System.Int32,System.String)">
@@ -4262,11 +4271,11 @@
             TAG que debe incluir el patrón URL que será sustituydo por el número de página.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PaginationControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PaginationControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PaginationControl"/>
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PaginationControl.Initialize">
             <summary>
@@ -4299,25 +4308,25 @@
             Implementa el componente PopOver de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.ViewContainer,System.Int32,Cosmo.UI.Controls.ComponentColorScheme)">
+        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.View,System.Int32,Cosmo.UI.Controls.ComponentColorScheme)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="percentage"></param>
             <param name="color"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.ViewContainer,System.Int32,Cosmo.UI.Controls.ComponentColorScheme,System.String)">
+        <member name="M:Cosmo.UI.Controls.ProgressBarControl.#ctor(Cosmo.UI.View,System.Int32,Cosmo.UI.Controls.ComponentColorScheme,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="percentage"></param>
             <param name="color"></param>
             <param name="description"></param>
@@ -4359,7 +4368,7 @@
             Habilita/deshabilita un determinado elemento del DOM.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.#ctor(Cosmo.UI.ViewContainer,System.String,System.Boolean)">
+        <member name="M:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.#ctor(Cosmo.UI.View,System.String,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior"/>.
             </summary>
@@ -4389,11 +4398,11 @@
             Navega a una determinada URL.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.GetSource">
@@ -4413,12 +4422,12 @@
             Actualiza el contenido (XHTML) de un determinado elemento.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
         </member>
         <member name="M:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.GetSource">
             <summary>
@@ -4436,20 +4445,20 @@
             Representa un script que debe ser adjuntado a una página (o control).
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.SimpleScript"/>.
             </summary>
-            <param name="viewport">Instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que actúa de contenedor del control actual.</param>
+            <param name="viewport">Instancia de <see cref="T:Cosmo.UI.View"/> que actúa de contenedor del control actual.</param>
         </member>
-        <member name="M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.SimpleScript"/>.
             </summary>
-            <param name="viewport">Instancia de <see cref="T:Cosmo.UI.ViewContainer"/> que actúa de contenedor del control actual.</param>
+            <param name="viewport">Instancia de <see cref="T:Cosmo.UI.View"/> que actúa de contenedor del control actual.</param>
             <param name="source">Una cadena que contiene el código JavaScript.</param>
         </member>
-        <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.ViewContainer,System.Text.StringBuilder)" -->
+        <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.View,System.Text.StringBuilder)" -->
         <member name="M:Cosmo.UI.Scripting.SimpleScript.GetSource">
             <summary>
             Devuelve el código JavaScript que se debe incorporar en la página.
@@ -4461,11 +4470,11 @@
             Implementa una página de Cosmo.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.LayoutContainerControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.LayoutContainerControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.LayoutContainerControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.LayoutContainerControl.Initialize">
             <summary>
@@ -4514,17 +4523,17 @@
             Implementa una pestaña que puede contener controles.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TabItemControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TabItemControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TabbedContainerControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.TabItemControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.TabItemControl.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TabbedContainerControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="id"></param>
             <param name="caption"></param>
         </member>
@@ -4563,11 +4572,11 @@
             Implementa un panel con pestañas.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TabbedContainerControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TabbedContainerControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TabbedContainerControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.TabbedContainerControl.Initialize">
             <summary>
@@ -4589,11 +4598,11 @@
             Implementa el control Timeline.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TimelineControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TimelineControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TimelineControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.TimelineControl.clear">
             <summary>
@@ -4704,17 +4713,17 @@
             Implementa un elemento del componente <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TreeViewChildItemControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TreeViewChildItemControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ListItem"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.TreeViewChildItemControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.TreeViewChildItemControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ListItem"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del componente en una vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.TreeViewChildItemControl.Initialize">
@@ -4769,11 +4778,11 @@
             el título del contenido, un breadcrumb, etc.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PageHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PageHeaderControl.#ctor(Cosmo.UI.View)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
             </summary>
-            <param name="container">Owner view of the control.</param>
+            <param name="parentView">Owner view of the control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PageHeaderControl.Initialize">
             <summary>
@@ -4805,11 +4814,11 @@
             Implementa el control Sidebar (barra lateral de menú).
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.SidebarControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.SidebarControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.SidebarControl.Initialize">
             <summary>
@@ -4826,13 +4835,13 @@
             Implementa un botón insertable en un control <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.View)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.SidebarButton"/>.
             </summary>
             <param name="parentViewport">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.SidebarButton"/>.
             </summary>
@@ -4840,7 +4849,7 @@
             <param name="caption"></param>
             <param name="href"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.SidebarButton.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.Controls.SidebarButton"/>.
             </summary>
@@ -4900,18 +4909,18 @@
             Componente UI que implementa un árbol desplegable.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TreeViewControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TreeViewControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.TreeViewControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.TreeViewControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="id">Identificador del componente en una vista (DOM).</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Identificador del componente en una vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.TreeViewControl.Initialize">
             <summary>
@@ -4928,99 +4937,99 @@
             Devuelve o establece la lista de elementos hijo que penden de la rama principal del árbol.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.PageViewContainer">
+        <member name="T:Cosmo.UI.PageView">
             <summary>
             Implementa una página de Cosmo que se genera si usar la capa System.Web.UI.
             </summary>
         </member>
-        <member name="F:Cosmo.UI.PageViewContainer.LINK_TOP_PAGE">
+        <member name="F:Cosmo.UI.PageView.LINK_TOP_PAGE">
             <summary>Nombre del enlace interno de inicio de página</summary>
         </member>
-        <member name="M:Cosmo.UI.PageViewContainer.#ctor">
+        <member name="M:Cosmo.UI.PageView.#ctor">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.PageViewContainer"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.PageView"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PageViewContainer.StartViewLifecycle">
+        <member name="M:Cosmo.UI.PageView.StartViewLifecycle">
             <summary>
             Inicia el ciclo de vida de la vista.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PageViewContainer.ShowError(System.String,System.String)">
+        <member name="M:Cosmo.UI.PageView.ShowError(System.String,System.String)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="title">Título del error.</param>
             <param name="description">Descripción del error.</param>
         </member>
-        <member name="M:Cosmo.UI.PageViewContainer.ShowError(System.Exception)">
+        <member name="M:Cosmo.UI.PageView.ShowError(System.Exception)">
             <summary>
             Muestra un mensaje de error.
             </summary>
             <param name="exception">Excepción a mostrar.</param>
         </member>
-        <member name="M:Cosmo.UI.PageViewContainer.Initialize">
+        <member name="M:Cosmo.UI.PageView.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.Layout">
+        <member name="P:Cosmo.UI.PageView.Layout">
             <summary>
             Devuelve la estructura de página (contenedor de controles).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.Title">
+        <member name="P:Cosmo.UI.PageView.Title">
             <summary>
             Devuelve o establece el título de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.Description">
+        <member name="P:Cosmo.UI.PageView.Description">
             <summary>
             Devuelve o establece la descripción del contenido de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.Keywords">
+        <member name="P:Cosmo.UI.PageView.Keywords">
             <summary>
             Devuelve o establece las palabras clave que definene el contenido de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.FadeBackground">
+        <member name="P:Cosmo.UI.PageView.FadeBackground">
             <summary>
             Indica si se debe mostrar el fondo del <em>layout</em> descolorido (o en un color alternativo dependiendo de la plantilla y/o el renderizador).
             Esto permite, por ejemplo, mostrar páginas con un solo control como <em>Login</em>, <em>Registro</em>, etc.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.HeaderContent">
+        <member name="P:Cosmo.UI.PageView.HeaderContent">
             <summary>
             Devuelve o establece la lista de controles que contiene la cabecera.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.FooterContent">
+        <member name="P:Cosmo.UI.PageView.FooterContent">
             <summary>
             Devuelve o establece la lista de controles que contiene el pie.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.LeftContent">
+        <member name="P:Cosmo.UI.PageView.LeftContent">
             <summary>
             Devuelve o establece la lista de controles que contiene la columna izquierda.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.MainContent">
+        <member name="P:Cosmo.UI.PageView.MainContent">
             <summary>
             Devuelve o establece la lista de controles que contiene la zona de contenidos de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.RightContent">
+        <member name="P:Cosmo.UI.PageView.RightContent">
             <summary>
             Devuelve o establece la lista de controles que contiene la columna derecha.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.ActiveMenuId">
+        <member name="P:Cosmo.UI.PageView.ActiveMenuId">
             <summary>
             Devuelve o establece el identificador del elemento de menú que debe mostrarse activo.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.PageViewContainer.Modals">
+        <member name="P:Cosmo.UI.PageView.Modals">
             <summary>
             Lista de ventanas modales que se van a invocar desde la vista actual.
             </summary>
@@ -5190,26 +5199,26 @@
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="P:Cosmo.UI.Menu.IMenuProvider.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateSidebar(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateSidebar(Cosmo.UI.View,System.String)">
             <summary>
             Genera un menú usando un control <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
             </summary>
             <param name="activeMenuItemId">Identificador del elemento activo actualmente.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/> que representa el menú solicitado.</returns>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateNavbar(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateNavbar(Cosmo.UI.View,System.String)">
             <summary>
             Genera un menú usando un control <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
             </summary>
             <param name="activeMenuItemId">Una cadena que contiene el identificador del elemento de menú que debe aparecer activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.NavbarControl"/> convenientemente configurada y lista para ser renderizada.</returns>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToSidebarButton(Cosmo.UI.ViewContainer,Cosmo.UI.Menu.MenuItem,System.String)">
+        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToSidebarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
             <summary>
             Convierte la instancia <see cref="T:Cosmo.UI.Menu.MenuItem"/> en <see cref="T:Cosmo.UI.Controls.SidebarButton"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToNavbarButton(Cosmo.UI.ViewContainer,Cosmo.UI.Menu.MenuItem,System.String)">
+        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToNavbarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
             <summary>
             Convierte la instancia <see cref="T:Cosmo.UI.Menu.MenuItem"/> en <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/>.
             </summary>
@@ -5835,25 +5844,25 @@
             Implementa el componente Alert.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.ViewContainer,System.String,Cosmo.UI.Controls.ComponentColorScheme)">
+        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.View,System.String,Cosmo.UI.Controls.ComponentColorScheme)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="text"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.ViewContainer,System.String,Cosmo.UI.Controls.ComponentColorScheme,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.AlertControl.#ctor(Cosmo.UI.View,System.String,Cosmo.UI.Controls.ComponentColorScheme,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="text"></param>
             <param name="type"></param>
             <param name="closeable"></param>
@@ -5884,11 +5893,11 @@
             Detalles: http://getbootstrap.com/components/#breadcrumbs
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.BreadcrumbControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.BreadcrumbControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.BreadcrumbControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.BreadcrumbControl.SetLastActive">
             <summary>
@@ -5968,17 +5977,17 @@
             Implementa el componente Callout de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.CalloutControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.CalloutControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.CalloutControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.CalloutControl.#ctor(Cosmo.UI.ViewContainer,Cosmo.UI.Controls.ComponentColorScheme)">
+        <member name="M:Cosmo.UI.Controls.CalloutControl.#ctor(Cosmo.UI.View,Cosmo.UI.Controls.ComponentColorScheme)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.CalloutControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="type">Tipo de mensaje a mostrar.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.CalloutControl.Initialize">
@@ -6014,11 +6023,11 @@
             http://getbootstrap.com/javascript/#carousel
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.Controls.CarrouselControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.CarrouselControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.CarrouselControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de una vista.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.CarrouselControl.Initialize(System.Web.UI.Page)">
@@ -6172,11 +6181,11 @@
             No es un componente nativo de Bootstrap. Está realizado usando componentes nativos.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ChatControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ChatControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ChatControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.ChatControl.Initialize">
             <summary>
@@ -6295,25 +6304,25 @@
             Implemnenta un botón insertable en la barra de herramientas del editor de mensajes del chat.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ChatMessageToolbarButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ChatMessageToolbarButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="caption"></param>
             <param name="href"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.ChatMessageToolbarButtonControl.#ctor(Cosmo.UI.View,System.String,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ChatMessageToolbarButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="caption"></param>
             <param name="href"></param>
             <param name="icon"></param>
@@ -6351,11 +6360,11 @@
             Toquen para indicar dónde se sitúa el texto de consulta en la URL de consulta del componente.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldAutocomplete.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldAutocomplete.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.FormFieldAutocomplete"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.FormFieldAutocomplete.LoadValueFromRequest">
@@ -6597,30 +6606,30 @@
         <member name="F:Cosmo.UI.Controls.IconControl.ACTION_SPINNING">
             <summary>Acción del icono: Rodar</summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.IconControl"/>.
             </summary>
             <param name="code">Código de icono a representar.</param>
-            <param name="container">El contenedor dónde se representará el control.</param>
+            <param name="parentView">El contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.View,System.String,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.IconControl"/>.
             </summary>
-            <param name="container">El contenedor dónde se representará el control.</param>
+            <param name="parentView">El contenedor dónde se representará el control.</param>
             <param name="code">Código de icono a representar.</param>
             <param name="banned">Indica si l icono debe mostrarse baneado (con una señal de prohibición justo encima).</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.ViewContainer,System.String,Cosmo.UI.Controls.ComponentBackgroundColor)">
+        <member name="M:Cosmo.UI.Controls.IconControl.#ctor(Cosmo.UI.View,System.String,Cosmo.UI.Controls.ComponentBackgroundColor)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.IconControl"/>.
             </summary>
             <param name="code">Código de icono a representar.</param>
             <param name="bgColor">Color de fondo.</param>
-            <param name="container">El contenedor dónde se representará el control.</param>
+            <param name="parentView">El contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.View,System.String)">
             <summary>
             Genera el código XHTML para un icono de forma directa.
             </summary>
@@ -6628,7 +6637,7 @@
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.ViewContainer,System.String,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.View,System.String,System.Boolean)">
             <summary>
             Genera el código XHTML para un icono de forma directa.
             </summary>
@@ -6637,7 +6646,7 @@
             <param name="banned"></param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.ViewContainer,System.String,Cosmo.UI.Controls.ComponentBackgroundColor)">
+        <member name="M:Cosmo.UI.Controls.IconControl.GetIcon(Cosmo.UI.View,System.String,Cosmo.UI.Controls.ComponentBackgroundColor)">
             <summary>
             Genera el código XHTML para un icono de forma directa.
             </summary>
@@ -6758,17 +6767,17 @@
             http://getbootstrap.com/components/#jumbotron
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del componente en una vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.JumbotronControl.Initialize">
@@ -6801,11 +6810,11 @@
             Implementa el componente ListGroup de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.ListGroupControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.ListGroupControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.ListGroupControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.ListGroupControl.Clear">
             <summary>
@@ -6915,18 +6924,18 @@
             Implementa el formulario de inicio de sesión estandarizado de Cosmo.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.LoginFormControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.LoginFormControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.LoginFormControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.LoginFormControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.LoginFormControl.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.LoginFormControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
             <param name="openButtonText">Texto que aparece en el botón de abrir el formulario.</param>
         </member>
@@ -7027,11 +7036,11 @@
             Implementa una lista de imágenes que puede usarse como lista de cualquier elemento que contenga un <em>thumbnail</em>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.MediaListControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.MediaListControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.MediaListControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.MediaListControl.Clear">
             <summary>
@@ -7080,17 +7089,17 @@
             Implementa el componente <strong>Navbar</strong> de <em>Bootstrap</em>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.NavbarControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarControl.#ctor(Cosmo.UI.ViewContainer,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.NavbarControl.#ctor(Cosmo.UI.View,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="fixedTop">Indica si la barra debe permanecer fija en la parte superior de la pantalla.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.NavbarControl.AddItem(Cosmo.UI.Controls.NavbarIButtonControl)">
@@ -7131,17 +7140,17 @@
             Representa la cabecera de una barra de herramientas.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarHeaderControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.NavbarHeaderControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarHeaderControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarHeaderControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.NavbarHeaderControl.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarHeaderControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="caption">Texto visible del elemento.</param>
             <param name="href">URL para el enlace del elemento.</param>
         </member>
@@ -7201,25 +7210,25 @@
             Representa un elemento insertable en un componente Navbar de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="caption">Título visible del elemento.</param>
             <param name="href">Dirección URL que va asociado al elemento.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.ViewContainer,System.Boolean)">
+        <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.#ctor(Cosmo.UI.View,System.Boolean)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="isDivider">Indica si el elemento es un divisor.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.NavbarIButtonControl.AddSubitem(Cosmo.UI.Controls.NavbarIButtonControl)">
@@ -7273,11 +7282,11 @@
             acceso a la cuenta de los usuarios.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarPrivateMessagesItem.#ctor(Cosmo.UI.ViewContainer,Cosmo.Workspace)">
+        <member name="M:Cosmo.UI.Controls.NavbarPrivateMessagesItem.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarPrivateMessagesItem"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
         </member>
         <member name="T:Cosmo.UI.Controls.NavbarLoginItem">
@@ -7285,19 +7294,17 @@
             Representa un elemento de la barra de navegación específico para el inicio de sesión y el acceso a la cuenta de los usuarios.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarLoginItem.#ctor(Cosmo.UI.ViewContainer,Cosmo.Workspace)">
+        <member name="M:Cosmo.UI.Controls.NavbarLoginItem.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarLoginItem"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarLoginItem.#ctor(Cosmo.UI.ViewContainer,Cosmo.Workspace,System.String)">
+        <member name="M:Cosmo.UI.Controls.NavbarLoginItem.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.NavbarLoginItem"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="modalFormId">El ID (DOM) del formulario modal de login definido en el componente <see cref="T:Cosmo.UI.Controls.LoginFormControl"/>.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.NavbarLoginItem.Initialize">
@@ -7318,17 +7325,17 @@
             Detalles del componente: http://getbootstrap.com/components/#panels
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PanelControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PanelControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PanelControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.PanelControl.#ctor(Cosmo.UI.ViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Controls.PanelControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PanelControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador único del componente dentro de la vista.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PanelControl.Initialize">
@@ -7376,11 +7383,11 @@
             Implementa el componente PopOver de Bootstrap.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.PopoverControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.PopoverControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.PopoverControl.Initialize">
             <summary>
@@ -7424,11 +7431,11 @@
             Detalles: http://getbootstrap.com/css/#tables
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Controls.TableControl.#ctor(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Controls.TableControl.#ctor(Cosmo.UI.View)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.TableControl"/>.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.TableControl.Initialize">
             <summary>
@@ -7800,48 +7807,48 @@
             <param name="bgColor">Color para el que se desea obtener la clase CSS.</param>
             <returns>Una cadena que representa la clase CSS a aplicar al elemento.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PageViewContainer)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PageView)">
             <summary>
             Renderiza una vista de página.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PageViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PageView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PageViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PageView,System.String)">
             <summary>
             Renderiza una vista de página.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PageViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PageView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PartialViewContainer)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PartialView)">
             <summary>
             Renderiza una vista parcial.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PartialViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PartialView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PartialViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PartialView,System.String)">
             <summary>
             Renderiza una vista parcial.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PartialViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PartialView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.ModalView)">
             <summary>
             Renderiza una vista modal.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.ModalViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.ModalView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.ModalViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.ModalView,System.String)">
             <summary>
             Renderiza una vista modal.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.ModalViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.ModalView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
@@ -7937,48 +7944,48 @@
             <param name="control">Instancia del control a renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PageViewContainer)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PageView)">
             <summary>
             Renderiza una página.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PageViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PageView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PageViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PageView,System.String)">
             <summary>
             Renderiza una página.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PageViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PageView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PartialViewContainer)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PartialView)">
             <summary>
             Renderiza una vista parcial.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PartialViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PartialView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PartialViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.PartialView,System.String)">
             <summary>
             Renderiza una vista parcial.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.PartialViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.PartialView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.ModalView)">
             <summary>
             Renderiza una vista modal.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.ModalViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.ModalView"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.ModalViewContainer,System.String)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPage(Cosmo.UI.ModalView,System.String)">
             <summary>
             Renderiza una vista modal.
             </summary>
-            <param name="container">Una instancia de <see cref="T:Cosmo.UI.ModalViewContainer"/> que representa la instancia renderizar.</param>
+            <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.ModalView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
@@ -7989,7 +7996,7 @@
             <param name="template">Una instancia de <see cref="T:Cosmo.UI.CosmoTemplate"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderScripts(Cosmo.UI.ViewContainer)">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderScripts(Cosmo.UI.View)">
             <summary>
             Renderiza los scripts de la página.
             </summary>
@@ -8244,7 +8251,7 @@
             Render a <see cref="T:Cosmo.UI.Controls.UserLinkControl"/> instance.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalViews(Cosmo.UI.ViewContainer,System.Collections.Generic.List{Cosmo.UI.ModalViewContainer})">
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalViews(Cosmo.UI.View,System.Collections.Generic.List{Cosmo.UI.ModalView})">
             <summary>
             Render modal forms.
             </summary>
@@ -8311,36 +8318,36 @@
             Renderiza un conjunto de controles.
             </summary>
             <param name="controls">Colección de controles a renderizar.</param>
-            <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+            <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
-        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageViewContainer)">
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageView)">
             <summary>
             Render a view.
             </summary>
-            <param name="container">A page view container.</param>
+            <param name="parentView">A page view container.</param>
             <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
-        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageViewContainer,System.String)">
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.PageView,System.String)">
             <summary>
             Render a view.
             </summary>
-            <param name="container">A page view container.</param>
-            <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+            <param name="parentView">A page view container.</param>
+            <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
-        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalViewContainer)">
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalView)">
             <summary>
             Render a view.
             </summary>
-            <param name="container">A modal view container.</param>
+            <param name="parentView">A modal view container.</param>
             <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
-        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalViewContainer,System.String)">
+        <member name="M:Cosmo.UI.UIService.RenderPage(Cosmo.UI.ModalView,System.String)">
             <summary>
             Render a view.
             </summary>
-            <param name="container">A modal view container.</param>
+            <param name="parentView">A modal view container.</param>
             <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
             <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
         </member>
@@ -8350,20 +8357,20 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:Cosmo.UI.UIService.GetSidebarMenu(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.UIService.GetSidebarMenu(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Obtiene el menú lateral a partir de un proveedor determinado.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador del menú a obtener.</param>
             <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
         </member>
-        <member name="M:Cosmo.UI.UIService.GetNavbarMenu(Cosmo.UI.ViewContainer,System.String,System.String)">
+        <member name="M:Cosmo.UI.UIService.GetNavbarMenu(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Obtiene la barra de navegación a partir de un proveedor determinado.
             </summary>
-            <param name="container">Página o contenedor dónde se representará el control.</param>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="id">Identificador del menú a obtener.</param>
             <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.NavbarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
@@ -11434,17 +11441,18 @@
             Devuelve una lista de paises.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidLogin(System.String)">
+        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetLoginUrl">
             <summary>
-            Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
+            Generates the login view Url.
             </summary>
-            <param name="login">Login a testear.</param>
-            <returns>Un valor booleano que indica si es válido o no.</returns>
-            <remarks>
-            Regular Expression obtenida de:
-            http://immike.net/blog/2007/04/06/5-regular-expressions-every-web-programmer-should-know/
-            (Usar "[a-zA-Z0-9]" para verificar sólo si admite letras y números)
-            </remarks>
+            <returns>A string containing the requested url.</returns>
+        </member>
+        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetLoginUrl(System.String)">
+            <summary>
+            Generates the login view Url.
+            </summary>
+            <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
+            <returns>A string containing the requested url.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.AuthenticationService.GetVerificationMail(Cosmo.Security.User)">
             <summary>
@@ -11504,6 +11512,18 @@
             <param name="loginScript">Script usado para autenticar a los usuarios.</param>
             <returns>Un valor booleano indicando si existe o no sesión de usuario</returns>
         </member>
+        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidLogin(System.String)">
+            <summary>
+            Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
+            </summary>
+            <param name="login">Login a testear.</param>
+            <returns>Un valor booleano que indica si es válido o no.</returns>
+            <remarks>
+            Regular Expression obtenida de:
+            http://immike.net/blog/2007/04/06/5-regular-expressions-every-web-programmer-should-know/
+            (Usar "[a-zA-Z0-9]" para verificar sólo si admite letras y números)
+            </remarks>
+        </member>
         <member name="M:Cosmo.Security.Auth.AuthenticationService.Initialize">
             <summary>
             Inicializa la instancia.
@@ -11548,6 +11568,13 @@
             </summary>
             <param name="ipAddress">IP address to check.</param>
             <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
+        </member>
+        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetLoginUrl(System.String)">
+            <summary>
+            Generates the login view Url.
+            </summary>
+            <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
+            <returns>A string containing the requested url.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Autenticate(System.String,System.String)">
             <summary>
@@ -11696,6 +11723,7 @@
             <param name="login">Login o fracción a buscar</param>
             <param name="city">Ciudad o fracción a buscar</param>
             <param name="countryId">Identificador del pais a buscar</param>
+            <param name="onlyEnabledUsers">Indicates if the methos must show only the enabled users.</param>
             <returns></returns>
         </member>
         <member name="M:Cosmo.Security.Auth.IAuthenticationModule.ListCountry">
@@ -13147,6 +13175,11 @@
         <member name="P:Cosmo.Workspace.ProductName">
             <summary>
             Devuelve el nombre del producto.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Workspace.CurrentUrl">
+            <summary>
+            Gets the current relative URL and query string.
             </summary>
         </member>
         <member name="T:Cosmo.Properties.Resources">

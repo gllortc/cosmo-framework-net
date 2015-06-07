@@ -36,7 +36,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class NavbarIButtonControl : Control
    {
-      // Declaración de variables locales
+      // Internal data declarations
       private string _icon;
       private string _title;
       private string _href;
@@ -44,16 +44,15 @@ namespace Cosmo.UI.Controls
       private NavbarItemPosition _position;
       private NavbarItemType _type;
       private List<NavbarIButtonControl> _subItems;
-      // private Workspace _ws;
 
       #region Constructors
 
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public NavbarIButtonControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public NavbarIButtonControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -61,11 +60,11 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption">Título visible del elemento.</param>
       /// <param name="href">Dirección URL que va asociado al elemento.</param>
-      public NavbarIButtonControl(ViewContainer container, string caption, string href)
-         : base(container)
+      public NavbarIButtonControl(View parentView, string caption, string href)
+         : base(parentView)
       {
          Initialize();
 
@@ -76,10 +75,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="isDivider">Indica si el elemento es un divisor.</param>
-      public NavbarIButtonControl(ViewContainer container, bool isDivider)
-         : base(container)
+      public NavbarIButtonControl(View parentView, bool isDivider)
+         : base(parentView)
       {
          Initialize();
 

@@ -12,7 +12,7 @@ namespace Cosmo.WebApp.Forums
    /// Muestra los threads en los que ha participado un determinado usuario.
    /// </summary>
    [AuthenticationRequired]
-   public class ForumThreadsByUser : PageViewContainer
+   public class ForumThreadsByUser : PageView
    {
       public override void LoadPage()
       {

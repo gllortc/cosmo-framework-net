@@ -10,8 +10,8 @@ namespace Cosmo.UI.Controls
       public const string SETTINGS_ENABLED = "cosmo.ui.cookiesadvisor.enabled";
       public const string SETTINGS_CONTENTID = "cosmo.ui.cookiesadvisor.infocontentid";
 
-      public CookiesAdvisorControl(ViewContainer container, string domId) 
-         : base(container, domId)
+      public CookiesAdvisorControl(View parentView, string domId) 
+         : base(parentView, domId)
       {
 
       }

@@ -5,10 +5,10 @@
       /// <summary>
       /// 
       /// </summary>
-      /// <param name="container"></param>
+      /// <param name="ownerView"></param>
       /// <param name="domId"></param>
-      public AjaxControl(ViewContainer container, string domId) 
-         : base(container, domId)
+      public AjaxControl(View ownerView, string domId) 
+         : base(ownerView, domId)
       {
          Initialize();
       }

@@ -15,10 +15,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="LoginFormControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
-      public LoginFormControl(ViewContainer container, string domId)
-         : base(container, domId)
+      public LoginFormControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
@@ -26,11 +26,11 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="LoginFormControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
       /// <param name="openButtonText">Texto que aparece en el botón de abrir el formulario.</param>
-      public LoginFormControl(ViewContainer container, string domId, string openButtonText)
-         : base(container, domId)
+      public LoginFormControl(View parentView, string domId, string openButtonText)
+         : base(parentView, domId)
       {
          Initialize();
 

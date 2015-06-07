@@ -15,7 +15,7 @@ namespace Cosmo.UI
    /// Indicado para listados y otros elementos dinámicos.
    /// </summary>
    [Obsolete]
-   public abstract class CosmoTemplate : ViewContainer, IHttpHandler, IRequiresSessionState
+   public abstract class CosmoTemplate : View, IHttpHandler, IRequiresSessionState
    {
       private string _domId;
       private Url _url;

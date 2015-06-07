@@ -7,7 +7,7 @@ using System;
 
 namespace Cosmo.WebApp.UserServices
 {
-   public class UserPasswordRecovery : PageViewContainer
+   public class UserPasswordRecovery : PageView
    {
       private bool showForm;
       // private Form modal;

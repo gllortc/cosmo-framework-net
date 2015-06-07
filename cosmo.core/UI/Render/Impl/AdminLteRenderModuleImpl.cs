@@ -295,20 +295,20 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Renderiza una página.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PageViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PageView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(PageViewContainer container)
+      public override string RenderPage(PageView parentView)
       {
-         return RenderPage(container, string.Empty);
+         return RenderPage(parentView, string.Empty);
       }
 
       /// <summary>
       /// Renderiza una página.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PageViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PageView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(PageViewContainer container, string receivedFormID)
+      public override string RenderPage(PageView parentView, string receivedFormID)
       {
          StringBuilder xhtml = new StringBuilder();
          StringBuilder js = new StringBuilder();
@@ -316,7 +316,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
          xhtml.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
          xhtml.AppendLine("<head>");
-         xhtml.AppendLine("  <title>" + (string.IsNullOrEmpty(container.Title) ? Workspace.Name : Workspace.Name + " - " + container.Title) + "</title>");
+         xhtml.AppendLine("  <title>" + (string.IsNullOrEmpty(parentView.Title) ? Workspace.Name : Workspace.Name + " - " + parentView.Title) + "</title>");
          xhtml.AppendLine("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />");
          xhtml.AppendLine("  <meta http-equiv=\"cache-control\" content=\"no-cache\" />");
          xhtml.AppendLine("  <meta http-equiv=\"expires\" content=\"3600\" />");
@@ -327,9 +327,9 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <meta http-equiv=\"author\" content=\"" + Workspace.Name + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"generator\" content=\"" + Cosmo.Workspace.ProductName + " (" + Cosmo.Workspace.Version + ")" + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"distribution\" content=\"global\" />");
-         xhtml.AppendLine("  <meta http-equiv=\"description\" content=\"" + (string.IsNullOrEmpty(container.Description) ? Workspace.PageDescription : container.Description) + "\" />");
-         xhtml.AppendLine("  <meta http-equiv=\"keywords\" content=\"" + (string.IsNullOrEmpty(container.Keywords) ? Workspace.PageKeywords : container.Keywords) + "\" />");
-         xhtml.AppendLine("  <meta http-equiv=\"device-type\" content=\"" + container.DeviceType.ToString() + "\" />");
+         xhtml.AppendLine("  <meta http-equiv=\"description\" content=\"" + (string.IsNullOrEmpty(parentView.Description) ? Workspace.PageDescription : parentView.Description) + "\" />");
+         xhtml.AppendLine("  <meta http-equiv=\"keywords\" content=\"" + (string.IsNullOrEmpty(parentView.Keywords) ? Workspace.PageKeywords : parentView.Keywords) + "\" />");
+         xhtml.AppendLine("  <meta http-equiv=\"device-type\" content=\"" + parentView.DeviceType.ToString() + "\" />");
 
          foreach (string css in this.CssResources)
          {
@@ -341,7 +341,7 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("  <script type=\"text/javascript\" src=\"" + jsr + "\"></script>");
          }
 
-         foreach (ViewResource resource in container.Resources)
+         foreach (ViewResource resource in parentView.Resources)
          {
             if (resource.Type == ViewResource.ResourceType.CSS)
             {
@@ -354,16 +354,16 @@ namespace Cosmo.UI.Render.Impl
          }
 
          xhtml.AppendLine("</head>");
-         xhtml.AppendLine("<body class=\"" + (container.Layout.FadeBackground ? "bg-black" : (string.IsNullOrWhiteSpace(Skin) ? "skin-blue" : Skin) + " fixed") + "\">");
+         xhtml.AppendLine("<body class=\"" + (parentView.Layout.FadeBackground ? "bg-black" : (string.IsNullOrWhiteSpace(Skin) ? "skin-blue" : Skin) + " fixed") + "\">");
 
          // Renderiza controles de página
-         xhtml.AppendLine(Render(container.Layout, receivedFormID));
+         xhtml.AppendLine(Render(parentView.Layout, receivedFormID));
 
          // Renderiza las ventanas modales
-         xhtml.AppendLine(RenderModalViews(container, container.Modals));
+         xhtml.AppendLine(RenderModalViews(parentView, parentView.Modals));
 
          // Renderiza scripts
-         xhtml.AppendLine(RenderScripts(container));
+         xhtml.AppendLine(RenderScripts(parentView));
 
          xhtml.AppendLine("</body>");
          xhtml.AppendLine("</html>");
@@ -374,25 +374,25 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Renderiza una vista parcial.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PartialViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PartialView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(PartialViewContainer container)
+      public override string RenderPage(PartialView parentView)
       {
-         return RenderPage(container, string.Empty);
+         return RenderPage(parentView, string.Empty);
       }
 
       /// <summary>
       /// Renderiza una vista parcial.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PartialViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PartialView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(PartialViewContainer container, string receivedFormID)
+      public override string RenderPage(PartialView parentView, string receivedFormID)
       {
          StringBuilder xhtml = new StringBuilder();
          StringBuilder js = new StringBuilder();
 
-         foreach (ViewResource resource in container.Resources)
+         foreach (ViewResource resource in parentView.Resources)
          {
             if (resource.Type == ViewResource.ResourceType.JavaScript)
             {
@@ -401,13 +401,13 @@ namespace Cosmo.UI.Render.Impl
          }
 
          // Renderiza controles de página
-         xhtml.AppendLine(Render(container.Content, receivedFormID));
+         xhtml.AppendLine(Render(parentView.Content, receivedFormID));
 
          // Renderiza las ventanas modales
-         xhtml.AppendLine(RenderModalViews(container, container.Modals));
+         xhtml.AppendLine(RenderModalViews(parentView, parentView.Modals));
 
          // Renderiza scripts
-         xhtml.AppendLine(RenderScripts(container));
+         xhtml.AppendLine(RenderScripts(parentView));
 
          return xhtml.ToString();
       }
@@ -415,25 +415,25 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Renderiza una vista modal.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="ModalViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="ModalView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(ModalViewContainer container)
+      public override string RenderPage(ModalView parentView)
       {
-         return RenderPage(container, string.Empty);
+         return RenderPage(parentView, string.Empty);
       }
 
       /// <summary>
       /// Renderiza una vista modal.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="ModalViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="ModalView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public override string RenderPage(ModalViewContainer container, string receivedFormID)
+      public override string RenderPage(ModalView parentView, string receivedFormID)
       {
          StringBuilder xhtml = new StringBuilder();
          StringBuilder js = new StringBuilder();
 
-         foreach (ViewResource resource in container.Resources)
+         foreach (ViewResource resource in parentView.Resources)
          {
             if (resource.Type == ViewResource.ResourceType.JavaScript)
             {
@@ -444,26 +444,26 @@ namespace Cosmo.UI.Render.Impl
          // Genera la cabecera de la ventana modal
          xhtml.AppendLine("<div class=\"modal-content\">");
          xhtml.AppendLine("  <div class=\"modal-header\">");
-         if (container.Closeable)
+         if (parentView.Closeable)
          {
             xhtml.AppendLine("    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
          }
          xhtml.AppendLine("    <h4 class=\"modal-title\">");
-         if (!string.IsNullOrWhiteSpace(container.Icon)) xhtml.AppendLine(IconControl.GetIcon(container, container.Icon) + "&nbsp;&nbsp;");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(container.Title) + "&nbsp;");
+         if (!string.IsNullOrWhiteSpace(parentView.Icon)) xhtml.AppendLine(IconControl.GetIcon(parentView, parentView.Icon) + "&nbsp;&nbsp;");
+         xhtml.AppendLine(HttpUtility.HtmlDecode(parentView.Title) + "&nbsp;");
          xhtml.AppendLine("    </h4>");
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("  <div class=\"modal-body\">");
 
          // Renderiza controles de página
-         xhtml.AppendLine(Render(container.Content, receivedFormID));
+         xhtml.AppendLine(Render(parentView.Content, receivedFormID));
 
          // Genera el pie de la ventana modal
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
          // Renderiza scripts
-         xhtml.AppendLine(RenderScripts(container));
+         xhtml.AppendLine(RenderScripts(parentView));
 
          return xhtml.ToString();
       }
@@ -493,7 +493,7 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Renderiza los scripts de la página.
       /// </summary>
-      public string RenderScripts(ViewContainer viewport)
+      public string RenderScripts(View viewport)
       {
          // Obtiene todos los scripts de la página
          if (viewport.Scripts.Count <= 0)
@@ -591,7 +591,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("  <li" + (item.IsActive ? " class=\"active\"" : string.Empty) + ">");
             if (!string.IsNullOrEmpty(item.Href)) xhtml.AppendLine("<a href=\"" + item.Href + "\">");
-            if (!string.IsNullOrEmpty(item.Icon)) xhtml.AppendLine(IconControl.GetIcon(breadcrumb.Container, item.Icon));
+            if (!string.IsNullOrEmpty(item.Icon)) xhtml.AppendLine(IconControl.GetIcon(breadcrumb.ParentView, item.Icon));
             xhtml.AppendLine(HttpUtility.HtmlDecode(item.Caption));
             if (!string.IsNullOrEmpty(item.Href)) xhtml.AppendLine("</a>");
             xhtml.AppendLine("  </li>");
@@ -684,7 +684,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.Append(!string.IsNullOrWhiteSpace(control.ModalDomId) && control.Type == ButtonControl.ButtonTypes.OpenModalView ? "onclick=\"javascript:open" + Script.ConvertToFunctionName(control.DomID) + "();\"" : string.Empty);
          xhtml.Append(control.Type == ButtonControl.ButtonTypes.CloseModalForm ? "data-dismiss=\"modal\" " : string.Empty);
          xhtml.Append(">");
-         xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Text));
+         xhtml.Append((string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.Icon) + "&nbsp;&nbsp;") + HttpUtility.HtmlDecode(control.Text));
          xhtml.Append("</" + (string.IsNullOrWhiteSpace(control.Href) ? "button" : "a") + ">\n");
 
          return xhtml.ToString();
@@ -709,7 +709,7 @@ namespace Cosmo.UI.Render.Impl
 
          xhtml.Append("<div class=\"btn-group\">");
          xhtml.Append("   <button type=\"button\" class=\"btn btn-" + color + " " + GetButtonSizeClass(control.Size) + " dropdown-toggle\" data-toggle=\"dropdown\">");
-         if (!string.IsNullOrWhiteSpace(control.Icon)) xhtml.AppendLine(IconControl.GetIcon(control.Container, control.Icon) + "&nbsp;&nbsp;");
+         if (!string.IsNullOrWhiteSpace(control.Icon)) xhtml.AppendLine(IconControl.GetIcon(control.ParentView, control.Icon) + "&nbsp;&nbsp;");
          xhtml.Append(control.Text + "&nbsp;&nbsp;<span class=\"caret\"></span>");
          xhtml.Append("<span class=\"sr-only\">Toggle Dropdown</span>");
          xhtml.Append("   </button>");
@@ -756,7 +756,7 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div " + callout.GetIdParameter() + "class=\"callout callout-" + GetCssClassFromControlColor(callout.Type) + "\">");
-         xhtml.AppendLine("  <h4>" + (!string.IsNullOrWhiteSpace(callout.Icon) ? IconControl.GetIcon(callout.Container, callout.Icon) + "&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(callout.Title) + "</h4>");
+         xhtml.AppendLine("  <h4>" + (!string.IsNullOrWhiteSpace(callout.Icon) ? IconControl.GetIcon(callout.ParentView, callout.Icon) + "&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(callout.Title) + "</h4>");
          xhtml.AppendLine("  <p>" + HttpUtility.HtmlDecode(callout.Text) + "</p>");
          xhtml.AppendLine("</div>");
 
@@ -915,32 +915,32 @@ namespace Cosmo.UI.Render.Impl
             control.Message = "Utilizamos cookies propias y de terceros para mejorar nuestros servicios. Al utilizar nuestros servicios, aceptas el uso que hacemos de las cookies.";
          }
 
-         HtmlContentControl message = new HtmlContentControl(control.Container);
+         HtmlContentControl message = new HtmlContentControl(control.ParentView);
          message.AppendParagraph(control.Message);
 
-         PanelControl cookiesPanel = new PanelControl(control.Container, control.DomID);
+         PanelControl cookiesPanel = new PanelControl(control.ParentView, control.DomID);
          cookiesPanel.CaptionIcon = IconControl.ICON_LEGAL;
          cookiesPanel.Caption = "Uso de <em>cookies</em>";
          cookiesPanel.Content.Add(message);
 
-         ButtonControl btnAccept = new ButtonControl(control.Container, "cmdAcceptCookies", "Aceptar cookies", string.Empty, "acceptCookies();");
+         ButtonControl btnAccept = new ButtonControl(control.ParentView, "cmdAcceptCookies", "Aceptar cookies", string.Empty, "acceptCookies();");
          btnAccept.Size = ButtonControl.ButtonSizes.ExtraSmall;
          cookiesPanel.ButtonBar.Buttons.Add(btnAccept);
 
          if (!string.IsNullOrWhiteSpace(control.InformationHref))
          {
-            ButtonControl btnInfo = new ButtonControl(control.Container, "cmdInfoCookies", "Más información", control.InformationHref, string.Empty);
+            ButtonControl btnInfo = new ButtonControl(control.ParentView, "cmdInfoCookies", "Más información", control.InformationHref, string.Empty);
             btnInfo.Size = ButtonControl.ButtonSizes.ExtraSmall;
             cookiesPanel.ButtonBar.Buttons.Add(btnInfo);
          }
 
-         SimpleScript script = new SimpleScript(control.Container);
+         SimpleScript script = new SimpleScript(control.ParentView);
          script.ExecutionType = Script.ScriptExecutionMethod.Standalone;
          script.AppendSourceLine("function acceptCookies() {");
          script.AppendSourceLine("  $.cookie('" + COOKIESADVISORCTRL_COOKIE_NAME + "', 'accept');");
          script.AppendSourceLine("  $('#" + control.DomID + "').hide();");
          script.AppendSourceLine("}");
-         control.Container.Scripts.Add(script);
+         control.ParentView.Scripts.Add(script);
 
          return Render(cookiesPanel);
       }
@@ -1013,7 +1013,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("<div class=\"box box-primary\">");
             xhtml.AppendLine("  <div class=\"box-header\">");
-            if (!string.IsNullOrWhiteSpace(control.Caption)) xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.Container, control.Icon) + " ") + HttpUtility.HtmlDecode(control.Caption) + "</h3>");
+            if (!string.IsNullOrWhiteSpace(control.Caption)) xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.Icon) + " ") + HttpUtility.HtmlDecode(control.Caption) + "</h3>");
             xhtml.AppendLine("  </div>");
          }
          xhtml.AppendLine("  <form " + control.GetIdParameter() + " role=\"form\" method=\"" + control.Method + "\"" + (string.IsNullOrWhiteSpace(control.Action) ? string.Empty : " action=\"" + control.Action + "\"") + (control.IsMultipart ? " enctype=\"multipart/form-data\"" : string.Empty) + ">");
@@ -1046,8 +1046,8 @@ namespace Cosmo.UI.Render.Impl
          // Para formulario con envio AJAX, genera el script necesario
          if (control.SendDataMethod == FormControl.FormSendDataMethod.JSSubmit)
          {
-            ModalViewSendFormScript script = new ModalViewSendFormScript((ModalViewContainer)control.Container, control);
-            control.Container.Scripts.Add(script);
+            ModalViewSendFormScript script = new ModalViewSendFormScript((ModalView)control.ParentView, control);
+            control.ParentView.Scripts.Add(script);
          }
 
          return xhtml.ToString();
@@ -1074,7 +1074,7 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
-         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.Container, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
          xhtml.AppendLine("  <div class=\"input-group\" />");
          xhtml.AppendLine("    <div class=\"input-group-addon\" style=\"padding:0;\">");
          xhtml.AppendLine("      <img src=\"" + UIRestHandler.GetCaptchaUrl().ToString() + "\" alt=\"Human Verification Image\" style=\"height:40px;\">");
@@ -1095,7 +1095,7 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
-         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.Container, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
 
          if (control.RewriteRequired)
          {
@@ -1160,7 +1160,7 @@ namespace Cosmo.UI.Render.Impl
          }
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
-         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.Container, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
 
          if (control.Type == FormFieldText.FieldDataType.Text)
          {
@@ -1221,11 +1221,11 @@ namespace Cosmo.UI.Render.Impl
          bool isValid = !string.IsNullOrWhiteSpace(receivedFormID) ? control.Validate() : true;
          StringBuilder xhtml = new StringBuilder();
 
-         SimpleScript jscalendar = new SimpleScript(control.Container);
+         SimpleScript jscalendar = new SimpleScript(control.ParentView);
          jscalendar.ExecutionType = Script.ScriptExecutionMethod.OnDocumentReady;
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
-         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.Container, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
 
          if (control.Type == FormFieldDate.FieldDateType.Date)
          {
@@ -1238,7 +1238,7 @@ namespace Cosmo.UI.Render.Impl
             jscalendar.AppendSourceLine("  singleDatePicker: true,");
             jscalendar.AppendSourceLine("  format: 'DD/MM/YYYY'");
             jscalendar.AppendSourceLine("});");
-            control.Container.Scripts.Add(jscalendar);
+            control.ParentView.Scripts.Add(jscalendar);
          }
          else if (control.Type == FormFieldDate.FieldDateType.Datetime)
          {
@@ -1253,7 +1253,7 @@ namespace Cosmo.UI.Render.Impl
             jscalendar.AppendSourceLine("  timePickerIncrement: 30,");
             jscalendar.AppendSourceLine("  format: 'DD/MM/YYYY hh:mm'");
             jscalendar.AppendSourceLine("});");
-            control.Container.Scripts.Add(jscalendar);
+            control.ParentView.Scripts.Add(jscalendar);
          }
          else if (control.Type == FormFieldDate.FieldDateType.Time)
          {
@@ -1266,7 +1266,7 @@ namespace Cosmo.UI.Render.Impl
             jscalendar.AppendSourceLine("  showInputs: false,");
             jscalendar.AppendSourceLine("  format: 'hh:mm'");
             jscalendar.AppendSourceLine("});");
-            control.Container.Scripts.Add(jscalendar);
+            control.ParentView.Scripts.Add(jscalendar);
          }
 
          if (!string.IsNullOrWhiteSpace(control.Description))
@@ -1298,7 +1298,7 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
-         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.Container, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
          xhtml.AppendLine("  <textarea " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" rows=\"3\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\">" + control.Value + "</textarea>");
 
          if (!string.IsNullOrWhiteSpace(control.Description))
@@ -1310,15 +1310,15 @@ namespace Cosmo.UI.Render.Impl
 
          if (control.Type == FormFieldEditor.FieldEditorType.HTML)
          {
-            SimpleScript script = new SimpleScript(control.Container);
+            SimpleScript script = new SimpleScript(control.ParentView);
             script.ExecutionType = Script.ScriptExecutionMethod.OnDocumentReady;
             script.AppendSourceLine("CKEDITOR.replace('" + control.DomID + "');");
 
-            control.Container.Scripts.Add(script);
+            control.ParentView.Scripts.Add(script);
          }
          else if (control.Type == FormFieldEditor.FieldEditorType.BBCode)
          {
-            SimpleScript script = new SimpleScript(control.Container);
+            SimpleScript script = new SimpleScript(control.ParentView);
             script.ExecutionType = Script.ScriptExecutionMethod.OnDocumentReady;
             script.AppendSourceLine("CKEDITOR.replace('" + control.DomID + "', {");
             script.AppendSourceLine("  extraPlugins: 'bbcode',");
@@ -1333,7 +1333,7 @@ namespace Cosmo.UI.Render.Impl
             script.AppendSourceLine("  ]");
             script.AppendSourceLine("});");
 
-            control.Container.Scripts.Add(script);
+            control.ParentView.Scripts.Add(script);
          }
 
          return xhtml.ToString();
@@ -1670,7 +1670,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <a href=\"" + listItem.Href + "\">");
          if (!string.IsNullOrWhiteSpace(listItem.Icon))
          {
-            xhtml.AppendLine("    " + IconControl.GetIcon(list.Container, listItem.Icon) + " ");
+            xhtml.AppendLine("    " + IconControl.GetIcon(list.ParentView, listItem.Icon) + " ");
          }
          xhtml.AppendLine("    " + HttpUtility.HtmlDecode(listItem.Text) + "<br />");
          if (!string.IsNullOrWhiteSpace(listItem.Description))
@@ -1726,7 +1726,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("</div>");
 
          // Genera un script para enviar la petición al servidor
-         SimpleScript js = new SimpleScript(loginForm.Container);
+         SimpleScript js = new SimpleScript(loginForm.ParentView);
          js.ExecutionType = Script.ScriptExecutionMethod.Standalone;
          js.AppendSourceLine("$(\"#btn-login\").click(function() {");
          js.AppendSourceLine("  $(\"#" + loginForm.DomID + "-form\").submit(function(e) {");
@@ -1758,7 +1758,7 @@ namespace Cosmo.UI.Render.Impl
          js.AppendSourceLine("  });");
          js.AppendSourceLine("  $(\"#" + loginForm.DomID + "-form\").submit();");
          js.AppendSourceLine("});");
-         loginForm.Container.Scripts.Add(js);
+         loginForm.ParentView.Scripts.Add(js);
 
          return xhtml.ToString();
       }
@@ -1787,7 +1787,7 @@ namespace Cosmo.UI.Render.Impl
                xhtml.AppendLine("  <div class=\"thumbnail\">");
                xhtml.AppendLine("    <img class=\"img-thumbnail\" alt=\"\" src=\"" + thumb.Image + "\" style=\"" + (thumb.ImageWidth > 0 ? "width:" + thumb.ImageWidth + "px;" : string.Empty) + (thumb.ImageHeight > 0 ? "height:" + thumb.ImageHeight + "px;" : string.Empty) + "\">");
                xhtml.AppendLine("    <div class=\"caption\">");
-               xhtml.AppendLine("      <h3>" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.Container, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(thumb.Title) + "</h3>");
+               xhtml.AppendLine("      <h3>" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(thumb.Title) + "</h3>");
                xhtml.AppendLine("      <p>" + HttpUtility.HtmlDecode(thumb.Description) + "</p>");
                xhtml.AppendLine("      <p><a href=\"" + thumb.LinkHref + "\" class=\"btn btn-primary\" role=\"button\">" + HttpUtility.HtmlDecode(thumb.LinkCaption) + "</a></p>");
                xhtml.AppendLine("    </div>");
@@ -1804,7 +1804,7 @@ namespace Cosmo.UI.Render.Impl
                   xhtml.AppendLine("  </a>");
                }
                xhtml.AppendLine("  <div class=\"media-body\">");
-               xhtml.AppendLine("    <h4 class=\"media-heading\">" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.Container, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + "<a href=\"" + thumb.LinkHref + "\">" + HttpUtility.HtmlDecode(thumb.Title) + "</a></h4>");
+               xhtml.AppendLine("    <h4 class=\"media-heading\">" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + "<a href=\"" + thumb.LinkHref + "\">" + HttpUtility.HtmlDecode(thumb.Title) + "</a></h4>");
                xhtml.AppendLine("    <p>" + HttpUtility.HtmlDecode(thumb.Description) + "</p>");
                xhtml.AppendLine("  </div>");
                xhtml.AppendLine("</div>");
@@ -1879,7 +1879,7 @@ namespace Cosmo.UI.Render.Impl
 
                   xhtml.AppendLine("        <li>");
                   xhtml.AppendLine("          <a href=\"" + item.Href + "\">");
-                  if (!string.IsNullOrWhiteSpace(item.Icon)) xhtml.AppendLine("            " + IconControl.GetIcon(control.Container, item.Icon) + " ");
+                  if (!string.IsNullOrWhiteSpace(item.Icon)) xhtml.AppendLine("            " + IconControl.GetIcon(control.ParentView, item.Icon) + " ");
                   xhtml.AppendLine("            " + HttpUtility.HtmlDecode(item.Caption));
                   xhtml.AppendLine("          </a>");
                   xhtml.AppendLine("        </li>");
@@ -1943,7 +1943,7 @@ namespace Cosmo.UI.Render.Impl
          else
          {
             xhtml.AppendLine("<li class=\"user\">");
-            xhtml.AppendLine("  <a href=\"" + Cosmo.Workspace.COSMO_URL_LOGIN + "\">");
+            xhtml.AppendLine("  <a href=\"" + Workspace.AuthenticationService.GetLoginUrl(Workspace.CurrentUrl) + "\">");
             xhtml.AppendLine("    <i class=\"glyphicon glyphicon-user\"></i>");
             xhtml.AppendLine("    <span>Iniciar sesión</span>");
             xhtml.AppendLine("  </a>");
@@ -1993,8 +1993,8 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          // xhtml.AppendLine("<section class=\"content-header\">");
-         xhtml.AppendLine("  <h1><a name=\"" + PageViewContainer.LINK_TOP_PAGE + "\"></a>");
-         xhtml.AppendLine(((!string.IsNullOrWhiteSpace(control.Icon) ? IconControl.GetIcon(control.Container, control.Icon) : string.Empty) + "&nbsp;"));
+         xhtml.AppendLine("  <h1><a name=\"" + PageView.LINK_TOP_PAGE + "\"></a>");
+         xhtml.AppendLine(((!string.IsNullOrWhiteSpace(control.Icon) ? IconControl.GetIcon(control.ParentView, control.Icon) : string.Empty) + "&nbsp;"));
          xhtml.AppendLine(HttpUtility.HtmlDecode(control.Title));
          if (!string.IsNullOrWhiteSpace(control.SubTitle))
          {
@@ -2064,7 +2064,7 @@ namespace Cosmo.UI.Render.Impl
          if (!string.IsNullOrWhiteSpace(control.Caption))
          {
             xhtml.AppendLine("  <div class=\"box-header\" title=\"\">");
-            xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.CaptionIcon) ? string.Empty : IconControl.GetIcon(control.Container, control.CaptionIcon) + "&nbsp;&nbsp;") + control.Caption + "</h3>");
+            xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.CaptionIcon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.CaptionIcon) + "&nbsp;&nbsp;") + control.Caption + "</h3>");
             if (control.ButtonBar.Buttons.Count > 0)
             {
                xhtml.AppendLine("    <div class=\"box-tools pull-right\">");
@@ -2185,7 +2185,7 @@ namespace Cosmo.UI.Render.Impl
 
          xhtml.AppendLine("<div class=\"box picture-box\">");
          xhtml.AppendLine("  <div class=\"box-header picture-box-header\">");
-         xhtml.AppendLine("    <a href=\"" + control.ImageHref + " title=\"Ampliar imagen\"\" target=\"_blank\">");
+         xhtml.AppendLine("    <a href=\"" + control.ImageHref + "\" title=\"Ampliar imagen\" target=\"_blank\">");
          xhtml.AppendLine("    <img src=\"" + control.ImageUrl + "\" alt=\"" + control.ImageAlternativeText + "\" style=\"width:100%;\">");
          xhtml.AppendLine("    </a>");
          xhtml.AppendLine("  </div>");
@@ -2358,7 +2358,7 @@ namespace Cosmo.UI.Render.Impl
          first = true;
          foreach (TabItemControl tab in control.TabItems)
          {
-            xhtml.AppendLine("    <li" + (first ? " class=\"active\"" : string.Empty) + "><a href=\"#" + tab.DomID + "\" data-toggle=\"tab\">" + (string.IsNullOrWhiteSpace(tab.Icon) ? string.Empty : IconControl.GetIcon(control.Container, tab.Icon) + "&nbsp;") + HttpUtility.HtmlDecode(tab.Caption) + "</a></li>");
+            xhtml.AppendLine("    <li" + (first ? " class=\"active\"" : string.Empty) + "><a href=\"#" + tab.DomID + "\" data-toggle=\"tab\">" + (string.IsNullOrWhiteSpace(tab.Icon) ? string.Empty : IconControl.GetIcon(control.ParentView, tab.Icon) + "&nbsp;") + HttpUtility.HtmlDecode(tab.Caption) + "</a></li>");
             first = false;
          }
 
@@ -2489,7 +2489,7 @@ namespace Cosmo.UI.Render.Impl
             {
                xhtml.AppendLine("   <li>");
                if (!string.IsNullOrWhiteSpace(item.ID)) xhtml.AppendLine("     <a name=\"" + item.ID + "\"></a>");
-               xhtml.AppendLine("      " + IconControl.GetIcon(control.Container, item.Icon, ComponentBackgroundColor.Blue));
+               xhtml.AppendLine("      " + IconControl.GetIcon(control.ParentView, item.Icon, ComponentBackgroundColor.Blue));
                xhtml.AppendLine("      <div class=\"timeline-item\">");
                xhtml.AppendLine("         <span class=\"time\">");
                xhtml.AppendLine("            <i class=\"fa fa-clock-o\"></i> " + item.Time);
@@ -2501,7 +2501,7 @@ namespace Cosmo.UI.Render.Impl
                   {
                      button.Size = ButtonControl.ButtonSizes.ExtraSmall;
                      // xhtml.AppendLine("            " + RenderButton(button));
-                     xhtml.AppendLine("&nbsp;<a href=\"" + button.Href + "\" title=\"" + HttpUtility.HtmlDecode(button.Text) + "\">" + IconControl.GetIcon(control.Container, button.Icon) + "</a>");
+                     xhtml.AppendLine("&nbsp;<a href=\"" + button.Href + "\" title=\"" + HttpUtility.HtmlDecode(button.Text) + "\">" + IconControl.GetIcon(control.ParentView, button.Icon) + "</a>");
                   }
                   xhtml.AppendLine("            </span>");
                }
@@ -2593,7 +2593,7 @@ namespace Cosmo.UI.Render.Impl
             if (!string.IsNullOrWhiteSpace(childItem.Href)) xhtml.AppendLine("<a href=\"" + childItem.Href + "\">");
          }
 
-         if (!string.IsNullOrWhiteSpace(childItem.Icon)) xhtml.AppendLine(IconControl.GetIcon(childItem.Container, childItem.Icon));
+         if (!string.IsNullOrWhiteSpace(childItem.Icon)) xhtml.AppendLine(IconControl.GetIcon(childItem.ParentView, childItem.Icon));
          xhtml.AppendLine(childItem.Caption);
 
          /*if (childItem.ChildItems.Count > 0)
@@ -2633,10 +2633,10 @@ namespace Cosmo.UI.Render.Impl
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.Append(IconControl.GetIcon(control.Container, IconControl.ICON_USER));
+         xhtml.Append(IconControl.GetIcon(control.ParentView, IconControl.ICON_USER));
          xhtml.Append(" ");
 
-         if (control.Container.Workspace.CurrentUser.IsAuthenticated)
+         if (control.ParentView.Workspace.CurrentUser.IsAuthenticated)
          {
             xhtml.Append("<a href=\"javascript:" + control.ModalView.GetInvokeFunctionWithParameters(new object[] { control.UserID }) + "\" title=\"Detalles del usuario\">" + control.UserDisplayName + "</a>");
          }
@@ -2687,12 +2687,12 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Render modal forms.
       /// </summary>
-      private string RenderModalViews(ViewContainer container, List<ModalViewContainer> modalList)
+      private string RenderModalViews(View parentView, List<ModalView> modalList)
       {
          StringBuilder xhtml = new StringBuilder();
 
          // Renderiza las ventanas modales
-         foreach (ModalViewContainer modal in modalList)
+         foreach (ModalView modal in modalList)
          {
             // Genera la cabecera de la ventana modal
             xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
@@ -2700,7 +2700,7 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
             xhtml.AppendLine("</div>");
 
-            container.Scripts.Add(modal.GetOpenModalScript());
+            parentView.Scripts.Add(modal.GetOpenModalScript());
          }
 
          return xhtml.ToString();

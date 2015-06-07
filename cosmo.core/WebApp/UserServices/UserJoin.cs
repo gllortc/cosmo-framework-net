@@ -14,7 +14,7 @@ namespace Cosmo.WebApp.UserServices
    /// Version: 1.0.0
    /// Copyright (c) InforGEST
    /// </remarks>
-   public class UserJoin : PageViewContainer
+   public class UserJoin : PageView
    {
       private FormControl form;
 

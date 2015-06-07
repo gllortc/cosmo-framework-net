@@ -7,15 +7,15 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class TabbedContainerControl : Control, IControlCollectionContainer
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private List<TabItemControl> _tabs;
 
       /// <summary>
       /// Devuelve una instancia de <see cref="TabbedContainerControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public TabbedContainerControl(ViewContainer container) 
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public TabbedContainerControl(View parentView) 
+         : base(parentView)
       {
          Initialize();
       }

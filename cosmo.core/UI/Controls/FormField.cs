@@ -33,8 +33,8 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormField"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      protected FormField(ViewContainer container) : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      protected FormField(View parentView) : base(parentView)
       {
          Initialize();
       }
@@ -42,10 +42,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="FormField"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista.</param>
-      protected FormField(ViewContainer container, string domId)
-         : base(container, domId)
+      protected FormField(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }

@@ -28,7 +28,7 @@ namespace Cosmo.UI.Render
       /// <summary>Atributo XML para especificar el recurso (archivo o url)</summary>
       public const string XML_RESOURCE_ATTR_VALUE = "value";
 
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
       private string _xIcon;
       private string _skin;
@@ -158,47 +158,47 @@ namespace Cosmo.UI.Render
       /// <summary>
       /// Renderiza una vista de página.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PageViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PageView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(PageViewContainer container);
+      public abstract string RenderPage(PageView parentView);
 
       /// <summary>
       /// Renderiza una vista de página.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PageViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PageView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(PageViewContainer container, string receivedFormID);
+      public abstract string RenderPage(PageView parentView, string receivedFormID);
 
       /// <summary>
       /// Renderiza una vista parcial.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PartialViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PartialView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(PartialViewContainer container);
+      public abstract string RenderPage(PartialView parentView);
 
       /// <summary>
       /// Renderiza una vista parcial.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="PartialViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="PartialView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(PartialViewContainer container, string receivedFormID);
+      public abstract string RenderPage(PartialView parentView, string receivedFormID);
 
       /// <summary>
       /// Renderiza una vista modal.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="ModalViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="ModalView"/> que representa la instancia renderizar.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(ModalViewContainer container);
+      public abstract string RenderPage(ModalView parentView);
 
       /// <summary>
       /// Renderiza una vista modal.
       /// </summary>
-      /// <param name="container">Una instancia de <see cref="ModalViewContainer"/> que representa la instancia renderizar.</param>
+      /// <param name="parentView">Una instancia de <see cref="ModalView"/> que representa la instancia renderizar.</param>
       /// <param name="receivedFormID">Contiene el identificador (DOM) del formulario recibido en la llamada.</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
-      public abstract string RenderPage(ModalViewContainer container, string receivedFormID);
+      public abstract string RenderPage(ModalView parentView, string receivedFormID);
 
       /// <summary>
       /// Renderiza un control.

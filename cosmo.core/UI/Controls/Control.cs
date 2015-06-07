@@ -78,24 +78,24 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="Control"/>.
       /// </summary>
-      /// <param name="container">Instancia de <see cref="ViewContainer"/> que contiene el control.</param>
-      protected Control(ViewContainer container)
+      /// <param name="parentView">Instancia de <see cref="View"/> que contiene el control.</param>
+      protected Control(View parentView)
       {
          Initialize();
 
-         this.Container = container;
+         this.ParentView = parentView;
       }
 
       /// <summary>
       /// Devuelve una instancia de <see cref="Control"/>.
       /// </summary>
-      /// <param name="container">Instancia de <see cref="ViewContainer"/> que contiene el control.</param>
+      /// <param name="parentView">Instancia de <see cref="View"/> que contiene el control.</param>
       /// <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
-      protected Control(ViewContainer container, string domId)
+      protected Control(View parentView, string domId)
       {
          Initialize();
 
-         this.Container = container;
+         this.ParentView = parentView;
          this.DomID = domId;
       }
 
@@ -110,9 +110,9 @@ namespace Cosmo.UI.Controls
       public string DomID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la instancia de <see cref="ViewContainer"/> que contiene el control.
+      /// Devuelve o establece la instancia de <see cref="View"/> que contiene el control.
       /// </summary>
-      public ViewContainer Container { get; set; }
+      public View ParentView { get; set; }
 
       #endregion
 
@@ -124,7 +124,7 @@ namespace Cosmo.UI.Controls
       /// <param name="script">Una instancia de <see cref="Script"/> que representa el script a incoporar.</param>
       public void AddScript(Script script)
       {
-         this.Container.Scripts.Add(script);
+         this.ParentView.Scripts.Add(script);
       }
 
       /// <summary>
@@ -132,7 +132,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       public string ToXhtml()
       {
-         return Container.Workspace.UIService.Render(this);
+         return ParentView.Workspace.UIService.Render(this);
       }
 
       /// <summary>
@@ -176,7 +176,7 @@ namespace Cosmo.UI.Controls
       {
          // Inicializa los valores
          this.DomID = string.Empty;
-         this.Container = null;
+         this.ParentView = null;
       }
 
       #endregion

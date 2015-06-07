@@ -13,9 +13,9 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public ChatMessageToolbarButtonControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public ChatMessageToolbarButtonControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -23,11 +23,11 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
-      public ChatMessageToolbarButtonControl(ViewContainer container, string caption, string href)
-         : base(container)
+      public ChatMessageToolbarButtonControl(View parentView, string caption, string href)
+         : base(parentView)
       {
          Initialize();
 
@@ -38,12 +38,12 @@
       /// <summary>
       /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
       /// <param name="icon"></param>
-      public ChatMessageToolbarButtonControl(ViewContainer container, string caption, string href, string icon)
-         : base(container)
+      public ChatMessageToolbarButtonControl(View parentView, string caption, string href, string icon)
+         : base(parentView)
       {
          Initialize();
 

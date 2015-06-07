@@ -7,7 +7,7 @@ namespace Cosmo.WebApp.FileSystemServices
    /// <summary>
    /// Implementa un formulario modal para subir archivos al servidor.
    /// </summary>
-   public class ModalFormUpload : ModalViewContainer
+   public class ModalFormUpload : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "fs-upload-modal";

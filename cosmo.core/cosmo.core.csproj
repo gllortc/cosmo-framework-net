@@ -126,8 +126,8 @@
     <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
     <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
     <Compile Include="UI\ViewParameter.cs" />
-    <Compile Include="UI\ModalViewContainer.cs" />
-    <Compile Include="UI\PartialViewContainer.cs" />
+    <Compile Include="UI\ModalView.cs" />
+    <Compile Include="UI\PartialView.cs" />
     <Compile Include="UI\Scripting\AjaxResponse.cs" />
     <Compile Include="UI\Scripting\AjaxRestSimpleCallScript.cs" />
     <Compile Include="UI\Scripting\ModalViewSendFormScript.cs" />
@@ -167,10 +167,10 @@
     <Compile Include="UI\Controls\SidebarControl.cs" />
     <Compile Include="UI\Controls\SidebarButton.cs" />
     <Compile Include="UI\Controls\TreeViewControl.cs" />
-    <Compile Include="UI\PageViewContainer.cs" />
+    <Compile Include="UI\PageView.cs" />
     <Compile Include="UI\ViewResource.cs" />
     <Compile Include="UI\CosmoTemplate.cs" />
-    <Compile Include="UI\ViewContainer.cs" />
+    <Compile Include="UI\View.cs" />
     <Compile Include="UI\Menu\IMenuProvider.cs" />
     <Compile Include="UI\Menu\Impl\DbMenuProviderImpl.cs" />
     <Compile Include="UI\Menu\Impl\StaticMenuProviderImpl.cs" />

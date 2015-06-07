@@ -6,20 +6,18 @@
    /// </summary>
    public class NavbarPrivateMessagesItem : NavbarIButtonControl
    {
-      // Declaración de variables internas
-      private Workspace _ws;
 
       #region Constructors
 
       /// <summary>
       /// Devuelve una instancia de <see cref="NavbarPrivateMessagesItem"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
-      public NavbarPrivateMessagesItem(ViewContainer container, Workspace workspace)
-         : base(container)
+      public NavbarPrivateMessagesItem(View parentView)
+         : base(parentView)
       {
-         _ws = workspace;
+         // Nothing to do here
       }
 
       #endregion

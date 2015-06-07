@@ -15,9 +15,9 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="AlertControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      public AlertControl(ViewContainer container)
-         : base(container)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      public AlertControl(View parentView)
+         : base(parentView)
       {
          Initialize();
       }
@@ -25,11 +25,11 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="AlertControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text"></param>
       /// <param name="type"></param>
-      public AlertControl(ViewContainer container, string text, ComponentColorScheme type)
-         : base(container)
+      public AlertControl(View parentView, string text, ComponentColorScheme type)
+         : base(parentView)
       {
          Initialize();
 
@@ -40,12 +40,12 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="AlertControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text"></param>
       /// <param name="type"></param>
       /// <param name="closeable"></param>
-      public AlertControl(ViewContainer container, string text, ComponentColorScheme type, bool closeable)
-         : base(container)
+      public AlertControl(View parentView, string text, ComponentColorScheme type, bool closeable)
+         : base(parentView)
       {
          Initialize();
 

@@ -82,12 +82,12 @@ namespace Rwn.WebApp.Handlers
 
             case "cs_img.aspx":
 
-               url = Cosmo.Cms.Photos.PhotoDAO.GetBrowseFoldersURL();
+               url = Cosmo.WebApp.Photos.PhotosBrowse.GetPhotosBrowseUrl();
                break;
 
             case "cs_img_folder.aspx":
 
-               url = Cosmo.Cms.Photos.PhotoDAO.GetFolderURL(qsAsp.GetInteger("fid"));
+               url = Cosmo.WebApp.Photos.PhotosByFolder.GetPhotosByFolderUrl(qsAsp.GetInteger("fid"));
                break;
 
             //-----------------------------------------------------

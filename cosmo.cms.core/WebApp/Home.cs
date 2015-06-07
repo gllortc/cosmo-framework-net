@@ -7,7 +7,7 @@ namespace Cosmo.WebApp
    /// <summary>
    /// Descripción breve de Home
    /// </summary>
-   public class Home : Cosmo.UI.PageViewContainer
+   public class Home : Cosmo.UI.PageView
    {
       public Home()
       {

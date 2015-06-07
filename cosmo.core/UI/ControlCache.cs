@@ -5,7 +5,7 @@ using System.Web.Caching;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implements a control cache for implementatios of <see cref="ViewContainer"/> class.
+   /// Implements a control cache for implementatios of <see cref="View"/> class.
    /// </summary>
    public class ControlCache
    {

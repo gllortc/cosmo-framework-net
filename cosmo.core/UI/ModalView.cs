@@ -10,15 +10,15 @@ namespace Cosmo.UI
    /// <summary>
    /// Implementa una vista que permite generarse sin estar dentro de una página.
    /// </summary>
-   public abstract class ModalViewContainer : ViewContainer
+   public abstract class ModalView : View
    {
 
       #region Constructors
 
       /// <summary>
-      /// Gets an instance of <see cref="ModalViewContainer"/>.
+      /// Gets an instance of <see cref="ModalView"/>.
       /// </summary>
-      protected ModalViewContainer()
+      protected ModalView()
       {
          Initialize();
       }
@@ -33,7 +33,7 @@ namespace Cosmo.UI
       /// <remarks>
       /// This property have a protected <c>setter</c> because every modal view must have a 
       /// constant DOM unique identifier. You can set this property only in a implementations
-      /// of the abstract class <see cref="ModalViewContainer"/>.
+      /// of the abstract class <see cref="ModalView"/>.
       /// </remarks>
       public string DomID { get; protected set; }
 

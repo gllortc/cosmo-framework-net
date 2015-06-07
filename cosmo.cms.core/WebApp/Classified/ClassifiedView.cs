@@ -19,7 +19,7 @@ namespace Cosmo.WebApp.Classified
    /// <summary>
    /// Muestra el contenido de un artículo.
    /// </summary>
-   public class ClassifiedView : PageViewContainer
+   public class ClassifiedView : PageView
    {
       int classifiedId = -1;
       FormControl contactForm = null;

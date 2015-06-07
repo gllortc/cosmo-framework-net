@@ -17,7 +17,7 @@ namespace Cosmo.UI
    {
       private const string SETTING_BROWSER_AGENT = "browser-agent-regexp";
 
-      // Declaración de variables internas
+      // Internal data declarations
       private string _activeRenderer;
       private Workspace _ws;
       private Dictionary<string, RenderModule> _renderers;
@@ -119,7 +119,7 @@ namespace Cosmo.UI
       /// Renderiza un conjunto de controles.
       /// </summary>
       /// <param name="controls">Colección de controles a renderizar.</param>
-      /// <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>Una cadena que contiene XHTML.</returns>
       public string Render(ControlCollection controls, string receivedFormID)
       {
@@ -129,43 +129,43 @@ namespace Cosmo.UI
       /// <summary>
       /// Render a view.
       /// </summary>
-      /// <param name="container">A page view container.</param>
+      /// <param name="parentView">A page view container.</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PageViewContainer container)
+      public string RenderPage(PageView parentView)
       {
-         return RenderPage(container, string.Empty);
+         return RenderPage(parentView, string.Empty);
       }
 
       /// <summary>
       /// Render a view.
       /// </summary>
-      /// <param name="container">A page view container.</param>
-      /// <param name="postback">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PageViewContainer container, string receivedFormID)
-      {
-         return _renderers[_activeRenderer].RenderPage(container, receivedFormID);
-      }
-
-      /// <summary>
-      /// Render a view.
-      /// </summary>
-      /// <param name="container">A modal view container.</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(ModalViewContainer container)
-      {
-         return RenderPage(container, string.Empty);
-      }
-
-      /// <summary>
-      /// Render a view.
-      /// </summary>
-      /// <param name="container">A modal view container.</param>
+      /// <param name="parentView">A page view container.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(ModalViewContainer container, string receivedFormID)
+      public string RenderPage(PageView parentView, string receivedFormID)
       {
-         return _renderers[_activeRenderer].RenderPage(container, receivedFormID);
+         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
+      }
+
+      /// <summary>
+      /// Render a view.
+      /// </summary>
+      /// <param name="parentView">A modal view container.</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(ModalView parentView)
+      {
+         return RenderPage(parentView, string.Empty);
+      }
+
+      /// <summary>
+      /// Render a view.
+      /// </summary>
+      /// <param name="parentView">A modal view container.</param>
+      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(ModalView parentView, string receivedFormID)
+      {
+         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
       }
 
       /// <summary>
@@ -203,37 +203,37 @@ namespace Cosmo.UI
       /// <summary>
       /// Obtiene el menú lateral a partir de un proveedor determinado.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador del menú a obtener.</param>
       /// <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
       /// <returns>Una instancia de <see cref="SidebarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
-      public SidebarControl GetSidebarMenu(ViewContainer parentViewport, string id, string activeId)
+      public SidebarControl GetSidebarMenu(View parentView, string id, string activeId)
       {
          if (_menus.ContainsKey(id))
          {
-            return ((IMenuProvider)_menus[id]).GenerateSidebar(parentViewport, activeId);
+            return ((IMenuProvider)_menus[id]).GenerateSidebar(parentView, activeId);
          }
          else
          {
             _ws.Logger.Add(new LogEntry(GetType().Name + ".GetSidebarMenu(string)",
                                         "No se puede obtener el control Sidebar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.",
                                         LogEntry.LogEntryType.EV_WARNING));
-            return new SidebarControl(parentViewport);
+            return new SidebarControl(parentView);
          }
       }
 
       /// <summary>
       /// Obtiene la barra de navegación a partir de un proveedor determinado.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador del menú a obtener.</param>
       /// <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
       /// <returns>Una instancia de <see cref="NavbarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
-      public NavbarControl GetNavbarMenu(ViewContainer parentViewport, string id, string activeId)
+      public NavbarControl GetNavbarMenu(View parentView, string id, string activeId)
       {
          if (_menus.ContainsKey(id))
          {
-            return ((IMenuProvider)_menus[id]).GenerateNavbar(parentViewport, activeId);
+            return ((IMenuProvider)_menus[id]).GenerateNavbar(parentView, activeId);
          }
          else
          {
@@ -241,7 +241,7 @@ namespace Cosmo.UI
                                         "No se puede obtener el control Navbar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.",
                                         LogEntry.LogEntryType.EV_WARNING));
 
-            return new NavbarControl(parentViewport);
+            return new NavbarControl(parentView);
          }
       }
 

@@ -17,7 +17,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldPassword(ViewContainer parentViewport, string domId)
+      public FormFieldPassword(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -29,7 +29,7 @@ namespace Cosmo.UI.Controls
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
-      public FormFieldPassword(ViewContainer parentViewport, string domId, string label)
+      public FormFieldPassword(View parentViewport, string domId, string label)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -44,7 +44,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldPassword(ViewContainer parentViewport, string domId, string label, string value)
+      public FormFieldPassword(View parentViewport, string domId, string label, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -125,7 +125,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            this.Value = Url.GetString(Container.Workspace.Context.Request.Params, this.DomID);
+            this.Value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {
@@ -152,7 +152,7 @@ namespace Cosmo.UI.Controls
          // Validación de doble escritura
          if (this.RewriteRequired)
          {
-            valid &= _value.Equals(Container.Workspace.Context.Request.Params[DomID + FormField.FIELD_CHECK_POST_DOMID]);
+            valid &= _value.Equals(ParentView.Workspace.Context.Request.Params[DomID + FormField.FIELD_CHECK_POST_DOMID]);
          }
 
          return valid;

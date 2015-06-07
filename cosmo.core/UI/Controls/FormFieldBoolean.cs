@@ -18,7 +18,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de la vista (DOM).</param>
-      public FormFieldBoolean(ViewContainer parentViewport, string domId)
+      public FormFieldBoolean(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -30,7 +30,7 @@ namespace Cosmo.UI.Controls
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del control en la página.</param>
       /// <param name="label">Texto visible del control.</param>
-      public FormFieldBoolean(ViewContainer parentViewport, string domId, string label)
+      public FormFieldBoolean(View parentViewport, string domId, string label)
          : base(parentViewport)
       {
          Initialize();
@@ -46,7 +46,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del control en la página.</param>
       /// <param name="label">Texto visible del control.</param>
       /// <param name="value">Valor de inicialización que tendrá el campo.</param>
-      public FormFieldBoolean(ViewContainer parentViewport, string id, string label, bool value)
+      public FormFieldBoolean(View parentViewport, string id, string label, bool value)
          : base(parentViewport)
       {
          Initialize();
@@ -117,7 +117,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            _value = Url.GetBoolean(Container.Workspace.Context.Request.Params, this.DomID);
+            _value = Url.GetBoolean(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {

@@ -35,7 +35,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="container">Página o contenedor dónde se representará el control.</param>
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldDate(ViewContainer parentViewport, string domId)
+      public FormFieldDate(View parentViewport, string domId)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -48,7 +48,7 @@ namespace Cosmo.UI.Controls
       /// <param name="id">Identificador único del componente dentro de una vista.</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
-      public FormFieldDate(ViewContainer parentViewport, string domId, string label, FieldDateType type)
+      public FormFieldDate(View parentViewport, string domId, string label, FieldDateType type)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -65,7 +65,7 @@ namespace Cosmo.UI.Controls
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldDate(ViewContainer parentViewport, string domId, string label, FieldDateType type, string value)
+      public FormFieldDate(View parentViewport, string domId, string label, FieldDateType type, string value)
          : base(parentViewport, domId)
       {
          Initialize();
@@ -132,7 +132,7 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            this.Value = DateTime.Parse(Url.GetString(Container.Workspace.Context.Request.Params, this.DomID));
+            this.Value = DateTime.Parse(Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID));
          }
          catch
          {

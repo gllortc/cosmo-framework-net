@@ -17,10 +17,10 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Devuelve una instancia de <see cref="CarrouselControl"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador único del componente dentro de una vista.</param>
-      public CarrouselControl(ViewContainer container, string domId)
-         : base(container, domId)
+      public CarrouselControl(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
