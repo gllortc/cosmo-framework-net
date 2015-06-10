@@ -149,7 +149,7 @@ namespace Cosmo.Cms.Classified
             cmd.Parameters.Add(param);
 
             param = new SqlParameter("@annfolderid", SqlDbType.Int);
-            param.Value = ad.FolderId;
+            param.Value = ad.FolderID;
             cmd.Parameters.Add(param);
 
             param = new SqlParameter("@anntitle", SqlDbType.NVarChar, 64);
@@ -229,7 +229,7 @@ namespace Cosmo.Cms.Classified
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@anndate", ad.Created));
-            cmd.Parameters.Add(new SqlParameter("@annfolderid", ad.FolderId));
+            cmd.Parameters.Add(new SqlParameter("@annfolderid", ad.FolderID));
             cmd.Parameters.Add(new SqlParameter("@anntitle", ad.Title));
             cmd.Parameters.Add(new SqlParameter("@annbody", ad.Body));
             cmd.Parameters.Add(new SqlParameter("@annprice", ad.Price));
@@ -1272,7 +1272,7 @@ namespace Cosmo.Cms.Classified
          ad.Id = reader.GetInt32(0);
          ad.UserID = reader.GetInt32(1);
          ad.Created = reader.GetDateTime(2);
-         ad.FolderId = reader.GetInt32(3);
+         ad.FolderID = reader.GetInt32(3);
          ad.Title = reader.IsDBNull(4) ? string.Empty : reader.GetString(4);
          ad.Body = reader.IsDBNull(5) ? string.Empty : reader.GetString(5);
          ad.UserLogin = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);                     // Usuario de Workspace

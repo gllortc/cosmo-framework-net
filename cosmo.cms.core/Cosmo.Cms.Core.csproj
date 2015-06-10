@@ -74,6 +74,7 @@
     <Compile Include="Forums\ForumMessage.cs" />
     <Compile Include="Forums\ForumsDAO.cs" />
     <Compile Include="Forums\ForumThread.cs" />
+    <Compile Include="WebApp\Photos\PhotosEditModal.cs" />
     <Compile Include="WebApp\Photos\PhotosRemoveModal.cs" />
     <Compile Include="WebApp\Photos\PhotosUpload.cs" />
     <Compile Include="Utils\LayoutAdapter.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Utils\Banners\CSBannerHandler.cs" />
     <Compile Include="Utils\Banners\CSBanners.cs" />
     <Compile Include="WebApp\Classified\ClassifiedManage.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedFolder.cs" />
+    <Compile Include="WebApp\Classified\ClassifiedByFolder.cs" />
     <Compile Include="WebApp\Classified\ClassifiedView.cs" />
     <Compile Include="WebApp\Content\ContentView.cs" />
     <Compile Include="WebApp\Classified\ClassifiedEdit.cs" />

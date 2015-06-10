@@ -1,4 +1,5 @@
 ﻿using Cosmo.Cms.Content;
+using Cosmo.Net;
 using Cosmo.REST;
 using Cosmo.Security;
 using Cosmo.UI;
@@ -8,6 +9,7 @@ using Cosmo.Utils;
 using Cosmo.WebApp.Content;
 using Cosmo.WebApp.FileSystemServices;
 using System.IO;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Classified
 {
@@ -22,6 +24,8 @@ namespace Cosmo.WebApp.Classified
       private const string FIELD_ATTACHMENT = "att";
       private const string FIELD_STATUS = "sta";
       private const string FIELD_HIGHLIGHT = "hgl";
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -65,12 +69,18 @@ namespace Cosmo.WebApp.Classified
 
             default:
                ShowError("Llamada incorrecta!", 
-                         "Hemos detectado una llamada incorrecta al editor de artículos. No es posible abrir el editor en estas condiciones.");
+                         "Hemos detectado una llamada incorrecta al editor de anuncios. No es posible abrir el editor en estas condiciones.");
                break;
          }
 
          // Obtiene el documento y la carpeta
          folder = docs.GetFolder(doc.FolderId, false);
+         if (folder == null)
+         {
+            ShowError("Categoria no encontrada",
+                      "No se ha podido determinar la categoria a la que desea añadir el anuncio. No es posible abrir el editor en estas condiciones.");
+            return;
+         }
 
          //-------------------------------
          // Configuración de la vista
@@ -245,5 +255,31 @@ namespace Cosmo.WebApp.Classified
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      public static string GetClassifiedEditUrl(int folderId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+
+         return url.ToString();
+      }
+
+      public static string GetClassifiedEditUrl(int folderId, int classifiedId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, classifiedId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

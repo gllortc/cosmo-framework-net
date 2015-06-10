@@ -595,7 +595,7 @@
         </member>
         <member name="M:Cosmo.Data.ORM.OrmEngine.#ctor">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Data.ORM.OrmEngine"/>.
+            Gets a new instance of <see cref="T:Cosmo.Data.ORM.OrmEngine"/>.
             </summary>
         </member>
         <member name="M:Cosmo.Data.ORM.OrmEngine.ProcessForm(System.Object,Cosmo.UI.Controls.FormControl,Cosmo.Net.Url)">
@@ -620,7 +620,7 @@
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
-            <param name="viewPort">Contenedor de destino del formulario.</param>
+            <param name="parentView">Contenedor de destino del formulario.</param>
             <param name="instance">Instancia del objeto para el que se desea crear un formulario.</param>
             <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario correspondiente al objeto.</returns>
@@ -632,7 +632,7 @@
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
-            <param name="viewPort">Contenedor de destino del formulario.</param>
+            <param name="parentView">Contenedor de destino del formulario.</param>
             <param name="type">Tipo correspondiente al objeto para el qual se desea representar el formulario.</param>
             <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario correspondiente al objeto.</returns>

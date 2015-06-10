@@ -6,6 +6,7 @@ using Cosmo.Utils.Html;
 using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Classified
 {
@@ -13,8 +14,11 @@ namespace Cosmo.WebApp.Classified
    /// ANUNCIOS CLASIFICADOS.
    /// Muestra el contenido de una categoria.
    /// </summary>
-   public class ClassifiedFolder : PageView
+   public class ClassifiedByFolder : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          // Declaraciones
@@ -91,9 +95,7 @@ namespace Cosmo.WebApp.Classified
             panel.Content.Add(html);
             panel.Content.Add(table);
 
-            url = new Url("ClassifiedEdit");
-            url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Añadir anuncio", "fa-plus", url.ToString(true), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Añadir anuncio", "fa-plus", ClassifiedEdit.GetClassifiedEditUrl(folderid), string.Empty));
 
             url = new Url("ClassifiedManage");
             panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnManageAds", "Mis anuncios", "fa-bookmark", url.ToString(true), string.Empty));
@@ -129,5 +131,21 @@ namespace Cosmo.WebApp.Classified
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      public static string GetClassifiedFolderUrl(int folderId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

@@ -35,7 +35,7 @@ namespace Cosmo.Data.ORM
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmEngine"/>.
+      /// Gets a new instance of <see cref="OrmEngine"/>.
       /// </summary>
       public OrmEngine()
       {
@@ -165,20 +165,20 @@ namespace Cosmo.Data.ORM
       /// <summary>
       /// Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
       /// </summary>
-      /// <param name="viewPort">Contenedor de destino del formulario.</param>
+      /// <param name="parentView">Contenedor de destino del formulario.</param>
       /// <param name="instance">Instancia del objeto para el que se desea crear un formulario.</param>
       /// <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
       /// <returns>Una instancia de <see cref="FormControl"/> que representa el formulario correspondiente al objeto.</returns>
       /// <remarks>
       /// Los campos del formulario tomarán como valor el que se obtenga de las propiedades de la instancia.
       /// </remarks>
-      public FormControl CreateForm(View viewPort, Object instance, bool enableHumanCheck)
+      public FormControl CreateForm(View parentView, Object instance, bool enableHumanCheck)
       {
          FormControl form = null;
          Type type = instance.GetType();
 
          // Crea el formulario
-         form = CreateForm(viewPort, instance.GetType(), enableHumanCheck);
+         form = CreateForm(parentView, instance.GetType(), enableHumanCheck);
 
          // Para cada propiedad, establece el valor de los campos
          foreach (PropertyInfo property in type.GetProperties())
@@ -199,25 +199,36 @@ namespace Cosmo.Data.ORM
       /// <summary>
       /// Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
       /// </summary>
-      /// <param name="viewPort">Contenedor de destino del formulario.</param>
+      /// <param name="parentView">Contenedor de destino del formulario.</param>
       /// <param name="type">Tipo correspondiente al objeto para el qual se desea representar el formulario.</param>
       /// <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
       /// <returns>Una instancia de <see cref="FormControl"/> que representa el formulario correspondiente al objeto.</returns>
-      public FormControl CreateForm(View viewPort, Type type, bool enableHumanCheck)
+      public FormControl CreateForm(View parentView, Type type, bool enableHumanCheck)
       {
-         FormControl form = new FormControl(viewPort);
+         FormControl form = new FormControl(parentView);
          form.Method = "post";
 
          // Agrega la decoración del formulario
          MappingObject objInfo = GetMappingObject(type);
          if (objInfo == null)
+         {
             throw new OrmException("El tipo " + type.ToString() + " no contiene la información de mapeado necesaria.");
-         if (!string.IsNullOrWhiteSpace(objInfo.Caption)) 
+         }
+
+         if (!string.IsNullOrWhiteSpace(objInfo.Caption))
+         {
             form.Caption = objInfo.Caption;
+         }
+
          if (!string.IsNullOrWhiteSpace(objInfo.CaptionIcon))
+         {
             form.Icon = objInfo.CaptionIcon;
-         if (!string.IsNullOrWhiteSpace(objInfo.Description)) 
-            form.Content.Add(new HtmlContentControl(viewPort, objInfo.Description));
+         }
+
+         if (!string.IsNullOrWhiteSpace(objInfo.Description))
+         {
+            form.Content.Add(new HtmlContentControl(parentView, objInfo.Description));
+         }
 
          // Agrega los controles no agrupados
          AddGroupFields(null, form, type);
@@ -235,7 +246,7 @@ namespace Cosmo.Data.ORM
          }
 
          // Agrega el botón de envio
-         form.FormButtons.Add(new ButtonControl(viewPort, "cmdSend", "Aceptar", ButtonControl.ButtonTypes.Submit));
+         form.FormButtons.Add(new ButtonControl(parentView, "cmdSend", "Aceptar", ButtonControl.ButtonTypes.Submit));
 
          return form;
       }
@@ -548,6 +559,8 @@ namespace Cosmo.Data.ORM
 
       #endregion
 
+      #region Child Classes
+
       /// <summary>
       /// Comparador que permite ordenar alfabéticamente los grupos de controles.
       /// </summary>
@@ -558,6 +571,8 @@ namespace Cosmo.Data.ORM
             return x.Title.CompareTo(y.Title);
          }
       }
+
+      #endregion
 
    }
 }

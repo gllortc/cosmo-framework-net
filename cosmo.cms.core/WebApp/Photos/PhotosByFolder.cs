@@ -107,6 +107,9 @@ namespace Cosmo.WebApp.Photos
          PhotosRemoveModal photoDeleteModal = new PhotosRemoveModal();
          Modals.Add(photoDeleteModal);
 
+         // PhotosEditModal photoEditModal = new PhotosEditModal();
+         // Modals.Add(photoEditModal);
+
          //-------------------------------------------------------------------
          // Lista de imagenes
          //-------------------------------------------------------------------
@@ -138,10 +141,11 @@ namespace Cosmo.WebApp.Photos
                    Workspace.CurrentUser.CheckAuthorization(PhotoDAO.ROLE_PHOTOS_EDITOR)))
                {
                   photoDeleteModal.PhotoID = photo.ID;
+                  // photoEditModal.PhotoID = photo.ID;
 
                   picture.SplitButton.Icon = IconControl.ICON_WRENCH;
                   picture.SplitButton.Text = "Herramientas";
-                  picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-edit", "Editar", IconControl.ICON_EDIT, "#", string.Empty));
+                  // picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-edit", "Editar", photoEditModal));
                   picture.SplitButton.MenuOptions.Add(new ButtonControl(this, "btn-pic-" + photo.ID + "-del", "Eliminar", photoDeleteModal));
                }
 

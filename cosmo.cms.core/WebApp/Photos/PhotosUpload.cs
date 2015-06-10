@@ -14,10 +14,10 @@ namespace Cosmo.WebApp.Photos
    public class PhotosUpload : PageView
    {
       // Internal data declarations
-      int folderId;
-      FormControl form = null;
-      PhotoFolder folder = null;
-      PhotoDAO pictureDao = null;
+      private int folderId;
+      private FormControl form = null;
+      private PhotoFolder folder = null;
+      private PhotoDAO pictureDao = null;
 
       #region PageView Implementation
 

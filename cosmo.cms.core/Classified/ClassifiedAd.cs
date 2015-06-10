@@ -46,7 +46,7 @@ namespace Cosmo.Cms.Classified
       /// <summary>
       /// Devuelve o establece el identificador de la rama del repositorio Cosmo al que pertenece.
       /// </summary>
-      public int FolderId { get; set; }
+      public int FolderID { get; set; }
 
       /// <summary>
       /// Devuelve o establece el título del anuncio clasificado.
@@ -187,7 +187,7 @@ namespace Cosmo.Cms.Classified
          this.PublishedDays = 0;
          this.Id = 0;
          this.UserID = 0;
-         this.FolderId = 0;
+         this.FolderID = 0;
          this.Created = System.DateTime.Now;
          this.Title = string.Empty;
          this.Body = string.Empty;

@@ -1,6 +1,5 @@
 ﻿using Cosmo.Cms.Classified;
 using Cosmo.Cms.Content;
-using Cosmo.Cms.WebApp.Classified;
 using Cosmo.Communications;
 using Cosmo.Data.ORM;
 using Cosmo.Net;
@@ -9,7 +8,6 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils;
 using Cosmo.Utils.Html;
-using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -22,25 +20,14 @@ namespace Cosmo.WebApp.Classified
    public class ClassifiedView : PageView
    {
       int classifiedId = -1;
-      FormControl contactForm = null;
 
       public override void InitPage()
       {
-         // Obtiene los parámetros de llamada
+         // Gets the parameters data
          classifiedId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
 
-         ClassifiedContactRequest request = new ClassifiedContactRequest();
-         request.ClassifiedAdId = classifiedId;
-
-         OrmEngine orm = new OrmEngine();
-         contactForm = orm.CreateForm(this, request, true);
-         contactForm.Action = "ClassifiedView";
-      }
-
-      public override void LoadPage()
-      {
          //-------------------------------
-         // Obtención de datos
+         // Gets the classified data and folder
          //-------------------------------
 
          // Inicializaciones
@@ -48,9 +35,9 @@ namespace Cosmo.WebApp.Classified
 
          // Obtiene el documento y la carpeta
          ClassifiedAd classified = classifiedDao.Item(classifiedId);
-         ClassifiedAdsSection folder = classifiedDao.GetFolder(classified.FolderId);
+         ClassifiedAdsSection folder = classifiedDao.GetFolder(classified.FolderID);
 
-         // Obtiene la cuenta del propietario
+         // Get the author
          User user = Workspace.AuthenticationService.GetUser(classified.UserID);
 
          //-------------------------------
@@ -73,36 +60,42 @@ namespace Cosmo.WebApp.Classified
          header.SubTitle = folder.Name;
          MainContent.Add(header);
 
-         // Cabecera del cocumento
-         DocumentHeaderControl docHead = new DocumentHeaderControl(this);
-         docHead.Title = classified.Title;
-
-         // Datos de contacto
+         // Contact data
          List<KeyValue> contactData = new List<KeyValue>();
          contactData.Add(new KeyValue("Nombre de contacto", user.GetDisplayName()));
-
          if (!string.IsNullOrWhiteSpace(classified.Phone))
          {
             contactData.Add(new KeyValue("Teléfono", IconControl.GetIcon(this, IconControl.ICON_PHONE) + HtmlContentControl.HTML_SPACE + classified.Phone));
          }
-
          contactData.Add(new KeyValue("Localización", IconControl.GetIcon(this, IconControl.ICON_MAP_MARKER) + HtmlContentControl.HTML_SPACE + user.City + HtmlContentControl.HTML_SPACE + "(" + Workspace.DataService.GetDataList("country").GetValueByKey(user.CountryID.ToString()) + ")"));
          contactData.Add(new KeyValue("Fecha de publicación", classified.Updated.ToString(Formatter.FORMAT_DATE)));
 
-         // Contenido
-         PanelControl docPanel = new PanelControl(this);
-         docPanel.CaptionIcon = IconControl.ICON_TAG;
-         docPanel.Caption = classified.Title;
-         docPanel.Content.Add(new HtmlContentControl(this, classified.Body));
-         docPanel.Footer.Add(new HtmlContentControl(this).AppendDataTable(contactData));
-         docPanel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnReturn", "Volver", IconControl.ICON_REPLY, "#", "history.go(-1);return false;"));
+         PanelControl adPanel = new PanelControl(this);
+         adPanel.Caption = classified.Title;
+         adPanel.CaptionIcon = IconControl.ICON_TAG;
+         adPanel.Content.Add(new HtmlContentControl(this, classified.Body));
+         adPanel.Footer.Add(new HtmlContentControl(this).AppendDataTable(contactData));
 
-         MainContent.Add(docPanel);
-         
-         // Formulario de contacto
-         MainContent.Add(contactForm);
+         MainContent.Add(adPanel);
 
-         // Compartir
+         //-------------------------------
+         // Right column
+         //-------------------------------
+
+         // Modals
+         ClassifiedContactModal contactModal = new ClassifiedContactModal(classifiedId);
+         Modals.Add(contactModal);
+
+         // Contact
+         PanelControl contactPanel = new PanelControl(this);
+         contactPanel.Caption = "Contacto";
+         contactPanel.CaptionIcon = IconControl.ICON_ENVELOPE;
+         contactPanel.Content.Add(new HtmlContentControl(this, "¿Interesado en el anuncio? Puedes ponerte en contacto con el autor del anuncio mediante el formulario de contacto."));
+         contactPanel.Footer.Add(new ButtonControl(this, "cmdContact", "Contacto", IconControl.ICON_ENVELOPE, contactModal));
+
+         RightContent.Add(contactPanel);
+
+         // Share box
          PanelControl sharePanel = new PanelControl(this);
          sharePanel.Caption = "Compartir";
 
@@ -111,7 +104,7 @@ namespace Cosmo.WebApp.Classified
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
 
          RightContent.Add(sharePanel);
-         
+
          // Panel de herramientas administrativas
          if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
          {
@@ -136,37 +129,17 @@ namespace Cosmo.WebApp.Classified
 
       public override void FormDataReceived(FormControl receivedForm)
       {
-         OrmEngine orm = new OrmEngine();
-         ClassifiedContactRequest request = new ClassifiedContactRequest();
-
-         try
-         {
-            if (orm.ProcessForm(request, contactForm, Parameters))
-            {
-               request.IpAddress = HttpContext.Current.Request.UserHostAddress;
-
-               // Si el objeto es válido se realiza la acción
-               ClassifiedAdsDAO ads = new ClassifiedAdsDAO(Workspace);
-               ads.SendContactRequest(request);
-            }
-         }
-         catch (CommunicationsException)
-         {
-            MainContent.Add(new AlertControl(this, "Se ha producido un problema al enviar el mensaje de contacto.", ComponentColorScheme.Error));
-         }
-         catch (Exception ex)
-         {
-            ShowError(ex);
-         }
+         // Nothing to do
       }
 
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
       public override void FormDataLoad(string formDomID)
       {
          // Nothing to do
+      }
+
+      public override void LoadPage()
+      {
+         // Nothing to do 
       }
    }
 }

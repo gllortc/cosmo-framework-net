@@ -1,37 +1,57 @@
 ﻿using Cosmo.Cms.Classified;
 using Cosmo.Communications;
-using Cosmo.Data.ORM;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System;
 
-namespace Cosmo.Cms.WebApp.Classified
+namespace Cosmo.WebApp.Classified
 {
    /// <summary>
    /// Implementa un formulario de contacto con el autor de un anuncio clasificado.
    /// </summary>
-   [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID)]
+   [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID, 
+                  PropertyName = "ClassifiedAdID")]
    public class ClassifiedContactModal : ModalView
    {
-      // Declaración de variables internas
-      FormControl contactForm = null;
+      // Modal element unique identifier
+      private const string DOM_ID = "frm-ads-contact";
 
-      /*
+      #region Constructors
+
+      /// <summary>
+      /// Devuelve una instancia de <see cref="ClassifiedContactModal"/>.
+      /// </summary>
+      public ClassifiedContactModal()
+         : base()
+      {
+         Initialize();
+      }
+
       /// <summary>
       /// Devuelve una instancia de <see cref="ClassifiedContactModal"/>.
       /// </summary>
       /// <param name="classifiedAdID">Identificador del anuncio clasificado.</param>
-      public ClassifiedContactModal(string domId, int classifiedAdID) 
-         : base(domId)
+      public ClassifiedContactModal(int classifiedAdID)
+         : base()
       {
+         Initialize();
+
          this.ClassifiedAdID = classifiedAdID;
       }
-      */
+
+      #endregion
+
+      #region Properties
+
       /// <summary>
       /// Devuelve o establece el identificador del anuncio para el que se desea generar el 
       /// formulario de contacto.
       /// </summary>
-      private int ClassifiedAdID { get; set; }
+      public int ClassifiedAdID { get; set; }
+
+      #endregion
+
+      #region ModalView Implementation
 
       /// <summary>
       /// Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
@@ -41,14 +61,42 @@ namespace Cosmo.Cms.WebApp.Classified
          this.Title = "Contactar con el autor del anuncio";
          this.Icon = Cosmo.UI.Controls.IconControl.ICON_ENVELOPE;
 
-         ClassifiedContactRequest request = new ClassifiedContactRequest();
-         request.ClassifiedAdId = this.ClassifiedAdID;
+         // Gets the call parameters
+         ClassifiedAdID = Parameters.GetInteger(Workspace.PARAM_OBJECT_ID);
+         if (ClassifiedAdID <= 0)
+         {
+            ShowError("Anuncio no encontrado",
+                      "El anuncio especificado no existe o no se encuentra disponible en estos momentos.");
+            return;
+         }
 
-         OrmEngine orm = new OrmEngine();
-         contactForm = orm.CreateForm(this, Request, true);
-         contactForm.Action = "ClassifiedContactModal";
+         // Genera el formulario para objetos del tipo User
+         FormControl form = new FormControl(this);
+         form.DomID = "frmAdContact";
+         form.Caption = "Contacto para anuncio clasificado";
+         form.Icon = IconControl.ICON_ENVELOPE;
+         form.UsePanel = false;
 
-         Content.Add(contactForm);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ClassifiedAdID);
+
+         FormFieldText txtName = new FormFieldText(this, "txtName", "Nombre", FormFieldText.FieldDataType.Text);
+         txtName.Description = "Especifica tu nombre para que el autor sepa como te llamas.";
+         txtName.Required = true;
+         form.Content.Add(txtName);
+
+         FormFieldText txtMail = new FormFieldText(this, "txtMail", "Correo electrónico", FormFieldText.FieldDataType.Email);
+         txtMail.Description = "Este correo será proporcionado al autor para que se ponga en contacto contigo.";
+         txtMail.Required = true;
+         form.Content.Add(txtMail);
+
+         FormFieldEditor txtMsg = new FormFieldEditor(this, "txtMsg", "Mensaje", FormFieldEditor.FieldEditorType.Simple);
+         txtMsg.Required = true;
+         form.Content.Add(txtMsg);
+
+         form.FormButtons.Add(new ButtonControl(this, "cmdSend", "Enviar", IconControl.ICON_SEND, ButtonControl.ButtonTypes.SubmitJS));
+         form.FormButtons.Add(new ButtonControl(this, "cmdCancel", "Cancelar", IconControl.ICON_REPLY, ButtonControl.ButtonTypes.CloseModalForm));
+
+         Content.Add(form);
       }
 
       /// <summary>
@@ -57,23 +105,40 @@ namespace Cosmo.Cms.WebApp.Classified
       /// <param name="receivedForm">Una instancia de <see cref="FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
       public override void FormDataReceived(UI.Controls.FormControl receivedForm)
       {
-         OrmEngine orm = new OrmEngine();
-         ClassifiedContactRequest request = new ClassifiedContactRequest();
+         Content.Clear();
 
          try
          {
-            if (orm.ProcessForm(request, contactForm, Parameters))
-            {
-               request.IpAddress = Request.UserHostAddress;
+            ClassifiedContactRequest request = new ClassifiedContactRequest();
+            request.ClassifiedAdId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+            request.Name = Parameters.GetString("txtName");
+            request.Mail = Parameters.GetString("txtMail");
+            request.Message = Parameters.GetString("txtMsg");
+            request.IpAddress = Request.UserHostAddress;
 
-               // Si el objeto es válido se realiza la acción
-               ClassifiedAdsDAO ads = new ClassifiedAdsDAO(Workspace);
-               ads.SendContactRequest(request);
-            }
+            // Si el objeto es válido se realiza la acción
+            ClassifiedAdsDAO ads = new ClassifiedAdsDAO(Workspace);
+            ads.SendContactRequest(request);
+
+            CalloutControl callout = new CalloutControl(this);
+            callout.Title = "Petición de contacto enviada con éxito";
+            callout.Icon = IconControl.ICON_CHECK;
+            callout.Text = "La petición de contacto se ha enviado con éxito al autor del anuncio.";
+            callout.Type = ComponentColorScheme.Success;
+
+            Content.Add(callout);
          }
          catch (CommunicationsException)
          {
             Content.Add(new AlertControl(this, "Se ha producido un problema al enviar el mensaje de contacto.", ComponentColorScheme.Error));
+
+            CalloutControl callout = new CalloutControl(this);
+            callout.Title = "Uuupppsss! Se produjo un error...";
+            callout.Icon = IconControl.ICON_WARNING;
+            callout.Text = "Se ha producido un problema al enviar el mensaje de contacto por correo electrónico y no ha sido posible realizar el envío.";
+            callout.Type = ComponentColorScheme.Error;
+
+            Content.Add(callout);
          }
          catch (Exception ex)
          {
@@ -97,5 +162,21 @@ namespace Cosmo.Cms.WebApp.Classified
       {
          // Nothing to do here
       }
+
+      #endregion
+
+      #region Private Members
+
+      /// <summary>
+      /// Initializes the instance.
+      /// </summary>
+      private void Initialize()
+      {
+         this.DomID = DOM_ID;
+         this.ClassifiedAdID = 0;
+      }
+
+      #endregion
+
    }
 }

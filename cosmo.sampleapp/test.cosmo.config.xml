@@ -191,11 +191,11 @@
             <menuitem id="mnuForumMR" name="Modelos a escala" icon="fa-angle-double-right" href="ForumFolder?ch=7" />
          </menuitem>
          <menuitem id="ads" name="Clasificados" icon="fa-shopping-cart" href="#">
-            <menuitem id="mnuAdsCambio" name="Cambio" icon="fa-angle-double-right" href="ClassifiedFolder?fid=7" />
-            <menuitem id="mnuAdsCompro" name="Compro" icon="fa-angle-double-right" href="ClassifiedFolder?fid=1" />
-            <menuitem id="mnuAdsComercial" name="Ofertas comerciales" icon="fa-angle-double-right" href="ClassifiedFolder?fid=5" />
-            <menuitem id="mnuAdsVendoH0" name="Vendo (H0)" icon="fa-angle-double-right" href="ClassifiedFolder?fid=13" />
-            <menuitem id="mnuAdsVendoN" name="Vendo (N)" icon="fa-angle-double-right" href="ClassifiedFolder?fid=2" />
+            <menuitem id="mnuAdsCambio" name="Cambio" icon="fa-angle-double-right" href="ClassifiedByFolder?fid=7" />
+            <menuitem id="mnuAdsCompro" name="Compro" icon="fa-angle-double-right" href="ClassifiedByFolder?fid=1" />
+            <menuitem id="mnuAdsComercial" name="Ofertas comerciales" icon="fa-angle-double-right" href="ClassifiedByFolder?fid=5" />
+            <menuitem id="mnuAdsVendoH0" name="Vendo (H0)" icon="fa-angle-double-right" href="ClassifiedByFolder?fid=13" />
+            <menuitem id="mnuAdsVendoN" name="Vendo (N)" icon="fa-angle-double-right" href="ClassifiedByFolder?fid=2" />
          </menuitem>
          <menuitem id="admin" name="Administración" icon="fa-camera" href="#" roles="admin">
             <menuitem id="adminUsers" name="Usuarios" icon="fa-angle-double-right" href="AdminUserList" />

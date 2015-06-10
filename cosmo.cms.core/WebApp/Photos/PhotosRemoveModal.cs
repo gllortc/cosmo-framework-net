@@ -1,5 +1,4 @@
-﻿using Cosmo.Cms.Forums;
-using Cosmo.Cms.Photos;
+﻿using Cosmo.Cms.Photos;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 
@@ -104,7 +103,7 @@ namespace Cosmo.WebApp.Photos
          catch
          {
             CalloutControl callout = new CalloutControl(this);
-            callout.Title = "ERROR";
+            callout.Title = "Uuupppsss! Se produjo un error...";
             callout.Icon = IconControl.ICON_WARNING;
             callout.Text = "Se ha producido un error al intentar completar la operación.";
             callout.Type = ComponentColorScheme.Error;
