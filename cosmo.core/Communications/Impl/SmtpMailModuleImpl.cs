@@ -62,8 +62,8 @@ namespace Cosmo.Communications.Impl
          // Establece el remitente si no se ha especificado
          if (((MailMessage) message).From == null)
          {
-            ((MailMessage)message).From = new MailAddress(Workspace.Settings.GetString(SETTING_DEFAULT_FROM_ADDRESS),
-                                                          Workspace.Settings.GetString(SETTING_DEFAULT_FROM_NAME));
+            ((MailMessage)message).From = new MailAddress(Plugin.GetString(SETTING_DEFAULT_FROM_ADDRESS),
+                                                          Plugin.GetString(SETTING_DEFAULT_FROM_NAME));
          }
 
          try

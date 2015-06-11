@@ -76,6 +76,7 @@ namespace Cosmo.WebApp.Classified
          form.Caption = "Contacto para anuncio clasificado";
          form.Icon = IconControl.ICON_ENVELOPE;
          form.UsePanel = false;
+         form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
 
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ClassifiedAdID);
 
@@ -93,7 +94,7 @@ namespace Cosmo.WebApp.Classified
          txtMsg.Required = true;
          form.Content.Add(txtMsg);
 
-         form.FormButtons.Add(new ButtonControl(this, "cmdSend", "Enviar", IconControl.ICON_SEND, ButtonControl.ButtonTypes.SubmitJS));
+         form.FormButtons.Add(new ButtonControl(this, "cmdSend", "Enviar", IconControl.ICON_SEND, ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdCancel", "Cancelar", IconControl.ICON_REPLY, ButtonControl.ButtonTypes.CloseModalForm));
 
          Content.Add(form);

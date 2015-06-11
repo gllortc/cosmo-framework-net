@@ -55,7 +55,7 @@ namespace Cosmo.WebApp.Forums
 
       #endregion
 
-      #region ModalViewContainer Implementation
+      #region ModalView Implementation
 
       public override void InitPage()
       {

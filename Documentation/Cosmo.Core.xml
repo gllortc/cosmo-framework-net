@@ -69,7 +69,7 @@
             Devuelve una instancia de <see cref="T:Cosmo.Communications.ICommunicationsModule"/>.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
-            <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
+            <param name="plugin">Una instancia de <see cref="P:Cosmo.Communications.ICommunicationsModule.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
         <member name="M:Cosmo.Communications.ICommunicationsModule.Send(System.Object)">
             <summary>
@@ -85,6 +85,11 @@
         <member name="P:Cosmo.Communications.ICommunicationsModule.ID">
             <summary>
             Devuelve el nombre (ID) del módulo de comunicaciones.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Communications.ICommunicationsModule.Plugin">
+            <summary>
+            Gets the plugin instance.
             </summary>
         </member>
         <member name="P:Cosmo.Communications.ICommunicationsModule.MessageQualifiedName">

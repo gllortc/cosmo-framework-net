@@ -39,6 +39,14 @@ namespace Cosmo.Communications
          get { return _plugin.ID; }
       }
 
+      /// <summary>
+      /// Gets the plugin instance.
+      /// </summary>
+      public Plugin Plugin
+      {
+         get { return _plugin; }
+      }
+
       #endregion
 
       #region Abstrat Members
