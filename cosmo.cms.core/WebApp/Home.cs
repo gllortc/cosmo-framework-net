@@ -1,5 +1,6 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.UI.Controls;
+using Cosmo.WebApp.Content;
 using System;
 
 namespace Cosmo.WebApp
@@ -9,10 +10,9 @@ namespace Cosmo.WebApp
    /// </summary>
    public class Home : Cosmo.UI.PageView
    {
-      public Home()
-      {
+      private const string CACHE_CONTENT_HIGHLIGHTED = "cosmo.cms.content.highlighted.medialist";
 
-      }
+      #region PageView Implementation
 
       public override void LoadPage()
       {
@@ -37,7 +37,7 @@ namespace Cosmo.WebApp
          if (Workspace.Settings.GetBoolean(CookiesAdvisorControl.SETTINGS_ENABLED))
          {
             CookiesAdvisorControl cookies = new CookiesAdvisorControl(this, "cookies-advisor");
-            cookies.InformationHref = DocumentDAO.GetDocumentViewURL(Workspace.Settings.GetInt(CookiesAdvisorControl.SETTINGS_CONTENTID));
+            cookies.InformationHref = ContentView.GetURL(Workspace.Settings.GetInt(CookiesAdvisorControl.SETTINGS_CONTENTID));
             MainContent.Add(cookies);
          }
 
@@ -96,7 +96,9 @@ namespace Cosmo.WebApp
          // Nothing to do
       }
 
-      private const string CACHE_CONTENT_HIGHLIGHTED = "cosmo.cms.content.highlighted.medialist";
+      #endregion
+
+      #region Private Members
 
       private MediaListControl GetHighlightedContent()
       {
@@ -120,7 +122,7 @@ namespace Cosmo.WebApp
                item.Description = doc.Description;
                item.Image = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
                item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
-               item.LinkHref = DocumentDAO.GetDocumentViewURL(doc.ID);
+               item.LinkHref = ContentView.GetURL(doc.ID);
 
                list.Add(item);
             }
@@ -130,6 +132,8 @@ namespace Cosmo.WebApp
             return list;
          }
       }
+
+      #endregion
 
    }
 }

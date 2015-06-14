@@ -27,7 +27,7 @@ namespace Cosmo.Cms.Classified
       /// <summary>
       /// Devuelve o establece el identificador del objeto.
       /// </summary>
-      public int Id { get; set; }
+      public int ID { get; set; }
 
       /// <summary>
       /// Devuelve o establece la fecha de creación del objeto.
@@ -185,7 +185,7 @@ namespace Cosmo.Cms.Classified
       private void Initialize()
       {
          this.PublishedDays = 0;
-         this.Id = 0;
+         this.ID = 0;
          this.UserID = 0;
          this.FolderID = 0;
          this.Created = System.DateTime.Now;

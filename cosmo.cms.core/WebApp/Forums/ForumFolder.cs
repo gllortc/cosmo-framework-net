@@ -1,9 +1,11 @@
 ﻿using Cosmo.Cms.Forums;
+using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Forums
 {
@@ -13,6 +15,9 @@ namespace Cosmo.WebApp.Forums
    /// </summary>
    public class ForumFolder : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          // Declaraciones
@@ -74,7 +79,7 @@ namespace Cosmo.WebApp.Forums
             {
                // Genera el elemento de la lista
                row = new TableRow("row-th-" + thread.ID,
-                                  IconControl.GetIcon(this, IconControl.ICON_COMMENT, thread.Closed) + " " + HtmlContentControl.Link(ForumsDAO.GetThreadUrl(thread.ID, folder.ID, pageIdx), thread.Title, false),
+                                  IconControl.GetIcon(this, IconControl.ICON_COMMENT, thread.Closed) + " " + HtmlContentControl.Link(ForumThreadView.GetURL(thread.ID, folder.ID, pageIdx), thread.Title, false),
                                   new UserLinkControl(this, thread.AuthorID, thread.AuthorName, userData),
                                   (thread.MessageCount - 1).ToString(),
                                   thread.LastReply.ToString(Formatter.FORMAT_DATETIME));
@@ -89,7 +94,7 @@ namespace Cosmo.WebApp.Forums
             pages.Current = pageIdx;
             pages.Min = 1;
             pages.Max = ads.GetChannelThreadsCount(folderid) / ForumsDAO.MaxThreadsPerPage;
-            pages.UrlPattern = ForumsDAO.GetChannelUrl(folderid, PaginationControl.URL_PAGEID_TAG);
+            pages.UrlPattern = ForumFolder.GetURL(folderid, PaginationControl.URL_PAGEID_TAG);
 
             PanelControl panel = new PanelControl(this);
             panel.CaptionIcon = IconControl.ICON_FOLDER_CLOSE;
@@ -98,8 +103,8 @@ namespace Cosmo.WebApp.Forums
             panel.Content.Add(table);
             panel.Footer.Add(pages);
 
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddComment", "Abrir nuevo tema", IconControl.ICON_PLUS, ForumsDAO.GetNewMessageUrl(folderid, pageIdx), string.Empty));
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnMyThreads", "Mis temas", IconControl.ICON_USER, ForumsDAO.GetThreadsByUserUrl(), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddComment", "Abrir nuevo tema", IconControl.ICON_PLUS, ForumMessageEdit.GetURL(folderid, pageIdx), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnMyThreads", "Mis temas", IconControl.ICON_USER, ForumThreadsByUser.GetURL(), string.Empty));
             panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnLegal", "Normas del foro", IconControl.ICON_LEGAL, Workspace.Settings.GetString("cs.forum.rules", "#"), string.Empty));
 
             MainContent.Add(panel);
@@ -133,5 +138,54 @@ namespace Cosmo.WebApp.Forums
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un canal concreto de los foros.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal.</param>
+      public static string GetURL(int channelId)
+      {
+         return GetURL(channelId, 1, string.Empty);
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un canal concreto de los foros.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal.</param>
+      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
+      public static string GetURL(int channelId, int pageNum, string msgId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
+
+         if (!string.IsNullOrWhiteSpace(msgId))
+         {
+            url.AnchorName = msgId;
+         }
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un canal concreto de los foros.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal.</param>
+      /// <param name="paginationTag">Indicador para paginados automáticos.</param>
+      public static string GetURL(int channelId, string paginationTag)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, paginationTag);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

@@ -10,11 +10,11 @@ using System.Web.SessionState;
 namespace Cosmo.REST
 {
    /// <summary>
-   /// Implementa una clase base para la creación de servicios API REST de Cosmo.
+   /// Implementas an abstract base class to create Cosmo REST handlers.
    /// </summary>
    public abstract class RestHandler : IHttpHandler, IRequiresSessionState
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Url _url;
       private Workspace _ws;
       private HttpContext _context;

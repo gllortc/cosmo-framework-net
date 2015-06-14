@@ -1,6 +1,5 @@
 using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
-using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.Security.Auth;
 using Cosmo.Utils;
@@ -41,13 +40,6 @@ namespace Cosmo.Cms.Forums
       // Variables de configuración
       private const string SETUP_SETTING_LIMITNEWTHREADS = "cs.forum.maxthreadsperday";
       private const string SETUP_SETTING_MAXINACTIVITYMONTHS = "cs.forum.maxinactivitymonths";
-
-      // Vistas del servicio
-      private const string URL_CHANNEL = "ForumFolder";
-      private const string URL_THREAD = "ForumThreadView";
-      private const string URL_MESSAGE = "ForumMessageEdit"; // "cs_forum_msg.aspx";
-      private const string URL_RULES = "cs_forum_rules.aspx";
-      private const string URL_USERTHREADS = "ForumThreadsByUser"; // "cs_forum_usr.aspx";
 
       // Fragmentos SQL reaprovechables
       private const string SQL_SELECT_FORUM = "forumid,forumname,forumdesc,forumdate,forumenabled,forumowner,(SELECT Count(*) FROM forum WHERE msgforumid=forums.forumid) as items";
@@ -1353,159 +1345,6 @@ namespace Cosmo.Cms.Forums
       #endregion
 
       #region Static Members
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un canal concreto de los foros.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal.</param>
-      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
-      public static string GetThreadsByUserUrl()
-      {
-         return GetThreadsByUserUrl(1);
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un canal concreto de los foros.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal.</param>
-      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
-      public static string GetThreadsByUserUrl(int pageNum)
-      {
-         Url url = new Url(ForumsDAO.URL_USERTHREADS);
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un canal concreto de los foros.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal.</param>
-      public static string GetChannelUrl(int channelId)
-      {
-         return GetChannelUrl(channelId, 1, string.Empty);
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un canal concreto de los foros.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal.</param>
-      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
-      public static string GetChannelUrl(int channelId, int pageNum, string msgId)
-      {
-         Url url = new Url(ForumsDAO.URL_CHANNEL);
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
-
-         if (!string.IsNullOrWhiteSpace(msgId))
-         {
-            url.AnchorName = msgId;
-         }
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un canal concreto de los foros.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal.</param>
-      /// <param name="paginationTag">Indicador para paginados automáticos.</param>
-      public static string GetChannelUrl(int channelId, string paginationTag)
-      {
-         Url url = new Url(ForumsDAO.URL_CHANNEL);
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, paginationTag);
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un thread concreto de los foros.
-      /// </summary>
-      /// <param name="threadId">Identificador del thread.</param>
-      public static string GetThreadUrl(int threadId, int channelId)
-      {
-         return GetThreadUrl(threadId, channelId, 1);
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un thread concreto de los foros.
-      /// </summary>
-      /// <param name="threadId">Identificador del thread.</param>
-      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
-      public static string GetThreadUrl(int threadId, int channelId, int pageNum, int order)
-      {
-         Url url = new Url(ForumsDAO.URL_THREAD);
-         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId);
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
-         url.AddParameter(ForumsDAO.PARAM_ORDER, order);
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa a un thread concreto de los foros.
-      /// </summary>
-      /// <param name="threadId">Identificador del thread.</param>
-      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
-      public static string GetThreadUrl(int threadId, int channelId, int pageNum)
-      {
-         Url url = new Url(ForumsDAO.URL_THREAD);
-         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId);
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa para crear un nuevo mensaje para el foro.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
-      /// <param name="threadId">Identificador del thread.</param>
-      /// <param name="pageIdx">Número de la página actual.</param>
-      public static string GetNewMessageUrl(int threadId, int channelId, int pageIdx)
-      {
-         Url url = new Url(ForumsDAO.URL_MESSAGE);
-         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa para crear un nuevo mensaje para el foro.
-      /// </summary>
-      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
-      /// <param name="pageIdx">Número de la página actual.</param>
-      public static string GetNewMessageUrl(int channelId, int pageIdx)
-      {
-         Url url = new Url(ForumsDAO.URL_MESSAGE);
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
-
-         return url.ToString();
-      }
-
-      /// <summary>
-      /// Permite obtener una URL relativa para editar un mensaje del foro.
-      /// </summary>
-      /// <param name="messageId">Identificador del mensaje a editar.</param>
-      /// <param name="threadId">Identificador del thread (id del mensaje "padre").</param>
-      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
-      /// <param name="pageIdx">Número de la página actual.</param>
-      public static string GetEditMessageURL(int messageId, int threadId, int channelId, int pageIdx)
-      {
-         Url url = new Url(ForumsDAO.URL_MESSAGE);
-         url.AddParameter(ForumsDAO.PARAM_MESSAGE_ID, messageId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
-         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
-
-         return url.ToString();
-      }
 
       /// <summary>
       /// Convierte una lista de canales de foro en una lista de valores <see cref="KeyValue"/> que puede ser usado en controles.

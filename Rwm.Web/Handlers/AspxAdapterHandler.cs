@@ -51,13 +51,13 @@ namespace Rwn.WebApp.Handlers
 
             case "cs_docs_folder.aspx":
 
-               url = Cosmo.Cms.Content.DocumentDAO.GetDocumentFolderURL(qsAsp.GetInteger("fid"));
+               url = Cosmo.WebApp.Content.ContentByFolder.GetURL(qsAsp.GetInteger("fid"));
                break;
 
             case "cs_docs_viewer_std.aspx":
             case "cs_docs_viewer_reg.aspx":
 
-               url = Cosmo.Cms.Content.DocumentDAO.GetDocumentViewURL(qsAsp.GetInteger("id"));
+               url = Cosmo.WebApp.Content.ContentView.GetURL(qsAsp.GetInteger("id"));
                break;
 
             //-----------------------------------------------------
@@ -66,14 +66,14 @@ namespace Rwn.WebApp.Handlers
 
             case "cs_forum_ch.aspx":
 
-               url = Cosmo.Cms.Forums.ForumsDAO.GetChannelUrl(qsAsp.GetInteger("ch"));
+               url = Cosmo.WebApp.Forums.ForumFolder.GetURL(qsAsp.GetInteger("ch"));
                break;
 
             case "cs_forum_th.aspx":
 
-               url = Cosmo.Cms.Forums.ForumsDAO.GetThreadUrl(qsAsp.GetInteger("th"),
-                                                             qsAsp.GetInteger("ch"),
-                                                             qsAsp.GetInteger("p"));
+               url = Cosmo.WebApp.Forums.ForumThreadView.GetURL(qsAsp.GetInteger("th"),
+                                                                qsAsp.GetInteger("ch"),
+                                                                qsAsp.GetInteger("p"));
                break;
 
             //-----------------------------------------------------
@@ -82,12 +82,12 @@ namespace Rwn.WebApp.Handlers
 
             case "cs_img.aspx":
 
-               url = Cosmo.WebApp.Photos.PhotosBrowse.GetPhotosBrowseUrl();
+               url = Cosmo.WebApp.Photos.PhotosBrowse.GetURL();
                break;
 
             case "cs_img_folder.aspx":
 
-               url = Cosmo.WebApp.Photos.PhotosByFolder.GetPhotosByFolderUrl(qsAsp.GetInteger("fid"));
+               url = Cosmo.WebApp.Photos.PhotosByFolder.GetURL(qsAsp.GetInteger("fid"));
                break;
 
             //-----------------------------------------------------
@@ -96,12 +96,12 @@ namespace Rwn.WebApp.Handlers
 
             case "cs_ads_folder.aspx":
 
-               url = Cosmo.Cms.Classified.ClassifiedAdsDAO.GetClassifiedAdsFolderURL(qsAsp.GetInteger("fid"));
+               url = Cosmo.WebApp.Classified.ClassifiedByFolder.GetURL(qsAsp.GetInteger("fid"));
                break;
 
             case "cs_ads_viewer_std.aspx":
 
-               url = Cosmo.Cms.Classified.ClassifiedAdsDAO.GetClassifiedAdsViewURL(qsAsp.GetInteger("id"));
+               url = Cosmo.WebApp.Classified.ClassifiedView.GetURL(qsAsp.GetInteger("id"));
                break;
 
             //-----------------------------------------------------

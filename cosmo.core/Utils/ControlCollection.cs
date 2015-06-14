@@ -166,7 +166,7 @@ namespace Cosmo.Utils
       /// </summary>
       /// <param name="controlType">Tipo de control a obtener.</param>
       /// <returns>La lista de controles solicitada.</returns>
-      public List<Control> GetByControlType(Type controlType)
+      public List<Control> GetControlsByType(Type controlType)
       {
          List<Control> controls = new List<Control>();
 
@@ -179,14 +179,14 @@ namespace Cosmo.Utils
 
             if (control is IControlSingleContainer)
             {
-               controls.AddRange(((IControlSingleContainer)control).Content.GetByControlType(controlType));
+               controls.AddRange(((IControlSingleContainer)control).Content.GetControlsByType(controlType));
             }
 
             if (control is IControlCollectionContainer)
             {
                foreach (IControlSingleContainer container in ((IControlCollectionContainer)control).NestedContainers)
                {
-                  controls.AddRange(container.Content.GetByControlType(controlType));
+                  controls.AddRange(container.Content.GetControlsByType(controlType));
                }
             }
          }

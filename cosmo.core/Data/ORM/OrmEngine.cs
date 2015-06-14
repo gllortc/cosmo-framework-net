@@ -166,19 +166,20 @@ namespace Cosmo.Data.ORM
       /// Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
       /// </summary>
       /// <param name="parentView">Contenedor de destino del formulario.</param>
+      /// <param name="domId">Control unique identifier in DOM.</param>
       /// <param name="instance">Instancia del objeto para el que se desea crear un formulario.</param>
       /// <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
       /// <returns>Una instancia de <see cref="FormControl"/> que representa el formulario correspondiente al objeto.</returns>
       /// <remarks>
       /// Los campos del formulario tomarán como valor el que se obtenga de las propiedades de la instancia.
       /// </remarks>
-      public FormControl CreateForm(View parentView, Object instance, bool enableHumanCheck)
+      public FormControl CreateForm(View parentView, string domId, Object instance, bool enableHumanCheck)
       {
          FormControl form = null;
          Type type = instance.GetType();
 
          // Crea el formulario
-         form = CreateForm(parentView, instance.GetType(), enableHumanCheck);
+         form = CreateForm(parentView, domId, instance.GetType(), enableHumanCheck);
 
          // Para cada propiedad, establece el valor de los campos
          foreach (PropertyInfo property in type.GetProperties())
@@ -200,12 +201,13 @@ namespace Cosmo.Data.ORM
       /// Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
       /// </summary>
       /// <param name="parentView">Contenedor de destino del formulario.</param>
+      /// <param name="domId">Control unique identifier in DOM.</param>
       /// <param name="type">Tipo correspondiente al objeto para el qual se desea representar el formulario.</param>
       /// <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
       /// <returns>Una instancia de <see cref="FormControl"/> que representa el formulario correspondiente al objeto.</returns>
-      public FormControl CreateForm(View parentView, Type type, bool enableHumanCheck)
+      public FormControl CreateForm(View parentView, string domId, Type type, bool enableHumanCheck)
       {
-         FormControl form = new FormControl(parentView);
+         FormControl form = new FormControl(parentView, domId);
          form.Method = "post";
 
          // Agrega la decoración del formulario

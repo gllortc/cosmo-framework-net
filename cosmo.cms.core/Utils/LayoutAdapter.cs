@@ -4,6 +4,7 @@ using Cosmo.Cms.Forums;
 using Cosmo.Cms.Photos;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.WebApp.Classified;
 using Cosmo.WebApp.Photos;
 using System.Collections.Generic;
 
@@ -31,7 +32,7 @@ namespace Cosmo.Cms.Utils
             listItem.Description = string.Empty; // folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
-            listItem.Href = DocumentDAO.GetDocumentFolderURL(folder.ID);
+            listItem.Href = Cosmo.WebApp.Content.ContentByFolder.GetURL(folder.ID);
 
             return listItem;
          }
@@ -71,7 +72,7 @@ namespace Cosmo.Cms.Utils
                listItem = new ListItem();
                listItem.Text = "..";
                listItem.Icon = IconControl.ICON_ARROW_UP;
-               listItem.Href = DocumentDAO.GetDocumentFolderURL(folder.ParentID);
+               listItem.Href = Cosmo.WebApp.Content.ContentByFolder.GetURL(folder.ParentID);
 
                folderList.Add(listItem);
             }
@@ -98,7 +99,7 @@ namespace Cosmo.Cms.Utils
             item.Description = document.Description;
             item.Image = parentViewport.Workspace.FileSystemService.GetFileURL(document.ID.ToString(), document.Thumbnail);
             item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
-            item.LinkHref = DocumentDAO.GetDocumentViewURL(document.ID);
+            item.LinkHref = Cosmo.WebApp.Content.ContentView.GetURL(document.ID);
             return item;
          }
 
@@ -120,7 +121,7 @@ namespace Cosmo.Cms.Utils
                item.Description = document.Description;
                item.Image = parentViewport.Workspace.FileSystemService.GetFileURL(document.ID.ToString(), document.Thumbnail);
                item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
-               item.LinkHref = DocumentDAO.GetDocumentViewURL(document.ID);
+               item.LinkHref = Cosmo.WebApp.Content.ContentView.GetURL(document.ID);
 
                list.Add(item);
             }
@@ -135,7 +136,7 @@ namespace Cosmo.Cms.Utils
          /// <returns></returns>
          public static BreadcrumbItem ConvertToBreadcrumbItem(DocumentFolder folder)
          {
-            return new BreadcrumbItem(folder.Name, DocumentDAO.GetDocumentFolderURL(folder.ID));
+            return new BreadcrumbItem(folder.Name, Cosmo.WebApp.Content.ContentByFolder.GetURL(folder.ID));
          }
 
          /// <summary>
@@ -189,7 +190,7 @@ namespace Cosmo.Cms.Utils
             child.DomID = "photo-folder-" + folder.ID;
             child.Caption = folder.Name;
             child.Description = folder.Description;
-            child.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
+            child.Href = PhotosByFolder.GetURL(folder.ID);
 
             if (folder.Subfolders.Count > 0)
                child.Icon = "glyphicon-chevron-right";
@@ -216,7 +217,7 @@ namespace Cosmo.Cms.Utils
             listItem.Description = folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
-            listItem.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
+            listItem.Href = PhotosByFolder.GetURL(folder.ID);
 
             return listItem;
          }
@@ -256,7 +257,7 @@ namespace Cosmo.Cms.Utils
                listItem = new ListItem();
                listItem.Text = "..";
                listItem.Icon = IconControl.ICON_ARROW_UP;
-               listItem.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ParentID);
+               listItem.Href = PhotosByFolder.GetURL(folder.ParentID);
 
                folderList.Add(listItem);
             }
@@ -313,7 +314,7 @@ namespace Cosmo.Cms.Utils
          /// <returns></returns>
          public static BreadcrumbItem ConvertToBreadcrumbItem(PhotoFolder folder)
          {
-            return new BreadcrumbItem(folder.Name, PhotosByFolder.GetPhotosByFolderUrl(folder.ID));
+            return new BreadcrumbItem(folder.Name, PhotosByFolder.GetURL(folder.ID));
          }
 
          /// <summary>
@@ -355,7 +356,7 @@ namespace Cosmo.Cms.Utils
             // listItem.Description = folder.Description;
             listItem.BadgeText = folder.Objects.ToString();
             listItem.Icon = IconControl.ICON_FOLDER_OPEN;
-            listItem.Href = ClassifiedAdsDAO.GetClassifiedAdsFolderURL(folder.ID);
+            listItem.Href = ClassifiedByFolder.GetURL(folder.ID);
 
             return listItem;
          }

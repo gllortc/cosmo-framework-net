@@ -391,7 +391,7 @@ namespace Cosmo.WebApp.Admin
       /// </summary>
       /// <param name="userId">User identifier.</param>
       /// <returns>A string containing the requested URL.</returns>
-      public static string GetUrl(int userId)
+      public static string GetURL(int userId)
       {
          Url url = new Url("AdminUserData");
          url.AddParameter(Cosmo.Workspace.PARAM_USER_ID, userId);

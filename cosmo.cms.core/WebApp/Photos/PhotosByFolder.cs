@@ -172,7 +172,7 @@ namespace Cosmo.WebApp.Photos
          navBtn.Icon = IconControl.ICON_SITEMAP;
          navBtn.Text = "Navegar por carpetas";
          navBtn.IsBlock = true;
-         navBtn.Href = PhotosBrowse.GetPhotosBrowseUrl();
+         navBtn.Href = PhotosBrowse.GetURL();
 
          ButtonControl recentBtn = new ButtonControl(this);
          recentBtn.Icon = IconControl.ICON_CALENDAR;
@@ -250,7 +250,7 @@ namespace Cosmo.WebApp.Photos
       /// </summary>
       /// <param name="folderId">Folder unique identifier.</param>
       /// <returns>A string representing the relative URL requested.</returns>
-      public static string GetPhotosByFolderUrl(int folderId)
+      public static string GetURL(int folderId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId.ToString());

@@ -1,11 +1,13 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Cms.Utils;
+using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using Cosmo.WebApp.UserServices;
 using System;
+using System.Reflection;
 using System.Web;
 
 namespace Cosmo.WebApp.Content
@@ -15,6 +17,9 @@ namespace Cosmo.WebApp.Content
    /// </summary>
    public class ContentView : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          //-------------------------------
@@ -161,7 +166,7 @@ namespace Cosmo.WebApp.Content
             btnTool.Text = "Editar";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
-            btnTool.Href = DocumentDAO.GetDocumentEditURL(doc.ID);
+            btnTool.Href = ContentEdit.GetURL(doc.FolderId, doc.ID);
 
             adminPanel.Content.Add(btnTool);
 
@@ -187,5 +192,25 @@ namespace Cosmo.WebApp.Content
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets the URL to show the content.
+      /// </summary>
+      /// <param name="contentId">Content unique identifier.</param>
+      /// <returns>A string representing the relative URL requested.</returns>
+      public static string GetURL(int contentId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, contentId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

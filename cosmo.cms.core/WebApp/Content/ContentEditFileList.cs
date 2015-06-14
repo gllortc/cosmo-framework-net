@@ -16,6 +16,8 @@ namespace Cosmo.WebApp.Content
    public class ContentEditFileList : PartialView
    {
 
+      #region PartialView Implementation
+
       public override void InitPage()
       {
          Document doc = null;
@@ -134,6 +136,8 @@ namespace Cosmo.WebApp.Content
 
          return url.ToString(true);
       }
+
+      #endregion
 
    }
 }

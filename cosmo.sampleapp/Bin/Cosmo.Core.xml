@@ -621,11 +621,12 @@
             <param name="parameters">Parámetros recibidos del cliente.</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.Object,System.Boolean)">
+        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.String,System.Object,System.Boolean)">
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
             <param name="parentView">Contenedor de destino del formulario.</param>
+            <param name="domId">Control unique identifier in DOM.</param>
             <param name="instance">Instancia del objeto para el que se desea crear un formulario.</param>
             <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario correspondiente al objeto.</returns>
@@ -633,11 +634,12 @@
             Los campos del formulario tomarán como valor el que se obtenga de las propiedades de la instancia.
             </remarks>
         </member>
-        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.Type,System.Boolean)">
+        <member name="M:Cosmo.Data.ORM.OrmEngine.CreateForm(Cosmo.UI.View,System.String,System.Type,System.Boolean)">
             <summary>
             Genera el formulario correspondiente a un determinado objeto anotado mediante Cosmo ORM Annotations.
             </summary>
             <param name="parentView">Contenedor de destino del formulario.</param>
+            <param name="domId">Control unique identifier in DOM.</param>
             <param name="type">Tipo correspondiente al objeto para el qual se desea representar el formulario.</param>
             <param name="enableHumanCheck">Habilita un campo <em>CAPTCHA</em> para impedir envios automatizados en formularios de carácter público.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario correspondiente al objeto.</returns>
@@ -1093,7 +1095,7 @@
         </member>
         <member name="T:Cosmo.REST.RestHandler">
             <summary>
-            Implementa una clase base para la creación de servicios API REST de Cosmo.
+            Implementas an abstract base class to create Cosmo REST handlers.
             </summary>
         </member>
         <member name="M:Cosmo.REST.RestHandler.ServiceRequest(System.String)">
@@ -1311,7 +1313,7 @@
             Handler que implementa los servicios REST correspondientes al servicio FileSystem de Cosmo.
             </summary>
         </member>
-        <member name="F:Cosmo.REST.FileSystemRestHandler.PARAMETER_FILENAME">
+        <member name="F:Cosmo.REST.FileSystemRestHandler.PARAM_FILENAME">
             <summary>parámetro de llamada: Nombre de archivo.</summary>
         </member>
         <member name="F:Cosmo.REST.FileSystemRestHandler.COMMAND_DOWNLOAD">
@@ -4481,6 +4483,13 @@
             </summary>
             <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
+        <member name="M:Cosmo.UI.Controls.LayoutContainerControl.GetControlsByType(System.Type)">
+            <summary>
+            Gets all controls of a concrete type.
+            </summary>
+            <param name="controlType">Type of control.</param>
+            <returns>A list of requested controls.</returns>
+        </member>
         <member name="M:Cosmo.UI.Controls.LayoutContainerControl.Initialize">
             <summary>
             Inicializa la instancia.
@@ -5344,7 +5353,7 @@
             </summary>
             <param name="id">Identificador del elemento a eliminar.</param>
         </member>
-        <member name="M:Cosmo.Utils.ControlCollection.GetByControlType(System.Type)">
+        <member name="M:Cosmo.Utils.ControlCollection.GetControlsByType(System.Type)">
             <summary>
             Obtiene todos los controles de un determinado tipo.
             </summary>
@@ -5505,7 +5514,7 @@
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
         </member>
-        <member name="M:Cosmo.WebApp.Admin.AdminUserData.GetUrl(System.Int32)">
+        <member name="M:Cosmo.WebApp.Admin.AdminUserData.GetURL(System.Int32)">
             <summary>
             Return the appropiate URL to call this view.
             </summary>
@@ -5536,21 +5545,6 @@
         <member name="P:Cosmo.WebApp.FileSystemServices.ModalFormUpload.ObjectID">
             <summary>
             Devuelve o establece el identificador del objeto al que va asociado el contenido subido.
-            </summary>
-        </member>
-        <member name="M:Cosmo.WebApp.Common.Model.PasswordRecoveryData.#ctor">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.WebApp.Common.Model.PasswordRecoveryData"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.WebApp.Common.Model.PasswordRecoveryData.Initialize">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.WebApp.Common.Model.PasswordRecoveryData.Mail">
-            <summary>
-            Cuenta de correo electrónico principal
             </summary>
         </member>
         <member name="M:Cosmo.WebApp.UserServices.UserAuth.FormDataReceived(Cosmo.UI.Controls.FormControl)">

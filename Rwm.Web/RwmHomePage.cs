@@ -1,14 +1,20 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.UI.Controls;
+using Cosmo.WebApp.Content;
 using System;
 
 namespace Rwm.WebApp
 {
    /// <summary>
-   /// Descripción breve de Home
+   /// Implements the home page for RWM Sample Webapp.
    /// </summary>
    public class RwmHomePage : Cosmo.UI.PageView
    {
+
+      private const string CACHE_CONTENT_HIGHLIGHTED = "rwm.webapp.content.highlighted.medialist";
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          ActiveMenuId = "home";
@@ -84,7 +90,9 @@ namespace Rwm.WebApp
          // Nothing to do
       }
 
-      private const string CACHE_CONTENT_HIGHLIGHTED = "rwm.webapp.content.highlighted.medialist";
+      #endregion
+
+      #region Private Members
 
       private MediaListControl GetHighlightedContent()
       {
@@ -108,7 +116,7 @@ namespace Rwm.WebApp
                item.Description = doc.Description;
                item.Image = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
                item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
-               item.LinkHref = DocumentDAO.GetDocumentViewURL(doc.ID);
+               item.LinkHref = ContentView.GetURL(doc.ID);
 
                list.Add(item);
             }
@@ -118,6 +126,8 @@ namespace Rwm.WebApp
             return list;
          }
       }
+
+      #endregion
 
    }
 }

@@ -1,15 +1,13 @@
 ﻿using Cosmo.Cms.Classified;
 using Cosmo.Cms.Content;
-using Cosmo.Communications;
-using Cosmo.Data.ORM;
 using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils;
 using Cosmo.Utils.Html;
-using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Web;
 
 namespace Cosmo.WebApp.Classified
@@ -19,7 +17,10 @@ namespace Cosmo.WebApp.Classified
    /// </summary>
    public class ClassifiedView : PageView
    {
+      // Internal datadeclarations
       int classifiedId = -1;
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -95,18 +96,9 @@ namespace Cosmo.WebApp.Classified
 
          RightContent.Add(contactPanel);
 
-         // Share box
-         PanelControl sharePanel = new PanelControl(this);
-         sharePanel.Caption = "Compartir";
-
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
-
-         RightContent.Add(sharePanel);
-
          // Panel de herramientas administrativas
-         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
+         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR) ||
+             (IsAuthenticated && (classified.UserID == Workspace.CurrentUser.User.ID)))
          {
             ButtonControl btnTool;
 
@@ -118,13 +110,21 @@ namespace Cosmo.WebApp.Classified
             btnTool.Text = "Editar";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
-            btnTool.Href = new Url("ContentEdit").AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, classified.Id).
-                                                  AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT).
-                                                  ToString(true);
+            btnTool.Href = ClassifiedEdit.GetURL(classified.FolderID, classified.ID);
             adminPanel.Content.Add(btnTool);
 
             RightContent.Add(adminPanel);
          }
+
+         // Share box
+         PanelControl sharePanel = new PanelControl(this);
+         sharePanel.Caption = "Compartir";
+
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
+
+         RightContent.Add(sharePanel);
       }
 
       public override void FormDataReceived(FormControl receivedForm)
@@ -141,5 +141,25 @@ namespace Cosmo.WebApp.Classified
       {
          // Nothing to do 
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets an URL to view an existing ad.
+      /// </summary>
+      /// <param name="classifiedId">Ad unique identifier.</param>
+      /// <returns>A string representing the requested URL.</returns>
+      public static string GetURL(int classifiedId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, classifiedId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

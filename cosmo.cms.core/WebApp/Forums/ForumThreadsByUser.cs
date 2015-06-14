@@ -5,6 +5,7 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Forums
 {
@@ -14,6 +15,9 @@ namespace Cosmo.WebApp.Forums
    [AuthenticationRequired]
    public class ForumThreadsByUser : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          // Declaraciones
@@ -59,7 +63,7 @@ namespace Cosmo.WebApp.Forums
             foreach (ForumThread thread in threads)
             {
                // Genera la URL del anuncio
-               thUrl = ForumsDAO.GetThreadUrl(thread.ID, thread.ForumID, pageIdx);
+               thUrl = ForumThreadView.GetURL(thread.ID, thread.ForumID, pageIdx);
 
                // Genera el elemento de la lista
                row = new TableRow("row-ad-" + thread.ID,
@@ -121,5 +125,35 @@ namespace Cosmo.WebApp.Forums
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static members
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un canal concreto de los foros.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal.</param>
+      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
+      public static string GetURL()
+      {
+         return GetURL(1);
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un canal concreto de los foros.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal.</param>
+      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
+      public static string GetURL(int pageNum)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

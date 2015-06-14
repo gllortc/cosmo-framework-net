@@ -2,16 +2,18 @@
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.WebApp.Common.Model;
 using System;
 
 namespace Cosmo.WebApp.UserServices
 {
    public class UserPasswordRecovery : PageView
    {
+      // Internal data declarations
       private bool showForm;
       // private Form modal;
       // private Form pwdform = null;
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -153,5 +155,8 @@ namespace Cosmo.WebApp.UserServices
             MainContent.Remove("pwdform");
          }
       }
+
+      #endregion
+
    }
 }

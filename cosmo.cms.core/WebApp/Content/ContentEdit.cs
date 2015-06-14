@@ -1,4 +1,5 @@
 ﻿using Cosmo.Cms.Content;
+using Cosmo.Net;
 using Cosmo.REST;
 using Cosmo.Security;
 using Cosmo.UI;
@@ -7,6 +8,7 @@ using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using Cosmo.WebApp.FileSystemServices;
 using System.IO;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Content
 {
@@ -21,6 +23,8 @@ namespace Cosmo.WebApp.Content
       private const string FIELD_ATTACHMENT = "att";
       private const string FIELD_STATUS = "sta";
       private const string FIELD_HIGHLIGHT = "hgl";
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -170,7 +174,7 @@ namespace Cosmo.WebApp.Content
          tableInfo.Rows.Add(new TableRow(string.Empty, "Propietario", doc.Owner));
          tableInfo.Rows.Add(new TableRow(string.Empty, "Estado actual", doc.Published ? "Publicado" : "Despublicado (Borrador)"));
          tableInfo.Rows.Add(new TableRow(string.Empty, "Destacado", doc.Hightlight ? "Sí" : "No"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Nodo actual", "<a href=\"" + DocumentDAO.GetDocumentFolderURL(folder.ID) + "\">" + folder.Name + "</a> (#" + folder.ID + ")"));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Nodo actual", "<a href=\"" + ContentByFolder.GetURL(folder.ID) + "\">" + folder.Name + "</a> (#" + folder.ID + ")"));
          tableInfo.Rows.Add(new TableRow(string.Empty, "Visitas", doc.Shows));
 
          TabItemControl frmInfo = new TabItemControl(this, "tabInfo", "Información");
@@ -188,7 +192,7 @@ namespace Cosmo.WebApp.Content
          form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderId);
          form.Content.Add(tabs);
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
-         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", DocumentDAO.GetDocumentViewURL(doc.ID), string.Empty));
+         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ContentView.GetURL(doc.ID), string.Empty));
 
          form.FormButtons[0].Color = ComponentColorScheme.Success;
          form.FormButtons[0].Icon = "fa-check";
@@ -234,7 +238,7 @@ namespace Cosmo.WebApp.Content
          /// TODO: Tratamiento de los archivos adjuntos
 
          // Redirige a la página del artículo
-         Redirect(DocumentDAO.GetDocumentViewURL(doc.ID));
+         Redirect(ContentView.GetURL(doc.ID));
       }
 
       /// <summary>
@@ -245,5 +249,39 @@ namespace Cosmo.WebApp.Content
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Devuelve la URL que permite agregar un contenido a una determinada carpeta.
+      /// </summary>
+      /// <param name="folderId">Identificador del contenido.</param>
+      public static string GetURL(int folderId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Devuelve la URL que permite editar un determinado contenido.
+      /// </summary>
+      /// <param name="folderId">Identificador del contenido.</param>
+      public static string GetURL(int folderId, int documentId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, documentId);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

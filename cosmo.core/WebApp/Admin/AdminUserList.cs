@@ -9,6 +9,9 @@ namespace Cosmo.WebApp.Admin
    [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
    public class AdminUserList : PageView
    {
+
+      #region PageView Implementation
+
       public override void InitPage()
       {
          //-------------------------------
@@ -101,7 +104,7 @@ namespace Cosmo.WebApp.Admin
                }
 
                row = new TableRow(6);
-               row.Cells[0] = new TableCell(icon + " " + user.Login, AdminUserData.GetUrl(user.ID));
+               row.Cells[0] = new TableCell(icon + " " + user.Login, AdminUserData.GetURL(user.ID));
                row.Cells[1] = new TableCell(user.GetDisplayName());
                row.Cells[2] = new TableCell(user.Mail);
                row.Cells[3] = new TableCell(user.Created.ToString(Formatter.FORMAT_SHORTDATE));
@@ -135,5 +138,8 @@ namespace Cosmo.WebApp.Admin
       {
          // throw new NotImplementedException();
       }
+
+      #endregion
+
    }
 }

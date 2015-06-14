@@ -1,16 +1,18 @@
 ﻿using Cosmo.Cms.Forums;
+using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Forums
 {
    [AuthenticationRequired]
    public class ForumMessageEdit :PageView
    {
+      // Internal data declarations
       private int messageId;
       private int parentMsgId;
       private int channelId;
@@ -19,6 +21,8 @@ namespace Cosmo.WebApp.Forums
       private ForumThread forumThread = null;
       private String formMode = Workspace.COMMAND_ADD;
       private FormControl form = null;
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -172,7 +176,7 @@ namespace Cosmo.WebApp.Forums
          }
 
          // Redirige al usuario a la página del thread creado o para el que se ha editado el mensaje
-         Redirect(ForumsDAO.GetThreadUrl(message.ParentMessageID, message.ForumID, pageIdx));
+         Redirect(ForumThreadView.GetURL(message.ParentMessageID, message.ForumID, pageIdx));
       }
 
       /// <summary>
@@ -183,5 +187,60 @@ namespace Cosmo.WebApp.Forums
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Permite obtener una URL relativa para crear un nuevo mensaje para el foro.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
+      /// <param name="threadId">Identificador del thread.</param>
+      /// <param name="pageIdx">Número de la página actual.</param>
+      public static string GetURL(int threadId, int channelId, int pageIdx)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa para crear un nuevo mensaje para el foro.
+      /// </summary>
+      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
+      /// <param name="pageIdx">Número de la página actual.</param>
+      public static string GetURL(int channelId, int pageIdx)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa para editar un mensaje del foro.
+      /// </summary>
+      /// <param name="messageId">Identificador del mensaje a editar.</param>
+      /// <param name="threadId">Identificador del thread (id del mensaje "padre").</param>
+      /// <param name="channelId">Identificador del canal dónde se agregará el nuevo mensaje.</param>
+      /// <param name="pageIdx">Número de la página actual.</param>
+      public static string GetURL(int messageId, int threadId, int channelId, int pageIdx)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_MESSAGE_ID, messageId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId.ToString());
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageIdx.ToString());
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

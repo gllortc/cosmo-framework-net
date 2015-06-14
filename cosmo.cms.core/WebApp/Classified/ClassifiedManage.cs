@@ -1,11 +1,11 @@
 ﻿using Cosmo.Cms.Classified;
-using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Classified
 {
@@ -16,6 +16,9 @@ namespace Cosmo.WebApp.Classified
    [AuthenticationRequired]
    public class ClassifiedManage : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          Title = ClassifiedAdsDAO.SERVICE_NAME;
@@ -103,12 +106,12 @@ namespace Cosmo.WebApp.Classified
                // Establece las opciones para cada anuncio
                tbrAd = new ButtonGroupControl(this);
                tbrAd.Size = ButtonControl.ButtonSizes.ExtraSmall;
-               tbrAd.Buttons.Add(new ButtonControl(this, "cmdDel" + ad.Id, "Eliminar", IconControl.ICON_REMOVE ,ButtonControl.ButtonTypes.Normal));
-               if (pc <= 0) tbrAd.Buttons.Add(new ButtonControl(this, "cmdRepub" + ad.Id, "Republicar", IconControl.ICON_REFRESH, ButtonControl.ButtonTypes.Normal));
+               tbrAd.Buttons.Add(new ButtonControl(this, "cmdDel" + ad.ID, "Eliminar", IconControl.ICON_REMOVE ,ButtonControl.ButtonTypes.Normal));
+               if (pc <= 0) tbrAd.Buttons.Add(new ButtonControl(this, "cmdRepub" + ad.ID, "Republicar", IconControl.ICON_REFRESH, ButtonControl.ButtonTypes.Normal));
 
                // Genera el elemento de la lista
-               row = new TableRow("row-ad-" + ad.Id,
-                                  IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(ClassifiedAdsDAO.GetClassifiedAdsEditURL(ad.Id), ad.Title, false),
+               row = new TableRow("row-ad-" + ad.ID,
+                                  IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(ClassifiedEdit.GetURL(ad.ID), ad.Title, false),
                                   ad.Price <= 0 ? IconControl.GetIcon(this, IconControl.ICON_MINUS) : string.Format("{0:C}", ad.Price),
                                   ad.Updated.ToString(Formatter.FORMAT_DATE),
                                   status,
@@ -126,7 +129,7 @@ namespace Cosmo.WebApp.Classified
             panel.Content.Add(html);
             panel.Content.Add(table);
 
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Crear nuevo anuncio", IconControl.ICON_PLUS, ClassifiedAdsDAO.GetClassifiedAdsEditURL(), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Crear nuevo anuncio", IconControl.ICON_PLUS, ClassifiedEdit.GetURL(0), string.Empty));
 
             MainContent.Add(panel);
          }
@@ -159,5 +162,21 @@ namespace Cosmo.WebApp.Classified
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets an URL to manage current user ads.
+      /// </summary>
+      /// <returns>A string representing the requested URL.</returns>
+      public static string GetURL()
+      {
+         return MethodBase.GetCurrentMethod().DeclaringType.Name;
+      }
+
+      #endregion
+
    }
 }

@@ -11,11 +11,8 @@ namespace Cosmo.REST
    /// </summary>
    public class FileSystemRestHandler : RestHandler
    {
-      /// <summary>URL de invocación de la API REST.</summary>
-      // public const string URL_REST_SERVICE = "FileSystemApi";
-
       /// <summary>parámetro de llamada: Nombre de archivo.</summary>
-      public const string PARAMETER_FILENAME = "_fn_";
+      public const string PARAM_FILENAME = "_fn_";
 
       #region RestHandler Implementation
 
@@ -29,12 +26,12 @@ namespace Cosmo.REST
          {
             case COMMAND_DOWNLOAD:
                DownloadFile(Parameters.GetString(Cosmo.Workspace.PARAM_OBJECT_ID), 
-                            Parameters.GetString(PARAMETER_FILENAME));
+                            Parameters.GetString(PARAM_FILENAME));
                break;
 
             case COMMAND_DELETE:
                DeleteFile(Parameters.GetString(Cosmo.Workspace.PARAM_OBJECT_ID), 
-                          Parameters.GetString(PARAMETER_FILENAME));
+                          Parameters.GetString(PARAM_FILENAME));
                break;
 
             case COMMAND_UPLOAD:
@@ -64,7 +61,7 @@ namespace Cosmo.REST
          return new Url(FileSystemRestHandler.ServiceUrl)
             .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_DOWNLOAD)
             .AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, objectId)
-            .AddParameter(PARAMETER_FILENAME, filename);
+            .AddParameter(PARAM_FILENAME, filename);
       }
 
       /// <summary>
@@ -119,7 +116,7 @@ namespace Cosmo.REST
          return new Url(FileSystemRestHandler.ServiceUrl)
             .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_DELETE)
             .AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, objectId)
-            .AddParameter(PARAMETER_FILENAME, filename);
+            .AddParameter(PARAM_FILENAME, filename);
       }
 
       /// <summary>

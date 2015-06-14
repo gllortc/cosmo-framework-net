@@ -1075,12 +1075,18 @@ namespace Cosmo.UI.Render.Impl
 
          xhtml.AppendLine("<div class=\"form-group" + (isValid ? string.Empty : " has-error") + "\">");
          xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + (isValid ? string.Empty : IconControl.GetIcon(control.ParentView, IconControl.ICON_WARNING) + " ") + HttpUtility.HtmlDecode(control.Label) + "</label>");
-         xhtml.AppendLine("  <div class=\"input-group\" />");
+         xhtml.AppendLine("  <div class=\"input-group\">");
          xhtml.AppendLine("    <div class=\"input-group-addon\" style=\"padding:0;\">");
          xhtml.AppendLine("      <img src=\"" + UIRestHandler.GetCaptchaUrl().ToString() + "\" alt=\"Human Verification Image\" style=\"height:40px;\">");
          xhtml.AppendLine("    </div>");
          xhtml.AppendLine("    <input type=\"text\" " + control.GetIdParameter() + " " + control.GetNameParameter() + " placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" class=\"form-control input-lg\" />");
          xhtml.AppendLine("  </div>");
+
+         if (!string.IsNullOrWhiteSpace(control.Description))
+         {
+            xhtml.AppendLine("  <p class=\"help-block\">" + HttpUtility.HtmlDecode(control.Description) + "</p>");
+         }
+
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();

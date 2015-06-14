@@ -48,7 +48,7 @@ namespace Cosmo.WebApp.Photos
 
       #endregion
 
-      #region ModalViewContainer Implementation
+      #region ModalView Implementation
 
       public override void InitPage()
       {

@@ -182,7 +182,6 @@
     <Compile Include="WebApp\Admin\AdminUserData.cs" />
     <Compile Include="WebApp\CommunicationServices\PrivateMessages.cs" />
     <Compile Include="WebApp\FileSystemServices\ModalFormUpload.cs" />
-    <Compile Include="WebApp\Model\PasswordRecoveryData.cs" />
     <Compile Include="WebApp\UserServices\UserAuth.cs" />
     <Compile Include="WebApp\UserServices\UserData.cs" />
     <Compile Include="WebApp\UserServices\UserDataModal.cs" />

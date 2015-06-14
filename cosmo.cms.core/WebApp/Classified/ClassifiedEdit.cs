@@ -1,19 +1,15 @@
-﻿using Cosmo.Cms.Content;
+﻿using Cosmo.Cms.Classified;
+using Cosmo.Cms.Content;
 using Cosmo.Net;
-using Cosmo.REST;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.UI.Scripting;
 using Cosmo.Utils;
-using Cosmo.WebApp.Content;
-using Cosmo.WebApp.FileSystemServices;
-using System.IO;
 using System.Reflection;
 
 namespace Cosmo.WebApp.Classified
 {
-   [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
+   [AuthenticationRequired]
    public class ClassifiedEdit : PageView
    {
       // Declaración de nombres de parámetros
@@ -29,14 +25,9 @@ namespace Cosmo.WebApp.Classified
 
       public override void InitPage()
       {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
          string cmd;
-         Document doc = null;
-         DocumentFolder folder;
+         ClassifiedAd doc = null;
+         ClassifiedAdsSection folder = null;
 
          // Agrega los recursos necesarios para representar la página actual
          Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
@@ -53,28 +44,28 @@ namespace Cosmo.WebApp.Classified
          //-------------------------------
 
          // Inicializaciones
-         DocumentDAO docs = new DocumentDAO(Workspace);
+         ClassifiedAdsDAO docs = new ClassifiedAdsDAO(Workspace);
 
          cmd = Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND);
          switch (cmd)
          {
-            case Cosmo.Workspace.COMMAND_EDIT: 
+            case Cosmo.Workspace.COMMAND_EDIT:
                doc = docs.Item(docId);
                break;
 
-            case Cosmo.Workspace.COMMAND_ADD: 
-               doc = new Document();
-               doc.FolderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
+            case Cosmo.Workspace.COMMAND_ADD:
+               doc = new ClassifiedAd();
+               doc.FolderID = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
                break;
 
             default:
-               ShowError("Llamada incorrecta!", 
+               ShowError("Llamada incorrecta!",
                          "Hemos detectado una llamada incorrecta al editor de anuncios. No es posible abrir el editor en estas condiciones.");
                break;
          }
 
          // Obtiene el documento y la carpeta
-         folder = docs.GetFolder(doc.FolderId, false);
+         folder = docs.GetFolder(doc.FolderID);
          if (folder == null)
          {
             ShowError("Categoria no encontrada",
@@ -85,15 +76,9 @@ namespace Cosmo.WebApp.Classified
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
-         ModalFormUpload frmUpload = new ModalFormUpload(doc.ID);
-         Modals.Add(frmUpload);
 
-         //-------------------------------
-         // Configuración de la vista
-         //-------------------------------
-
-         Title = doc.Title + " | " + DocumentDAO.SERVICE_NAME;
-         ActiveMenuId = folder.MenuId;
+         Title = ClassifiedAdsDAO.SERVICE_NAME + " | " + doc.Title;
+         // ActiveMenuId = folder.MenuId;
 
          // Cabecera
          HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
@@ -108,97 +93,25 @@ namespace Cosmo.WebApp.Classified
          MainContent.Add(header);
 
          // Formulario
-         TabbedContainerControl tabs = new TabbedContainerControl(this);
-
-         TabItemControl frmData = new TabItemControl(this, "tabData", "Contenido");
-         frmData.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, doc.Title));
-         frmData.Content.Add(new FormFieldEditor(this, FIELD_DESCRIPTION, "Descripción", FormFieldEditor.FieldEditorType.Simple, doc.Description));
-         frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Contenido", FormFieldEditor.FieldEditorType.HTML, doc.Content));
-
-         FormFieldImage thumb = new FormFieldImage(this, FIELD_THUMBNAIL, "Imagen miniatura", doc.Thumbnail);
-         thumb.Description = "Si deja este campo en blanco no se guardará la imagen y se mantendrá la actual.";
-         thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
-         frmData.Content.Add(thumb);
-
-         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Published ? "1" : "0"));
-         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
-         lstStatus.Values.Add(new KeyValue("Publicado", "1"));
-         frmData.Content.Add(lstStatus);
-
-         frmData.Content.Add(new FormFieldBoolean(this, FIELD_HIGHLIGHT, "Artículo destacado en portada", doc.Hightlight));
-
-         tabs.TabItems.Add(frmData);
-
-         HtmlContentControl filesContent = new HtmlContentControl(this);
-         filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
-
-         ButtonGroupControl btnFiles = new ButtonGroupControl(this);
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", frmUpload));
-
-         TableControl tableFiles = new TableControl(this);
-         tableFiles.Bordered = false;
-         tableFiles.Condensed = false;
-         tableFiles.Hover = true;
-         tableFiles.Header = new TableRow("Archivo", "Archivo", "Tamaño (bytes)", "Acciones");
-         int fileIdx = 0;
-         string rowId;
-         ButtonGroupControl btnBar;
-         foreach (FileInfo file in Workspace.FileSystemService.GetObjectFiles(doc.ID.ToString()))
-         {
-            rowId = "file-idx-" + ++fileIdx;
-
-            btnBar = new ButtonGroupControl(this);
-            btnBar.Buttons.Add(new ButtonControl(this, "btnCopyUrl" + fileIdx, "Copiar enlace", "fa-chain", string.Empty, "CopyFileUrl('" + Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), file.Name, true) + "');"));
-            btnBar.Buttons.Add(new ButtonControl(this, "btnDownload" + fileIdx, "Descargar", "fa-download", FileSystemRestHandler.GetDownloadFileUrl(doc.ID.ToString(), file.Name).ToString(), string.Empty));
-            btnBar.Buttons.Add(new ButtonControl(this, "btnDelete" + fileIdx, "Borrar", "fa-trash-o", string.Empty, "deleteFile('" + rowId + "', '" + doc.ID + "', '" + file.Name + "');"));
-
-            tableFiles.Rows.Add(new TableRow(rowId, 
-                                             "<a href=\"" + Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), file.Name) + "\" target=\"_blank\">" + file.Name + "</a>", 
-                                             file.Length.ToString(),
-                                             Workspace.UIService.Render(btnBar)));
-         }
-
-         TabItemControl frmFiles = new TabItemControl(this, "tabFiles", "Archivos");
-         //frmFiles.Content.Add(filesContent);
-         //frmFiles.Content.Add(btnFiles);
-         //frmFiles.Content.Add(tableFiles);
-         tabs.TabItems.Add(frmFiles);
-
-         SimpleScript loadFiles = new SimpleScript(this);
-         loadFiles.ExecutionType = Script.ScriptExecutionMethod.OnDocumentReady;
-         loadFiles.AppendSourceLine("cosmoUIServices.loadTemplate('" + ContentEditFileList.GetTemplateUrl(cmd, docId.ToString()) + "', 'tabFiles');");
-         frmFiles.AddScript(loadFiles);
-
-         HtmlContentControl infoContent = new HtmlContentControl(this);
-         infoContent.AppendParagraph("Propiedades del contenido en el momento actual (antes de guardar y actualizar las propiedades).");
-
-         TableControl tableInfo = new TableControl(this);
-         tableInfo.Bordered = false;
-         tableInfo.Condensed = true;
-         tableInfo.Header = new TableRow(string.Empty, "Propiedad", "Valor");
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Fecha de creación", doc.Created.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Última actualización", doc.Updated.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Propietario", doc.Owner));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Estado actual", doc.Published ? "Publicado" : "Despublicado (Borrador)"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Destacado", doc.Hightlight ? "Sí" : "No"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Nodo actual", "<a href=\"" + DocumentDAO.GetDocumentFolderURL(folder.ID) + "\">" + folder.Name + "</a> (#" + folder.ID + ")"));
-
-         TabItemControl frmInfo = new TabItemControl(this, "tabInfo", "Información");
-         frmInfo.Content.Add(infoContent);
-         frmInfo.Content.Add(tableInfo);
-         tabs.TabItems.Add(frmInfo);
-
          FormControl form = new FormControl(this);
-         form.IsMultipart = true;
          form.Icon = "fa-edit";
          form.Caption = "Editar artículo";
          form.Action = GetType().Name;
+
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, doc.ID);
-         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderId);
-         form.Content.Add(tabs);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderID);
+
+         form.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, doc.Title));
+         form.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Anuncio", FormFieldEditor.FieldEditorType.HTML, doc.Body));
+
+         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Status == Cms.Common.PublishStatus.Published ? "1" : "0"));
+         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
+         lstStatus.Values.Add(new KeyValue("Publicado", "1"));
+         form.Content.Add(lstStatus);
+
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
-         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", DocumentDAO.GetDocumentViewURL(doc.ID), string.Empty));
+         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ClassifiedView.GetURL(doc.ID), string.Empty));
 
          form.FormButtons[0].Color = ComponentColorScheme.Success;
          form.FormButtons[0].Icon = "fa-check";
@@ -206,34 +119,39 @@ namespace Cosmo.WebApp.Classified
          MainContent.Add(form);
       }
 
+      public override void LoadPage()
+      {
+         // Nothing to do
+      }
+
       /// <summary>
       /// Trata los datos recibidos de un formulario.
       /// </summary>
       public override void FormDataReceived(FormControl receivedForm)
       {
-         Document doc = new Document();
+         Document clsAd = new Document();
 
          // Obtiene los datos del formulario
-         doc.ID = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
-         doc.FolderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
-         doc.Title = Parameters.GetString(FIELD_TITLE);
-         doc.Description = Parameters.GetString(FIELD_DESCRIPTION);
-         doc.Content = Parameters.GetString(FIELD_CONTENT);
-         doc.Published = Parameters.GetBoolean(FIELD_STATUS);
-         doc.Hightlight = Parameters.GetBoolean(FIELD_HIGHLIGHT);
-         if (Collections.ContainsKey(Request.Files, FIELD_THUMBNAIL)) doc.Thumbnail = Request.Files.Get(FIELD_THUMBNAIL).FileName;
-         if (Collections.ContainsKey(Request.Files, FIELD_ATTACHMENT)) doc.Attachment = Request.Files.Get(FIELD_ATTACHMENT).FileName;
+         clsAd.ID = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+         clsAd.FolderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
+         clsAd.Title = Parameters.GetString(FIELD_TITLE);
+         clsAd.Description = Parameters.GetString(FIELD_DESCRIPTION);
+         clsAd.Content = Parameters.GetString(FIELD_CONTENT);
+         clsAd.Published = Parameters.GetBoolean(FIELD_STATUS);
+         clsAd.Hightlight = Parameters.GetBoolean(FIELD_HIGHLIGHT);
+         if (Collections.ContainsKey(Request.Files, FIELD_THUMBNAIL)) clsAd.Thumbnail = Request.Files.Get(FIELD_THUMBNAIL).FileName;
+         if (Collections.ContainsKey(Request.Files, FIELD_ATTACHMENT)) clsAd.Attachment = Request.Files.Get(FIELD_ATTACHMENT).FileName;
 
          // Realiza las operaciones de persistencia
          DocumentDAO docs = new DocumentDAO(Workspace);
          switch (Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND))
          {
             case Cosmo.Workspace.COMMAND_EDIT:
-               docs.Update(doc);
+               docs.Update(clsAd);
                break;
 
             case Cosmo.Workspace.COMMAND_ADD:
-               docs.Add(doc);
+               docs.Add(clsAd);
                break;
 
             default: 
@@ -244,7 +162,7 @@ namespace Cosmo.WebApp.Classified
          // TODO!
 
          // Redirige a la página del artículo
-         Redirect(DocumentDAO.GetDocumentViewURL(doc.ID));
+         Redirect(ClassifiedView.GetURL(clsAd.ID));
       }
 
       /// <summary>
@@ -260,7 +178,12 @@ namespace Cosmo.WebApp.Classified
 
       #region Static Members
 
-      public static string GetClassifiedEditUrl(int folderId)
+      /// <summary>
+      /// Gets an URL to create a new ad in a specified category of ads.
+      /// </summary>
+      /// <param name="folderId">Category unique identifier.</param>
+      /// <returns>A string representing the requested URL.</returns>
+      public static string GetURL(int folderId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
@@ -269,7 +192,13 @@ namespace Cosmo.WebApp.Classified
          return url.ToString();
       }
 
-      public static string GetClassifiedEditUrl(int folderId, int classifiedId)
+      /// <summary>
+      /// Gets an URL to edit an existing ad in a specified category of ads.
+      /// </summary>
+      /// <param name="folderId">Category unique identifier.</param>
+      /// <param name="classifiedId">Ad unique identifier.</param>
+      /// <returns>A string representing the requested URL.</returns>
+      public static string GetURL(int folderId, int classifiedId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);

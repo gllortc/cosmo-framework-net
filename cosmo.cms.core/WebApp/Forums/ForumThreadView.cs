@@ -1,10 +1,12 @@
 ﻿using Cosmo.Cms.Forums;
+using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils.Html;
 using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Forums
 {
@@ -14,9 +16,10 @@ namespace Cosmo.WebApp.Forums
    /// </summary>
    public class ForumThreadView : PageView
    {
+      // Internal data declarations
       ForumsDAO fdao = null;
 
-      #region CosmoPage Implementation
+      #region PageView Implementation
 
       public override void LoadPage()
       {
@@ -37,7 +40,7 @@ namespace Cosmo.WebApp.Forums
          int page = Parameters.GetInteger(ForumsDAO.PARAM_PAGE_NUM, 1);
 
          // if (channelid <= 0) Redirect(ForumsDAO.URL_HOME);
-         if (threadid <= 0) Redirect(ForumsDAO.GetChannelUrl(channelid));
+         if (threadid <= 0) Redirect(ForumFolder.GetURL(channelid));
 
          // Recupera la información del canal, thread y mensajes
          fdao = new ForumsDAO(Workspace);
@@ -98,19 +101,19 @@ namespace Cosmo.WebApp.Forums
                                                 "btnAddMsg", 
                                                 "Enviar comentario", 
                                                 IconControl.ICON_PLUS, 
-                                                ForumsDAO.GetNewMessageUrl(threadid, channelid, page), 
+                                                ForumMessageEdit.GetURL(threadid, channelid, page), 
                                                 string.Empty));
          panel.ButtonBar.Buttons.Add(new ButtonControl(this, 
                                                 "btnOrder", 
                                                 "Orden " + (order == ThreadMessagesOrder.Ascending ? "descendente" : "ascendente"),
                                                 order == ThreadMessagesOrder.Ascending ? IconControl.ICON_CHEVRON_DOWN : IconControl.ICON_CHEVRON_UP,
-                                                ForumsDAO.GetThreadUrl(threadid, channelid, page, 1 - (int)order), 
+                                                ForumThreadView.GetURL(threadid, channelid, page, 1 - (int)order), 
                                                 string.Empty));
          panel.ButtonBar.Buttons.Add(new ButtonControl(this, 
                                                 "btnReturnTop", 
                                                 "Volver al canal", 
-                                                IconControl.ICON_REPLY, 
-                                                ForumsDAO.GetChannelUrl(channelid, page, "msg" + threadid), 
+                                                IconControl.ICON_REPLY,
+                                                ForumFolder.GetURL(channelid, page, "msg" + threadid), 
                                                 string.Empty));
 
          // Si el hilo está cerrado advierte al usuario
@@ -152,8 +155,8 @@ namespace Cosmo.WebApp.Forums
                   item.Buttons.Add(new ButtonControl(this, 
                                               "cmdEditMsg" + message.ID, 
                                               "Editar", 
-                                              IconControl.ICON_EDIT, 
-                                              ForumsDAO.GetEditMessageURL(message.ID, message.ParentMessageID, message.ForumID, page), 
+                                              IconControl.ICON_EDIT,
+                                              ForumMessageEdit.GetURL(message.ID, message.ParentMessageID, message.ForumID, page), 
                                               string.Empty));
                }
             }
@@ -230,6 +233,50 @@ namespace Cosmo.WebApp.Forums
             Modals[2]));
 
          panel.ButtonBar.Buttons.Add(adminDropdown);
+      }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un thread concreto de los foros.
+      /// </summary>
+      /// <param name="threadId">Identificador del thread.</param>
+      public static string GetURL(int threadId, int channelId)
+      {
+         return GetURL(threadId, channelId, 1);
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un thread concreto de los foros.
+      /// </summary>
+      /// <param name="threadId">Identificador del thread.</param>
+      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
+      public static string GetURL(int threadId, int channelId, int pageNum, int order)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId);
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
+         url.AddParameter(ForumsDAO.PARAM_ORDER, order);
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Permite obtener una URL relativa a un thread concreto de los foros.
+      /// </summary>
+      /// <param name="threadId">Identificador del thread.</param>
+      /// <param name="pageNum">Número de página (para listado de threads paginados).</param>
+      public static string GetURL(int threadId, int channelId, int pageNum)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(ForumsDAO.PARAM_THREAD_ID, threadId);
+         url.AddParameter(ForumsDAO.PARAM_CHANNEL_ID, channelId);
+         url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
+
+         return url.ToString();
       }
 
       #endregion

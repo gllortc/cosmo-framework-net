@@ -44,12 +44,6 @@ namespace Cosmo.Cms.Classified
       /// <summary>Nombre del workspace.</summary>
       public const string TAG_CONTACT_WSNAME = "{ws.name}";
 
-      // Vistas del servicio
-      private const string URL_FOLDER = "ClassifiedFolder"; // "cs_ads_folder.aspx";
-      private const string URL_EDITOR = "ClassifiedEdit";   // "cs_usr_ads_edit.aspx";
-      private const string URL_MANAGE = "ClassifiedManage"; // "cs_usr_ads.aspx";
-      private const string URL_VIEWER = "ClassifiedView";   // "cs_ads_viewer_std.aspx";
-
       // Variables de configuración
       private const string CONF_ADS_VALIDITYDAYS = "cs.ads.validitydays";
       private const string CONF_ADS_MAXPERUSER = "cs.ads.usermaxads";
@@ -63,25 +57,10 @@ namespace Cosmo.Cms.Classified
 
       #endregion
 
-      /// <summary>
-      /// Enumera los tipos de acción sobre los objetos gestionados por este módulo.
-      /// </summary>
-      public enum AdEditMode : int
-      {
-         /// <summary>Eliminar objeto.</summary>
-         Delete = 0,
-         /// <summary>Republicar objeto. Actualiza la fecha de publicación.</summary>
-         Refresh = 1,
-         /// <summary>Nuevo objeto.</summary>
-         AddNew = 2,
-         /// <summary>Actualizar objeto.</summary>
-         Update = 3
-      }
-
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Cosmo.Cms.Ads.CSAds"/>.
+      /// Gets a new instance of <see cref="ClassifiedAdsDAO"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Cosmo.Cms.Cms"/> que representa el sitio actual.</param>
       public ClassifiedAdsDAO(Workspace workspace)
@@ -237,7 +216,7 @@ namespace Cosmo.Cms.Classified
             cmd.Parameters.Add(new SqlParameter("@annemail", ad.Mail));
             cmd.Parameters.Add(new SqlParameter("@annurl", ad.URL));
             cmd.Parameters.Add(new SqlParameter("@anndeleted", false));
-            cmd.Parameters.Add(new SqlParameter("@annid", ad.Id));
+            cmd.Parameters.Add(new SqlParameter("@annid", ad.ID));
             cmd.ExecuteNonQuery();
          }
          catch (Exception ex)
@@ -1044,7 +1023,7 @@ namespace Cosmo.Cms.Classified
       public string GetAdUrl(ClassifiedAd ad)
       {
          Url qs = new Url(Cosmo.Net.Url.Combine(_ws.Url, ad.Template));
-         qs.AddParameter(Workspace.PARAM_OBJECT_ID, ad.Id);
+         qs.AddParameter(Workspace.PARAM_OBJECT_ID, ad.ID);
 
          return qs.ToString(true, false);         
       }
@@ -1196,71 +1175,6 @@ namespace Cosmo.Cms.Classified
 
       #endregion
 
-      #region Static Members
-
-      /// <summary>
-      /// Permite obtener la URL para mostrar un determinado anuncio classificado.
-      /// </summary>
-      /// <param name="folderId">Identificador del anuncio clasificado.</param>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static string GetClassifiedAdsViewURL(int cadId)
-      {
-         Url url = new Url(ClassifiedAdsDAO.URL_VIEWER);
-         url.AddParameter(Workspace.PARAM_OBJECT_ID, cadId);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Permite obtener la URL para navegar por una carpeta del servicio de anuncios clasificados.
-      /// </summary>
-      /// <param name="folderId">Identificador de la carpeta.</param>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static string GetClassifiedAdsFolderURL(int folderId)
-      {
-         Url url = new Url(ClassifiedAdsDAO.URL_FOLDER);
-         url.AddParameter(Workspace.PARAM_FOLDER_ID, folderId);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Permite obtener la URL del editor de anuncios clasificaos para editar un determinado anuncio clasificado.
-      /// </summary>
-      /// <param name="folderId">Identificador del anuncio clasificado.</param>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static string GetClassifiedAdsEditURL(int cadId)
-      {
-         Url url = new Url(ClassifiedAdsDAO.URL_EDITOR);
-         url.AddParameter(Workspace.PARAM_OBJECT_ID, cadId);
-         url.AddParameter(Workspace.PARAM_COMMAND, Workspace.COMMAND_EDIT);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Permite obtener la URL del editor de anuncios clasificaos para crear un anuncio clasificado.
-      /// </summary>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static string GetClassifiedAdsEditURL()
-      {
-         Url url = new Url(ClassifiedAdsDAO.URL_EDITOR);
-         url.AddParameter(Workspace.PARAM_COMMAND, Workspace.COMMAND_ADD);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Permite obtener la URL del gestor de anuncios clasificaos.
-      /// </summary>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static string GetClassifiedAdsManageURL()
-      {
-         return ClassifiedAdsDAO.URL_MANAGE;
-      }
-
-      #endregion
-
       #region Private Members
 
       /// <summary>
@@ -1269,7 +1183,7 @@ namespace Cosmo.Cms.Classified
       private ClassifiedAd ReadClassifiedAd(SqlDataReader reader)
       {
          ClassifiedAd ad = new ClassifiedAd();
-         ad.Id = reader.GetInt32(0);
+         ad.ID = reader.GetInt32(0);
          ad.UserID = reader.GetInt32(1);
          ad.Created = reader.GetDateTime(2);
          ad.FolderID = reader.GetInt32(3);

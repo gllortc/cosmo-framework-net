@@ -45,7 +45,7 @@ namespace Cosmo.WebApp.UserServices
 
          // Genera el formulario para objetos del tipo User
          OrmEngine orm = new OrmEngine();
-         form = orm.CreateForm(this, typeof(User), true);
+         form = orm.CreateForm(this, "frmJoin", typeof(User), true);
          
          MainContent.Add(form);
       }

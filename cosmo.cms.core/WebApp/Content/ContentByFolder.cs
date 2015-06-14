@@ -1,13 +1,18 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Cms.Utils;
+using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Content
 {
    public class ContentByFolder : PageView
    {
+
+      #region PageView Implementation
+
       public override void LoadPage()
       {
          DocumentFolder folder = null;
@@ -110,7 +115,7 @@ namespace Cosmo.WebApp.Content
             btnTool.Text = "Nuevo artículo";
             btnTool.Color = ComponentColorScheme.Success;
             btnTool.IsBlock = true;
-            btnTool.Href = DocumentDAO.GetDocumentAddURL(folder.ID);
+            btnTool.Href = ContentEdit.GetURL(folder.ID);
 
             adminPanel.Content.Add(btnTool);
 
@@ -136,5 +141,24 @@ namespace Cosmo.WebApp.Content
       {
          // Nothing todo
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Gets the URL to show the folder contents.
+      /// </summary>
+      /// <returns>A string representing the relative URL requested.</returns>
+      public static string GetURL(int folderId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

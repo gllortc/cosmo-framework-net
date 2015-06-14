@@ -170,14 +170,13 @@ namespace Cosmo.UI
 
       #endregion
 
-      #region #ViewContainer Implementation
+      #region View Implementation
 
       /// <summary>
       /// Inicia el ciclo de vida de la vista.
       /// </summary>
       internal override void StartViewLifecycle()
       {
-         bool canLoadData = true;
          string receivedFormID = string.Empty;
          var watch = Stopwatch.StartNew();
 
@@ -186,26 +185,30 @@ namespace Cosmo.UI
             // Inicialización de la página
             InitPage();
 
-            // Comprueba si la llamada corresponde a un envio de datos desde un formulario
-            if (IsFormReceived)
+            // Process form data
+            foreach (FormControl form in Content.GetControlsByType(typeof(FormControl)))
             {
-               FormControl recvForm = GetProcessedForm();
-               if (recvForm != null)
+               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
                {
-                  receivedFormID = recvForm.DomID;
-                  FormDataReceived(recvForm);
+                  form.ProcessForm(Parameters);
+                  receivedFormID = form.DomID;
+
+                  // If data is valid, raise FormDataReceived() event
+                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
+                  {
+                     FormDataReceived(form);
+                  }
                }
-               else
+
+               // Lanza el evento FormDataLoad()
+               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
                {
-                  canLoadData = false;
+                  FormDataLoad(form.DomID);
                }
             }
 
-            // Carga la página
-            if (canLoadData)
-            {
-               LoadPage();
-            }
+            // Finish page load
+            LoadPage();
          }
          catch (Exception ex)
          {

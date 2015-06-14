@@ -1,7 +1,6 @@
 ﻿using Cosmo.Cms.Photos;
 using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
-using Cosmo.Net;
 using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
@@ -23,10 +22,6 @@ namespace Cosmo.Cms.Content
 
       /// <summary>Rol correspondiente a publicador de contenido</summary>
       public const string ROLE_CONTENT_EDITOR = "content.editor";
-
-      private const string URL_CONTENT_FOLDER_VIEW = "ContentByFolder";
-      private const string URL_CONTENT_VIEW = "ContentView";
-      private const string URL_CONTENT_EDIT = "ContentEdit";
 
       private const string SMARTTAG_OBJECT_ID = "%DOCID%";
       private const string SMARTTAG_WORKSPACE_NAME = "%WS-NAME%";
@@ -673,60 +668,6 @@ namespace Cosmo.Cms.Content
             IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
-      }
-
-      #endregion
-
-      #region Static Members
-
-      /// <summary>
-      /// Devuelve la URL que permite mostrar un determinado contenido.
-      /// </summary>
-      /// <param name="folderId">Identificador del contenido.</param>
-      public static string GetDocumentViewURL(int contentId)
-      {
-         Url url = new Url(DocumentDAO.URL_CONTENT_VIEW);
-         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, contentId);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Devuelve la URL que permite navegar por el contenido de una carpeta.
-      /// </summary>
-      /// <param name="folderId">Identificador de la carpeta.</param>
-      public static string GetDocumentFolderURL(int folderId)
-      {
-         Url url = new Url(DocumentDAO.URL_CONTENT_FOLDER_VIEW);
-         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Devuelve la URL que permite agregar un contenido a una determinada carpeta.
-      /// </summary>
-      /// <param name="folderId">Identificador del contenido.</param>
-      public static string GetDocumentAddURL(int folderId)
-      {
-         Url url = new Url(DocumentDAO.URL_CONTENT_EDIT);
-         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
-         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
-
-         return url.ToString(true);
-      }
-
-      /// <summary>
-      /// Devuelve la URL que permite editar un determinado contenido.
-      /// </summary>
-      /// <param name="folderId">Identificador del contenido.</param>
-      public static string GetDocumentEditURL(int documentId)
-      {
-         Url url = new Url(DocumentDAO.URL_CONTENT_EDIT);
-         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, documentId);
-         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);
-
-         return url.ToString(true);
       }
 
       #endregion

@@ -77,8 +77,8 @@ namespace Cosmo.WebApp.Classified
             foreach (ClassifiedAd ad in adlist)
             {
                // Genera el elemento de la lista
-               row = new TableRow("row-ad-" + ad.Id,
-                                  IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(ClassifiedAdsDAO.GetClassifiedAdsViewURL(ad.Id), ad.Title, false),
+               row = new TableRow("row-ad-" + ad.ID,
+                                  IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(ClassifiedView.GetURL(ad.ID), ad.Title, false),
                                   ad.Price <= 0 ? IconControl.GetIcon(this, IconControl.ICON_MINUS) : string.Format("{0:C}", ad.Price),
                                   ad.Updated.ToString(Formatter.FORMAT_DATE),
                                   new UserLinkControl(this, ad.UserID, ad.UserLogin, userData));
@@ -95,7 +95,7 @@ namespace Cosmo.WebApp.Classified
             panel.Content.Add(html);
             panel.Content.Add(table);
 
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Añadir anuncio", "fa-plus", ClassifiedEdit.GetClassifiedEditUrl(folderid), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Añadir anuncio", "fa-plus", ClassifiedEdit.GetURL(folderid), string.Empty));
 
             url = new Url("ClassifiedManage");
             panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnManageAds", "Mis anuncios", "fa-bookmark", url.ToString(true), string.Empty));
@@ -136,7 +136,7 @@ namespace Cosmo.WebApp.Classified
 
       #region Static Members
 
-      public static string GetClassifiedFolderUrl(int folderId)
+      public static string GetURL(int folderId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);

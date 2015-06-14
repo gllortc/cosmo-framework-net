@@ -11,9 +11,6 @@ namespace Cosmo.REST
    /// </summary>
    public class UIRestHandler : RestHandler
    {
-      /// <summary>URL de invocación de la API REST.</summary>
-      // public const string URL_REST_SERVICE = "UIApi";
-
       /// <summary>parámetro de llamada: Nombre de archivo.</summary>
       public const string PARAMETER_TEMPLATE_NAME = "_tid_";
 

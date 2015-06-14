@@ -81,14 +81,19 @@ namespace Cosmo.UI.Controls
 
       #region Methods
 
+      /// <summary>
+      /// Gets all controls of a concrete type.
+      /// </summary>
+      /// <param name="controlType">Type of control.</param>
+      /// <returns>A list of requested controls.</returns>
       public List<Control> GetControlsByType(Type controlType)
       {
          List<Control> controls = new List<Control>();
 
          // Obtiene el formulario
-         controls.AddRange(MainContent.GetByControlType(controlType));
-         controls.AddRange(LeftContent.GetByControlType(controlType));
-         controls.AddRange(RightContent.GetByControlType(controlType));
+         controls.AddRange(MainContent.GetControlsByType(controlType));
+         controls.AddRange(LeftContent.GetControlsByType(controlType));
+         controls.AddRange(RightContent.GetControlsByType(controlType));
 
          return controls;
       }

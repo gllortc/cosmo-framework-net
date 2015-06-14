@@ -71,8 +71,7 @@ namespace Cosmo.WebApp.Classified
          }
 
          // Genera el formulario para objetos del tipo User
-         FormControl form = new FormControl(this);
-         form.DomID = "frmAdContact";
+         FormControl form = new FormControl(this, "frmAdContact");
          form.Caption = "Contacto para anuncio clasificado";
          form.Icon = IconControl.ICON_ENVELOPE;
          form.UsePanel = false;
@@ -93,6 +92,10 @@ namespace Cosmo.WebApp.Classified
          FormFieldEditor txtMsg = new FormFieldEditor(this, "txtMsg", "Mensaje", FormFieldEditor.FieldEditorType.Simple);
          txtMsg.Required = true;
          form.Content.Add(txtMsg);
+
+         FormFieldCaptcha txtCaptcha = new FormFieldCaptcha(this, "txtCaptcha", "Código de seguridad");
+         txtCaptcha.Description = "Este campo se usa para evitar envíos automatizados y/o fraudulentos.";
+         form.Content.Add(txtCaptcha);
 
          form.FormButtons.Add(new ButtonControl(this, "cmdSend", "Enviar", IconControl.ICON_SEND, ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdCancel", "Cancelar", IconControl.ICON_REPLY, ButtonControl.ButtonTypes.CloseModalForm));

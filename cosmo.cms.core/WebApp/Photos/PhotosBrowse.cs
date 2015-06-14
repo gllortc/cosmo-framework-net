@@ -91,7 +91,7 @@ namespace Cosmo.WebApp.Photos
       /// Gets the URL to show a tree with photos folders.
       /// </summary>
       /// <returns>A string representing the relative URL requested.</returns>
-      public static string GetPhotosBrowseUrl()
+      public static string GetURL()
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          return url.ToString();
@@ -142,7 +142,7 @@ namespace Cosmo.WebApp.Photos
          child.DomID = "photo-folder-" + folder.ID;
          child.Caption = folder.Name;
          child.Description = folder.Description;
-         child.Href = PhotosByFolder.GetPhotosByFolderUrl(folder.ID);
+         child.Href = PhotosByFolder.GetURL(folder.ID);
 
          if (folder.Subfolders.Count > 0)
             child.Icon = "glyphicon-chevron-right";
