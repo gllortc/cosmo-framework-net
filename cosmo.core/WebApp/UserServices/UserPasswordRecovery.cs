@@ -1,8 +1,10 @@
 ﻿using Cosmo.Data.ORM;
+using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System;
+using System.Reflection;
 
 namespace Cosmo.WebApp.UserServices
 {
@@ -10,8 +12,6 @@ namespace Cosmo.WebApp.UserServices
    {
       // Internal data declarations
       private bool showForm;
-      // private Form modal;
-      // private Form pwdform = null;
 
       #region PageView Implementation
 
@@ -154,6 +154,20 @@ namespace Cosmo.WebApp.UserServices
             // MainContent.Add(modal);
             MainContent.Remove("pwdform");
          }
+      }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
       }
 
       #endregion

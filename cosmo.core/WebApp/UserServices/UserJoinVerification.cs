@@ -1,9 +1,10 @@
 ﻿using Cosmo.Diagnostics;
-using Cosmo.REST;
+using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System;
+using System.Reflection;
 
 namespace Cosmo.WebApp.UserServices
 {
@@ -19,6 +20,8 @@ namespace Cosmo.WebApp.UserServices
    {
       /// <summary>Parámetro que contiene la clave de verificación de una cuenta de correo.</summary>
       private const string PARAM_VERIFY_KEY = "data";
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -114,5 +117,25 @@ namespace Cosmo.WebApp.UserServices
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL(string qs)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter("mode", "verify");
+         url.AddParameter("data", qs);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

@@ -3,6 +3,7 @@ using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using Cosmo.Utils.Html;
+using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -254,6 +255,10 @@ namespace Cosmo.UI.Render.Impl
          {
             return RenderTimeline((TimelineControl)control);
          }
+         else if (typeof(PartialViewContainerControl).IsAssignableFrom(control.GetType()))
+         {
+            return RenderPartialViewContainer((PartialViewContainerControl)control);
+         }
          else if (typeof(PictureControl).IsAssignableFrom(control.GetType()))
          {
             return RenderPicture((PictureControl)control);
@@ -400,13 +405,13 @@ namespace Cosmo.UI.Render.Impl
             }
          }
 
-         // Renderiza controles de página
+         // Render view content
          xhtml.AppendLine(Render(parentView.Content, receivedFormID));
 
-         // Renderiza las ventanas modales
+         // Render modal views
          xhtml.AppendLine(RenderModalViews(parentView, parentView.Modals));
 
-         // Renderiza scripts
+         // Render view scripts
          xhtml.AppendLine(RenderScripts(parentView));
 
          return xhtml.ToString();
@@ -455,14 +460,14 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("  <div class=\"modal-body\">");
 
-         // Renderiza controles de página
+         // Render view content
          xhtml.AppendLine(Render(parentView.Content, receivedFormID));
 
          // Genera el pie de la ventana modal
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
-         // Renderiza scripts
+         // Render view scripts
          xhtml.AppendLine(RenderScripts(parentView));
 
          return xhtml.ToString();
@@ -1046,8 +1051,16 @@ namespace Cosmo.UI.Render.Impl
          // Para formulario con envio AJAX, genera el script necesario
          if (control.SendDataMethod == FormControl.FormSendDataMethod.JSSubmit)
          {
-            ModalViewSendFormScript script = new ModalViewSendFormScript((ModalView)control.ParentView, control);
-            control.ParentView.Scripts.Add(script);
+            if (control.ParentView is ModalView)
+            {
+               ModalViewSendFormScript script = new ModalViewSendFormScript((ModalView)control.ParentView, control);
+               control.ParentView.Scripts.Add(script);
+            }
+            else if (control.ParentView is PartialView)
+            {
+               ModalViewSendFormScript script = new ModalViewSendFormScript((ModalView)control.ParentView, control);
+               control.ParentView.Scripts.Add(script);
+            }
          }
 
          return xhtml.ToString();
@@ -1937,7 +1950,7 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("    </li>");
             xhtml.AppendLine("    <li class=\"user-footer\">");
             xhtml.AppendLine("      <div class=\"pull-left\">");
-            xhtml.AppendLine("        <a href=\"" + Cosmo.Workspace.COSMO_URL_USER_DATA + "\" class=\"btn btn-default btn-flat\">Perfil</a>");
+            xhtml.AppendLine("        <a href=\"" + UserData.GetURL() + "\" class=\"btn btn-default btn-flat\">Perfil</a>");
             xhtml.AppendLine("      </div>");
             xhtml.AppendLine("      <div class=\"pull-right\">");
             xhtml.AppendLine("        <a href=\"" + SecurityRestHandler.GetUserLogOffUrl() + "\" class=\"btn btn-default btn-flat\">Cerrar sesión</a>");
@@ -2137,6 +2150,19 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("</div>");
          */
 
+         return xhtml.ToString();
+      }
+
+      #endregion
+
+      #region PartialViewContainer Control
+
+      private string RenderPartialViewContainer(PartialViewContainerControl control)
+      {
+         control.ParentView.Scripts.Add(control.View.GetLoadPartialViewScript());
+
+         StringBuilder xhtml = new StringBuilder();
+         xhtml.AppendLine("<div " + control.GetIdParameter() + "></div>");
          return xhtml.ToString();
       }
 

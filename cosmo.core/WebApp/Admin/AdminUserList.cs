@@ -1,8 +1,10 @@
-﻿using Cosmo.Security;
+﻿using Cosmo.Net;
+using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Admin
 {
@@ -137,6 +139,20 @@ namespace Cosmo.WebApp.Admin
       public override void LoadPage()
       {
          // throw new NotImplementedException();
+      }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
       }
 
       #endregion

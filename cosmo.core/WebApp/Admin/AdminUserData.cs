@@ -5,6 +5,7 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils.Html;
 using System;
+using System.Reflection;
 
 namespace Cosmo.WebApp.Admin
 {
@@ -393,7 +394,7 @@ namespace Cosmo.WebApp.Admin
       /// <returns>A string containing the requested URL.</returns>
       public static string GetURL(int userId)
       {
-         Url url = new Url("AdminUserData");
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_USER_ID, userId);
 
          return url.ToString();

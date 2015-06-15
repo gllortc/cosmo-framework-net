@@ -9,12 +9,60 @@ using System.IO;
 
 namespace Cosmo.WebApp.Content
 {
+
    /// <summary>
    /// Representa la lista de archivos adjuntos de un documento.
    /// </summary>
    [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
+   [ViewParameter(ParameterName = Cosmo.Workspace.PARAM_OBJECT_ID,
+                  PropertyName = "ContentID")]
+   [ViewParameter(ParameterName = Cosmo.Workspace.PARAM_COMMAND,
+                  PropertyName = "Command")]
    public class ContentEditFileList : PartialView
    {
+      // Modal element unique identifier
+      private const string DOM_ID = "content-edit-file-list";
+
+      #region Constructors
+
+      /// <summary>
+      /// Gets an instance of <see cref="ContentEditFileList"/>.
+      /// </summary>
+      public ContentEditFileList()
+         : base()
+      {
+         this.DomID = ContentEditFileList.DOM_ID;
+         this.ContentID = 0;
+      }
+
+      /// <summary>
+      /// Gets an instance of <see cref="ContentEditFileList"/>.
+      /// </summary>
+      /// <param name="cmd">Command type.</param>
+      /// <param name="contentId">Thread identifier.</param>
+      public ContentEditFileList(int contentId, string cmd) 
+         : base()
+      {
+         this.DomID = ContentEditFileList.DOM_ID;
+         this.Command = cmd;
+         this.ContentID = contentId;
+      }
+
+      #endregion
+
+      #region Properties
+
+      /// <summary>
+      /// Gets or sets the content ID corresponding to file list.
+      /// </summary>
+      public int ContentID { get; set; }
+
+      /// <summary>
+      /// Gets or sets the command type (edit or new document).
+      /// </summary>
+      public string Command { get; set; }
+
+      #endregion
 
       #region PartialView Implementation
 
@@ -60,7 +108,7 @@ namespace Cosmo.WebApp.Content
          //-------------------------------
          // Habilita formularios modales
          //-------------------------------
-         ModalFormUpload frmUpload = new ModalFormUpload(doc.ID);
+         UploadFilesModal frmUpload = new UploadFilesModal(doc.ID);
          Modals.Add(frmUpload);
 
          //-------------------------------
@@ -121,6 +169,10 @@ namespace Cosmo.WebApp.Content
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
 
       /// <summary>
       /// Devuelve la URL de llamada de la plantilla.

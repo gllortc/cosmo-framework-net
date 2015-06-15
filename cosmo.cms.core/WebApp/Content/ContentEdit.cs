@@ -78,7 +78,7 @@ namespace Cosmo.WebApp.Content
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
-         ModalFormUpload frmUpload = new ModalFormUpload(doc.ID);
+         UploadFilesModal frmUpload = new UploadFilesModal(doc.ID);
          Modals.Add(frmUpload);
 
          //-------------------------------
@@ -122,6 +122,16 @@ namespace Cosmo.WebApp.Content
 
          tabs.TabItems.Add(frmData);
 
+         TabItemControl tabFiles = new TabItemControl(this, "tabFiles", "Archivos adjuntos");
+
+         ContentEditFileList fileList = new ContentEditFileList(doc.ID, cmd);
+         PartialViewContainerControl fileListView = new PartialViewContainerControl(this, fileList);
+         tabFiles.Content.Add(fileListView);
+         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, doc.ID, cmd));
+
+         tabs.TabItems.Add(tabFiles);
+
+         /*
          HtmlContentControl filesContent = new HtmlContentControl(this);
          filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
 
@@ -161,6 +171,7 @@ namespace Cosmo.WebApp.Content
          loadFiles.ExecutionType = Script.ScriptExecutionMethod.OnDocumentReady;
          loadFiles.AppendSourceLine("cosmoUIServices.loadTemplate('" + ContentEditFileList.GetTemplateUrl(cmd, docId.ToString()) + "', 'tabFiles');");
          frmFiles.AddScript(loadFiles);
+         */
 
          HtmlContentControl infoContent = new HtmlContentControl(this);
          infoContent.AppendParagraph("Propiedades del contenido en el momento actual (antes de guardar y actualizar las propiedades).");

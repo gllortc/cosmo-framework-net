@@ -1,4 +1,5 @@
 ﻿using Cosmo.UI.Controls;
+using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,16 @@ namespace Cosmo.UI
       #region Properties
 
       /// <summary>
+      /// Gets the unique identifier in DOM for this element.
+      /// </summary>
+      /// <remarks>
+      /// This property have a protected <c>setter</c> because every modal view must have a 
+      /// constant DOM unique identifier. You can set this property only in a implementations
+      /// of the abstract class <see cref="ModalView"/>.
+      /// </remarks>
+      public string DomID { get; protected set; }
+
+      /// <summary>
       /// Devuelve o establece el contenido de la página.
       /// </summary>
       public ControlCollection Content { get; set; }
@@ -52,63 +63,97 @@ namespace Cosmo.UI
       #region Methods
 
       /// <summary>
-      /// Inicia el ciclo de vida de la vista.
+      /// Generate JS call for partial view using data passed as method parameters. 
       /// </summary>
-      internal override void StartViewLifecycle()
+      /// <returns></returns>
+      /// <remarks>
+      /// This method allows to get invoke call without initialize partial view properties.
+      /// </remarks>
+      public string GetInvokeFunctionWithParameters(params object[] parameters)
       {
-         bool canLoadData = true;
-         string receivedFormID = string.Empty;
-         var watch = Stopwatch.StartNew();
-
          try
          {
-            // Inicialización de la página
-            InitPage();
+            int index = 0;
+            string js = string.Empty;
 
-            // Comprueba si la llamada corresponde a un envio de datos desde un formulario
-            if (IsFormReceived)
+            foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
             {
-               FormControl recvForm = GetProcessedForm();
-               if (recvForm != null)
-               {
-                  receivedFormID = recvForm.DomID;
-                  FormDataReceived(recvForm);
-               }
-               else
-               {
-                  canLoadData = false;
-               }
+               js += (string.IsNullOrEmpty(js) ? string.Empty : ",") + "'" + parameters[index] + "'";
+               index++;
             }
 
-            // Carga la página
-            if (canLoadData)
-            {
-               LoadPage();
-            }
+            return "load" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
          }
-         catch (Exception ex)
+         catch
          {
-            ShowError(ex);
+            return string.Empty;
          }
-
-         // Renderiza la página
-         Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.Render(Content, receivedFormID));
-
-         watch.Stop();
-         Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");
       }
 
-      /*
       /// <summary>
-      /// Redirige al cliente hacia otra URL.
+      /// Generate JS call from partial view. 
       /// </summary>
-      /// <param name="destinationUrl">La URL de destino.</param>
-      public void Redirect(string destinationUrl)
+      /// <returns></returns>
+      /// <remarks>
+      /// Partial view must have initialized properties.
+      /// </remarks>
+      public string GetInvokeFunction()
       {
-         _context.Response.Redirect(destinationUrl, true);
+         try
+         {
+            string js = string.Empty;
+
+            foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+            {
+               js += (string.IsNullOrEmpty(js) ? string.Empty : ",") +
+                     this.GetType().GetProperty(param.PropertyName).GetValue(this, null).ToString();
+            }
+
+            return "load" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
+         }
+         catch
+         {
+            return string.Empty;
+         }
       }
-      */
+
+      /// <summary>
+      /// Generates a script that load the partial view into a <see cref="PartialViewContainerControl"/> control.
+      /// </summary>
+      /// <param name="executionType">Type of script execution.</param>
+      /// <param name="parameters">Partial view parameters.</param>
+      /// <returns>The requestes script instance.</returns>
+      public Script GetInvokeScriptWithParameters(Script.ScriptExecutionMethod executionType, params object[] parameters)
+      {
+         Script script = new SimpleScript(this);
+         script.ExecutionType = executionType;
+         script.AppendSourceLine(GetInvokeFunctionWithParameters(parameters));
+
+         return script;
+      }
+
+      /// <summary>
+      /// Generates a script that load the partial view into a <see cref="PartialViewContainerControl"/> control.
+      /// </summary>
+      /// <param name="executionType">Type of script execution.</param>
+      /// <returns>The requestes script instance.</returns>
+      public Script GetInvokeScript(Script.ScriptExecutionMethod executionType)
+      {
+         Script script = new SimpleScript(this);
+         script.ExecutionType = executionType;
+         script.AppendSourceLine(GetInvokeFunction());
+
+         return script;
+      }
+
+      /// <summary>
+      /// Generates the script that allow load and show partial view.
+      /// </summary>
+      /// <returns>A <see cref="Script"/> instance containing the requestes script.</returns>
+      public Script GetLoadPartialViewScript()
+      {
+         return new PartialViewLoadScript(this);
+      }
 
       /// <summary>
       /// Muestra un mensaje de error.
@@ -151,24 +196,59 @@ namespace Cosmo.UI
 
       #endregion
 
-      #region Abstract Members
-      /*
-      /// <summary>
-      /// Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
-      /// </summary>
-      public abstract void InitPage();
+      #region View Implementation
 
       /// <summary>
-      /// Método invocado durante la carga de la página.
+      /// Inicia el ciclo de vida de la vista.
       /// </summary>
-      public abstract void LoadPage();
+      internal override void StartViewLifecycle()
+      {
+         string receivedFormID = string.Empty;
+         var watch = Stopwatch.StartNew();
 
-      /// <summary>
-      /// Método invocado al recibir datos de un formulario.
-      /// </summary>
-      /// <param name="receivedForm">Una instancia de <see cref="Form"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
-      public abstract void FormDataReceived(Form receivedForm);
-      */
+         try
+         {
+            // Inicialización de la página
+            InitPage();
+
+            // Process form data
+            foreach (FormControl form in Content.GetControlsByType(typeof(FormControl)))
+            {
+               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
+               {
+                  form.ProcessForm(Parameters);
+                  receivedFormID = form.DomID;
+
+                  // If data is valid, raise FormDataReceived() event
+                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
+                  {
+                     FormDataReceived(form);
+                  }
+               }
+
+               // Lanza el evento FormDataLoad()
+               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
+               {
+                  FormDataLoad(form.DomID);
+               }
+            }
+
+            // Finish page load
+            LoadPage();
+         }
+         catch (Exception ex)
+         {
+            ShowError(ex);
+         }
+
+         // Renderiza la página
+         Response.ContentType = "text/html";
+         Response.Write(Workspace.UIService.Render(Content, receivedFormID));
+
+         watch.Stop();
+         Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");
+      }
+
       #endregion
 
       #region Private Members
@@ -178,6 +258,7 @@ namespace Cosmo.UI
       /// </summary>
       private void Initialize()
       {
+         this.DomID = string.Empty;
          this.Content = new ControlCollection();
          this._modals = null;
       }
@@ -205,45 +286,6 @@ namespace Cosmo.UI
          }
       }
 
-      /*
-      /// <summary>
-      /// Comprueba las reglas de seguridad para acceder a la página actual.
-      /// </summary>
-      private void CheckSecurityConstrains()
-      {
-         System.Reflection.MemberInfo info = this.GetType();
-         object[] attributes = info.GetCustomAttributes(true);
-
-         foreach (object attr in attributes)
-         {
-            if (attr.GetType() == typeof(AuthenticationRequired))
-            {
-               if (!IsAuthenticated)
-               {
-                  Url url = new Url(Cosmo.Workspace.COSMO_URL_LOGIN);
-                  url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, Request.RawUrl);
-
-                  Redirect(url.ToString(true));
-               }
-            }
-            else if (attr.GetType() == typeof(AuthorizationRequired))
-            {
-               if (!IsAuthenticated)
-               {
-                  Url url = new Url(Cosmo.Workspace.COSMO_URL_LOGIN);
-                  url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, Request.RawUrl);
-
-                  Redirect(url.ToString(true));
-               }
-
-               if (!Workspace.CurrentUser.CheckAuthorization(((AuthorizationRequired)attr).RequiredRole))
-               {
-                  throw new AuthenticationException("ACCESO DENEGADO: Su cuenta de usuario no tiene suficientes permisos para acceder a esta página o recurso.");
-               }
-            }
-         }
-      }
-      */
       #endregion
 
    }

@@ -2,6 +2,7 @@
 using Cosmo.Security.Cryptography;
 using Cosmo.Services;
 using Cosmo.Utils;
+using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -373,7 +374,8 @@ namespace Cosmo.Security.Auth
 
          // Genera la URL de verificación
          string qs = UriCryptography.Encrypt("obj=" + user.Mail + "&id=" + user.ID, this.EncriptionKey);
-         string url = Cosmo.Net.Url.Combine(_ws.Url, Workspace.COSMO_URL_JOIN_VERIFICATION) + "?mode=verify&data=" + qs;
+         // string url = Cosmo.Net.Url.Combine(_ws.Url, Workspace.COSMO_URL_JOIN_VERIFICATION) + "?mode=verify&data=" + qs;
+         string url = Cosmo.Net.Url.Combine(_ws.Url, UserJoinVerification.GetURL(qs));
 
          // Inicializa el correo electrónico
          msg.From = new MailAddress(_ws.Settings.GetString(AuthenticationService.UsersMailFromAddress),

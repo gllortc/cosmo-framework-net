@@ -116,6 +116,7 @@
     <Compile Include="Net\DeviceDetector.cs" />
     <Compile Include="UI\ControlCache.cs" />
     <Compile Include="UI\Controls\AjaxControl.cs" />
+    <Compile Include="UI\Controls\PartialViewContainerControl.cs" />
     <Compile Include="UI\Controls\SplitButtonControl.cs" />
     <Compile Include="UI\Controls\ControlNotFoundException.cs" />
     <Compile Include="UI\Controls\CookiesAdvisorControl.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Controls\UserLinkControl.cs" />
     <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
+    <Compile Include="UI\Scripting\PartialViewSendFormScript.cs" />
+    <Compile Include="UI\Scripting\PartialViewLoadScript.cs" />
     <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
     <Compile Include="UI\ViewParameter.cs" />
     <Compile Include="UI\ModalView.cs" />

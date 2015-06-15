@@ -1694,6 +1694,25 @@
             <param name="ownerView"></param>
             <param name="domId"></param>
         </member>
+        <member name="M:Cosmo.UI.Controls.PartialViewContainerControl.#ctor(Cosmo.UI.View,System.String)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/>.
+            </summary>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="domId">Identificador único del componente dentro de la vista.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.PartialViewContainerControl.#ctor(Cosmo.UI.View,Cosmo.UI.PartialView)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/>.
+            </summary>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="view">An instance of partial view which will be shown in this control.</param>
+        </member>
+        <member name="P:Cosmo.UI.Controls.PartialViewContainerControl.View">
+            <summary>
+            Gets or sets the partial view associated with the control.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Controls.SplitButtonControl">
             <summary>
             Implementa un botón que al ser pulsado muestra un menú de opciones.
@@ -2217,6 +2236,75 @@
             Devuelve o establece el identificador del elemento a actualizar.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
+            <summary>
+            Implementa un script para enviar el contenido de un formulario via AJAX a un 
+            <see cref="T:Cosmo.REST.RestHandler"/>, <see cref="T:Cosmo.UI.PageView"/> o 
+            <see cref="T:Cosmo.UI.PartialView"/> .
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.#ctor(Cosmo.UI.ModalView,Cosmo.UI.Controls.FormControl)">
+            <summary>
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
+            </summary>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.GetSource">
+            <summary>
+            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
+            </summary>
+            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.Initialize">
+            <summary>
+            Inicializa la instancia.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.Form">
+            <summary>
+            Devuelve o establece el formulario para el que se desea generar el script.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallSuccess">
+            <summary>
+            Llista de acciones a ejecutar si la llamada tiene éxito (evento <c>success</c> de la llamada AJAX, 
+            con respuesta de éxito por parte del handler).
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallFail">
+            <summary>
+            Llista de acciones a ejecutar si la llamada falla (evento <c>success</c> de la llamada AJAX, 
+            con respuesta de error por parte del handler).
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallError">
+            <summary>
+            Llista de acciones a ejecutar si no se puede realizar la llamada (evento <c>error</c> de la llamada AJAX).
+            </summary>
+        </member>
+        <member name="T:Cosmo.UI.Scripting.PartialViewLoadScript">
+            <summary>
+            Implementation of script that open a Modal View.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.PartialViewLoadScript.#ctor(Cosmo.UI.PartialView)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.PartialViewLoadScript"/>.
+            </summary>
+            <param name="partialView">Una instancia del formulario que se desea enviar via AJAX.</param>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.PartialViewLoadScript.GetSource">
+            <summary>
+            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
+            </summary>
+            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.PartialViewLoadScript.Initialize">
+            <summary>
+            Inicializa la instancia.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Scripting.ModalViewOpenScript">
             <summary>
             Implementation of script that open a Modal View.
@@ -2507,10 +2595,44 @@
             Devuelve una instancia de <see cref="T:Cosmo.UI.PartialView"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.PartialView.StartViewLifecycle">
+        <member name="M:Cosmo.UI.PartialView.GetInvokeFunctionWithParameters(System.Object[])">
             <summary>
-            Inicia el ciclo de vida de la vista.
+            Generate JS call for partial view using data passed as method parameters. 
             </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize partial view properties.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeFunction">
+            <summary>
+            Generate JS call from partial view. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            Partial view must have initialized properties.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeScriptWithParameters(Cosmo.UI.Scripting.Script.ScriptExecutionMethod,System.Object[])">
+            <summary>
+            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
+            </summary>
+            <param name="executionType">Type of script execution.</param>
+            <param name="parameters">Partial view parameters.</param>
+            <returns>The requestes script instance.</returns>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeScript(Cosmo.UI.Scripting.Script.ScriptExecutionMethod)">
+            <summary>
+            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
+            </summary>
+            <param name="executionType">Type of script execution.</param>
+            <returns>The requestes script instance.</returns>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetLoadPartialViewScript">
+            <summary>
+            Generates the script that allow load and show partial view.
+            </summary>
+            <returns>A <see cref="T:Cosmo.UI.Scripting.Script"/> instance containing the requestes script.</returns>
         </member>
         <member name="M:Cosmo.UI.PartialView.ShowError(System.String,System.String)">
             <summary>
@@ -2525,6 +2647,11 @@
             </summary>
             <param name="exception">Excepción a mostrar.</param>
         </member>
+        <member name="M:Cosmo.UI.PartialView.StartViewLifecycle">
+            <summary>
+            Inicia el ciclo de vida de la vista.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.PartialView.Initialize">
             <summary>
             Inicializa la instancia.
@@ -2535,6 +2662,16 @@
             Devuelve la instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
             es correcta o <c>null</c> en cualquier otro caso.
             </summary>
+        </member>
+        <member name="P:Cosmo.UI.PartialView.DomID">
+            <summary>
+            Gets the unique identifier in DOM for this element.
+            </summary>
+            <remarks>
+            This property have a protected <c>setter</c> because every modal view must have a 
+            constant DOM unique identifier. You can set this property only in a implementations
+            of the abstract class <see cref="T:Cosmo.UI.ModalView"/>.
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.PartialView.Content">
             <summary>
@@ -2670,49 +2807,49 @@
             cadenas (el valor se debe especificar entre comillas: "string").
             </remarks>
         </member>
-        <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
+        <member name="T:Cosmo.UI.Scripting.PartialViewSendFormScript">
             <summary>
             Implementa un script para enviar el contenido de un formulario via AJAX a un 
             <see cref="T:Cosmo.REST.RestHandler"/>, <see cref="T:Cosmo.UI.PageView"/> o 
             <see cref="T:Cosmo.UI.PartialView"/> .
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.#ctor(Cosmo.UI.ModalView,Cosmo.UI.Controls.FormControl)">
+        <member name="M:Cosmo.UI.Scripting.PartialViewSendFormScript.#ctor(Cosmo.UI.ModalView,Cosmo.UI.Controls.FormControl)">
             <summary>
             Devuelve una instancia de <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
             <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
         </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.GetSource">
+        <member name="M:Cosmo.UI.Scripting.PartialViewSendFormScript.GetSource">
             <summary>
             Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
             </summary>
             <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.Initialize">
+        <member name="M:Cosmo.UI.Scripting.PartialViewSendFormScript.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.Form">
+        <member name="P:Cosmo.UI.Scripting.PartialViewSendFormScript.Form">
             <summary>
             Devuelve o establece el formulario para el que se desea generar el script.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallSuccess">
+        <member name="P:Cosmo.UI.Scripting.PartialViewSendFormScript.OnCallSuccess">
             <summary>
             Llista de acciones a ejecutar si la llamada tiene éxito (evento <c>success</c> de la llamada AJAX, 
             con respuesta de éxito por parte del handler).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallFail">
+        <member name="P:Cosmo.UI.Scripting.PartialViewSendFormScript.OnCallFail">
             <summary>
             Llista de acciones a ejecutar si la llamada falla (evento <c>success</c> de la llamada AJAX, 
             con respuesta de error por parte del handler).
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Scripting.ModalViewSendFormScript.OnCallError">
+        <member name="P:Cosmo.UI.Scripting.PartialViewSendFormScript.OnCallError">
             <summary>
             Llista de acciones a ejecutar si no se puede realizar la llamada (evento <c>error</c> de la llamada AJAX).
             </summary>
@@ -5497,6 +5634,12 @@
             <param name="value">Valor original a analizar.</param>
             <returns>Valor original con las variables transformadas.</returns>
         </member>
+        <member name="M:Cosmo.WebApp.Admin.AdminUserList.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
         <member name="T:Cosmo.WebApp.Admin.AdminUserData">
             <summary>
             Cosmo Common Pages
@@ -5521,28 +5664,28 @@
             <param name="userId">User identifier.</param>
             <returns>A string containing the requested URL.</returns>
         </member>
-        <member name="T:Cosmo.WebApp.FileSystemServices.ModalFormUpload">
+        <member name="T:Cosmo.WebApp.FileSystemServices.UploadFilesModal">
             <summary>
             Implementa un formulario modal para subir archivos al servidor.
             </summary>
         </member>
-        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.#ctor">
+        <member name="M:Cosmo.WebApp.FileSystemServices.UploadFilesModal.#ctor">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.ModalFormUpload"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.UploadFilesModal"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.#ctor(System.Int32)">
+        <member name="M:Cosmo.WebApp.FileSystemServices.UploadFilesModal.#ctor(System.Int32)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.ModalFormUpload"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.WebApp.FileSystemServices.UploadFilesModal"/>.
             </summary>
             <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
         </member>
-        <member name="M:Cosmo.WebApp.FileSystemServices.ModalFormUpload.Initialize">
+        <member name="M:Cosmo.WebApp.FileSystemServices.UploadFilesModal.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="P:Cosmo.WebApp.FileSystemServices.ModalFormUpload.ObjectID">
+        <member name="P:Cosmo.WebApp.FileSystemServices.UploadFilesModal.ObjectID">
             <summary>
             Devuelve o establece el identificador del objeto al que va asociado el contenido subido.
             </summary>
@@ -5555,6 +5698,18 @@
             Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserAuth.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserAuth.GetURL(System.String)">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
         </member>
         <member name="T:Cosmo.WebApp.UserServices.UserData">
             <summary>
@@ -5572,6 +5727,12 @@
             Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserData.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
         </member>
         <member name="T:Cosmo.WebApp.UserServices.UserDataModal">
             <summary>
@@ -5610,6 +5771,12 @@
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
         </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserJoin.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
         <member name="T:Cosmo.WebApp.UserServices.UserJoinVerification">
             <summary>
             Formulario de verificación de nuevas cuentas de usuario.
@@ -5629,11 +5796,23 @@
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
         </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserJoinVerification.GetURL(System.String)">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
         <member name="M:Cosmo.WebApp.UserServices.UserPasswordRecovery.FormDataLoad(System.String)">
             <summary>
             Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
             </summary>
             <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
+        </member>
+        <member name="M:Cosmo.WebApp.UserServices.UserPasswordRecovery.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
         </member>
         <member name="T:Cosmo.WorkspaceSettingsException">
             <summary>
@@ -12975,21 +13154,6 @@
         <member name="F:Cosmo.Workspace.COSMO_URL_DEFAULT">
             <summary>Página de inicio</summary>
         </member>
-        <member name="F:Cosmo.Workspace.COSMO_URL_LOGIN">
-            <summary>Página de inicio de sesión (autenticación)</summary>
-        </member>
-        <member name="F:Cosmo.Workspace.COSMO_URL_JOIN">
-            <summary>Página de alta de nuevas cuentas</summary>
-        </member>
-        <member name="F:Cosmo.Workspace.COSMO_URL_JOIN_VERIFICATION">
-            <summary>Página de verificación de nuevas cuentas de usuario</summary>
-        </member>
-        <member name="F:Cosmo.Workspace.COSMO_URL_PASSWORD_RECOVERY">
-            <summary>Página de recuperación de la contraseña</summary>
-        </member>
-        <member name="F:Cosmo.Workspace.COSMO_URL_USER_DATA">
-            <summary>Página para los datos personales</summary>
-        </member>
         <member name="F:Cosmo.Workspace.COSMO_URL_USER_MESSAGES">
             <summary>Página de mensajes privados personal</summary>
         </member>
@@ -13002,7 +13166,7 @@
         <member name="F:Cosmo.Workspace.REST_SERVICE_COMM">
             <summary>Handler para acceso al servidor REST de Communication Services</summary>
         </member>
-        <member name="F:Cosmo.Workspace.URL_SERVER_HANDLER">
+        <member name="F:Cosmo.Workspace.REST_SERVER_HANDLER">
             <summary>Handler para operaciones del servidor web</summary>
         </member>
         <member name="F:Cosmo.Workspace.PARAM_LOGIN_ACTION">

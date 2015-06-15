@@ -1,6 +1,7 @@
 ﻿using Cosmo.Net;
 using Cosmo.Services;
 using Cosmo.Utils;
+using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Web;
@@ -105,7 +106,7 @@ namespace Cosmo.Security.Auth
       /// <returns>A string containing the requested url.</returns>
       public string GetLoginUrl(string redirectToUrl)
       {
-         Url url = new Url(_plugin.GetString("security.LoginView", Cosmo.Workspace.COSMO_URL_LOGIN));
+         Url url = new Url(_plugin.GetString("security.LoginView", UserAuth.GetURL()));
          if (!string.IsNullOrWhiteSpace(redirectToUrl))
          {
             url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, redirectToUrl);

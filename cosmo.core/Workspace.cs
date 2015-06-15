@@ -58,16 +58,6 @@ namespace Cosmo
 
       /// <summary>Página de inicio</summary>
       public const string COSMO_URL_DEFAULT = "Home";          // "default.aspx";
-      /// <summary>Página de inicio de sesión (autenticación)</summary>
-      public const string COSMO_URL_LOGIN = "UserAuth";        // "usrlogin.aspx";
-      /// <summary>Página de alta de nuevas cuentas</summary>
-      public const string COSMO_URL_JOIN = "UserJoin";
-      /// <summary>Página de verificación de nuevas cuentas de usuario</summary>
-      public const string COSMO_URL_JOIN_VERIFICATION = "UserJoinVerification";
-      /// <summary>Página de recuperación de la contraseña</summary>
-      public const string COSMO_URL_PASSWORD_RECOVERY = "UserPasswordRecovery";
-      /// <summary>Página para los datos personales</summary>
-      public const string COSMO_URL_USER_DATA = "UserData"; // "usrdata.aspx";
       /// <summary>Página de mensajes privados personal</summary>
       public const string COSMO_URL_USER_MESSAGES = "usrmsg.aspx";
       /// <summary>Página de contacto</summary>
@@ -80,7 +70,7 @@ namespace Cosmo
       /// <summary>Handler para acceso al servidor REST de Communication Services</summary>
       public const string REST_SERVICE_COMM = "CommService";
       /// <summary>Handler para operaciones del servidor web</summary>
-      public const string URL_SERVER_HANDLER = "server.do";
+      public const string REST_SERVER_HANDLER = "server.do";
 
       // parámetros URL 
 

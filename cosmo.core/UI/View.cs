@@ -336,20 +336,14 @@ namespace Cosmo.UI
             {
                if (!IsAuthenticated)
                {
-                  Url url = new Url(Cosmo.Workspace.COSMO_URL_LOGIN);
-                  url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, Request.RawUrl);
-
-                  Redirect(url.ToString(true));
+                  Redirect(Workspace.AuthenticationService.GetLoginUrl(Request.RawUrl));
                }
             }
             else if (attr.GetType() == typeof(AuthorizationRequired))
             {
                if (!IsAuthenticated)
                {
-                  Url url = new Url(Cosmo.Workspace.COSMO_URL_LOGIN);
-                  url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, Request.RawUrl);
-
-                  Redirect(url.ToString(true));
+                  Redirect(Workspace.AuthenticationService.GetLoginUrl(Request.RawUrl));
                }
 
                if (!Workspace.CurrentUser.CheckAuthorization(((AuthorizationRequired)attr).RequiredRole))

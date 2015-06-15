@@ -7,7 +7,7 @@ namespace Cosmo.WebApp.FileSystemServices
    /// <summary>
    /// Implementa un formulario modal para subir archivos al servidor.
    /// </summary>
-   public class ModalFormUpload : ModalView
+   public class UploadFilesModal : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "fs-upload-modal";
@@ -15,26 +15,26 @@ namespace Cosmo.WebApp.FileSystemServices
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ModalFormUpload"/>.
+      /// Devuelve una instancia de <see cref="UploadFilesModal"/>.
       /// </summary>
-      public ModalFormUpload()
+      public UploadFilesModal()
          : base()
       {
          Initialize();
 
-         this.DomID = ModalFormUpload.DOM_ID;
+         this.DomID = UploadFilesModal.DOM_ID;
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ModalFormUpload"/>.
+      /// Devuelve una instancia de <see cref="UploadFilesModal"/>.
       /// </summary>
       /// <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
-      public ModalFormUpload(int objectId)
+      public UploadFilesModal(int objectId)
          : base()
       {
          Initialize();
 
-         this.DomID = ModalFormUpload.DOM_ID;
+         this.DomID = UploadFilesModal.DOM_ID;
          this.ObjectID = objectId;
       }
 
@@ -49,7 +49,7 @@ namespace Cosmo.WebApp.FileSystemServices
       
       #endregion
 
-      #region ModalViewContainer Implementation
+      #region ModalView Implementation
 
       public override void InitPage()
       {

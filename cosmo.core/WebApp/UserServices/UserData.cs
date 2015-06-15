@@ -1,7 +1,9 @@
-﻿using Cosmo.Security;
+﻿using Cosmo.Net;
+using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System;
+using System.Reflection;
 
 namespace Cosmo.WebApp.UserServices
 {
@@ -17,12 +19,13 @@ namespace Cosmo.WebApp.UserServices
    [AuthenticationRequired]
    public class UserData : PageView
    {
-      // private Form modal;
-
+      // Internal data declarations
       private FormControl publicData = null;
       private FormControl notifyData = null;
       private FormControl contactData = null;
       private FormControl securityData = null;
+
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -286,5 +289,22 @@ namespace Cosmo.WebApp.UserServices
       {
          // Nothing to do
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }
