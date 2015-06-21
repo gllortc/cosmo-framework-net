@@ -279,7 +279,7 @@
     <Compile Include="FileSystem\FileSystemService.cs" />
     <Compile Include="Security\Role.cs" />
     <Compile Include="Security\Auth\AuthenticationException.cs" />
-    <Compile Include="Diagnostics\Logger.cs" />
+    <Compile Include="Diagnostics\LoggerService.cs" />
     <Compile Include="Security\SecurityException.cs" />
     <Compile Include="Security\Auth\SecurityService.cs" />
     <Compile Include="Security\Auth\SecurityModule.cs" />

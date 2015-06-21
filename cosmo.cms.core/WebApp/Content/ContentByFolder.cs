@@ -1,5 +1,4 @@
 ﻿using Cosmo.Cms.Content;
-using Cosmo.Cms.Utils;
 using Cosmo.Net;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
@@ -59,7 +58,7 @@ namespace Cosmo.WebApp.Content
          header = new PageHeaderControl(this);
          header.Title = folder.Name;
          header.Icon = "glyphicon-folder-open";
-         header.Breadcrumb = LayoutAdapter.Documents.ConvertToBreadcrumb(this, folders);
+         header.Breadcrumb = DocumentUI.ConvertToBreadcrumb(this, folders);
 
          MainContent.Add(header);
 
@@ -69,7 +68,7 @@ namespace Cosmo.WebApp.Content
 
          PanelControl panelFolders = new PanelControl(this);
          panelFolders.Caption = "Navegación por carpetas";
-         panelFolders.Content.Add(LayoutAdapter.Documents.ConvertFoldersToListGroup(this, folder, true));
+         panelFolders.Content.Add(DocumentUI.ConvertFoldersToListGroup(this, folder, true));
 
          RightContent.Add(panelFolders);
 
@@ -84,7 +83,7 @@ namespace Cosmo.WebApp.Content
          List<Document> documents = docs.GetDocuments(folderid);
          if (documents.Count > 0)
          {
-            MediaListControl thlist = LayoutAdapter.Documents.ConvertToMediaList(this, documents);
+            MediaListControl thlist = DocumentUI.ConvertToMediaList(this, documents);
             thlist.UseItemSeparator = true;
 
             panelDocs.Content.Add(thlist);

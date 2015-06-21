@@ -61,6 +61,8 @@
     <Compile Include="Classified\ClassifiedContactRequest.cs" />
     <Compile Include="Cms.cs" />
     <Compile Include="Common\IPublishable.cs" />
+    <Compile Include="Content\DocumentUI.cs" />
+    <Compile Include="Photos\PhotoUI.cs" />
     <Compile Include="REST\CmsApi.cs" />
     <Compile Include="WebApp\Classified\ClassifiedContactModal.cs" />
     <Compile Include="WebApp\Forums\ForumMessageEdit.cs" />
@@ -77,7 +79,6 @@
     <Compile Include="WebApp\Photos\PhotosEditModal.cs" />
     <Compile Include="WebApp\Photos\PhotosRemoveModal.cs" />
     <Compile Include="WebApp\Photos\PhotosUpload.cs" />
-    <Compile Include="Utils\LayoutAdapter.cs" />
     <Compile Include="NodeNotEmptyException.cs" />
     <Compile Include="TooManyUserObjectsException.cs" />
     <Compile Include="Utils\Banners\CSBanner.cs" />

@@ -1,6 +1,5 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Cms.Photos;
-using Cosmo.Cms.Utils;
 using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
@@ -97,7 +96,7 @@ namespace Cosmo.WebApp.Photos
             header.Title = PhotoDAO.SERVICE_NAME;
             header.SubTitle = folder.Name;
             header.Icon = IconControl.ICON_CAMERA;
-            header.Breadcrumb = LayoutAdapter.Pictures.ConvertToBreadcrumb(this, folders);
+            header.Breadcrumb = PhotoUI.ConvertToBreadcrumb(this, folders);
          }
 
          // Insert a modal to show user data

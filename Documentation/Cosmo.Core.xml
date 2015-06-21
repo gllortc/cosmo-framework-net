@@ -11470,7 +11470,7 @@
             <param name="s">Mensaje</param>
             <param name="ex">Excepción</param>
         </member>
-        <member name="T:Cosmo.Security.Auth.AuthenticationService">
+        <member name="T:Cosmo.Security.Auth.SecurityService">
             <summary>
             Implementa una clase para la autenticación y gestión de las cuentas de usuario.
             </summary>
@@ -11478,44 +11478,44 @@
             Esta clase hace uso de los proveedores de autenticación.
             </remarks>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.PROVIDER_DEFAULT">
+        <member name="F:Cosmo.Security.Auth.SecurityService.PROVIDER_DEFAULT">
             <summary>Proveedor de autenticación por defecto (Cosmo Workspace Authentication provider).</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.ACCOUNT_SUPER">
+        <member name="F:Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER">
             <summary>Login del usuario super</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_USER_LOGIN">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_LOGIN">
             <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_USER_MAIL">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_MAIL">
             <summary>TAG para insertar el correo electrónico del usuario en el texto del mensaje.</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_USER_NAME">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_NAME">
             <summary>TAG para insertar el nombre real del usuario en el texto del mensaje.</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_USER_PASSWORD">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_PASSWORD">
             <summary>TAG para insertar la contraseña del usuario en el texto del mensaje.</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_USER_VERIFYLINK">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_VERIFYLINK">
             <summary>TAG para insertar el link que da acceso a la verificación de la cuenta de correo.</summary>
         </member>
-        <member name="F:Cosmo.Security.Auth.AuthenticationService.TAG_WORKSPACE_MAIL">
+        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_WORKSPACE_MAIL">
             <summary>TAG para insertar el mail de contacto del responsable del workspace en el texto del mensaje.</summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.#ctor(Cosmo.Workspace)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.#ctor(Cosmo.Workspace)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.AuthenticationService"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.SecurityService"/>.
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidIPAddress(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsValidIPAddress(System.String)">
             <summary>
             Check if a IP address can access to workspace.
             </summary>
             <param name="ipAddress">IP address to check.</param>
             <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Autenticate(System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Autenticate(System.String,System.String)">
             <summary>
             Autentica al usuario.
             </summary>
@@ -11523,53 +11523,53 @@
             <param name="password">Contraseña.</param>
             <returns>Si ha tenido exito, devuelve </returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUsersList">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUsersList">
             <summary>
             Obtiene una lista de usuarios.
             </summary>
             <returns>Una lista de usuarios.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUsersList(Cosmo.Security.User.UserStatus)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
             Obtiene una lista de usuarios.
             </summary>
             <returns>Una lista de usuarios.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUser(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUser(System.String)">
             <summary>
             Obtiene las propiedades de un usuario.
             </summary>
             <param name="login">Login del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUser(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUser(System.Int32)">
             <summary>
             Obtiene las propiedades de un usuario.
             </summary>
             <param name="uid">Identificador único del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUserLocation(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUserLocation(System.Int32)">
             <summary>
             Gets the user location (city and country name) with a standard format.
             </summary>
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Create(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario.
             </summary>
             <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Create(Cosmo.Security.User,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
             Crea una nueva cuenta de usuario.
             </summary>
             <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
             <param name="confirm">Indica si se desea confirmar la cuenta de correo electrónico vía correo electrónico.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Update(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Update(Cosmo.Security.User)">
             <summary>
             Actualiza los datos de una cuenta de usuario.
             </summary>
@@ -11578,19 +11578,19 @@
             Para actualizar la contraseña debe usar el método SetPassword() ya que éste método no actualiza la contraseña.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Delete(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Delete(System.Int32)">
             <summary>
             Elimina una cuenta de usuario.
             </summary>
             <param name="id">Identificador de la cuenta a eliminar.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Cancel(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Cancel(System.Int32)">
             <summary>
             Cancela una cuenta de usuario.
             </summary>
             <param name="uid">Identificador de la cuenta a cancelar.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Verify(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Verify(System.Int32,System.String)">
             <summary>
             Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
             </summary>
@@ -11598,27 +11598,27 @@
             <param name="mail">Correo electrónico asociado a la cuenta.</param>
             <returns>Una instancia de User con los datos del usuario verificado.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Verify(System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
             </summary>
             <param name="QueryString">Una instancia de NameValueCollection que puede ser Server.Params.</param>
             <returns>Una instancia de User con los datos del usuario verificado.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.SendData(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.SendData(System.String)">
             <summary>
             Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
             </summary>
             <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.SetPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.SetPassword(System.Int32,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta de usuario.</param>
             <param name="newPassword">Nueva contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.SetPassword(System.Int32,System.String,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -11630,14 +11630,14 @@
             Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Obtiene una lista de usuarios que cumplen los criterios de selección.
             </summary>
             <param name="selector">Criterio de selección de usuarios.</param>
             <returns>Una lista de usuarios que cumnplen con los criterios establecidos.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Find(System.String,System.String,System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Find(System.String,System.String,System.Int32)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -11646,7 +11646,7 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Find(System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Find(System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -11655,58 +11655,58 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.ListCountry">
+        <member name="M:Cosmo.Security.Auth.SecurityService.ListCountry">
             <summary>
             Devuelve una lista de paises.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetLoginUrl">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetLoginUrl">
             <summary>
             Generates the login view Url.
             </summary>
             <returns>A string containing the requested url.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetLoginUrl(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetLoginUrl(System.String)">
             <summary>
             Generates the login view Url.
             </summary>
             <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
             <returns>A string containing the requested url.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetVerificationMail(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetVerificationMail(Cosmo.Security.User)">
             <summary>
             Genera el correo de verificación de cuenta de correo.
             </summary>
             <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
             <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene el correo de verificación de cuentas de eMail.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetVerificationMail(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetVerificationMail(System.Int32)">
             <summary>
             Genera el correo de verificación de cuenta de correo.
             </summary>
             <param name="uid">Identificador del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUserDataMail(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUserDataMail(Cosmo.Security.User)">
             <summary>
             Genera el correo de envío de datos de connexión.
             </summary>
             <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
             <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene los datos de conexión de un usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.GetUserDataMail(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.GetUserDataMail(System.Int32)">
             <summary>
             Genera el correo de envío de datos de connexión.
             </summary>
             <param name="uid">Identificador del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsAuthenticated(System.Web.SessionState.HttpSessionState)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsAuthenticated(System.Web.SessionState.HttpSessionState)">
             <summary>
             Determina si existe una sesión de usuario iniciada.
             </summary>
             <param name="session">La instancia Session accesible desde cualquier página ASPX</param>
             <returns>Un valor booleano indicando si existe o no sesión de usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsAuthenticated(System.Web.SessionState.HttpSessionState,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsAuthenticated(System.Web.SessionState.HttpSessionState,System.String)">
             <summary>
              Determina si existe una sesión de usuario iniciada y esta pertenece a un login concreto.
             </summary>
@@ -11714,7 +11714,7 @@
             <param name="login">Login para el cual se desea testear si la sesión actual le pertenece</param>
             <returns>Un valor booleano indicando si existe o no sesión de usuario</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsAuthenticated(System.Web.HttpContext,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsAuthenticated(System.Web.HttpContext,System.String,System.String)">
             <summary>
              Determina si existe una sesión de usuario iniciada.
             </summary>
@@ -11723,7 +11723,7 @@
             <param name="destinationUrl">La URL actual dónde se redirigirá al usuario una vez identificado</param>
             <returns>Un valor booleano indicando si existe o no sesión de usuario</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsAuthenticated(System.Web.HttpContext,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsAuthenticated(System.Web.HttpContext,System.String)">
             <summary>
              Determina si existe una sesión de usuario iniciada.
             </summary>
@@ -11731,7 +11731,7 @@
             <param name="loginScript">Script usado para autenticar a los usuarios.</param>
             <returns>Un valor booleano indicando si existe o no sesión de usuario</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.IsValidLogin(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityService.IsValidLogin(System.String)">
             <summary>
             Permite verificar si un Login es válido o no. EL login debe tener como mínimo 5 carácteres y 35 como máximo.
             </summary>
@@ -11743,59 +11743,59 @@
             (Usar "[a-zA-Z0-9]" para verificar sólo si admite letras y números)
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.Initialize">
+        <member name="M:Cosmo.Security.Auth.SecurityService.Initialize">
             <summary>
             Inicializa la instancia.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.AuthenticationService.LoadAuthenticationModules">
+        <member name="M:Cosmo.Security.Auth.SecurityService.LoadAuthenticationModules">
             <summary>
             Carga el módulo que se usará para renderizar los controles del workspace.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.AuthenticationService.SecurityRequired">
+        <member name="P:Cosmo.Security.Auth.SecurityService.SecurityRequired">
             <summary>
             Gets a boolean indicating id the security is enabled for the current workspace.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.AuthenticationService.IsVerificationMailRequired">
+        <member name="P:Cosmo.Security.Auth.SecurityService.IsVerificationMailRequired">
             <summary>
             Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
             de verificación.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.AuthenticationService.EncriptionKey">
+        <member name="P:Cosmo.Security.Auth.SecurityService.EncriptionKey">
             <summary>
              Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
             </summary>
         </member>
-        <member name="T:Cosmo.Security.Auth.IAuthenticationModule">
+        <member name="T:Cosmo.Security.Auth.SecurityModule">
             <summary>
             Interface para los proveedores de seguridad de los usuarios del workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.IAuthenticationModule"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.SecurityModule"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.Security.Auth.IAuthenticationModule.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">Una instancia de <see cref="P:Cosmo.Security.Auth.SecurityModule.Workspace"/> que representa el espacio de trabajo actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.IsValidIPAddress(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.IsValidIPAddress(System.String)">
             <summary>
             Check if a IP address can access to workspace.
             </summary>
             <param name="ipAddress">IP address to check.</param>
             <returns><c>true</c> if IP can access to workspace or <c>false</c> in all other cases.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetLoginUrl(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetLoginUrl(System.String)">
             <summary>
             Generates the login view Url.
             </summary>
             <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
             <returns>A string containing the requested url.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Autenticate(System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Autenticate(System.String,System.String)">
             <summary>
             Autentica al usuario.
             </summary>
@@ -11803,54 +11803,54 @@
             <param name="password">Contraseña.</param>
             <returns>Si ha tenido exito, devuelve </returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUsersList">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUsersList">
             <summary>
             Obtiene una lista de usuarios.
             </summary>
             <returns>Una lista de usuarios.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUsersList(Cosmo.Security.User.UserStatus)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
             Obtiene una lista de usuarios de un determinado estado.
             </summary>
             <param name="status">Estado para el que se desea filtrar.</param>
             <returns>Una lista de usuarios.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUser(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUser(System.String)">
             <summary>
             Obtiene las propiedades de un usuario.
             </summary>
             <param name="login">Login del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUser(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUser(System.Int32)">
             <summary>
             Obtiene las propiedades de un usuario.
             </summary>
             <param name="uid">Identificador único del usuario.</param>
             <returns>Una instancia de User con los datos del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.GetUserLocation(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUserLocation(System.Int32)">
             <summary>
             Gets the user location (city and country name) with a standard format.
             </summary>
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Create(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario.
             </summary>
             <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Create(Cosmo.Security.User,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
             Crea una nueva cuenta de usuario.
             </summary>
             <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
             <param name="confirm">Indica si se desea confirmar la cuenta de correo electrónico vía correo electrónico.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Update(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Update(Cosmo.Security.User)">
             <summary>
             Actualiza los datos de una cuenta de usuario.
             </summary>
@@ -11859,19 +11859,19 @@
             Para actualizar la contraseña debe usar el método SetPassword() ya que éste método no actualiza la contraseña.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Delete(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Delete(System.Int32)">
             <summary>
             Elimina una cuenta de usuario.
             </summary>
             <param name="uid">Identificador de la cuenta a eliminar.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Cancel(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Cancel(System.Int32)">
             <summary>
             Cancela una cuenta de usuario.
             </summary>
             <param name="uid">Identificador de la cuenta a cancelar.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Verify(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Verify(System.Int32,System.String)">
             <summary>
             Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
             </summary>
@@ -11879,27 +11879,27 @@
             <param name="mail">Correo electrónico asociado a la cuenta.</param>
             <returns>Una instancia de User con los datos del usuario verificado.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Verify(System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
             </summary>
             <param name="QueryString">Una instancia de NameValueCollection que puede ser Server.Params.</param>
             <returns>Una instancia de User con los datos del usuario verificado.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.SendData(System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.SendData(System.String)">
             <summary>
             Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
             </summary>
             <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.SetPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.SetPassword(System.Int32,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta de usuario.</param>
             <param name="newPassword">Nueva contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.SetPassword(System.Int32,System.String,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -11911,7 +11911,7 @@
             Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.CheckPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.CheckPassword(System.Int32,System.String)">
             <summary>
             Verifica una contraseña de usuario.
             </summary>
@@ -11919,14 +11919,14 @@
             <param name="password">Contraseña a verificar.</param>
             <returns>Devuelve <c>true</c> si la contraseña coincide o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Selecciona un grupo de usuarios
             </summary>
             <param name="selector">Selector que contiene los critérios de búsqueda</param>
             <returns>La lista de usuarios seleccioandos</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Find(System.String,System.String,System.Int32)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Find(System.String,System.String,System.Int32)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -11935,7 +11935,7 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.Find(System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.Find(System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -11945,38 +11945,38 @@
             <param name="onlyEnabledUsers">Indicates if the methos must show only the enabled users.</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.IAuthenticationModule.ListCountry">
+        <member name="M:Cosmo.Security.Auth.SecurityModule.ListCountry">
             <summary>
             Devuelve una lista de paises
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.Workspace">
+        <member name="P:Cosmo.Security.Auth.SecurityModule.Workspace">
             <summary>
             Devuelve el workspace para el que se está autenticando.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.ID">
+        <member name="P:Cosmo.Security.Auth.SecurityModule.ID">
             <summary>
             Devuelve el nombre (ID) del módulo de autenticación configurado.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.SecurityRequired">
+        <member name="P:Cosmo.Security.Auth.SecurityModule.SecurityRequired">
             <summary>
             Gets a boolean indicating id the security is enabled for the current workspace.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.IsVerificationMailRequired">
+        <member name="P:Cosmo.Security.Auth.SecurityModule.IsVerificationMailRequired">
             <summary>
             Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
             de verificación.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.IAuthenticationModule.EncriptionKey">
+        <member name="P:Cosmo.Security.Auth.SecurityModule.EncriptionKey">
             <summary>
              Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
             </summary>
         </member>
-        <member name="T:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl">
+        <member name="T:Cosmo.Security.Auth.Impl.LdapSecurityModule">
             <summary>
             Proveedor de autenticación nativo de Cosmo.
             </summary>
@@ -11984,61 +11984,61 @@
             Este proveedor usa para la autenticación de usuario la base de datos del workspace (tabla USERS).
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.Security.Auth.Impl.LdapSecurityModule"/>.
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que permite obtener los parámetros de configuración.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUsersList(Cosmo.Security.User.UserStatus)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
             Devuelve una lista de todos los usuarios
             </summary>
             <param name="status">Filtra por el estado de la cuenta</param>
             <returns>Una lista de objetos WSUser</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUsersList">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUsersList">
             <summary>
             Devuelve una lista de todos los usuarios
             </summary>
             <returns>Una lista de objetos WSUser</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUser(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUser(System.String)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="login">Login de la cuenta de usuario.</param>
             <returns>Una instáncia MWUser.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUser(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUser(System.Int32)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una instáncia MWUser.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.GetUserLocation(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUserLocation(System.Int32)">
             <summary>
             Gets the user location (city and country name) with a standard format.
             </summary>
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Create(Cosmo.Security.User,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
             Crea una nueva cuenta de usuario del workspace
             </summary>
             <param name="user">Instáncia de WSUser que contiene los datos de la nueva cuenta</param>
             <param name="confirm">Indica que al agregar el usuario se le mandará un correo electrónico para la confirmación de su cuenta de correo y mientras no se confirme, la cuenta estará en estado pendiente de verificación.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Create(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario del workspace
             </summary>
             <param name="user">Instáncia de WSUser que contiene los datos de la nueva cuenta</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Update(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Update(Cosmo.Security.User)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12048,19 +12048,19 @@
             actualiza la contraseña.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Delete(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Delete(System.Int32)">
             <summary>
             Elimina una cuenta de usuario del workspace.
             </summary>
             <param name="id">Identificador de la cuenta a eliminar</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Cancel(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Cancel(System.Int32)">
             <summary>
             Cancela una cuenta de usuario.
             </summary>
             <param name="uid">Identificador de la cuenta a cancelar.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Verify(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Verify(System.Int32,System.String)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
@@ -12068,35 +12068,35 @@
             <param name="uid">Identificador del usuario.</param>
             <param name="mail">Cuenta de correo del usuario</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Verify(System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
             </summary>
             <param name="QueryString">Colección de parámetros del enlace de verificación mandado por correo electrónico al usuario (Request.QueryString).</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.SendData(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.SendData(System.String)">
             <summary>
             Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
             </summary>
             <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
             <returns>La instáncia de MWUser con los datos del usuario que realiza l apetición.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Autenticate(System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Autenticate(System.String,System.String)">
             <summary>
             Permite verificar las credenciales de acceso a una cuenta de usuario (login).
             </summary>
             <param name="login">Login del usuario.</param>
             <param name="password">Contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.SetPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.SetPassword(System.Int32,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta de usuario.</param>
             <param name="newPassword">Nueva contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.SetPassword(System.Int32,System.String,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12108,7 +12108,7 @@
             Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.CheckPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.CheckPassword(System.Int32,System.String)">
             <summary>
             Verifica una contraseña de usuario.
             </summary>
@@ -12116,14 +12116,14 @@
             <param name="password">Contraseña a verificar.</param>
             <returns>Devuelve <c>true</c> si la contraseña coincide o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Selecciona un grupo de usuarios
             </summary>
             <param name="selector">Selector que contiene los critérios de búsqueda</param>
             <returns>La lista de usuarios seleccioandos</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Find(System.String,System.String,System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Find(System.String,System.String,System.Int32)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12132,7 +12132,7 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.Find(System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Find(System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12141,12 +12141,12 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns></returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapAuthenticationImpl.ListCountry">
+        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.ListCountry">
             <summary>
             Devuelve una lista de paises
             </summary>
         </member>
-        <member name="T:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl">
+        <member name="T:Cosmo.Security.Auth.Impl.SqlServerSecurityModule">
             <summary>
             Proveedor de autenticación nativo de Cosmo.
             </summary>
@@ -12154,54 +12154,54 @@
             Este proveedor usa para la autenticación de usuario la base de datos del workspace (tabla USERS).
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
             Devuelve una instancia de Users.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUsersList(Cosmo.Security.User.UserStatus)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
             Devuelve una lista de todos los usuarios.
             </summary>
             <param name="status">Filtra por el estado de la cuenta.</param>
             <returns>Una lista de objetos <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUsersList">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUsersList">
             <summary>
             Devuelve una lista de todos los usuarios.
             </summary>
             <returns>Una lista de objetos <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUser(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUser(System.String)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="login">Login de la cuenta de usuario.</param>
             <returns>Una instáncia <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUser(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUser(System.Int32)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una instáncia <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Create(Cosmo.Security.User,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
             Crea una nueva cuenta de usuario del workspace
             </summary>
             <param name="user">Instáncia de <see cref="T:Cosmo.Security.User"/> que contiene los datos de la nueva cuenta</param>
             <param name="confirm">Indica que al agregar el usuario se le mandará un correo electrónico para la confirmación de su cuenta de correo y mientras no se confirme, la cuenta estará en estado pendiente de verificación.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Create(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Create(Cosmo.Security.User)">
             <summary>
             Crea una nueva cuenta de usuario del workspace.
             </summary>
             <param name="user">Instáncia de <see cref="T:Cosmo.Security.User"/> que contiene los datos de la nueva cuenta.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Update(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Update(Cosmo.Security.User)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12211,19 +12211,19 @@
             actualiza la contraseña.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Delete(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Delete(System.Int32)">
             <summary>
             Elimina una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta a eliminar</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Cancel(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Cancel(System.Int32)">
             <summary>
             Cancela una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta a cancelar</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Verify(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Verify(System.Int32,System.String)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
@@ -12231,21 +12231,21 @@
             <param name="uid">Identificador del usuario.</param>
             <param name="mail">Cuenta de correo del usuario</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Verify(System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
             </summary>
             <param name="QueryString">Colección de parámetros del enlace de verificación mandado por correo electrónico al usuario (Request.QueryString).</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.SendData(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SendData(System.String)">
             <summary>
             Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
             </summary>
             <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
             <returns>La instáncia de <see cref="T:Cosmo.Security.User"/> con los datos del usuario que realiza la petición.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Autenticate(System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Autenticate(System.String,System.String)">
             <summary>
             Permite verificar las credenciales de acceso a una cuenta de usuario (login).
             </summary>
@@ -12255,14 +12255,14 @@
             Una instancia de <see cref="T:Cosmo.Security.User"/> que representa el usuario autenticado.
             </returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.SetPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SetPassword(System.Int32,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta de usuario.</param>
             <param name="newPassword">Nueva contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.SetPassword(System.Int32,System.String,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12274,7 +12274,7 @@
             Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.CheckPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.CheckPassword(System.Int32,System.String)">
             <summary>
             Verifica una contraseña de usuario.
             </summary>
@@ -12282,14 +12282,14 @@
             <param name="password">Contraseña a verificar.</param>
             <returns>Devuelve <c>true</c> si la contraseña coincide o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Selecciona un grupo de usuarios.
             </summary>
             <param name="selector">Selector que contiene los critérios de búsqueda.</param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Find(System.String,System.String,System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Find(System.String,System.String,System.Int32)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12298,7 +12298,7 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.Find(System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Find(System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12308,26 +12308,26 @@
             <param name="onlyEnabledUsers"></param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.ListCountry">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ListCountry">
             <summary>
             Devuelve una lista de paises.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.GetUserLocation(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUserLocation(System.Int32)">
             <summary>
             Gets the user location (city and country name) with a standard format.
             </summary>
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.ConvertUidToLogin(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ConvertUidToLogin(System.Int32)">
             <summary>
             Obtiene el login asociado a un UID.
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una cadena que representa el login del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.ReadUserFields(System.Data.SqlClient.SqlDataReader)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ReadUserFields(System.Data.SqlClient.SqlDataReader)">
             <summary>
             Devuelve una instancia de MWUser con los datos recuperados de un objeto SqlDataReader que apunte a un registro de la tabla USERS
             </summary>
@@ -12337,7 +12337,7 @@
             Para usar este método la senténcia SQL debe contener los campos indicados en la constante USER_FIELDS
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.ReadRole(System.Data.SqlClient.SqlDataReader)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ReadRole(System.Data.SqlClient.SqlDataReader)">
             <summary>
             Lee los datos de un rol de usuario de la base de datos.
             </summary>
@@ -12347,7 +12347,7 @@
             Para usar este método la senténcia SQL debe contener los campos indicados en la constante USER_FIELDS
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl.SelectorSQL(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SelectorSQL(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Genera la clausula WHERE correspondiente a un filtro para seleccionar usuarios
             </summary>
@@ -13348,17 +13348,17 @@
         </member>
         <member name="P:Cosmo.Workspace.Logger">
             <summary>
-            Permite acceder al archivo de LOG del workspace.
+            Gets the logging service instance for the current workspace.
             </summary>
         </member>
-        <member name="P:Cosmo.Workspace.AuthenticationService">
+        <member name="P:Cosmo.Workspace.SecurityService">
             <summary>
-            Permite acceder a la gestión de cuentas de usuario del workspace.
+            Gets the security service instance for the current workspace.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.UIService">
             <summary>
-            Devuelve el servicio de comunicaciones del workspace.
+            Gets the UI service instance for the current workspace.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.Communications">

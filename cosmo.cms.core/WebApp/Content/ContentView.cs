@@ -1,5 +1,4 @@
 ﻿using Cosmo.Cms.Content;
-using Cosmo.Cms.Utils;
 using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
@@ -90,7 +89,7 @@ namespace Cosmo.WebApp.Content
          // Documentos relacionados
          if (doc.RelatedDocuments.Count > 0)
          {
-            MediaListControl relatedDocs = LayoutAdapter.Documents.ConvertToMediaList(this, doc.RelatedDocuments);
+            MediaListControl relatedDocs = DocumentUI.ConvertToMediaList(this, doc.RelatedDocuments);
 
             PanelControl relPanel = new PanelControl(this);
             relPanel.Caption = "Artículos relacionados";
