@@ -15,7 +15,7 @@ namespace Cosmo.Security.Auth.Impl
    /// <remarks>
    /// Este proveedor usa para la autenticación de usuario la base de datos del workspace (tabla USERS).
    /// </remarks>
-   public class SqlServerAuthenticationImpl : IAuthenticationModule
+   public class SqlServerSecurityModule : SecurityModule
    {
       // Internal data declarations
       private Workspace _ws = null;
@@ -36,7 +36,7 @@ namespace Cosmo.Security.Auth.Impl
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
-      public SqlServerAuthenticationImpl(Workspace workspace, Plugin plugin)
+      public SqlServerSecurityModule(Workspace workspace, Plugin plugin)
          : base(workspace, plugin)
       {
          _ws = workspace;
@@ -256,7 +256,7 @@ namespace Cosmo.Security.Auth.Impl
             cmd.Parameters.Add(new SqlParameter("@usrdesc", user.Description));
             cmd.Parameters.Add(new SqlParameter("@usroptions", options));
             cmd.Parameters.Add(new SqlParameter("@usrstatus", (confirm ? (int)User.UserStatus.NotVerified : (int)user.Status)));
-            cmd.Parameters.Add(new SqlParameter("@usrowner", (string.IsNullOrEmpty(user.Owner) ? AuthenticationService.ACCOUNT_SUPER : user.Owner)));
+            cmd.Parameters.Add(new SqlParameter("@usrowner", (string.IsNullOrEmpty(user.Owner) ? SecurityService.ACCOUNT_SUPER : user.Owner)));
             cmd.ExecuteNonQuery();
 
             // Averigua el ID del usuario
@@ -287,9 +287,9 @@ namespace Cosmo.Security.Auth.Impl
          }
 
          // Si es preciso, manda el correo de confirmación al finalizar la inserción y fuera de la transacción
-         if (_ws.AuthenticationService.IsVerificationMailRequired)
+         if (_ws.SecurityService.IsVerificationMailRequired)
          {
-            _ws.Communications.Send(_ws.AuthenticationService.GetVerificationMail(user.ID));
+            _ws.Communications.Send(_ws.SecurityService.GetVerificationMail(user.ID));
          }
       }
 
@@ -556,7 +556,7 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="QueryString">Colección de parámetros del enlace de verificación mandado por correo electrónico al usuario (Request.QueryString).</param>
       public override User Verify(NameValueCollection QueryString)
       {
-         string data = UriCryptography.Decrypt(QueryString["data"].Replace(" ", "+"), _ws.AuthenticationService.EncriptionKey);
+         string data = UriCryptography.Decrypt(QueryString["data"].Replace(" ", "+"), _ws.SecurityService.EncriptionKey);
          NameValueCollection parameters = GetQuerystringValues(data);
 
          return Verify(int.Parse(parameters["id"]), parameters["obj"]);
@@ -607,7 +607,7 @@ namespace Cosmo.Security.Auth.Impl
             }
 
             // Envia el correo al usuario
-            _ws.Communications.Send(_ws.AuthenticationService.GetUserDataMail(user));
+            _ws.Communications.Send(_ws.SecurityService.GetUserDataMail(user));
 
             return user;
          }
@@ -1109,7 +1109,7 @@ namespace Cosmo.Security.Auth.Impl
             user.Status = (User.UserStatus)reader.GetInt32(10);
             user.LastLogon = reader.GetDateTime(11);
             user.LogonCount = reader.GetInt32(12);
-            user.Owner = !reader.IsDBNull(13) ? reader.GetString(13) : AuthenticationService.ACCOUNT_SUPER;
+            user.Owner = !reader.IsDBNull(13) ? reader.GetString(13) : SecurityService.ACCOUNT_SUPER;
             user.Created = reader.GetDateTime(14);
             user.Password = !reader.IsDBNull(15) ? reader.GetString(15) : string.Empty;
 

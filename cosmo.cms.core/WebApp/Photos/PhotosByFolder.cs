@@ -54,7 +54,7 @@ namespace Cosmo.WebApp.Photos
          {
             if (!IsAuthenticated)
             {
-               Redirect(Workspace.AuthenticationService.GetLoginUrl(Workspace.CurrentUrl));
+               Redirect(Workspace.SecurityService.GetLoginUrl(Workspace.CurrentUrl));
             }
 
             pictures = phdao.GetUserPictures(Workspace.CurrentUser.User.ID);
@@ -133,7 +133,7 @@ namespace Cosmo.WebApp.Photos
                }
                else if (photo.UserID > 0)
                {
-                  author = Workspace.AuthenticationService.GetUser(photo.UserID);
+                  author = Workspace.SecurityService.GetUser(photo.UserID);
                   picture.Footer = new UserLinkControl(this, author, userData);
                }
 

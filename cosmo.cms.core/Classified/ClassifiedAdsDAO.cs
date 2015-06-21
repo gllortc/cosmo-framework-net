@@ -114,7 +114,7 @@ namespace Cosmo.Cms.Classified
          try
          {
             sql = "INSERT INTO " + SQL_OBJECTS_TABLE_NAME + " (annuserid,anndate,annfolderid,anntitle,annbody,annprice,annname,annphone,annemail,annurl,anndeleted,annowner) " +
-                  "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annprice,@annname,@annphone,@annemail,@annurl,0,'" + AuthenticationService.ACCOUNT_SUPER + "')";
+                  "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annprice,@annname,@annphone,@annemail,@annurl,0,'" + SecurityService.ACCOUNT_SUPER + "')";
 
             // string sql = "INSERT INTO announces (annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,adprice,annurl,anndeleted,annowner) " +
             //              "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annname,@annphone,@annemail,@adprice,@annurl,0,'" + UserAuthentication.ACCOUNT_SUPER + "')";
@@ -976,7 +976,7 @@ namespace Cosmo.Cms.Classified
             ClassifiedAd ad = this.Item(adId);
 
             // Obtiene el autor del mensaje
-            User author = _ws.AuthenticationService.GetUser(ad.UserID);
+            User author = _ws.SecurityService.GetUser(ad.UserID);
 
             // Manda el mensaje de contacto
             MailMessage msg = new MailMessage();
@@ -1194,7 +1194,7 @@ namespace Cosmo.Cms.Classified
          ad.Mail = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
          ad.URL = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
          ad.Deleted = reader.GetBoolean(10);
-         ad.Owner = reader.IsDBNull(11) ? AuthenticationService.ACCOUNT_SUPER : reader.GetString(11);   // Usuario de Cosmo
+         ad.Owner = reader.IsDBNull(11) ? SecurityService.ACCOUNT_SUPER : reader.GetString(11);   // Usuario de Cosmo
          ad.Price = reader.GetDecimal(12);
          ad.PublishedDays = reader.GetInt32(13);
 

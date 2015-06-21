@@ -1965,7 +1965,7 @@ namespace Cosmo.UI.Render.Impl
          else
          {
             xhtml.AppendLine("<li class=\"user\">");
-            xhtml.AppendLine("  <a href=\"" + Workspace.AuthenticationService.GetLoginUrl(Workspace.CurrentUrl) + "\">");
+            xhtml.AppendLine("  <a href=\"" + Workspace.SecurityService.GetLoginUrl(Workspace.CurrentUrl) + "\">");
             xhtml.AppendLine("    <i class=\"glyphicon glyphicon-user\"></i>");
             xhtml.AppendLine("    <span>Iniciar sesión</span>");
             xhtml.AppendLine("  </a>");

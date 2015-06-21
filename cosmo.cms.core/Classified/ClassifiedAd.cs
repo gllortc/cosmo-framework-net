@@ -198,7 +198,7 @@ namespace Cosmo.Cms.Classified
          this.Price = 0;
          this.DeleteKey = string.Empty;
          this.Deleted = false;
-         this.Owner = AuthenticationService.ACCOUNT_SUPER;
+         this.Owner = SecurityService.ACCOUNT_SUPER;
          this.Template = "cs_ads_viewer_std.aspx";
       }
 

@@ -61,7 +61,7 @@ namespace Cosmo.WebApp.UserServices
 
          if (this.UserID > 0)
          {
-            user = Workspace.AuthenticationService.GetUser(this.UserID);
+            user = Workspace.SecurityService.GetUser(this.UserID);
          }
 
          if (user == null || user.Status != User.UserStatus.Enabled)
@@ -84,7 +84,7 @@ namespace Cosmo.WebApp.UserServices
 
          List<KeyValue> values = new List<KeyValue>();
          values.Add(new KeyValue("Nombre", user.GetDisplayName()));
-         values.Add(new KeyValue("Localización", Workspace.AuthenticationService.GetUserLocation(user.ID)));
+         values.Add(new KeyValue("Localización", Workspace.SecurityService.GetUserLocation(user.ID)));
          values.Add(new KeyValue("Descripción", user.Description));
          values.Add(new KeyValue("Fecha de alta", user.Created.ToString(Formatter.FORMAT_SHORTDATE)));
 

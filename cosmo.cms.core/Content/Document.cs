@@ -140,7 +140,7 @@ namespace Cosmo.Cms.Content
       /// </summary>
       public string Owner
       {
-         get { return (string.IsNullOrEmpty(_owner) ? AuthenticationService.ACCOUNT_SUPER : _owner); }
+         get { return (string.IsNullOrEmpty(_owner) ? SecurityService.ACCOUNT_SUPER : _owner); }
          set { _owner = value; }
       }
 
@@ -304,7 +304,7 @@ namespace Cosmo.Cms.Content
          this.RelatedDocuments = new List<Document>();
          this.RelatedPictures = new List<Photo>();
 
-         _owner = AuthenticationService.ACCOUNT_SUPER;
+         _owner = SecurityService.ACCOUNT_SUPER;
       }
 
       #endregion

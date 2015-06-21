@@ -19,7 +19,7 @@ namespace Cosmo.Security.Auth
    /// <remarks>
    /// Esta clase hace uso de los proveedores de autenticación.
    /// </remarks>
-   public class AuthenticationService 
+   public class SecurityService 
    {
       // Cuenta de ex-mail desde dónde se envian notificaciones a los usuarios del workspace.
       private const string UsersMailFromAddress = "users.mail.fromadd";
@@ -40,7 +40,7 @@ namespace Cosmo.Security.Auth
 
       // Declaración de variables internas
       private Workspace _ws = null;
-      private Dictionary<string, IAuthenticationModule> _modules;
+      private Dictionary<string, SecurityModule> _modules;
 
       /// <summary>Proveedor de autenticación por defecto (Cosmo Workspace Authentication provider).</summary>
       public const String PROVIDER_DEFAULT = "Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl";
@@ -51,10 +51,10 @@ namespace Cosmo.Security.Auth
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AuthenticationService"/>.
+      /// Devuelve una instancia de <see cref="SecurityService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
-      public AuthenticationService(Workspace workspace)
+      public SecurityService(Workspace workspace)
       {
          Initialize();
 
@@ -378,20 +378,20 @@ namespace Cosmo.Security.Auth
          string url = Cosmo.Net.Url.Combine(_ws.Url, UserJoinVerification.GetURL(qs));
 
          // Inicializa el correo electrónico
-         msg.From = new MailAddress(_ws.Settings.GetString(AuthenticationService.UsersMailFromAddress),
-                                    _ws.Settings.GetString(AuthenticationService.UsersMailFromName, _ws.Settings.GetString(AuthenticationService.UsersMailFromAddress)));
+         msg.From = new MailAddress(_ws.Settings.GetString(SecurityService.UsersMailFromAddress),
+                                    _ws.Settings.GetString(SecurityService.UsersMailFromName, _ws.Settings.GetString(SecurityService.UsersMailFromAddress)));
          msg.To.Add(new MailAddress(user.Mail,
                                     string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
 
          // Formatea el cuerpo del mensaje
-         string body = _ws.Settings.GetString(AuthenticationService.UsersJoinBody);
+         string body = _ws.Settings.GetString(SecurityService.UsersJoinBody);
          body = body.Replace(TAG_USER_LOGIN, user.Login);
          body = body.Replace(TAG_USER_MAIL, user.Mail);
          body = body.Replace(TAG_USER_NAME, user.Name);
          body = body.Replace(TAG_USER_PASSWORD, user.Password);
          body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
 
-         if (_ws.Settings.GetBoolean(AuthenticationService.UsersJoinHTMLFormat))
+         if (_ws.Settings.GetBoolean(SecurityService.UsersJoinHTMLFormat))
          {
             body = body.Replace(TAG_USER_VERIFYLINK, "<a href=\"" + url.Replace("&", "&amp;") + "\" target=\"_blank\">" + url.Replace("&", "&amp;") + "</a>");
             msg.Body = body;
@@ -405,7 +405,7 @@ namespace Cosmo.Security.Auth
          }
 
          // Formatea el asunto del mensaje
-         string subject = _ws.Settings.GetString(AuthenticationService.UsersJoinSubject);
+         string subject = _ws.Settings.GetString(SecurityService.UsersJoinSubject);
          subject = subject.Replace(TAG_USER_LOGIN, user.Login);
          subject = subject.Replace(TAG_USER_MAIL, user.Mail);
          subject = subject.Replace(TAG_USER_NAME, user.Name);
@@ -436,20 +436,20 @@ namespace Cosmo.Security.Auth
          MailMessage msg = new MailMessage();
 
          // Inicializa el correo electrónico
-         msg.From = new MailAddress(_ws.Settings.GetString(AuthenticationService.UsersMailFromAddress),
-                                    _ws.Settings.GetString(AuthenticationService.UsersMailFromName, _ws.Settings.GetString(AuthenticationService.UsersMailFromAddress)));
+         msg.From = new MailAddress(_ws.Settings.GetString(SecurityService.UsersMailFromAddress),
+                                    _ws.Settings.GetString(SecurityService.UsersMailFromName, _ws.Settings.GetString(SecurityService.UsersMailFromAddress)));
          msg.To.Add(new MailAddress(user.Mail,
                                     string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
 
          // Formatea el cuerpo del mensaje
-         string body = _ws.Settings.GetString(AuthenticationService.UsersRecoverBody);
+         string body = _ws.Settings.GetString(SecurityService.UsersRecoverBody);
          body = body.Replace(TAG_USER_LOGIN, user.Login);
          body = body.Replace(TAG_USER_MAIL, user.Mail);
          body = body.Replace(TAG_USER_NAME, user.Name);
          body = body.Replace(TAG_USER_PASSWORD, user.Password);
          body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
 
-         if (_ws.Settings.GetBoolean(AuthenticationService.UsersRecoverHTMLFormat))
+         if (_ws.Settings.GetBoolean(SecurityService.UsersRecoverHTMLFormat))
          {
             msg.Body = body;
             msg.IsBodyHtml = true;
@@ -461,7 +461,7 @@ namespace Cosmo.Security.Auth
          }
 
          // Formatea el asunto del mensaje
-         string subject = _ws.Settings.GetString(AuthenticationService.UsersRecoverSubject);
+         string subject = _ws.Settings.GetString(SecurityService.UsersRecoverSubject);
          subject = subject.Replace(TAG_USER_LOGIN, user.Login);
          subject = subject.Replace(TAG_USER_MAIL, user.Mail);
          subject = subject.Replace(TAG_USER_NAME, user.Name);
@@ -631,7 +631,7 @@ namespace Cosmo.Security.Auth
       private void Initialize()
       {
          _ws = null;
-         _modules = new Dictionary<string, IAuthenticationModule>();
+         _modules = new Dictionary<string, SecurityModule>();
       }
 
       /// <summary>
@@ -641,7 +641,7 @@ namespace Cosmo.Security.Auth
       {
          string applyRule = string.Empty;
          Type type = null;
-         IAuthenticationModule _module;
+         SecurityModule _module;
 
          foreach (Plugin plugin in _ws.Settings.AuthenticationModules.Plugins)
          {
@@ -650,7 +650,7 @@ namespace Cosmo.Security.Auth
             args[1] = plugin;
 
             type = Type.GetType(plugin.Class, true, true);
-            _module = (IAuthenticationModule)Activator.CreateInstance(type, args);
+            _module = (SecurityModule)Activator.CreateInstance(type, args);
 
             if (_module != null)
             {

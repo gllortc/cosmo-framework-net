@@ -78,7 +78,7 @@ namespace Cosmo.REST
          try
          {
             // Genera el código XML
-            User user = Workspace.AuthenticationService.GetUser(userId);
+            User user = Workspace.SecurityService.GetUser(userId);
             
             // Obtiene el pais del usuario
             CountryDAO cdao = new CountryDAO(Workspace);
@@ -146,7 +146,7 @@ namespace Cosmo.REST
          try
          {
             // Obtiene los resultados de la búsqueda
-            List<User> users = Workspace.AuthenticationService.Find(queryText, string.Empty, 0);
+            List<User> users = Workspace.SecurityService.Find(queryText, string.Empty, 0);
 
             // Convierte los resultados en objetos serializables JSON
             foreach (User user in users)
@@ -215,7 +215,7 @@ namespace Cosmo.REST
          {
             try
             {
-               Workspace.AuthenticationService.Autenticate(login, password);
+               Workspace.SecurityService.Autenticate(login, password);
 
                response = new AjaxResponse();
                response.ToURL = urlLoginRedirect;
@@ -329,7 +329,7 @@ namespace Cosmo.REST
          try
          {
             // User user = auth.Verify(Request.QueryString);
-            User user = Workspace.AuthenticationService.Verify(Request.QueryString);
+            User user = Workspace.SecurityService.Verify(Request.QueryString);
 
             Workspace.Logger.Add(new LogEntry("SecurityApi.UserMailVerification()",
                                               "Suscripción verificada de " + user.Login + " desde " + Request.ServerVariables["REMOTE_ADDR"],
@@ -375,7 +375,7 @@ namespace Cosmo.REST
          try
          {
             // Envia el correo para refrescar los datos del usuario
-            Workspace.AuthenticationService.SendData(mail);
+            Workspace.SecurityService.SendData(mail);
 
             callout.Type = ComponentColorScheme.Success;
             callout.Title = "Datos enviados";
@@ -436,7 +436,7 @@ namespace Cosmo.REST
       {
          try
          {
-            Workspace.AuthenticationService.Cancel(userId);
+            Workspace.SecurityService.Cancel(userId);
 
             SendResponse(new AjaxResponse());
          }

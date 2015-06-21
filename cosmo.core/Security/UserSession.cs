@@ -136,7 +136,7 @@ namespace Cosmo.Security
          Destroy();
 
          // Obtiene el perfil del usuario
-         _currentUser = _ws.AuthenticationService.Autenticate(login, password);
+         _currentUser = _ws.SecurityService.Autenticate(login, password);
 
          return _currentUser;
       }
@@ -182,11 +182,11 @@ namespace Cosmo.Security
          Destroy();
 
          // Obtiene el perfil del usuario
-         _currentUser = _ws.AuthenticationService.Autenticate(login, password);
+         _currentUser = _ws.SecurityService.Autenticate(login, password);
 
          // Genera la ID de sesión y la devuelve
          string baseTicket = _currentUser.ID + "|" + _currentUser.Login + "|" + DateTime.Now.AddMinutes(60).ToFileTime();
-         _sessionTiket = Cosmo.Security.Cryptography.Cryptography.Encrypt(baseTicket, _ws.AuthenticationService.EncriptionKey, true);
+         _sessionTiket = Cosmo.Security.Cryptography.Cryptography.Encrypt(baseTicket, _ws.SecurityService.EncriptionKey, true);
 
          return _sessionTiket;
       }
@@ -206,7 +206,7 @@ namespace Cosmo.Security
          long time = 0;
 
          // Desencripta el ticket proporcionado
-         string[] ticketParams = Cosmo.Security.Cryptography.Cryptography.Decrypt(sessionTiket, _ws.AuthenticationService.EncriptionKey, true).Split('|');
+         string[] ticketParams = Cosmo.Security.Cryptography.Cryptography.Decrypt(sessionTiket, _ws.SecurityService.EncriptionKey, true).Split('|');
 
          if (ticketParams.Length != 3)
          {

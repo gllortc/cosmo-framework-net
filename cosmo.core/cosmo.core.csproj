@@ -281,10 +281,10 @@
     <Compile Include="Security\Auth\AuthenticationException.cs" />
     <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="Security\SecurityException.cs" />
-    <Compile Include="Security\Auth\AuthenticationService.cs" />
-    <Compile Include="Security\Auth\IAutheticationModule.cs" />
-    <Compile Include="Security\Auth\Impl\LdapAuthenticationImpl.cs" />
-    <Compile Include="Security\Auth\Impl\SqlServerAuthenticationImpl.cs" />
+    <Compile Include="Security\Auth\SecurityService.cs" />
+    <Compile Include="Security\Auth\SecurityModule.cs" />
+    <Compile Include="Security\Auth\Impl\LdapSecurityModule.cs" />
+    <Compile Include="Security\Auth\Impl\SqlServerSecurityModule.cs" />
     <Compile Include="Security\UserNotVerifiedException.cs" />
     <Compile Include="Security\UserDisabledException.cs" />
     <Compile Include="Communications\PrivateMessages\PrivateMessageDAO.cs" />

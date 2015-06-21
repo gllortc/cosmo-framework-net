@@ -34,12 +34,12 @@ namespace Cosmo
    /// </summary>
    public class Workspace
    {
-      // Internal data declaration
+      // Internal data declarations
       private DataService _dataSrv;
       private HttpContext _context;
       private WorkspaceSettings _properties;
       private UserSession _user;
-      private AuthenticationService _authSrv;
+      private SecurityService _authSrv;
       private CommunicationsService _commSrv;
       private UIService _uiSrv;
       private FileSystemService _fsSrv;
@@ -267,7 +267,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Permite acceder al archivo de LOG del workspace.
+      /// Gets the logging service instance for the current workspace.
       /// </summary>
       public LoggerService Logger
       {
@@ -279,19 +279,19 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Permite acceder a la gestión de cuentas de usuario del workspace.
+      /// Gets the security service instance for the current workspace.
       /// </summary>
-      public AuthenticationService AuthenticationService
+      public SecurityService SecurityService
       {
          get
          {
-            if (_authSrv == null) _authSrv = new AuthenticationService(this);
+            if (_authSrv == null) _authSrv = new SecurityService(this);
             return _authSrv;
          }
       }
 
       /// <summary>
-      /// Devuelve el servicio de comunicaciones del workspace.
+      /// Gets the UI service instance for the current workspace.
       /// </summary>
       public UIService UIService
       {

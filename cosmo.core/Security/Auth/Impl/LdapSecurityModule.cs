@@ -12,7 +12,7 @@ namespace Cosmo.Security.Auth.Impl
    /// <remarks>
    /// Este proveedor usa para la autenticación de usuario la base de datos del workspace (tabla USERS).
    /// </remarks>
-   public class LdapAuthenticationImpl : IAuthenticationModule
+   public class LdapSecurityModule : SecurityModule
    {
       // Declaración de variables internas
       private Workspace _ws = null;
@@ -26,11 +26,11 @@ namespace Cosmo.Security.Auth.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="LdapAuthenticationImpl"/>.
+      /// Devuelve una instancia de <see cref="LdapSecurityModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que permite obtener los parámetros de configuración.</param>
-      public LdapAuthenticationImpl(Workspace workspace, Plugin plugin) 
+      public LdapSecurityModule(Workspace workspace, Plugin plugin) 
          : base(workspace, plugin) 
       { }
 

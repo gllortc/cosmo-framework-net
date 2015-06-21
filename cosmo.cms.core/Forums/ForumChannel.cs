@@ -27,7 +27,7 @@ namespace Cosmo.Cms.Forums
          _desc = string.Empty;
          _date = DateTime.Now;
          _enabled = false;
-         _owner = AuthenticationService.ACCOUNT_SUPER;
+         _owner = SecurityService.ACCOUNT_SUPER;
          _msgCount = 0;
       }
 

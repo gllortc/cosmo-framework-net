@@ -74,7 +74,7 @@ namespace Cosmo.REST
       /// <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
       public bool IsAuthenticated
       {
-         get { return AuthenticationService.IsAuthenticated(_context.Session); }
+         get { return SecurityService.IsAuthenticated(_context.Session); }
       }
 
       /// <summary>

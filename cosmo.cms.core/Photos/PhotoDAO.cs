@@ -1081,7 +1081,7 @@ namespace Cosmo.Cms.Photos
          folder.CanUpload = reader.GetBoolean(4);
          folder.Order = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
          folder.Enabled = reader.GetBoolean(6);
-         folder.Owner = reader.IsDBNull(7) ? AuthenticationService.ACCOUNT_SUPER : reader.GetString(7);
+         folder.Owner = reader.IsDBNull(7) ? SecurityService.ACCOUNT_SUPER : reader.GetString(7);
          folder.FilePattern = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
          if (getFolderObjects) folder.Objects = reader.GetInt32(9);
 

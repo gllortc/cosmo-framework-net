@@ -435,7 +435,7 @@ namespace Cosmo.Security
          isValid = isValid & !string.IsNullOrWhiteSpace(this.Login);
          isValid = isValid & !string.IsNullOrWhiteSpace(this.Mail);
 
-         isValid = isValid & AuthenticationService.IsValidLogin(this.Login);
+         isValid = isValid & SecurityService.IsValidLogin(this.Login);
 
          return isValid;
       }

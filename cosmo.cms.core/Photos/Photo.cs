@@ -112,7 +112,7 @@ namespace Cosmo.Cms.Photos
       /// </remarks>
       public string Owner
       {
-         get { return AuthenticationService.ACCOUNT_SUPER; }
+         get { return SecurityService.ACCOUNT_SUPER; }
          set { }
       }
 

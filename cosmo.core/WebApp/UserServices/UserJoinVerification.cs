@@ -58,7 +58,7 @@ namespace Cosmo.WebApp.UserServices
             try
             {
                // User user = auth.Verify(Request.QueryString);
-               User user = Workspace.AuthenticationService.Verify(Request.QueryString);
+               User user = Workspace.SecurityService.Verify(Request.QueryString);
 
                Workspace.Logger.Add(new LogEntry("SecurityApi.UserMailVerification()",
                                                  "Suscripción verificada de " + user.Login + " desde " + Request.ServerVariables["REMOTE_ADDR"],

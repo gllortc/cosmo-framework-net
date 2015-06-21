@@ -95,7 +95,7 @@ namespace Cosmo.Cms.Photos
          this.FilePattern = string.Empty;
          this.Order = 0;
          this.Enabled = false;
-         this.Owner = AuthenticationService.ACCOUNT_SUPER;
+         this.Owner = SecurityService.ACCOUNT_SUPER;
          this.Objects = 0;
          this.Subfolders = new List<PhotoFolder>();
       }

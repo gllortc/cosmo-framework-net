@@ -50,7 +50,7 @@ namespace Cosmo.WebApp.CommunicationServices
             {
                message = new ChatMessage();
                message.DomID = "pmsg" + msg.ID;
-               message.Author = Workspace.AuthenticationService.GetUser(msg.FromUserID).GetDisplayName();
+               message.Author = Workspace.SecurityService.GetUser(msg.FromUserID).GetDisplayName();
                message.Time = msg.Sended.ToString(Formatter.FORMAT_DATETIME);
                message.Content = msg.Body;
 

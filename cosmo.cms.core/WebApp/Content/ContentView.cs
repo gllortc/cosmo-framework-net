@@ -100,7 +100,7 @@ namespace Cosmo.WebApp.Content
          }
 
          // Add information about the publish of content
-         User author = Workspace.AuthenticationService.GetUser(doc.Owner);
+         User author = Workspace.SecurityService.GetUser(doc.Owner);
          if (author != null)
          {
             UserDataModal userData = new UserDataModal();

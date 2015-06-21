@@ -51,7 +51,7 @@ namespace Cosmo.WebApp.Admin
          //-------------------------------
 
          int usrId = Parameters.GetInteger(Cosmo.Workspace.PARAM_USER_ID);
-         user = Workspace.AuthenticationService.GetUser(usrId);
+         user = Workspace.SecurityService.GetUser(usrId);
 
          if (user == null)
          {
@@ -297,7 +297,7 @@ namespace Cosmo.WebApp.Admin
                user.Status = (User.UserStatus)receivedForm.GetIntFieldValue("status");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(user);
+               Workspace.SecurityService.Update(user);
             }
             else if (receivedForm.DomID.Equals("frmPData"))
             {
@@ -308,7 +308,7 @@ namespace Cosmo.WebApp.Admin
                user.CountryID = receivedForm.GetIntFieldValue("pdc");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(user);
+               Workspace.SecurityService.Update(user);
             }
             else if (receivedForm.DomID.Equals("frmNotify"))
             {
@@ -318,7 +318,7 @@ namespace Cosmo.WebApp.Admin
                user.CanReceivePrivateMessagesNotify = receivedForm.GetBoolFieldValue("chkPM");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(user);
+               Workspace.SecurityService.Update(user);
             }
             else if (receivedForm.DomID.Equals("frmContact"))
             {
@@ -327,12 +327,12 @@ namespace Cosmo.WebApp.Admin
                user.Phone = receivedForm.GetStringFieldValue("cphone");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(user);
+               Workspace.SecurityService.Update(user);
             }
             else if (receivedForm.DomID.Equals("frmSecurity"))
             {
                // Actualiza la contraseña
-               Workspace.AuthenticationService.SetPassword(user.ID,
+               Workspace.SecurityService.SetPassword(user.ID,
                                                            receivedForm.GetStringFieldValue("scurpwd"),
                                                            receivedForm.GetStringFieldValue("spwd"),
                                                            receivedForm.GetStringFieldValue("spwd"));

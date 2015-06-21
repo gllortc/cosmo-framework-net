@@ -462,7 +462,7 @@ namespace Cosmo.Communications.PrivateMessages
             // Obtiene usuarios remotos
             foreach (PrivateMessageThread th in threads)
             {
-               th.RemoteUser = _ws.AuthenticationService.GetUser(th.RemoteUserId);
+               th.RemoteUser = _ws.SecurityService.GetUser(th.RemoteUserId);
             }
 
             return threads;
@@ -826,11 +826,11 @@ namespace Cosmo.Communications.PrivateMessages
          try
          {
             // Manda una notificación al destinatario
-            User user = _ws.AuthenticationService.GetUser(message.ToUserID);
+            User user = _ws.SecurityService.GetUser(message.ToUserID);
             if (user.CanReceivePrivateMessagesNotify)
             {
                // Obtiene el remitente
-               User sender = _ws.AuthenticationService.GetUser(message.FromUserID);
+               User sender = _ws.SecurityService.GetUser(message.FromUserID);
 
                // Manda un mail para que el usuario confirme la cuenta
                MailMessage mail = new MailMessage();

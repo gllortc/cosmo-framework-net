@@ -81,7 +81,7 @@ namespace Cosmo.UI
       /// <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
       public bool IsAuthenticated
       {
-         get { return AuthenticationService.IsAuthenticated(_context.Session); }
+         get { return SecurityService.IsAuthenticated(_context.Session); }
       }
 
       /// <summary>
@@ -336,14 +336,14 @@ namespace Cosmo.UI
             {
                if (!IsAuthenticated)
                {
-                  Redirect(Workspace.AuthenticationService.GetLoginUrl(Request.RawUrl));
+                  Redirect(Workspace.SecurityService.GetLoginUrl(Request.RawUrl));
                }
             }
             else if (attr.GetType() == typeof(AuthorizationRequired))
             {
                if (!IsAuthenticated)
                {
-                  Redirect(Workspace.AuthenticationService.GetLoginUrl(Request.RawUrl));
+                  Redirect(Workspace.SecurityService.GetLoginUrl(Request.RawUrl));
                }
 
                if (!Workspace.CurrentUser.CheckAuthorization(((AuthorizationRequired)attr).RequiredRole))

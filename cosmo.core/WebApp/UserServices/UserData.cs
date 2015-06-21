@@ -220,7 +220,7 @@ namespace Cosmo.WebApp.UserServices
                Workspace.CurrentUser.User.CountryID = receivedForm.GetIntFieldValue("pdc");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(Workspace.CurrentUser.User);
+               Workspace.SecurityService.Update(Workspace.CurrentUser.User);
             }
             else if (receivedForm.DomID.Equals("frmNotify"))
             {
@@ -230,7 +230,7 @@ namespace Cosmo.WebApp.UserServices
                Workspace.CurrentUser.User.CanReceivePrivateMessagesNotify = receivedForm.GetBoolFieldValue("chkPM");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(Workspace.CurrentUser.User);
+               Workspace.SecurityService.Update(Workspace.CurrentUser.User);
             }
             else if (receivedForm.DomID.Equals("frmContact"))
             {
@@ -239,12 +239,12 @@ namespace Cosmo.WebApp.UserServices
                Workspace.CurrentUser.User.Phone = receivedForm.GetStringFieldValue("cphone");
 
                // Actualiza los datos del usuario actual
-               Workspace.AuthenticationService.Update(Workspace.CurrentUser.User);
+               Workspace.SecurityService.Update(Workspace.CurrentUser.User);
             }
             else if (receivedForm.DomID.Equals("frmSecurity"))
             {
                // Actualiza la contraseña
-               Workspace.AuthenticationService.SetPassword(Workspace.CurrentUser.User.ID,
+               Workspace.SecurityService.SetPassword(Workspace.CurrentUser.User.ID,
                                                            receivedForm.GetStringFieldValue("scurpwd"),
                                                            receivedForm.GetStringFieldValue("spwd"),
                                                            receivedForm.GetStringFieldValue("spwd"));

@@ -213,7 +213,7 @@ namespace Cosmo.Cms.Content
                cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
                cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
                cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
-               cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : AuthenticationService.ACCOUNT_SUPER));
+               cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
                cmd.ExecuteNonQuery();
 
                // Obtiene el nuevo ID

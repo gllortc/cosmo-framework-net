@@ -69,7 +69,7 @@ namespace Cosmo.WebApp.Admin
          string icon = string.Empty;
          string toFindText = receivedForm.GetStringFieldValue("txtFind");
 
-         List<User> users = Workspace.AuthenticationService.Find(toFindText, string.Empty, 0, false);
+         List<User> users = Workspace.SecurityService.Find(toFindText, string.Empty, 0, false);
          if (users != null && users.Count > 0)
          {
             TableRow row;

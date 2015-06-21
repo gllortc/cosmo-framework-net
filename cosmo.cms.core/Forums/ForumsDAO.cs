@@ -1344,7 +1344,7 @@ namespace Cosmo.Cms.Forums
          forum.Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
          forum.Date = reader.GetDateTime(3);
          forum.Published = reader.GetBoolean(4);
-         forum.Owner = reader.IsDBNull(5) ? AuthenticationService.ACCOUNT_SUPER : reader.GetString(5);
+         forum.Owner = reader.IsDBNull(5) ? SecurityService.ACCOUNT_SUPER : reader.GetString(5);
          forum.MessageCount = reader.GetInt32(6);
 
          return forum;

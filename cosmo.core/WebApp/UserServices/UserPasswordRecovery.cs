@@ -78,7 +78,7 @@ namespace Cosmo.WebApp.UserServices
             if (orm.ProcessForm(user, modal, Parameters))
             {*/
                // Genera la nueva cuenta de usuario
-            Workspace.AuthenticationService.SendData(receivedForm.GetStringFieldValue("mail"));
+            Workspace.SecurityService.SendData(receivedForm.GetStringFieldValue("mail"));
 
                CalloutControl callout = new CalloutControl(null, ComponentColorScheme.Success);
                callout.Icon = IconControl.ICON_CHECK;

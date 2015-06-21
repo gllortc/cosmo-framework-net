@@ -65,7 +65,7 @@ namespace Cosmo.WebApp.UserServices
             if (orm.ProcessForm(user, form, Parameters))
             {
                // Genera la nueva cuenta de usuario
-               Workspace.AuthenticationService.Create(user);
+               Workspace.SecurityService.Create(user);
 
                // Redirige al usuario a su página persnal
                Redirect("Home");

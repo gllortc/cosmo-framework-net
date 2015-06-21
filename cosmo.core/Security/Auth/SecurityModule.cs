@@ -12,7 +12,7 @@ namespace Cosmo.Security.Auth
    /// <summary>
    /// Interface para los proveedores de seguridad de los usuarios del workspace.
    /// </summary>
-   public abstract class IAuthenticationModule
+   public abstract class SecurityModule
    {
       // Declaración de variables internas
       private Plugin _plugin;
@@ -30,11 +30,11 @@ namespace Cosmo.Security.Auth
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IAuthenticationModule"/>.
+      /// Devuelve una instancia de <see cref="SecurityModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
-      protected IAuthenticationModule(Workspace workspace, Plugin plugin)
+      protected SecurityModule(Workspace workspace, Plugin plugin)
       {
          _ws = workspace;
          _plugin = plugin;

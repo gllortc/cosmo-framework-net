@@ -39,7 +39,7 @@ namespace Cosmo.WebApp.Classified
          ClassifiedAdsSection folder = classifiedDao.GetFolder(classified.FolderID);
 
          // Get the author
-         User user = Workspace.AuthenticationService.GetUser(classified.UserID);
+         User user = Workspace.SecurityService.GetUser(classified.UserID);
 
          //-------------------------------
          // Configuración de la vista
