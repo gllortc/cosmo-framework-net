@@ -1,13 +1,11 @@
 ﻿using Cosmo.Cms.Content;
 using Cosmo.Net;
-using Cosmo.REST;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using Cosmo.WebApp.FileSystemServices;
-using System.IO;
 using System.Reflection;
 
 namespace Cosmo.WebApp.Content
@@ -89,10 +87,10 @@ namespace Cosmo.WebApp.Content
          ActiveMenuId = folder.MenuId;
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Header
          PageHeaderControl header = new PageHeaderControl(this);

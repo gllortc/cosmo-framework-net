@@ -62,10 +62,10 @@ namespace Cosmo.WebApp.Content
          ActiveMenuId = folder.MenuId;
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Header
          PageHeaderControl header = new PageHeaderControl(this);
@@ -127,13 +127,13 @@ namespace Cosmo.WebApp.Content
          }
 
          // Archivos adjuntos
-         if (!string.IsNullOrWhiteSpace(doc.Attachment))
+         if (doc.HasAttachments)
          {
             ButtonControl btnAttach = new ButtonControl(this);
             btnAttach.Href = doc.Attachment;
             btnAttach.IsBlock = true;
             btnAttach.Text = "Descargar archivo";
-            btnAttach.Icon = "fa-download";
+            btnAttach.Icon = IconControl.ICON_DOWNLOAD;
             btnAttach.Color = ComponentColorScheme.Primary;
 
             PanelControl attachPanel = new PanelControl(this);
@@ -142,17 +142,7 @@ namespace Cosmo.WebApp.Content
 
             RightContent.Add(attachPanel);
          }
-         
-         // Compartir
-         PanelControl sharePanel = new PanelControl(this);
-         sharePanel.Caption = "Compartir";
 
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\" href=\"https://twitter.com/intent/tweet?text=" + HttpUtility.UrlEncode(doc.Title) + "&url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
-
-         RightContent.Add(sharePanel);
-         
          // Panel de herramientas administrativas
          if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
          {
@@ -172,6 +162,16 @@ namespace Cosmo.WebApp.Content
 
             RightContent.Add(adminPanel);
          }
+
+         // Compartir
+         PanelControl sharePanel = new PanelControl(this);
+         sharePanel.Caption = "Compartir";
+
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\" href=\"https://twitter.com/intent/tweet?text=" + HttpUtility.UrlEncode(doc.Title) + "&url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
+
+         RightContent.Add(sharePanel);
       }
 
       public override void InitPage()

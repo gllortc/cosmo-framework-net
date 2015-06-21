@@ -5,12 +5,13 @@ using System.Web.Caching;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implements a control cache for implementatios of <see cref="View"/> class.
+   /// Implements a cache control to use in views to store configured controls.
    /// </summary>
    public class ControlCache
    {
       // Declare internal data
       private Cache cache;
+      private Workspace workspace;
 
       /// <summary>Decfine the default time (in minutes) for cache content.</summary>
       public const int DEFAULT_CACHE_TIME = 60;
@@ -21,11 +22,24 @@ namespace Cosmo.UI
       /// Create an instance of <see cref="ControlCache"/>.
       /// </summary>
       /// <param name="serverCache">An instance of <see cref="Cache"/> representing the server cache.</param>
-      public ControlCache(Cache serverCache)
+      public ControlCache(Workspace workspace, Cache serverCache)
       {
          Initialize();
 
-         cache = serverCache;
+         this.cache = serverCache;
+         this.workspace = workspace;
+      }
+
+      #endregion
+
+      #region Properties
+
+      /// <summary>
+      /// Gets the current workspace.
+      /// </summary>
+      public Workspace Workspace
+      {
+         get { return workspace; }
       }
 
       #endregion
@@ -123,5 +137,6 @@ namespace Cosmo.UI
       }
 
       #endregion
+
    }
 }

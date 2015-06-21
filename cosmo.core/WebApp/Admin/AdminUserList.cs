@@ -21,7 +21,7 @@ namespace Cosmo.WebApp.Admin
          //-------------------------------
 
          Title = "Administrar Usuarios";
-         ActiveMenuId = string.Empty;
+         ActiveMenuId = "adminUsers";
 
          // Cabecera
          HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));

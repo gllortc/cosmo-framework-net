@@ -24,10 +24,10 @@ namespace Cosmo.WebApp.Photos
          MainContent.Add(header);
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          //-------------------------------------------------------------------
          // Árbol de carpetas

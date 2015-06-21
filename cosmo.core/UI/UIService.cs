@@ -201,6 +201,17 @@ namespace Cosmo.UI
       }
 
       /// <summary>
+      /// Gets a sidebar using the default provider.
+      /// </summary>
+      /// <param name="parentView">Page view that contains the sidebar menu.</param>
+      /// <param name="id">Sidebar identifier.</param>
+      /// <returns>The requested instance of <see cref="SidebarControl"/> with sidebar data.</returns>
+      public SidebarControl GetSidebarMenu(PageView parentView, string id)
+      {
+         return GetSidebarMenu(parentView, id, parentView.ActiveMenuId);
+      }
+
+      /// <summary>
       /// Obtiene el menú lateral a partir de un proveedor determinado.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
@@ -220,6 +231,17 @@ namespace Cosmo.UI
                                         LogEntry.LogEntryType.EV_WARNING));
             return new SidebarControl(parentView);
          }
+      }
+
+      /// <summary>
+      /// Gets a navbar using the default provider.
+      /// </summary>
+      /// <param name="parentView">Page view that contains the navbar menu.</param>
+      /// <param name="id">Navbar identifier.</param>
+      /// <returns>The requested instance of <see cref="NavbarControl"/> with navbar data.</returns>
+      public NavbarControl GetNavbarMenu(PageView parentView, string id)
+      {
+         return GetNavbarMenu(parentView, id, parentView.ActiveMenuId);
       }
 
       /// <summary>

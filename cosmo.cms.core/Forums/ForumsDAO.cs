@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Cosmo.Cms.Forums
 {
@@ -17,7 +16,7 @@ namespace Cosmo.Cms.Forums
    /// </summary>
    public class ForumsDAO
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
 
       // Declaración de variables estáticas
@@ -407,7 +406,7 @@ namespace Cosmo.Cms.Forums
       /// </remarks>
       public ForumThread GetThread(int threadid)
       {
-         return GetThread(threadid, false, ThreadMessagesOrder.Ascending);
+         return GetThread(threadid, false, ForumThread.ThreadMessagesOrder.Ascending);
       }
 
       /// <summary>
@@ -421,7 +420,7 @@ namespace Cosmo.Cms.Forums
       /// Este método cierra automáticamente los hilos de 4 meses de antiguedad y que no tengan actividad 
       /// en los últimos 7 días.
       /// </remarks>
-      public ForumThread GetThread(int threadid, bool getMessages, ThreadMessagesOrder order)
+      public ForumThread GetThread(int threadid, bool getMessages, ForumThread.ThreadMessagesOrder order)
       {
          bool head = true;
          string sql = string.Empty;
@@ -488,7 +487,7 @@ namespace Cosmo.Cms.Forums
                }
 
                // Si se especifica un órden descendiente, se reordena la lista de mensajes
-               if (order == ThreadMessagesOrder.Descending)
+               if (order == ForumThread.ThreadMessagesOrder.Descending)
                {
                   thread.Messages.Sort(delegate(ForumMessage p1, ForumMessage p2) { return p2.ID.CompareTo(p1.ID); });
                }
@@ -1096,7 +1095,7 @@ namespace Cosmo.Cms.Forums
       /// <param name="threadid">Identificador del mensaje de nivel superior.</param>
       /// <param name="order">Tipo de ordenación de los mensajes del thread</param>
       /// <returns>Un array de objetos CSForumMessage.</returns>
-      public List<ForumMessage> GetThreadMessages(int threadid, ThreadMessagesOrder order)
+      public List<ForumMessage> GetThreadMessages(int threadid, ForumThread.ThreadMessagesOrder order)
       {
          string sql = string.Empty;
          List<ForumMessage> messages = new List<ForumMessage>();
@@ -1113,7 +1112,7 @@ namespace Cosmo.Cms.Forums
                   "FROM      " + SQL_TABLE_MESSAGES + " " +
                   "WHERE     fldauto = @fldauto Or " +
                   "          fldreply = @fldreply " +
-                  "ORDER BY  fldauto " + (order == ThreadMessagesOrder.Ascending ? "Asc" : "Desc");
+                  "ORDER BY  fldauto " + (order == ForumThread.ThreadMessagesOrder.Ascending ? "Asc" : "Desc");
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             param = new SqlParameter("@fldauto", SqlDbType.Int);
@@ -1300,46 +1299,6 @@ namespace Cosmo.Cms.Forums
       public bool CheckIP(ForumMessage message)
       {
          return CheckIP(message, null);
-      }
-
-      /// <summary>
-      /// Obtiene el modo de ordenación de los mensajes
-      /// </summary>
-      /// <param name="request">Instancia de HttpRequest del servidor</param>
-      /// <param name="response">Instancia de HttpResponse del servidor</param>
-      /// <returns>El tipo de ordenación a aplicar</returns>
-      public ThreadMessagesOrder GetMessageOrder(HttpRequest request, HttpResponse response)
-      {
-         int torder = (int)ThreadMessagesOrder.Ascending;
-
-         try
-         {
-            if (!int.TryParse(request[ForumsDAO.PARAM_ORDER], out torder))
-            {
-               if (request.Cookies["cs.forum"] != null)    // No ha podido recuperar el parámetro ex intenta recuperar la cookie
-               {
-                  if (request.Cookies["cs.forum"]["msgs.order"] != null)
-                     if (!int.TryParse(request.Cookies["cs.forum"]["msgs.order"], out torder))
-                        torder = (int)ThreadMessagesOrder.Ascending;
-               }
-               else
-               {
-                  torder = (int)ThreadMessagesOrder.Ascending;
-               }
-            }
-
-            // Memoriza el tipo de ordenación obtenido de los parámetros
-            HttpCookie cookie = new HttpCookie("cs.forum");
-            cookie["msgs.order"] = torder.ToString();
-            cookie.Expires = DateTime.Now.AddYears(1);
-            response.Cookies.Add(cookie);
-
-            return (ThreadMessagesOrder)torder;
-         }
-         catch
-         {
-            return ThreadMessagesOrder.Ascending;
-         }
       }
 
       #endregion

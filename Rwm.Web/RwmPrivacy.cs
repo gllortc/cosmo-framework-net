@@ -1,23 +1,23 @@
-﻿using Cosmo.UI.Controls;
-using System.Collections.Generic;
+﻿using Cosmo.Net;
+using Cosmo.UI.Controls;
+using System.Reflection;
 
 namespace Rwm.WebApp
 {
    public class RwmPrivacy : Cosmo.UI.PageView
    {
+
       #region PageViewContainer Implementation
 
       public override void InitPage()
       {
-         List<string> list = null;
-
          ActiveMenuId = "home";
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          HtmlContentControl html = new HtmlContentControl(this);
          html.AppendHeader(1, "Términos de uso y Política de privacidad");
@@ -121,5 +121,20 @@ namespace Rwm.WebApp
       }
 
       #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

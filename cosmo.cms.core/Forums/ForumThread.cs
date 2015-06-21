@@ -5,35 +5,41 @@ using System.Web;
 namespace Cosmo.Cms.Forums
 {
 
-   #region Enumerations
-
-   /// <summary>
-   /// Orden de recuperación de los mensajes de un thread
-   /// </summary>
-   public enum ThreadMessagesOrder : int
-   {
-      Ascending = 0,
-      Descending = 1
-   }
-
-   #endregion
-
    /// <summary>
    /// Implementa una clase para gestionar los canales de los foros.
    /// </summary>
    public class ForumThread
    {
+      // Internal data declarations
+      private bool _closed;
       private int _threadId;
       private int _forumId;
+      private int _msgCount;
+      private int _usrid;
       private string _title;
       private string _usrname;
-      private int _usrid;
+      private string _channelName;
       private DateTime _created;
       private DateTime _lastReply;
-      private int _msgCount;
-      private bool _closed;
-      private string _channelName;
       private List<ForumMessage> _messages;
+
+      /// <summary>Cookie name for Cosmo Forums</summary>
+      private const string COOKIE_FORUM_ORDER = "cosmo.cms.forum";
+
+      #region Enumerations
+
+      /// <summary>
+      /// Orden de recuperación de los mensajes de un thread
+      /// </summary>
+      public enum ThreadMessagesOrder : int
+      {
+         Ascending = 0,
+         Descending = 1
+      }
+
+      #endregion
+
+      #region Constructors
 
       public ForumThread()
       {
@@ -48,7 +54,9 @@ namespace Cosmo.Cms.Forums
          _messages = new List<ForumMessage>();
       }
 
-      #region Settings
+      #endregion
+
+      #region Properties
 
       /// <summary>
       /// Identificador del hilo
@@ -171,10 +179,10 @@ namespace Cosmo.Cms.Forums
          {
             if (!int.TryParse(request[ForumsDAO.PARAM_ORDER], out torder))
             {
-               if (request.Cookies["cs.forum"] != null)    // No ha podido recuperar el parámetro ex intenta recuperar la cookie
+               if (request.Cookies[COOKIE_FORUM_ORDER] != null)    // No ha podido recuperar el parámetro ex intenta recuperar la cookie
                {
-                  if (request.Cookies["cs.forum"]["msgs.order"] != null)
-                     if (!int.TryParse(request.Cookies["cs.forum"]["msgs.order"], out torder))
+                  if (request.Cookies[COOKIE_FORUM_ORDER]["msgs.order"] != null)
+                     if (!int.TryParse(request.Cookies[COOKIE_FORUM_ORDER]["msgs.order"], out torder))
                         torder = (int)ThreadMessagesOrder.Ascending;
                }
                else
@@ -184,7 +192,7 @@ namespace Cosmo.Cms.Forums
             }
 
             // Memoriza el tipo de ordenación obtenido de los parámetros
-            HttpCookie cookie = new HttpCookie("cs.forum");
+            HttpCookie cookie = new HttpCookie(COOKIE_FORUM_ORDER);
             cookie["msgs.order"] = torder.ToString();
             cookie.Expires = DateTime.Now.AddYears(1);
             response.Cookies.Add(cookie);

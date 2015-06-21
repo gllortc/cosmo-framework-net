@@ -1,7 +1,7 @@
 ﻿namespace Cosmo.UI.Controls
 {
    /// <summary>
-   /// Implementa el componente Jumbotron.
+   /// Implements the Jumbotron control.
    /// </summary>
    /// <remarks>
    /// http://getbootstrap.com/components/#jumbotron
@@ -12,7 +12,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="JumbotronControl"/>.
+      /// Gets a new instance of <see cref="JumbotronControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public JumbotronControl(View parentView)
@@ -22,7 +22,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="JumbotronControl"/>.
+      /// Gets a new instance of <see cref="JumbotronControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del componente en una vista (DOM).</param>
@@ -37,38 +37,50 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título que tendrá el elemento.
+      /// Gets or sets the title of Jumbotron.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto usado a modo de descripción del elemento.
+      /// Gets or sets the subtitle text.
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el título que tendrá el elemento.
+      /// Gets or sets the background image.
       /// </summary>
       public string BackgroundImage { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color del texto.
+      /// Gets or sets the text color.
       /// </summary>
-      public string Color { get; set; }
+      public string ForeColor { get; set; }
+
+      /// <summary>
+      /// Gets or sets the button text.
+      /// </summary>
+      public string ButtonText { get; set; }
+
+      /// <summary>
+      /// Gets or sets the button URL (to generate the button link).
+      /// </summary>
+      public string ButtonHref { get; set; }
 
       #endregion
 
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance.
       /// </summary>
       private void Initialize()
       {
          this.Title = string.Empty;
          this.Description = string.Empty;
          this.BackgroundImage = string.Empty;
-         this.Color = string.Empty;
+         this.ForeColor = string.Empty;
+         this.ButtonText = string.Empty;
+         this.ButtonHref = string.Empty;
       }
 
       #endregion

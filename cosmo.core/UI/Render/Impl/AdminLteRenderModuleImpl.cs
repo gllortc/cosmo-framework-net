@@ -12,10 +12,10 @@ using System.Web;
 namespace Cosmo.UI.Render.Impl
 {
    /// <summary>
-   /// Implementa un módulo de renderizado para AdminLTE versión 1.2.1
+   /// Implements a render module which implements the Almasaeed AdminLTE (versión 1.2.1) template.
    /// </summary>
    /// <remarks>
-   /// https://github.com/almasaeed2010/AdminLTE/releases/tag/1.2.1
+   /// Almasaeed AdminLTE: https://github.com/almasaeed2010/AdminLTE/releases/tag/1.2.1
    /// </remarks>
    public class AdminLteRenderModuleImpl : RenderModule
    {
@@ -542,16 +542,16 @@ namespace Cosmo.UI.Render.Impl
       #region Alert Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="AlertControl"/>.
+      /// Renderizes a control of type <see cref="AlertControl"/>.
       /// </summary>
-      private string RenderAlert(AlertControl alert)
+      private string RenderAlert(AlertControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<div " + alert.GetIdParameter() + "class=\"alert alert-" + GetCssClassFromControlColor(alert.Type) + " " + (alert.Closeable ? string.Empty : "alert-dismissable") + "\">");
-         xhtml.AppendLine("  <i class=\"fa fa-" + GetCssClassFromControlColor(alert.Type) + "\"></i>");
-         if (alert.Closeable) xhtml.AppendLine("  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
-         xhtml.AppendLine("  " + alert.Text);
+         xhtml.AppendLine("<div " + control.GetIdParameter() + "class=\"alert alert-" + GetCssClassFromControlColor(control.Type) + " " + (control.Closeable ? string.Empty : "alert-dismissable") + "\">");
+         xhtml.AppendLine("  <i class=\"fa fa-" + GetCssClassFromControlColor(control.Type) + "\"></i>");
+         if (control.Closeable) xhtml.AppendLine("  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
+         xhtml.AppendLine("  " + control.Text);
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -562,7 +562,7 @@ namespace Cosmo.UI.Render.Impl
       #region Badge Control
 
       /// <summary>
-      /// Renderiza controles de tipo <see cref="BadgeControl"/>.
+      /// Renderizes a control of type <see cref="BadgeControl"/>.
       /// </summary>
       private string RenderBadge(BadgeControl control)
       {
@@ -585,18 +585,18 @@ namespace Cosmo.UI.Render.Impl
       #region Breadcrumb Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="BreadcrumbControl"/>.
+      /// Renderizes a control of type <see cref="BreadcrumbControl"/>.
       /// </summary>
-      private string RenderBreadcrumb(BreadcrumbControl breadcrumb)
+      private string RenderBreadcrumb(BreadcrumbControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<ol " + breadcrumb.GetIdParameter() + "class=\"breadcrumb\">");
-         foreach (BreadcrumbItem item in breadcrumb.Items)
+         xhtml.AppendLine("<ol " + control.GetIdParameter() + "class=\"breadcrumb\">");
+         foreach (BreadcrumbItem item in control.Items)
          {
             xhtml.AppendLine("  <li" + (item.IsActive ? " class=\"active\"" : string.Empty) + ">");
             if (!string.IsNullOrEmpty(item.Href)) xhtml.AppendLine("<a href=\"" + item.Href + "\">");
-            if (!string.IsNullOrEmpty(item.Icon)) xhtml.AppendLine(IconControl.GetIcon(breadcrumb.ParentView, item.Icon));
+            if (!string.IsNullOrEmpty(item.Icon)) xhtml.AppendLine(IconControl.GetIcon(control.ParentView, item.Icon));
             xhtml.AppendLine(HttpUtility.HtmlDecode(item.Caption));
             if (!string.IsNullOrEmpty(item.Href)) xhtml.AppendLine("</a>");
             xhtml.AppendLine("  </li>");
@@ -611,7 +611,7 @@ namespace Cosmo.UI.Render.Impl
       #region Button / ButtonGroup Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ButtonGroupControl"/>.
+      /// Renderizes a control of type <see cref="ButtonGroupControl"/>.
       /// </summary>
       private string RenderButtonBar(ButtonGroupControl control)
       {
@@ -629,7 +629,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ButtonControl"/>.
+      /// Renderizes a control of type <see cref="ButtonControl"/>.
       /// </summary>
       private string RenderButton(ButtonControl control)
       {
@@ -696,7 +696,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="SplitButtonControl"/>.
+      /// Renderizes a control of type <see cref="SplitButtonControl"/>.
       /// </summary>
       private string RenderButtonSplit(SplitButtonControl control)
       {
@@ -754,15 +754,15 @@ namespace Cosmo.UI.Render.Impl
       #region Callout Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="CalloutControl"/>.
+      /// Renderizes a control of type <see cref="CalloutControl"/>.
       /// </summary>
-      private string RenderCallout(CalloutControl callout)
+      private string RenderCallout(CalloutControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<div " + callout.GetIdParameter() + "class=\"callout callout-" + GetCssClassFromControlColor(callout.Type) + "\">");
-         xhtml.AppendLine("  <h4>" + (!string.IsNullOrWhiteSpace(callout.Icon) ? IconControl.GetIcon(callout.ParentView, callout.Icon) + "&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(callout.Title) + "</h4>");
-         xhtml.AppendLine("  <p>" + HttpUtility.HtmlDecode(callout.Text) + "</p>");
+         xhtml.AppendLine("<div " + control.GetIdParameter() + "class=\"callout callout-" + GetCssClassFromControlColor(control.Type) + "\">");
+         xhtml.AppendLine("  <h4>" + (!string.IsNullOrWhiteSpace(control.Icon) ? IconControl.GetIcon(control.ParentView, control.Icon) + "&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(control.Title) + "</h4>");
+         xhtml.AppendLine("  <p>" + HttpUtility.HtmlDecode(control.Text) + "</p>");
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -773,9 +773,9 @@ namespace Cosmo.UI.Render.Impl
       #region Carrousel Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="CarrouselControl"/>.
+      /// Renderizes a control of type <see cref="CarrouselControl"/>.
       /// </summary>
-      private string RenderCarrousel(CarrouselControl carrousel)
+      private string RenderCarrousel(CarrouselControl control)
       {
          int count;
          StringBuilder xhtml = new StringBuilder();
@@ -784,19 +784,19 @@ namespace Cosmo.UI.Render.Impl
 
          // Obtiene la altura máxima del control
          int height = 338;
-         foreach (CarrouselSlide slide in carrousel.Slides)
+         foreach (CarrouselSlide slide in control.Slides)
          {
             // TODO: Sólo funciona si se guardan las medidas en la BBDD
             if (slide.Height > height) height = slide.Height;
          }
 
-         xhtml.Append("<div " + carrousel.GetIdParameter() + "class=\"carousel slide\" data-ride=\"carousel\">\n");
+         xhtml.Append("<div " + control.GetIdParameter() + "class=\"carousel slide\" data-ride=\"carousel\">\n");
          xhtml.Append("  <ol class=\"carousel-indicators\">\n");
 
          count = 0;
-         foreach (CarrouselSlide slide in carrousel.Slides)
+         foreach (CarrouselSlide slide in control.Slides)
          {
-            xhtml.Append("    <li data-target=\"#" + carrousel.DomID + "\" data-slide-to=\"" + count + "\" class=\"" + (count == 0 ? "active" : "") + "\"></li>\n");
+            xhtml.Append("    <li data-target=\"#" + control.DomID + "\" data-slide-to=\"" + count + "\" class=\"" + (count == 0 ? "active" : "") + "\"></li>\n");
             count++;
          }
 
@@ -804,7 +804,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.Append("  <div class=\"carousel-inner\">\n");
 
          count = 0;
-         foreach (CarrouselSlide slide in carrousel.Slides)
+         foreach (CarrouselSlide slide in control.Slides)
          {
             xhtml.Append("    <div class=\"item " + (count == 0 ? "active" : "") + "\">\n");
             xhtml.Append("       <img alt=\"" + slide.Name.Replace("\"", "") + "\" src=\"" + slide.FileName + "\">\n");
@@ -813,10 +813,10 @@ namespace Cosmo.UI.Render.Impl
          }
 
          xhtml.Append("  </div>\n");
-         xhtml.Append("  <a class=\"left carousel-control\" href=\"#" + carrousel.DomID + "\" data-slide=\"prev\">\n");
+         xhtml.Append("  <a class=\"left carousel-control\" href=\"#" + control.DomID + "\" data-slide=\"prev\">\n");
          xhtml.Append("    <span class=\"glyphicon glyphicon-chevron-left\"></span>\n");
          xhtml.Append("  </a>\n");
-         xhtml.Append("  <a class=\"right carousel-control\" href=\"#" + carrousel.DomID + "\" data-slide=\"next\">\n");
+         xhtml.Append("  <a class=\"right carousel-control\" href=\"#" + control.DomID + "\" data-slide=\"next\">\n");
          xhtml.Append("    <span class=\"glyphicon glyphicon-chevron-right\"></span>\n");
          xhtml.Append("  </a>\n");
          xhtml.Append("</div>\n");
@@ -829,7 +829,7 @@ namespace Cosmo.UI.Render.Impl
       #region Chat Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ChatControl"/>.
+      /// Renderizes a control of type <see cref="ChatControl"/>.
       /// </summary>
       private string RenderChat(ChatControl control)
       {
@@ -867,7 +867,7 @@ namespace Cosmo.UI.Render.Impl
          return xhtml.ToString();
       }
 
-      public string RenderChatMessage(ChatMessage control)
+      public string RenderChatMessage(ChatMessage msg)
       {
          StringBuilder xhtml = new StringBuilder();
 
@@ -876,9 +876,9 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <p class=\"message\">");
          xhtml.AppendLine("    <a href=\"#\" class=\"name\">");
          xhtml.AppendLine("      <small class=\"text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> 2:15</small>");
-         xhtml.AppendLine(control.Author);
+         xhtml.AppendLine(msg.Author);
          xhtml.AppendLine("    </a>");
-         xhtml.AppendLine(control.Content);
+         xhtml.AppendLine(msg.Content);
          xhtml.AppendLine("  </p>");
          xhtml.AppendLine("  <div class=\"attachment\">");
          xhtml.AppendLine("    <h4>Attachments:</h4>");
@@ -899,7 +899,7 @@ namespace Cosmo.UI.Render.Impl
       private const string COOKIESADVISORCTRL_COOKIE_NAME = "cosmo.UI.cookiesadvisorcontrol.status";
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="CookiesAdvisorControl"/>.
+      /// Renderizes a control of type <see cref="CookiesAdvisorControl"/>.
       /// </summary>
       private string RenderCookiesAdvisor(CookiesAdvisorControl control)
       {
@@ -955,7 +955,7 @@ namespace Cosmo.UI.Render.Impl
       #region DocumentHeader Control
 
       /// <summary>
-      /// Renderize a control of type <see cref="DocumentHeaderControl"/>.
+      /// Renderizes a control of type <see cref="DocumentHeaderControl"/>.
       /// </summary>
       private string RenderDocumentHeader(DocumentHeaderControl control)
       {
@@ -974,7 +974,7 @@ namespace Cosmo.UI.Render.Impl
       #region Error Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ErrorControl"/>.
+      /// Renderizes a control of type <see cref="ErrorControl"/>.
       /// </summary>
       private string RenderError(ErrorControl control)
       {
@@ -1008,7 +1008,7 @@ namespace Cosmo.UI.Render.Impl
       #region Form Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormControl"/>.
+      /// Renderizes a control of type <see cref="FormControl"/>.
       /// </summary>
       private string RenderForm(FormControl control, string receivedFormID)
       {
@@ -1067,7 +1067,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldHidden"/>.
+      /// Renderizes a control of type <see cref="FormFieldHidden"/>.
       /// </summary>
       private string RenderFormFieldHidden(FormFieldHidden control, string receivedFormID)
       {
@@ -1079,7 +1079,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldCaptcha"/>.
+      /// Renderizes a control of type <see cref="FormFieldCaptcha"/>.
       /// </summary>
       private string RenderFormFieldCaptcha(FormFieldCaptcha control, string receivedFormID)
       {
@@ -1106,7 +1106,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldText"/>.
+      /// Renderizes a control of type <see cref="FormFieldText"/>.
       /// </summary>
       private string RenderFormFieldPassword(FormFieldPassword control, string receivedFormID)
       {
@@ -1152,7 +1152,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldText"/>.
+      /// Renderizes a control of type <see cref="FormFieldText"/>.
       /// </summary>
       private string RenderFormFieldText(FormFieldText control, string receivedFormID)
       {
@@ -1233,7 +1233,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldDate"/>.
+      /// Renderizes a control of type <see cref="FormFieldDate"/>.
       /// </summary>
       private string RenderFormFieldDate(FormFieldDate control, string receivedFormID)
       {
@@ -1309,7 +1309,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldEditor"/>.
+      /// Renderizes a control of type <see cref="FormFieldEditor"/>.
       /// </summary>
       private string RenderFormFieldEditor(FormFieldEditor control, string receivedFormID)
       {
@@ -1362,7 +1362,7 @@ namespace Cosmo.UI.Render.Impl
       private const string NO_IMAGE_URL = "http://placehold.it/70x70";
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldImage"/>.
+      /// Renderizes a control of type <see cref="FormFieldImage"/>.
       /// </summary>
       private string RenderFormFieldImage(FormFieldImage control, string receivedFormID)
       {
@@ -1394,7 +1394,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldFile"/>.
+      /// Renderizes a control of type <see cref="FormFieldFile"/>.
       /// </summary>
       private string RenderFormFieldFile(FormFieldFile control, string receivedFormID)
       {
@@ -1424,7 +1424,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldList"/>.
+      /// Renderizes a control of type <see cref="FormFieldList"/>.
       /// </summary>
       private string RenderFormFieldList(FormFieldList control, string receivedFormID)
       {
@@ -1446,7 +1446,7 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="FormFieldBoolean"/>.
+      /// Renderizes a control of type <see cref="FormFieldBoolean"/>.
       /// </summary>
       private string RenderFormFieldBoolean(FormFieldBoolean control, string receivedFormID)
       {
@@ -1469,7 +1469,7 @@ namespace Cosmo.UI.Render.Impl
       #region HtmlContent Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="HtmlContentControl"/>.
+      /// Renderizes a control of type <see cref="HtmlContentControl"/>.
       /// </summary>
       private string RenderHtmlContent(HtmlContentControl control)
       {
@@ -1481,7 +1481,7 @@ namespace Cosmo.UI.Render.Impl
       #region Icon Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="IconControl"/>.
+      /// Renderizes a control of type <see cref="IconControl"/>.
       /// </summary>
       private string RenderIcon(IconControl control)
       {
@@ -1516,20 +1516,23 @@ namespace Cosmo.UI.Render.Impl
       #region Jumbotron Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="JumbotronControl"/>.
+      /// Renderizes a control of type <see cref="JumbotronControl"/>.
       /// </summary>
-      private string RenderJumbotron(JumbotronControl jumbotron)
+      private string RenderJumbotron(JumbotronControl control)
       {
          StringBuilder style = new StringBuilder();
          StringBuilder xhtml = new StringBuilder();
 
-         if (!string.IsNullOrEmpty(jumbotron.BackgroundImage)) style.Append("background-image:url(" + jumbotron.BackgroundImage + ");");
-         if (!string.IsNullOrEmpty(jumbotron.Color)) style.Append("color:" + jumbotron.Color + ";");
+         if (!string.IsNullOrEmpty(control.BackgroundImage)) style.Append("background-image:url(" + control.BackgroundImage + ");");
+         if (!string.IsNullOrEmpty(control.ForeColor)) style.Append("color:" + control.ForeColor + ";");
 
-         xhtml.AppendLine("<div " + jumbotron.GetIdParameter() + "class=\"jumbotron\"" + (style.Length > 0 ? " style=\"" + style.ToString() + "\"" : string.Empty) + ">");
-         xhtml.AppendLine("  <h1>" + HttpUtility.HtmlDecode(jumbotron.Title) + "</h1>");
-         xhtml.AppendLine("  <p>" + HttpUtility.HtmlDecode(jumbotron.Description) + "</p>");
-         xhtml.AppendLine("  <p><a class=\"btn btn-primary btn-lg\" role=\"button\">Learn more</a></p>");
+         xhtml.AppendLine("<div " + control.GetIdParameter() + "class=\"jumbotron\"" + (style.Length > 0 ? " style=\"" + style.ToString() + "\"" : string.Empty) + ">");
+         xhtml.AppendLine("  <h1>" + HttpUtility.HtmlDecode(control.Title) + "</h1>");
+         xhtml.AppendLine("  <p>" + HttpUtility.HtmlDecode(control.Description) + "</p>");
+         if (!string.IsNullOrWhiteSpace(control.ButtonText) && !string.IsNullOrWhiteSpace(control.ButtonHref))
+         {
+            xhtml.AppendLine("  <p><a href=\"" + control.ButtonHref + "\" class=\"btn btn-primary btn-lg\" role=\"button\">" + HttpUtility.HtmlDecode(control.ButtonText) + "</a></p>");
+         }
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -1540,20 +1543,20 @@ namespace Cosmo.UI.Render.Impl
       #region LayoutContainer
 
       /// <summary>
-      /// Renderiza un control <see cref="LayoutContainerControl"/>.
+      /// Renderizes a control of type <see cref="LayoutContainerControl"/>.
       /// </summary>
-      private string RenderLayout(LayoutContainerControl layout, string receivedFormID)
+      private string RenderLayout(LayoutContainerControl control, string receivedFormID)
       {
          StringBuilder xhtml = new StringBuilder();
 
          // Si es un layout de control simple llama al método especializado
-         if (layout.IsSingleControlLayout)
+         if (control.IsSingleControlLayout)
          {
-            return RenderSingleControlLayout(layout, receivedFormID);
+            return RenderSingleControlLayout(control, receivedFormID);
          }
 
          // Header
-         foreach (Control ctrl in layout.Header)
+         foreach (Control ctrl in control.Header)
          {
             xhtml.AppendLine(Render(ctrl, receivedFormID));
          }
@@ -1561,10 +1564,10 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("<div class=\"wrapper row-offcanvas row-offcanvas-left\">");
 
          // Left column
-         if (layout.LeftContent.Count > 0)
+         if (control.LeftContent.Count > 0)
          {
             xhtml.AppendLine("  <aside class=\"left-side sidebar-offcanvas\">");
-            foreach (Control ctrl in layout.LeftContent)
+            foreach (Control ctrl in control.LeftContent)
             {
                xhtml.AppendLine(Render(ctrl, receivedFormID));
             }
@@ -1572,36 +1575,36 @@ namespace Cosmo.UI.Render.Impl
          }
 
          // Main content
-         if (layout.LeftContent.Count > 0)
+         if (control.LeftContent.Count > 0)
          {
             xhtml.AppendLine("  <aside class=\"right-side\">");
          }
 
          // Header
-         if ((layout.MainContent.Count > 0) && (layout.MainContent.Get(0).GetType() == typeof(PageHeaderControl)))
+         if ((control.MainContent.Count > 0) && (control.MainContent.Get(0).GetType() == typeof(PageHeaderControl)))
          {
 
             xhtml.AppendLine("  <section class=\"content-header\">");
-            xhtml.AppendLine(Render(layout.MainContent.Get(0), receivedFormID));
+            xhtml.AppendLine(Render(control.MainContent.Get(0), receivedFormID));
             xhtml.AppendLine("  </section>");
 
-            layout.MainContent.Remove(layout.MainContent.Get(0));
+            control.MainContent.Remove(control.MainContent.Get(0));
          }
 
          xhtml.AppendLine("  <section class=\"content\">");
 
          // Layout de tres columnas
-         if (layout.RightContent.Count > 0)
+         if (control.RightContent.Count > 0)
          {
             xhtml.AppendLine("    <div class=\"row\">");
             xhtml.AppendLine("      <div class=\"col-md-9\">");
-            foreach (Control ctrl in layout.MainContent)
+            foreach (Control ctrl in control.MainContent)
             {
                xhtml.AppendLine(Render(ctrl, receivedFormID));
             }
             xhtml.AppendLine("      </div>");
             xhtml.AppendLine("      <div class=\"col-md-3\">");
-            foreach (Control ctrl in layout.RightContent)
+            foreach (Control ctrl in control.RightContent)
             {
                xhtml.AppendLine(Render(ctrl, receivedFormID));
             }
@@ -1610,7 +1613,7 @@ namespace Cosmo.UI.Render.Impl
          }
          else
          {
-            foreach (Control ctrl in layout.MainContent)
+            foreach (Control ctrl in control.MainContent)
             {
                xhtml.AppendLine(Render(ctrl, receivedFormID));
             }
@@ -1618,13 +1621,13 @@ namespace Cosmo.UI.Render.Impl
 
          xhtml.AppendLine("    </section>");
 
-         if (layout.LeftContent.Count > 0)
+         if (control.LeftContent.Count > 0)
          {
             xhtml.AppendLine("  </aside>");
          }
 
          // Footer
-         foreach (Control ctrl in layout.Footer)
+         foreach (Control ctrl in control.Footer)
          {
             xhtml.AppendLine(Render(ctrl, receivedFormID));
          }
@@ -1655,21 +1658,21 @@ namespace Cosmo.UI.Render.Impl
       #region ListGroup Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="ListGroupControl"/>.
+      /// Renderizes a control of type  <see cref="ListGroupControl"/>.
       /// </summary>
-      private string RenderListGroup(ListGroupControl listGroup)
+      private string RenderListGroup(ListGroupControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         if (listGroup.ListItems.Count > 0)
+         if (control.ListItems.Count > 0)
          {
-            xhtml.AppendLine("<ul " + listGroup.GetIdParameter() + "class=\"nav nav-pills nav-stacked\">");
-            foreach (ListItem item in listGroup.ListItems)
+            xhtml.AppendLine("<ul " + control.GetIdParameter() + "class=\"nav nav-pills nav-stacked\">");
+            foreach (ListItem item in control.ListItems)
             {
-               item.Style = listGroup.Style;
-               item.AlignDescription = listGroup.AlignDescription;
+               item.Style = control.Style;
+               item.AlignDescription = control.AlignDescription;
 
-               xhtml.AppendLine(RenderListItem(item, listGroup));
+               xhtml.AppendLine(RenderListItem(item, control));
             }
             xhtml.AppendLine("</ul>");
          }
@@ -1714,18 +1717,18 @@ namespace Cosmo.UI.Render.Impl
       #region LoginFormControl
 
       /// <summary>
-      /// Renderiza un formulario de login.
+      /// Renderizes a control of type <see cref="LoginFormControl"/>.
       /// </summary>
-      private string RenderLoginForm(LoginFormControl loginForm)
+      private string RenderLoginForm(LoginFormControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<div id=\"" + loginForm.DomID + "\" class=\"form-box\">");
+         xhtml.AppendLine("<div id=\"" + control.DomID + "\" class=\"form-box\">");
          xhtml.AppendLine("  <div class=\"header\">Sign In</div>");
-         xhtml.AppendLine("    <form id=\"" + loginForm.DomID + "-form\" role=\"form\">");
+         xhtml.AppendLine("    <form id=\"" + control.DomID + "-form\" role=\"form\">");
          xhtml.AppendLine("      <input type=\"hidden\" id=\"" + Workspace.PARAM_COMMAND + "\" name=\"" + Workspace.PARAM_COMMAND + "\" value=\"" + SecurityRestHandler.COMMAND_USER_AUTHENTICATION + "\" />");
-         xhtml.AppendLine("      <input type=\"hidden\" id=\"" + Workspace.PARAM_LOGIN_REDIRECT + "\" name=\"" + Workspace.PARAM_LOGIN_REDIRECT + "\" value=\"" + (string.IsNullOrEmpty(loginForm.RedirectionUrl) ? Workspace.COSMO_URL_DEFAULT : loginForm.RedirectionUrl) + "\" />");
-         xhtml.AppendLine("      <div id=\"" + loginForm.DomID + "-msg\" class=\"body\"></div>");
+         xhtml.AppendLine("      <input type=\"hidden\" id=\"" + Workspace.PARAM_LOGIN_REDIRECT + "\" name=\"" + Workspace.PARAM_LOGIN_REDIRECT + "\" value=\"" + (string.IsNullOrEmpty(control.RedirectionUrl) ? Workspace.COSMO_URL_DEFAULT : control.RedirectionUrl) + "\" />");
+         xhtml.AppendLine("      <div id=\"" + control.DomID + "-msg\" class=\"body\"></div>");
          xhtml.AppendLine("      <div class=\"body bg-gray\">");
          xhtml.AppendLine("        <div class=\"form-group\">");
          xhtml.AppendLine("          <input type=\"text\" name=\"txtLogin\" class=\"form-control\" placeholder=\"User ID\"/>");
@@ -1737,18 +1740,18 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("      <div class=\"footer\">");
          xhtml.AppendLine("        <button type=\"button\" class=\"btn bg-olive\" id=\"btn-login\">Sign me in</button>");
          xhtml.AppendLine("        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cerrar</button>");
-         if (!string.IsNullOrWhiteSpace(loginForm.UserRememberPasswordUrl)) xhtml.AppendLine("        <p><a href=\"" + loginForm.UserRememberPasswordUrl + "\">¿Has olvidado tu contraseña?</a></p>");
-         if (!string.IsNullOrWhiteSpace(loginForm.UserJoinUrl)) xhtml.AppendLine("        <p><a href=\"" + loginForm.UserJoinUrl + "\" class=\"text-center\">Crear una nueva cuenta</a></p>");
+         if (!string.IsNullOrWhiteSpace(control.UserRememberPasswordUrl)) xhtml.AppendLine("        <p><a href=\"" + control.UserRememberPasswordUrl + "\">¿Has olvidado tu contraseña?</a></p>");
+         if (!string.IsNullOrWhiteSpace(control.UserJoinUrl)) xhtml.AppendLine("        <p><a href=\"" + control.UserJoinUrl + "\" class=\"text-center\">Crear una nueva cuenta</a></p>");
          xhtml.AppendLine("      </div>");
          xhtml.AppendLine("    </form>");
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
          // Genera un script para enviar la petición al servidor
-         SimpleScript js = new SimpleScript(loginForm.ParentView);
+         SimpleScript js = new SimpleScript(control.ParentView);
          js.ExecutionType = Script.ScriptExecutionMethod.Standalone;
          js.AppendSourceLine("$(\"#btn-login\").click(function() {");
-         js.AppendSourceLine("  $(\"#" + loginForm.DomID + "-form\").submit(function(e) {");
+         js.AppendSourceLine("  $(\"#" + control.DomID + "-form\").submit(function(e) {");
          js.AppendSourceLine("    var postData = $(this).serializeArray();");
          js.AppendSourceLine("    $.ajax({");
          js.AppendSourceLine("      url: \"" + SecurityRestHandler.ServiceUrl + "\",");
@@ -1756,28 +1759,28 @@ namespace Cosmo.UI.Render.Impl
          js.AppendSourceLine("      data: postData,");
          js.AppendSourceLine("      success: function(data, textStatus, jqXHR) {");
          js.AppendSourceLine("        if (data.Result == " + (int)AjaxResponse.JsonResponse.Successful + ") {");
-         js.AppendSourceLine("          $('#" + loginForm.DomID + "-msg').html('<div class=\"alert alert-success\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-check\"></i>Autenticación correcta</div>');");
+         js.AppendSourceLine("          $('#" + control.DomID + "-msg').html('<div class=\"alert alert-success\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-check\"></i>Autenticación correcta</div>');");
          js.AppendSourceLine("          window.location = data.ToURL;");
          js.AppendSourceLine("        }");
          js.AppendSourceLine("        else {");
          js.AppendSourceLine("          if (data.ErrorCode == '1001') {");
-         js.AppendSourceLine("            $('#" + loginForm.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i>Esta cuenta actualmente no tiene acceso.</div>');");
+         js.AppendSourceLine("            $('#" + control.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i>Esta cuenta actualmente no tiene acceso.</div>');");
          js.AppendSourceLine("          } else if (data.ErrorCode == '1002') {");
-         js.AppendSourceLine("            $('#" + loginForm.DomID + "-msg').html('<div class=\"alert alert-warning\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-warning\"></i>Esta cuenta está pendiente de verificación y aun no tiene acceso. Revise su correo, debe tener un correo con las instrucciones para verificar esta cuenta.</div>');");
+         js.AppendSourceLine("            $('#" + control.DomID + "-msg').html('<div class=\"alert alert-warning\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-warning\"></i>Esta cuenta está pendiente de verificación y aun no tiene acceso. Revise su correo, debe tener un correo con las instrucciones para verificar esta cuenta.</div>');");
          js.AppendSourceLine("          } else {");
-         js.AppendSourceLine("            $('#" + loginForm.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i>El usuario y/o la contraseña son incorrectos.</div>');");
+         js.AppendSourceLine("            $('#" + control.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i>El usuario y/o la contraseña son incorrectos.</div>');");
          js.AppendSourceLine("          }");
          js.AppendSourceLine("        }");
          js.AppendSourceLine("      },");
          js.AppendSourceLine("      error: function(jqXHR, textStatus, errorThrown) {");
-         js.AppendSourceLine("        $('#" + loginForm.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i><strong>Ooooops!</strong> No se ha podido realizar la autenticación a causa de un error.</div>');");
+         js.AppendSourceLine("        $('#" + control.DomID + "-msg').html('<div class=\"alert alert-danger\" style=\"margin-bottom:0;margin-top:10px;\"><i class=\"fa fa-ban\"></i><strong>Ooooops!</strong> No se ha podido realizar la autenticación a causa de un error.</div>');");
          js.AppendSourceLine("      }");
          js.AppendSourceLine("    });");
          js.AppendSourceLine("    e.preventDefault();");
          js.AppendSourceLine("  });");
-         js.AppendSourceLine("  $(\"#" + loginForm.DomID + "-form\").submit();");
+         js.AppendSourceLine("  $(\"#" + control.DomID + "-form\").submit();");
          js.AppendSourceLine("});");
-         loginForm.ParentView.Scripts.Add(js);
+         control.ParentView.Scripts.Add(js);
 
          return xhtml.ToString();
       }
@@ -1787,26 +1790,26 @@ namespace Cosmo.UI.Render.Impl
       #region MediaList Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="MediaListControl"/>.
+      /// Renderizes a control of type  <see cref="MediaListControl"/>.
       /// </summary>
-      private string RenderMediaList(MediaListControl mediaList)
+      private string RenderMediaList(MediaListControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         if (mediaList.Style == MediaListControl.MediaListStyle.Thumbnail)
+         if (control.Style == MediaListControl.MediaListStyle.Thumbnail)
          {
-            xhtml.AppendLine("<div " + mediaList.GetIdParameter() + "class=\"row\">");
+            xhtml.AppendLine("<div " + control.GetIdParameter() + "class=\"row\">");
          }
 
-         foreach (MediaItem thumb in mediaList.Items)
+         foreach (MediaItem thumb in control.Items)
          {
-            if (mediaList.Style == MediaListControl.MediaListStyle.Thumbnail)
+            if (control.Style == MediaListControl.MediaListStyle.Thumbnail)
             {
                xhtml.AppendLine("<div class=\"col-sm-6 col-md-4\">");
                xhtml.AppendLine("  <div class=\"thumbnail\">");
                xhtml.AppendLine("    <img class=\"img-thumbnail\" alt=\"\" src=\"" + thumb.Image + "\" style=\"" + (thumb.ImageWidth > 0 ? "width:" + thumb.ImageWidth + "px;" : string.Empty) + (thumb.ImageHeight > 0 ? "height:" + thumb.ImageHeight + "px;" : string.Empty) + "\">");
                xhtml.AppendLine("    <div class=\"caption\">");
-               xhtml.AppendLine("      <h3>" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(thumb.Title) + "</h3>");
+               xhtml.AppendLine("      <h3>" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(control.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + HttpUtility.HtmlDecode(thumb.Title) + "</h3>");
                xhtml.AppendLine("      <p>" + HttpUtility.HtmlDecode(thumb.Description) + "</p>");
                xhtml.AppendLine("      <p><a href=\"" + thumb.LinkHref + "\" class=\"btn btn-primary\" role=\"button\">" + HttpUtility.HtmlDecode(thumb.LinkCaption) + "</a></p>");
                xhtml.AppendLine("    </div>");
@@ -1823,16 +1826,16 @@ namespace Cosmo.UI.Render.Impl
                   xhtml.AppendLine("  </a>");
                }
                xhtml.AppendLine("  <div class=\"media-body\">");
-               xhtml.AppendLine("    <h4 class=\"media-heading\">" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(mediaList.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + "<a href=\"" + thumb.LinkHref + "\">" + HttpUtility.HtmlDecode(thumb.Title) + "</a></h4>");
+               xhtml.AppendLine("    <h4 class=\"media-heading\">" + (!string.IsNullOrEmpty(thumb.Icon) ? IconControl.GetIcon(control.ParentView, thumb.Icon) + "&nbsp;&nbsp;" : string.Empty) + "<a href=\"" + thumb.LinkHref + "\">" + HttpUtility.HtmlDecode(thumb.Title) + "</a></h4>");
                xhtml.AppendLine("    <p>" + HttpUtility.HtmlDecode(thumb.Description) + "</p>");
                xhtml.AppendLine("  </div>");
                xhtml.AppendLine("</div>");
             }
 
-            if (mediaList.UseItemSeparator) xhtml.AppendLine("<hr />");
+            if (control.UseItemSeparator) xhtml.AppendLine("<hr />");
          }
 
-         if (mediaList.Style == MediaListControl.MediaListStyle.Thumbnail)
+         if (control.Style == MediaListControl.MediaListStyle.Thumbnail)
          {
             xhtml.AppendLine("</div>");
          }
@@ -1845,7 +1848,7 @@ namespace Cosmo.UI.Render.Impl
       #region Navbar Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="NavbarControl"/>.
+      /// Renderizes a control of type <see cref="NavbarControl"/>.
       /// </summary>
       private string RenderNavbar(NavbarControl control)
       {
@@ -2007,6 +2010,9 @@ namespace Cosmo.UI.Render.Impl
 
       #region PageHeader
 
+      /// <summary>
+      /// Renderizes a control of type <see cref="PageHeaderControl"/>.
+      /// </summary>
       private string RenderPageHeader(PageHeaderControl control)
       {
          StringBuilder xhtml = new StringBuilder();
@@ -2044,7 +2050,7 @@ namespace Cosmo.UI.Render.Impl
       #region Pagination Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="PaginationControl"/>.
+      /// Renderizes a control of type <see cref="PaginationControl"/>.
       /// </summary>
       private string RenderPagination(PaginationControl control)
       {
@@ -2073,7 +2079,7 @@ namespace Cosmo.UI.Render.Impl
       #region Panel Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="PanelControl"/>.
+      /// Renderizes a control of type <see cref="PanelControl"/>.
       /// </summary>
       private string RenderPanel(PanelControl control)
       {
@@ -2157,6 +2163,9 @@ namespace Cosmo.UI.Render.Impl
 
       #region PartialViewContainer Control
 
+      /// <summary>
+      /// Renderizes a control of type <see cref="PartialViewContainerControl"/>.
+      /// </summary>
       private string RenderPartialViewContainer(PartialViewContainerControl control)
       {
          control.ParentView.Scripts.Add(control.View.GetLoadPartialViewScript());
@@ -2171,7 +2180,7 @@ namespace Cosmo.UI.Render.Impl
       #region PictureGallery Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="PictureGalleryControl"/>.
+      /// Renderizes a control of type <see cref="PictureGalleryControl"/>.
       /// </summary>
       public string RenderPictureGallery(PictureGalleryControl control)
       {
@@ -2270,17 +2279,17 @@ namespace Cosmo.UI.Render.Impl
       #region Popover Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="PopoverControl"/>.
+      /// Renderizes a control of type <see cref="PopoverControl"/>.
       /// </summary>
-      private string RenderPopover(PopoverControl popover)
+      private string RenderPopover(PopoverControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<div " + popover.GetIdParameter() + "class=\"popover " + ConvertPopoverDirectionToString(popover.Direction) + " chat-message-" + ConvertPopoverDirectionToString(popover.Direction) + "\">");
+         xhtml.AppendLine("<div " + control.GetIdParameter() + "class=\"popover " + ConvertPopoverDirectionToString(control.Direction) + " chat-message-" + ConvertPopoverDirectionToString(control.Direction) + "\">");
          xhtml.AppendLine("  <div class=\"arrow\"></div>");
-         xhtml.AppendLine("  <h3 class=\"popover-title\">" + HttpUtility.HtmlDecode(popover.Caption) + "</h3>");
+         xhtml.AppendLine("  <h3 class=\"popover-title\">" + HttpUtility.HtmlDecode(control.Caption) + "</h3>");
          xhtml.AppendLine("  <div class=\"popover-content\">");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(popover.Text));
+         xhtml.AppendLine(HttpUtility.HtmlDecode(control.Text));
          xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
@@ -2292,7 +2301,7 @@ namespace Cosmo.UI.Render.Impl
       #region ProgressBar Control
 
       /// <summary>
-      /// Renderiza controles de tipo <see cref="ProgressBarControl"/>.
+      /// Renderizes a control of type <see cref="ProgressBarControl"/>.
       /// </summary>
       private string RenderProgressBar(ProgressBarControl control)
       {
@@ -2315,16 +2324,16 @@ namespace Cosmo.UI.Render.Impl
       #region Sidebar Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="SidebarControl"/>.
+      /// Renderizes a control of type <see cref="SidebarControl"/>.
       /// </summary>
-      private string RenderSidebar(SidebarControl sidebar)
+      private string RenderSidebar(SidebarControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<section class=\"sidebar\">");
          xhtml.AppendLine("  <ul class=\"sidebar-menu\">");
 
-         foreach (SidebarButton btn in sidebar.Buttons)
+         foreach (SidebarButton btn in control.Buttons)
          {
             xhtml.AppendLine(RenderSidebarButton(btn));
          }
@@ -2377,7 +2386,7 @@ namespace Cosmo.UI.Render.Impl
       #region TabbedContainer Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="TabbedContainerControl"/>.
+      /// Renderizes a control of type <see cref="TabbedContainerControl"/>.
       /// </summary>
       private string RenderTabbedContainer(TabbedContainerControl control, string receivedFormID)
       {
@@ -2421,21 +2430,21 @@ namespace Cosmo.UI.Render.Impl
       #region Table Control
 
       /// <summary>
-      /// Renderiza un control de tipo <see cref="TableControl"/>.
+      /// Renderizes a control of type <see cref="TableControl"/>.
       /// </summary>
-      private string RenderTable(TableControl table)
+      private string RenderTable(TableControl control)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<table " + table.GetIdParameter() + "class=\"table" + (table.Striped ? " table-striped" : string.Empty) +
-                         (table.Bordered ? " table-bordered" : string.Empty) +
-                         (table.Hover ? " table-hover" : string.Empty) +
-                         (table.Condensed ? " table-condensed" : string.Empty) + "\">");
-         if (table.Header != null)
+         xhtml.AppendLine("<table " + control.GetIdParameter() + "class=\"table" + (control.Striped ? " table-striped" : string.Empty) +
+                         (control.Bordered ? " table-bordered" : string.Empty) +
+                         (control.Hover ? " table-hover" : string.Empty) +
+                         (control.Condensed ? " table-condensed" : string.Empty) + "\">");
+         if (control.Header != null)
          {
-            xhtml.AppendLine("  " + RenderTableRow(table.Header));
+            xhtml.AppendLine("  " + RenderTableRow(control.Header));
          }
-         foreach (TableRow row in table.Rows)
+         foreach (TableRow row in control.Rows)
          {
             xhtml.AppendLine("  " + RenderTableRow(row));
          }
@@ -2505,7 +2514,7 @@ namespace Cosmo.UI.Render.Impl
       #region Timeline Control
 
       /// <summary>
-      /// Renderiza controles de tipo <see cref="TimelineControl"/>.
+      /// Renderizes a control of type <see cref="TimelineControl"/>.
       /// </summary>
       private string RenderTimeline(TimelineControl control)
       {
@@ -2574,20 +2583,11 @@ namespace Cosmo.UI.Render.Impl
       #region TreeView Control
 
       /// <summary>
-      /// Renderiza controles de tipo <see cref="TreeViewControl"/>.
+      /// Renderizes a control of type <see cref="TreeViewControl"/>.
       /// </summary>
       private string RenderTreeView(TreeViewControl control)
       {
          StringBuilder xhtml = new StringBuilder();
-
-         /*xhtml.AppendLine("<div class=\"box box-danger\">");
-         xhtml.AppendLine("  <div class=\"box-header\">");
-         if (!string.IsNullOrWhiteSpace(control.Icon)) xhtml.AppendLine("    " + Icon.GetIcon(control.ParentViewport, control.Icon));
-         if (!string.IsNullOrWhiteSpace(control.Caption)) xhtml.AppendLine("    <h3 class=\"box-title\">" + HttpUtility.HtmlDecode(control.Caption) + "</h3>");
-         xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("  <div class=\"box-body\">");
-
-         if (!string.IsNullOrWhiteSpace(control.Description)) xhtml.AppendLine("    <p>" + control.Description + "</p>");*/
 
          xhtml.AppendLine("    <div class=\"tree\">");
          xhtml.AppendLine("      <ul role=\"tree\">");
@@ -2600,14 +2600,11 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("      </ul>");
          xhtml.AppendLine("    </div>");
 
-         // xhtml.AppendLine("  </div>");
-         // xhtml.AppendLine("</div>");
-
          return xhtml.ToString();
       }
 
       /// <summary>
-      /// Renderiza un nodo de un control <see cref="TreeViewControl"/>.
+      /// Renderizes a control of type <see cref="TreeViewChildItemControl"/>.
       /// </summary>
       private string RenderTreeViewChils(TreeViewChildItemControl childItem, bool collapsed)
       {
@@ -2628,14 +2625,10 @@ namespace Cosmo.UI.Render.Impl
          if (!string.IsNullOrWhiteSpace(childItem.Icon)) xhtml.AppendLine(IconControl.GetIcon(childItem.ParentView, childItem.Icon));
          xhtml.AppendLine(childItem.Caption);
 
-         /*if (childItem.ChildItems.Count > 0)
+         if (!string.IsNullOrWhiteSpace(childItem.Href))
          {
-            // if (!string.IsNullOrWhiteSpace(childItem.Href)) xhtml.AppendLine("<a href=\"#\">");
+            xhtml.AppendLine("</a>");
          }
-         else
-         {*/
-         if (!string.IsNullOrWhiteSpace(childItem.Href)) xhtml.AppendLine("</a>");
-         //}
 
          xhtml.AppendLine("  </span>");
 
@@ -2659,7 +2652,7 @@ namespace Cosmo.UI.Render.Impl
       #region UserLink Control
 
       /// <summary>
-      /// Render a <see cref="UserLinkControl"/> instance.
+      /// Renderizes a control of type <see cref="UserLinkControl"/>.
       /// </summary>
       private string RenderUserLink(UserLinkControl control)
       {

@@ -16,7 +16,7 @@ namespace Cosmo.UI
    /// </summary>
    public abstract class View : IHttpHandler, IRequiresSessionState
    {
-      // Internal data declaration
+      // Internal data declarations
       private List<ViewResource> _resources;
       private List<Script> _scripts;
       private Url _url;
@@ -197,7 +197,7 @@ namespace Cosmo.UI
       {
          // Almacena el contexto para sus diversos usos durante el ciclo de vida de la vista
          _context = context;
-         _cache = new ControlCache(_context.Cache);
+         _cache = new ControlCache(Workspace, _context.Cache);
 
          // Inicializa el workspace
          Workspace = Workspace.GetWorkspace(context);

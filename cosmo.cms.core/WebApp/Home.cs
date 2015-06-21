@@ -34,21 +34,6 @@ namespace Cosmo.WebApp
          // Contenido de la página
          //------------------------------------------------
 
-         if (Workspace.Settings.GetBoolean(CookiesAdvisorControl.SETTINGS_ENABLED))
-         {
-            CookiesAdvisorControl cookies = new CookiesAdvisorControl(this, "cookies-advisor");
-            cookies.InformationHref = ContentView.GetURL(Workspace.Settings.GetInt(CookiesAdvisorControl.SETTINGS_CONTENTID));
-            MainContent.Add(cookies);
-         }
-
-         JumbotronControl jumbotron = new JumbotronControl(this);
-         jumbotron.Title = "Railwaymania.com";
-         jumbotron.Description = "El portal del ferrocarril europeo en español.";
-         jumbotron.BackgroundImage = "images/home_bg_005.jpg";
-         jumbotron.Color = "#eeeeee";
-
-         MainContent.Add(jumbotron);
-
          MediaItem mitem = null;
          MediaListControl mlist = new MediaListControl(this);
          mlist.Style = MediaListControl.MediaListStyle.Thumbnail;

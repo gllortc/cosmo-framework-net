@@ -26,13 +26,13 @@ namespace Cosmo.WebApp.Forums
          bool isModerator = Workspace.CurrentUser.CheckAuthorization(ForumsDAO.ROLE_FORUM_MODERATOR);
 
          Title = ForumsDAO.SERVICE_NAME;
-         ActiveMenuId = "forum";
+         ActiveMenuId = "mnuForum" + Parameters.GetString(ForumsDAO.PARAM_CHANNEL_ID);
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Obtiene los parámetros
          int channelid = Parameters.GetInteger(ForumsDAO.PARAM_CHANNEL_ID);
@@ -70,7 +70,7 @@ namespace Cosmo.WebApp.Forums
          TimelineItem item = null;
          TimelineControl timeline = new TimelineControl(this);
          List<ForumMessage> messages = new List<ForumMessage>();
-         ThreadMessagesOrder order = ThreadMessagesOrder.Ascending;
+         ForumThread.ThreadMessagesOrder order = ForumThread.ThreadMessagesOrder.Ascending;
 
          order = thread.GetMessageOrder(Workspace.Context.Request, Workspace.Context.Response);
          messages = fdao.GetThreadMessages(thread.ID, order);
@@ -105,8 +105,8 @@ namespace Cosmo.WebApp.Forums
                                                 string.Empty));
          panel.ButtonBar.Buttons.Add(new ButtonControl(this, 
                                                 "btnOrder", 
-                                                "Orden " + (order == ThreadMessagesOrder.Ascending ? "descendente" : "ascendente"),
-                                                order == ThreadMessagesOrder.Ascending ? IconControl.ICON_CHEVRON_DOWN : IconControl.ICON_CHEVRON_UP,
+                                                "Orden " + (order == ForumThread.ThreadMessagesOrder.Ascending ? "descendente" : "ascendente"),
+                                                order == ForumThread.ThreadMessagesOrder.Ascending ? IconControl.ICON_CHEVRON_DOWN : IconControl.ICON_CHEVRON_UP,
                                                 ForumThreadView.GetURL(threadid, channelid, page, 1 - (int)order), 
                                                 string.Empty));
          panel.ButtonBar.Buttons.Add(new ButtonControl(this, 
@@ -203,40 +203,6 @@ namespace Cosmo.WebApp.Forums
 
       #endregion
 
-      #region Private Members
-
-      /// <summary>
-      /// Genera el menú de herramientas administrativas.
-      /// </summary>
-      private void AddAdministrationTools(PanelControl panel, int threadId, int channelId)
-      {
-         // Genera el formulario para mover el hilo actual a otro canal.
-         Modals.Add(new ForumThreadToggleStatusModal(threadId));
-         Modals.Add(new ForumThreadRemoveModal(threadId));
-         Modals.Add(new ForumThreadMoveModal(threadId, channelId));
-
-         SplitButtonControl adminDropdown = new SplitButtonControl(this);
-         adminDropdown.Text = "Moderación";
-         adminDropdown.Icon = IconControl.ICON_WRENCH;
-         adminDropdown.Size = ButtonControl.ButtonSizes.Small;
-         adminDropdown.MenuOptions.Add(new ButtonControl(this,
-            "mnu-admin-close",
-            "Cerrar/reactivar hilo",
-            Modals[0]));
-         adminDropdown.MenuOptions.Add(new ButtonControl(this,
-            "mnu-admin-delete",
-            "Eliminar hilo",
-            Modals[1]));
-         adminDropdown.MenuOptions.Add(new ButtonControl(this,
-            "mnu-admin-move",
-            "Mover hilo a otro canal",
-            Modals[2]));
-
-         panel.ButtonBar.Buttons.Add(adminDropdown);
-      }
-
-      #endregion
-
       #region Static Members
 
       /// <summary>
@@ -277,6 +243,40 @@ namespace Cosmo.WebApp.Forums
          url.AddParameter(ForumsDAO.PARAM_PAGE_NUM, pageNum);
 
          return url.ToString();
+      }
+
+      #endregion
+
+      #region Private Members
+
+      /// <summary>
+      /// Genera el menú de herramientas administrativas.
+      /// </summary>
+      private void AddAdministrationTools(PanelControl panel, int threadId, int channelId)
+      {
+         // Genera el formulario para mover el hilo actual a otro canal.
+         Modals.Add(new ForumThreadToggleStatusModal(threadId));
+         Modals.Add(new ForumThreadRemoveModal(threadId));
+         Modals.Add(new ForumThreadMoveModal(threadId, channelId));
+
+         SplitButtonControl adminDropdown = new SplitButtonControl(this);
+         adminDropdown.Text = "Moderación";
+         adminDropdown.Icon = IconControl.ICON_WRENCH;
+         adminDropdown.Size = ButtonControl.ButtonSizes.Small;
+         adminDropdown.MenuOptions.Add(new ButtonControl(this,
+            "mnu-admin-close",
+            "Cerrar/reactivar hilo",
+            Modals[0]));
+         adminDropdown.MenuOptions.Add(new ButtonControl(this,
+            "mnu-admin-delete",
+            "Eliminar hilo",
+            Modals[1]));
+         adminDropdown.MenuOptions.Add(new ButtonControl(this,
+            "mnu-admin-move",
+            "Mover hilo a otro canal",
+            Modals[2]));
+
+         panel.ButtonBar.Buttons.Add(adminDropdown);
       }
 
       #endregion

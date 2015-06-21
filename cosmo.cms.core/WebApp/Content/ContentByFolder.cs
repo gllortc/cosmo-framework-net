@@ -21,16 +21,13 @@ namespace Cosmo.WebApp.Content
          // Agrega la meta-información de la página
          Title = DocumentDAO.SERVICE_NAME;
 
+         // Cabecera
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
+
          PageHeaderControl header = new PageHeaderControl(this);
          header.Title = DocumentDAO.SERVICE_NAME;
          header.Icon = Cosmo.UI.Controls.IconControl.ICON_BOOK;
          MainContent.Add(header);
-
-         // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
-
-         // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
 
          // Obtiene la carpeta a mostrar
          int folderid = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
@@ -48,6 +45,9 @@ namespace Cosmo.WebApp.Content
 
          Title = folder.Name + " | " + DocumentDAO.SERVICE_NAME;
          ActiveMenuId = folder.MenuId;
+
+         // Barra de navegación lateral
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          //--------------------------------------------------------------
          // Cabecera

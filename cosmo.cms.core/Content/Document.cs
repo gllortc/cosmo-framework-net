@@ -157,6 +157,14 @@ namespace Cosmo.Cms.Content
          }
       }
 
+      /// <summary>
+      /// Gets a boolean value indicating if the current document has attachments.
+      /// </summary>
+      public bool HasAttachments
+      {
+         get { return string.IsNullOrWhiteSpace(this.Attachment); }
+      }
+
       #endregion
 
       #region Methods

@@ -25,13 +25,13 @@ namespace Cosmo.WebApp.Forums
          ForumChannel folder = null;
 
          Title = ForumsDAO.SERVICE_NAME;
-         ActiveMenuId = "forum";
+         ActiveMenuId = "mnuForum" + Parameters.GetString(ForumsDAO.PARAM_CHANNEL_ID);
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Obtiene los parámetros
          int folderid = Parameters.GetInteger(ForumsDAO.PARAM_CHANNEL_ID, 0);

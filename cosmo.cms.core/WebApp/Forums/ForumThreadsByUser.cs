@@ -27,10 +27,10 @@ namespace Cosmo.WebApp.Forums
          ActiveMenuId = "forum";
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Obtiene los parámetros
          int folderid = Parameters.GetInteger(ForumsDAO.PARAM_CHANNEL_ID, 0);

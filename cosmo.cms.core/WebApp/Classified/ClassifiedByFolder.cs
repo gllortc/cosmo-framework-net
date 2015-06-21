@@ -26,6 +26,7 @@ namespace Cosmo.WebApp.Classified
          ClassifiedAdsSection folder = null;
 
          Title = ClassifiedAdsDAO.SERVICE_NAME;
+         ActiveMenuId = "mnuAds" + Parameters.GetString(Cosmo.Workspace.PARAM_FOLDER_ID);
 
          // Cabecera
          HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
@@ -34,7 +35,7 @@ namespace Cosmo.WebApp.Classified
          LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
 
          // Obtiene los parámetros
-         int folderid = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID, 0);
+         int folderid = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
 
          // Obtiene las propiedades particulares de la carpeta actual
          ads = new ClassifiedAdsDAO(Workspace);

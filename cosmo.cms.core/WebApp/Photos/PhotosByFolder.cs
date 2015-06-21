@@ -26,7 +26,7 @@ namespace Cosmo.WebApp.Photos
 
          // Agrega la meta-información de la página
          Title = DocumentDAO.SERVICE_NAME;
-         ActiveMenuId = "photo-browse";
+         ActiveMenuId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID) != FOLDER_RECENT ? "photo-browse" : "photo-recent";
 
          PageHeaderControl header = new PageHeaderControl(this);
          header.Title = DocumentDAO.SERVICE_NAME;
@@ -34,10 +34,10 @@ namespace Cosmo.WebApp.Photos
          MainContent.Add(header);
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          //--------------------------------------------------------------
          // Database operations

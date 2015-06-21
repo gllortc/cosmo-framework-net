@@ -27,10 +27,10 @@ namespace Cosmo.WebApp.Photos
          ActiveMenuId = "photo-browse";
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          // Obtiene los parámetros
          folderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID, 0);

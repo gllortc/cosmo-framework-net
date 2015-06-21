@@ -1578,13 +1578,13 @@
         </member>
         <member name="T:Cosmo.UI.ControlCache">
             <summary>
-            Implements a control cache for implementatios of <see cref="T:Cosmo.UI.View"/> class.
+            Implements a cache control to use in views to store configured controls.
             </summary>
         </member>
         <member name="F:Cosmo.UI.ControlCache.DEFAULT_CACHE_TIME">
             <summary>Decfine the default time (in minutes) for cache content.</summary>
         </member>
-        <member name="M:Cosmo.UI.ControlCache.#ctor(System.Web.Caching.Cache)">
+        <member name="M:Cosmo.UI.ControlCache.#ctor(Cosmo.Workspace,System.Web.Caching.Cache)">
             <summary>
             Create an instance of <see cref="T:Cosmo.UI.ControlCache"/>.
             </summary>
@@ -1630,6 +1630,11 @@
         <member name="M:Cosmo.UI.ControlCache.Initialize">
             <summary>
             Initialize the instance.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.ControlCache.Workspace">
+            <summary>
+            Gets the current workspace.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Controls.Control">
@@ -6939,7 +6944,7 @@
         </member>
         <member name="T:Cosmo.UI.Controls.JumbotronControl">
             <summary>
-            Implementa el componente Jumbotron.
+            Implements the Jumbotron control.
             </summary>
             <remarks>
             http://getbootstrap.com/components/#jumbotron
@@ -6947,40 +6952,50 @@
         </member>
         <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.View)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
+            Gets a new instance of <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
             </summary>
             <param name="parentView">Página o contenedor dónde se representará el control.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.JumbotronControl.#ctor(Cosmo.UI.View,System.String)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
+            Gets a new instance of <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
             </summary>
             <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="domId">Identificador del componente en una vista (DOM).</param>
         </member>
         <member name="M:Cosmo.UI.Controls.JumbotronControl.Initialize">
             <summary>
-            Inicializa la instancia.
+            Initializes the instance.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Controls.JumbotronControl.Title">
             <summary>
-            Devuelve o establece el título que tendrá el elemento.
+            Gets or sets the title of Jumbotron.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Controls.JumbotronControl.Description">
             <summary>
-            Devuelve o establece el texto usado a modo de descripción del elemento.
+            Gets or sets the subtitle text.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Controls.JumbotronControl.BackgroundImage">
             <summary>
-            Devuelve o establece el título que tendrá el elemento.
+            Gets or sets the background image.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.JumbotronControl.Color">
+        <member name="P:Cosmo.UI.Controls.JumbotronControl.ForeColor">
             <summary>
-            Devuelve o establece el color del texto.
+            Gets or sets the text color.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.JumbotronControl.ButtonText">
+            <summary>
+            Gets or sets the button text.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.JumbotronControl.ButtonHref">
+            <summary>
+            Gets or sets the button URL (to generate the button link).
             </summary>
         </member>
         <member name="T:Cosmo.UI.Controls.ListGroupControl">
@@ -7920,10 +7935,10 @@
         </member>
         <member name="T:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl">
             <summary>
-            Implementa un módulo de renderizado para AdminLTE versión 1.2.1
+            Implements a render module which implements the Almasaeed AdminLTE (versión 1.2.1) template.
             </summary>
             <remarks>
-            https://github.com/almasaeed2010/AdminLTE/releases/tag/1.2.1
+            Almasaeed AdminLTE: https://github.com/almasaeed2010/AdminLTE/releases/tag/1.2.1
             </remarks>
         </member>
         <member name="T:Cosmo.UI.Render.RenderModule">
@@ -8181,137 +8196,137 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderAlert(Cosmo.UI.Controls.AlertControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.AlertControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderBadge(Cosmo.UI.Controls.BadgeControl)">
             <summary>
-            Renderiza controles de tipo <see cref="T:Cosmo.UI.Controls.BadgeControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.BadgeControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderBreadcrumb(Cosmo.UI.Controls.BreadcrumbControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.BreadcrumbControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.BreadcrumbControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderButtonBar(Cosmo.UI.Controls.ButtonGroupControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ButtonGroupControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.ButtonGroupControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderButton(Cosmo.UI.Controls.ButtonControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.ButtonControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderButtonSplit(Cosmo.UI.Controls.SplitButtonControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.SplitButtonControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.SplitButtonControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderCallout(Cosmo.UI.Controls.CalloutControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.CalloutControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.CalloutControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderCarrousel(Cosmo.UI.Controls.CarrouselControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.CarrouselControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.CarrouselControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderChat(Cosmo.UI.Controls.ChatControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ChatControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.ChatControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderCookiesAdvisor(Cosmo.UI.Controls.CookiesAdvisorControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.CookiesAdvisorControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.CookiesAdvisorControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderDocumentHeader(Cosmo.UI.Controls.DocumentHeaderControl)">
             <summary>
-            Renderize a control of type <see cref="T:Cosmo.UI.Controls.DocumentHeaderControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.DocumentHeaderControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderError(Cosmo.UI.Controls.ErrorControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ErrorControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.ErrorControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderForm(Cosmo.UI.Controls.FormControl,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldHidden(Cosmo.UI.Controls.FormFieldHidden,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldHidden"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldHidden"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldCaptcha(Cosmo.UI.Controls.FormFieldCaptcha,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldCaptcha"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldPassword(Cosmo.UI.Controls.FormFieldPassword,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldText(Cosmo.UI.Controls.FormFieldText,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldText"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldDate(Cosmo.UI.Controls.FormFieldDate,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldDate"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldDate"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldEditor(Cosmo.UI.Controls.FormFieldEditor,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldEditor"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldEditor"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldImage(Cosmo.UI.Controls.FormFieldImage,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldImage"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldFile(Cosmo.UI.Controls.FormFieldFile,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldFile"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldList(Cosmo.UI.Controls.FormFieldList,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldBoolean(Cosmo.UI.Controls.FormFieldBoolean,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderHtmlContent(Cosmo.UI.Controls.HtmlContentControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.HtmlContentControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.HtmlContentControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderIcon(Cosmo.UI.Controls.IconControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.IconControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.IconControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderJumbotron(Cosmo.UI.Controls.JumbotronControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.JumbotronControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderLayout(Cosmo.UI.Controls.LayoutContainerControl,System.String)">
             <summary>
-            Renderiza un control <see cref="T:Cosmo.UI.Controls.LayoutContainerControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.LayoutContainerControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderSingleControlLayout(Cosmo.UI.Controls.LayoutContainerControl,System.String)">
@@ -8321,7 +8336,7 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderListGroup(Cosmo.UI.Controls.ListGroupControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.ListGroupControl"/>.
+            Renderizes a control of type  <see cref="T:Cosmo.UI.Controls.ListGroupControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderListItem(Cosmo.UI.Controls.ListItem,Cosmo.UI.Controls.ListGroupControl)">
@@ -8331,17 +8346,17 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderLoginForm(Cosmo.UI.Controls.LoginFormControl)">
             <summary>
-            Renderiza un formulario de login.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.LoginFormControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderMediaList(Cosmo.UI.Controls.MediaListControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.MediaListControl"/>.
+            Renderizes a control of type  <see cref="T:Cosmo.UI.Controls.MediaListControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderNavbar(Cosmo.UI.Controls.NavbarControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderNavbarLoginItem(Cosmo.UI.Controls.NavbarLoginItem)">
@@ -8354,19 +8369,29 @@
             Representa un elemento de menú que muestra el número de mensajes privados nuevos.
             </summary>
         </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPageHeader(Cosmo.UI.Controls.PageHeaderControl)">
+            <summary>
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PageHeaderControl"/>.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPagination(Cosmo.UI.Controls.PaginationControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.PaginationControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PaginationControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPanel(Cosmo.UI.Controls.PanelControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.PanelControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PanelControl"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPartialViewContainer(Cosmo.UI.Controls.PartialViewContainerControl)">
+            <summary>
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPictureGallery(Cosmo.UI.Controls.PictureGalleryControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.PictureGalleryControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PictureGalleryControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPicture(Cosmo.UI.Controls.PictureControl)">
@@ -8376,17 +8401,17 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderPopover(Cosmo.UI.Controls.PopoverControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.PopoverControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderProgressBar(Cosmo.UI.Controls.ProgressBarControl)">
             <summary>
-            Renderiza controles de tipo <see cref="T:Cosmo.UI.Controls.ProgressBarControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.ProgressBarControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderSidebar(Cosmo.UI.Controls.SidebarControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderSidebarButton(Cosmo.UI.Controls.SidebarButton)">
@@ -8396,12 +8421,12 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTabbedContainer(Cosmo.UI.Controls.TabbedContainerControl,System.String)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.TabbedContainerControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.TabbedContainerControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTable(Cosmo.UI.Controls.TableControl)">
             <summary>
-            Renderiza un control de tipo <see cref="T:Cosmo.UI.Controls.TableControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.TableControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTableRow(Cosmo.UI.Controls.TableRow)">
@@ -8411,22 +8436,22 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTimeline(Cosmo.UI.Controls.TimelineControl)">
             <summary>
-            Renderiza controles de tipo <see cref="T:Cosmo.UI.Controls.TimelineControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.TimelineControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTreeView(Cosmo.UI.Controls.TreeViewControl)">
             <summary>
-            Renderiza controles de tipo <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTreeViewChils(Cosmo.UI.Controls.TreeViewChildItemControl,System.Boolean)">
             <summary>
-            Renderiza un nodo de un control <see cref="T:Cosmo.UI.Controls.TreeViewControl"/>.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.TreeViewChildItemControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderUserLink(Cosmo.UI.Controls.UserLinkControl)">
             <summary>
-            Render a <see cref="T:Cosmo.UI.Controls.UserLinkControl"/> instance.
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.UserLinkControl"/>.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalViews(Cosmo.UI.View,System.Collections.Generic.List{Cosmo.UI.ModalView})">
@@ -8535,6 +8560,14 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="M:Cosmo.UI.UIService.GetSidebarMenu(Cosmo.UI.PageView,System.String)">
+            <summary>
+            Gets a sidebar using the default provider.
+            </summary>
+            <param name="parentView">Page view that contains the sidebar menu.</param>
+            <param name="id">Sidebar identifier.</param>
+            <returns>The requested instance of <see cref="T:Cosmo.UI.Controls.SidebarControl"/> with sidebar data.</returns>
+        </member>
         <member name="M:Cosmo.UI.UIService.GetSidebarMenu(Cosmo.UI.View,System.String,System.String)">
             <summary>
             Obtiene el menú lateral a partir de un proveedor determinado.
@@ -8543,6 +8576,14 @@
             <param name="id">Identificador del menú a obtener.</param>
             <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
+        </member>
+        <member name="M:Cosmo.UI.UIService.GetNavbarMenu(Cosmo.UI.PageView,System.String)">
+            <summary>
+            Gets a navbar using the default provider.
+            </summary>
+            <param name="parentView">Page view that contains the navbar menu.</param>
+            <param name="id">Navbar identifier.</param>
+            <returns>The requested instance of <see cref="T:Cosmo.UI.Controls.NavbarControl"/> with navbar data.</returns>
         </member>
         <member name="M:Cosmo.UI.UIService.GetNavbarMenu(Cosmo.UI.View,System.String,System.String)">
             <summary>

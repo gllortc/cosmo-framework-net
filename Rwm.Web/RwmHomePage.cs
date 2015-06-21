@@ -1,7 +1,10 @@
 ﻿using Cosmo.Cms.Content;
+using Cosmo.Net;
 using Cosmo.UI.Controls;
 using Cosmo.WebApp.Content;
+using Cosmo.WebApp.UserServices;
 using System;
+using System.Reflection;
 
 namespace Rwm.WebApp
 {
@@ -20,10 +23,10 @@ namespace Rwm.WebApp
          ActiveMenuId = "home";
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          //------------------------------------------------
          // Barra lateral derecha
@@ -35,11 +38,20 @@ namespace Rwm.WebApp
          // Contenido de la página
          //------------------------------------------------
 
+         if (Workspace.Settings.GetBoolean(CookiesAdvisorControl.SETTINGS_ENABLED))
+         {
+            CookiesAdvisorControl cookies = new CookiesAdvisorControl(this, "cookies-advisor");
+            cookies.InformationHref = RwmPrivacy.GetURL();
+            MainContent.Add(cookies);
+         }
+
          JumbotronControl jumbotron = new JumbotronControl(this);
          jumbotron.Title = "Railwaymania.com";
          jumbotron.Description = "El portal del ferrocarril europeo en español.";
          jumbotron.BackgroundImage = "images/home_bg_005.jpg";
-         jumbotron.Color = "#eeeeee";
+         jumbotron.ForeColor = "#eeeeee";
+         jumbotron.ButtonText = "Suscribete";
+         jumbotron.ButtonHref = UserJoin.GetURL();
 
          MainContent.Add(jumbotron);
 
@@ -88,6 +100,20 @@ namespace Rwm.WebApp
       public override void FormDataLoad(string formDomID)
       {
          // Nothing to do
+      }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         return url.ToString();
       }
 
       #endregion
