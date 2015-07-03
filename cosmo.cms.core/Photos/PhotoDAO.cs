@@ -15,7 +15,7 @@ namespace Cosmo.Cms.Photos
    /// </summary>
    public class PhotoDAO
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
 
       /// <summary>Nombre del servicio</summary>

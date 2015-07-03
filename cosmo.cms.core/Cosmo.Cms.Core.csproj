@@ -61,6 +61,7 @@
     <Compile Include="Classified\ClassifiedContactRequest.cs" />
     <Compile Include="Cms.cs" />
     <Compile Include="Common\IPublishable.cs" />
+    <Compile Include="Common\PublishStatus.cs" />
     <Compile Include="Content\DocumentUI.cs" />
     <Compile Include="Photos\PhotoUI.cs" />
     <Compile Include="REST\CmsApi.cs" />
@@ -81,9 +82,9 @@
     <Compile Include="WebApp\Photos\PhotosUpload.cs" />
     <Compile Include="NodeNotEmptyException.cs" />
     <Compile Include="TooManyUserObjectsException.cs" />
-    <Compile Include="Utils\Banners\CSBanner.cs" />
-    <Compile Include="Utils\Banners\CSBannerHandler.cs" />
-    <Compile Include="Utils\Banners\CSBanners.cs" />
+    <Compile Include="Utils\Banners\Banner.cs" />
+    <Compile Include="Utils\Banners\BannerHandler.cs" />
+    <Compile Include="Utils\Banners\BannerDAO.cs" />
     <Compile Include="WebApp\Classified\ClassifiedManage.cs" />
     <Compile Include="WebApp\Classified\ClassifiedByFolder.cs" />
     <Compile Include="WebApp\Classified\ClassifiedView.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="Photos\PhotoDAO.cs" />
     <Compile Include="Photos\PhotoFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Rss\CSRssHandler.cs" />
+    <Compile Include="Utils\Rss\RssHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cosmo.core\Cosmo.Core.csproj">

@@ -2,35 +2,6 @@
 
 namespace Cosmo.UI.Controls
 {
-
-   #region Enumerations
-
-   /// <summary>
-   /// Describe los sitintos tipos de elementos que puede contener una barra de navegación.
-   /// </summary>
-   public enum NavbarItemType
-   {
-      /// <summary>Botón normal (enlace) o menú desplegable.</summary>
-      Button,
-      /// <summary>Línea divisoria entre distintos elementos.</summary>
-      Divider,
-      /// <summary>Botón de inicio de sesión.</summary>
-      Login
-   }
-
-   /// <summary>
-   /// Describe los sitintos tipos de elementos que puede contener una barra de navegación.
-   /// </summary>
-   public enum NavbarItemPosition
-   {
-      /// <summary>Alineado a la izquierda.</summary>
-      Left,
-      /// <summary>Alineado a la derecha.</summary>
-      Right
-   }
-
-   #endregion
-
    /// <summary>
    /// Representa un elemento insertable en un componente Navbar de Bootstrap.
    /// </summary>
@@ -44,6 +15,34 @@ namespace Cosmo.UI.Controls
       private NavbarItemPosition _position;
       private NavbarItemType _type;
       private List<NavbarIButtonControl> _subItems;
+
+      #region Enumerations
+
+      /// <summary>
+      /// Describe los sitintos tipos de elementos que puede contener una barra de navegación.
+      /// </summary>
+      public enum NavbarItemType
+      {
+         /// <summary>Botón normal (enlace) o menú desplegable.</summary>
+         Button,
+         /// <summary>Línea divisoria entre distintos elementos.</summary>
+         Divider,
+         /// <summary>Botón de inicio de sesión.</summary>
+         Login
+      }
+
+      /// <summary>
+      /// Describe los sitintos tipos de elementos que puede contener una barra de navegación.
+      /// </summary>
+      public enum NavbarItemPosition
+      {
+         /// <summary>Alineado a la izquierda.</summary>
+         Left,
+         /// <summary>Alineado a la derecha.</summary>
+         Right
+      }
+
+      #endregion
 
       #region Constructors
 

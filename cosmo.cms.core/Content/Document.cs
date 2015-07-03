@@ -104,10 +104,10 @@ namespace Cosmo.Cms.Content
       /// <summary>
       /// Indica si está publicado (visible públicamente) o no.
       /// </summary>
-      public PublishStatus Status
+      public CmsPublishStatus.PublishStatus Status
       {
-         get { return (this.Published ? PublishStatus.Published : PublishStatus.Unpublished); }
-         set { this.Published = (value == PublishStatus.Published); }
+         get { return (this.Published ? CmsPublishStatus.PublishStatus.Published : CmsPublishStatus.PublishStatus.Unpublished); }
+         set { this.Published = (value == CmsPublishStatus.PublishStatus.Published); }
       }
 
       /// <summary>

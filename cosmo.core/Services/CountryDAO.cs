@@ -1,4 +1,5 @@
-﻿using Cosmo.Diagnostics;
+﻿using Cosmo.Data.Connection;
+using Cosmo.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -42,7 +43,6 @@ namespace Cosmo.Services
          string sql = string.Empty;
          Country country = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<Country> countries = new List<Country>();
 
          try
@@ -55,17 +55,18 @@ namespace Cosmo.Services
                     ORDER BY  countryname ASC";
 
             cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               country = new Country();
-               country.ID = reader.GetInt32(0);
-               country.Name = reader.GetString(1);
-               country.Default = reader.GetBoolean(2);
+               while (reader.Read())
+               {
+                  country = new Country();
+                  country.ID = reader.GetInt32(0);
+                  country.Name = reader.GetString(1);
+                  country.Default = reader.GetBoolean(2);
 
-               countries.Add(country);
+                  countries.Add(country);
+               }
             }
-            reader.Close();
 
             return countries;
          }
@@ -79,10 +80,7 @@ namespace Cosmo.Services
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             workspace.DataSource.Disconnect();
          }
       }
@@ -98,7 +96,6 @@ namespace Cosmo.Services
          int id = 0;
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -110,12 +107,14 @@ namespace Cosmo.Services
                     ORDER BY  countryname ASC";
 
             cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            list.DataSource = reader;
-            list.DataTextField = "countryname";
-            list.DataValueField = "countryid";
-            list.DataBind();
-            reader.Close();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               list.DataSource = reader;
+               list.DataTextField = "countryname";
+               list.DataValueField = "countryid";
+               list.DataBind();
+            }
 
             // Preselecciona el elemento
             if (selectedId <= 0)
@@ -125,13 +124,14 @@ namespace Cosmo.Services
                        WHERE  countrylstdef = 1";
 
                cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-               reader = cmd.ExecuteReader();
-               if (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  id = (int)reader["countryid"];
-                  if (id > 0) list.Items.FindByValue(id.ToString()).Selected = true;
+                  if (reader.Read())
+                  {
+                     id = (int)reader["countryid"];
+                     if (id > 0) list.Items.FindByValue(id.ToString()).Selected = true;
+                  }
                }
-               reader.Close();
             }
             else
             {
@@ -148,10 +148,7 @@ namespace Cosmo.Services
          }
          finally
          {
-            if (!reader.IsClosed) reader.Close();
-            reader.Dispose();
-            cmd.Dispose();
-
+            IDataModule.CloseAndDispose(cmd);
             workspace.DataSource.Disconnect();
          }
       }

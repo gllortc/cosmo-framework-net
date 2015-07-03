@@ -1,3 +1,4 @@
+using Cosmo.Data.Connection;
 using Cosmo.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,6 @@ namespace Cosmo.UI.Menu
          MenuItem section = null;
          List<MenuItem> sections = new List<MenuItem>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          sql = "SELECT " + SQL_SELECT_SECTION + " " +
                "FROM " + SQL_TABLE_NAME + " " +
@@ -62,13 +62,14 @@ namespace Cosmo.UI.Menu
             Workspace.DataSource.Connect();
 
             cmd = new SqlCommand(sql, Workspace.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               section = ReadSection(reader);
-               if (section != null) sections.Add(section);
+               while (reader.Read())
+               {
+                  section = ReadSection(reader);
+                  if (section != null) sections.Add(section);
+               }
             }
-            reader.Close();
 
             return sections;
          }
@@ -81,8 +82,7 @@ namespace Cosmo.UI.Menu
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             Workspace.DataSource.Disconnect();
          }
       }

@@ -17,7 +17,7 @@ namespace Cosmo.Data.Connection
       /// <summary>Clave de la propiedad de configuración del plugin que contiene el la contraseña de la cuenta de acceso.</summary>
       public static string SETTING_DB_PASSWORD = "db.password";
       
-      // Declaración de variables locales
+      // Internal data declarations
       private Plugin _plugin;
 
       #region Constructors

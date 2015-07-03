@@ -2,7 +2,6 @@
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
-using Cosmo.Utils.Html;
 using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
@@ -83,11 +82,11 @@ namespace Cosmo.UI.Render.Impl
       }
 
       /// <summary>
-      /// Renderiza un control.
+      /// Renderizes a control.
       /// </summary>
-      /// <param name="control">Instancia del control a renderizar.</param>
-      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-      /// <returns>Una cadena que contiene XHTML.</returns>
+      /// <param name="control">Control to renderize.</param>
+      /// <param name="receivedFormID">The identifier of the form received or empty string if no form is received.</param>
+      /// <returns>A string containing the XHTML code corresponding to the control renderized.</returns>
       public override string Render(Controls.Control control, string receivedFormID)
       {
          if (control.GetType() == typeof(LayoutContainerControl))
@@ -276,15 +275,13 @@ namespace Cosmo.UI.Render.Impl
             return RenderUserLink((UserLinkControl)control);
          }
 
-         // throw new ControlNotSuportedException("No se puede renderizar el control de tipo " + control.GetType().AssemblyQualifiedName);
-
          StringBuilder xhtml = new StringBuilder();
          xhtml.AppendLine("<div class=\"alert alert-warning alert-dismissable\">");
          xhtml.AppendLine("  <i class=\"fa fa-warning\"></i>");
          xhtml.AppendLine("  <b>Render Error</b>: No ha sido posible renderizar el control de tipo <code>" + control.GetType().FullName + "</code>.");
          xhtml.AppendLine("</div>");
-         return xhtml.ToString();
 
+         return xhtml.ToString();
       }
 
       /// <summary>
@@ -476,24 +473,6 @@ namespace Cosmo.UI.Render.Impl
       #endregion
 
       #region Methods
-
-      /// <summary>
-      /// Renderiza una plantilla de visualización.
-      /// </summary>
-      /// <param name="template">Una instancia de <see cref="CosmoTemplate"/> que representa la instancia renderizar.</param>
-      /// <returns>Una cadena que contiene XHTML.</returns>
-      public string RenderTemplate(CosmoTemplate template)
-      {
-         StringBuilder xhtml = new StringBuilder();
-
-         // Renderiza controles de página
-         xhtml.AppendLine(Render(template.Content));
-
-         // Renderiza scripts
-         xhtml.AppendLine(RenderScripts(template));
-
-         return xhtml.ToString();
-      }
 
       /// <summary>
       /// Renderiza los scripts de la página.
@@ -1940,17 +1919,23 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("        <small>Miembro desde " + Workspace.CurrentUser.User.Created.ToString("dd/MM/yyyy") + "</small>");
             xhtml.AppendLine("      </p>");
             xhtml.AppendLine("    </li>");
-            xhtml.AppendLine("    <li class=\"user-body\">");
-            xhtml.AppendLine("      <div class=\"col-xs-4 text-center\">");
-            xhtml.AppendLine("        <a href=\"#\">Followers</a>");
-            xhtml.AppendLine("      </div>");
-            xhtml.AppendLine("      <div class=\"col-xs-4 text-center\">");
-            xhtml.AppendLine("        <a href=\"#\">Sales</a>");
-            xhtml.AppendLine("      </div>");
-            xhtml.AppendLine("      <div class=\"col-xs-4 text-center\">");
-            xhtml.AppendLine("        <a href=\"#\">Friends</a>");
-            xhtml.AppendLine("      </div>");
-            xhtml.AppendLine("    </li>");
+            if (item.SubItems != null && item.SubItems.Count > 0)
+            {
+               xhtml.AppendLine("    <li class=\"user-body\">");
+
+               xhtml.AppendLine("      <div class=\"col-xs-6 text-center\">");
+               xhtml.AppendLine("        <a href=\"" + item.SubItems[0].Href + "\">" + item.SubItems[0].Caption + "</a>");
+               xhtml.AppendLine("      </div>");
+
+               xhtml.AppendLine("      <div class=\"col-xs-6 text-center\">");
+               if (item.SubItems.Count > 1)
+               {
+                  xhtml.AppendLine("        <a href=\"" + item.SubItems[1].Href + "\">" + item.SubItems[1].Caption + "</a>");
+               }
+               xhtml.AppendLine("      </div>");
+
+               xhtml.AppendLine("    </li>");
+            }
             xhtml.AppendLine("    <li class=\"user-footer\">");
             xhtml.AppendLine("      <div class=\"pull-left\">");
             xhtml.AppendLine("        <a href=\"" + UserData.GetURL() + "\" class=\"btn btn-default btn-flat\">Perfil</a>");
@@ -1988,7 +1973,7 @@ namespace Cosmo.UI.Render.Impl
             unreadMsgs = Workspace.Communications.PrivateMessages.CountUnreadMessages();
 
             xhtml.AppendLine("      <li>");
-            xhtml.AppendLine("        <a href=\"" + Cosmo.Workspace.COSMO_URL_USER_MESSAGES + "\">");
+            xhtml.AppendLine("        <a href=\"" + item.Href + "\">");
             xhtml.AppendLine("          <i class=\"fa fa-envelope\"></i>");
             if (unreadMsgs > 0)
             {

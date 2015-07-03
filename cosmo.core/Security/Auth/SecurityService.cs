@@ -1,12 +1,9 @@
 ﻿using Cosmo.Net;
-using Cosmo.Security.Cryptography;
 using Cosmo.Services;
 using Cosmo.Utils;
-using Cosmo.WebApp.UserServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -21,29 +18,9 @@ namespace Cosmo.Security.Auth
    /// </remarks>
    public class SecurityService 
    {
-      // Cuenta de ex-mail desde dónde se envian notificaciones a los usuarios del workspace.
-      private const string UsersMailFromAddress = "users.mail.fromadd";
-      // Nombre asociado a la cuenta de ex-mail desde dónde se envian notificaciones a los usuarios del workspace.
-      private const string UsersMailFromName = "users.mail.fromname";
-      // Asunto del correo de verificación que reciben los usuarios al crear una nueva cuenta.
-      private const string UsersJoinSubject = "users.join.subject";
-      // Cuerpo del correo de verificación que reciben los usuarios al crear una nueva cuenta.
-      private const string UsersJoinBody = "users.join.body";
-      // Formato del correo de verificación que reciben los usuarios al crear una nueva cuenta.
-      private const string UsersJoinHTMLFormat = "users.join.html";
-      // Asunto del correo para recuperar las credenciales de un usuario del workspace.
-      private const string UsersRecoverSubject = "users.rpwd.subject";
-      // Cuerpo del correo para recuperar las credenciales de un usuario del workspace.
-      private const string UsersRecoverBody = "users.rpwd.body";
-      // Formato del correo para recuperar las credenciales de un usuario del workspace.
-      private const string UsersRecoverHTMLFormat = "users.rpwd.html";
-
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
       private Dictionary<string, SecurityModule> _modules;
-
-      /// <summary>Proveedor de autenticación por defecto (Cosmo Workspace Authentication provider).</summary>
-      public const String PROVIDER_DEFAULT = "Cosmo.Security.Auth.Impl.SqlServerAuthenticationImpl";
 
       /// <summary>Login del usuario super</summary>
       public const String ACCOUNT_SUPER = "SA";
@@ -191,7 +168,9 @@ namespace Cosmo.Security.Auth
       /// <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
       public void Create(User user)
       {
-         _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].Create(user);
+         SecurityModule module = _modules[_ws.Settings.AuthenticationModules.DefaultPluginId];
+
+         module.Create(user, module.IsVerificationMailRequired);
       }
 
       /// <summary>
@@ -348,138 +327,6 @@ namespace Cosmo.Security.Auth
       public string GetLoginUrl(string redirectToUrl)
       {
          return _modules[_ws.Settings.AuthenticationModules.DefaultPluginId].GetLoginUrl(redirectToUrl);
-      }
-
-      /// <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
-      public const string TAG_USER_LOGIN = "<%LOGIN%>";
-      /// <summary>TAG para insertar el correo electrónico del usuario en el texto del mensaje.</summary>
-      public const string TAG_USER_MAIL = "<%MAIL%>";
-      /// <summary>TAG para insertar el nombre real del usuario en el texto del mensaje.</summary>
-      public const string TAG_USER_NAME = "<%NAME%>";
-      /// <summary>TAG para insertar la contraseña del usuario en el texto del mensaje.</summary>
-      public const string TAG_USER_PASSWORD = "<%PASSWORD%>";
-      /// <summary>TAG para insertar el link que da acceso a la verificación de la cuenta de correo.</summary>
-      public const string TAG_USER_VERIFYLINK = "<%VERIFY_LINK%>";
-      /// <summary>TAG para insertar el mail de contacto del responsable del workspace en el texto del mensaje.</summary>
-      public const string TAG_WORKSPACE_MAIL = "<%CONTACTMAIL%>";
-
-      /// <summary>
-      /// Genera el correo de verificación de cuenta de correo.
-      /// </summary>
-      /// <param name="user">Una instancia de <see cref="User"/>.</param>
-      /// <returns>Una instancia de <see cref="MailMessage"/> que contiene el correo de verificación de cuentas de eMail.</returns>
-      public MailMessage GetVerificationMail(User user)
-      {
-         MailMessage msg = new MailMessage();
-
-         // Genera la URL de verificación
-         string qs = UriCryptography.Encrypt("obj=" + user.Mail + "&id=" + user.ID, this.EncriptionKey);
-         // string url = Cosmo.Net.Url.Combine(_ws.Url, Workspace.COSMO_URL_JOIN_VERIFICATION) + "?mode=verify&data=" + qs;
-         string url = Cosmo.Net.Url.Combine(_ws.Url, UserJoinVerification.GetURL(qs));
-
-         // Inicializa el correo electrónico
-         msg.From = new MailAddress(_ws.Settings.GetString(SecurityService.UsersMailFromAddress),
-                                    _ws.Settings.GetString(SecurityService.UsersMailFromName, _ws.Settings.GetString(SecurityService.UsersMailFromAddress)));
-         msg.To.Add(new MailAddress(user.Mail,
-                                    string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
-
-         // Formatea el cuerpo del mensaje
-         string body = _ws.Settings.GetString(SecurityService.UsersJoinBody);
-         body = body.Replace(TAG_USER_LOGIN, user.Login);
-         body = body.Replace(TAG_USER_MAIL, user.Mail);
-         body = body.Replace(TAG_USER_NAME, user.Name);
-         body = body.Replace(TAG_USER_PASSWORD, user.Password);
-         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
-
-         if (_ws.Settings.GetBoolean(SecurityService.UsersJoinHTMLFormat))
-         {
-            body = body.Replace(TAG_USER_VERIFYLINK, "<a href=\"" + url.Replace("&", "&amp;") + "\" target=\"_blank\">" + url.Replace("&", "&amp;") + "</a>");
-            msg.Body = body;
-            msg.IsBodyHtml = true;
-         }
-         else
-         {
-            body = body.Replace(TAG_USER_VERIFYLINK, url);
-            msg.Body = body;
-            msg.IsBodyHtml = false;
-         }
-
-         // Formatea el asunto del mensaje
-         string subject = _ws.Settings.GetString(SecurityService.UsersJoinSubject);
-         subject = subject.Replace(TAG_USER_LOGIN, user.Login);
-         subject = subject.Replace(TAG_USER_MAIL, user.Mail);
-         subject = subject.Replace(TAG_USER_NAME, user.Name);
-         subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
-         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
-
-         msg.Subject = subject;
-
-         return msg;
-      }
-
-      /// <summary>
-      /// Genera el correo de verificación de cuenta de correo.
-      /// </summary>
-      /// <param name="uid">Identificador del usuario.</param>
-      public MailMessage GetVerificationMail(int uid)
-      {
-         return GetVerificationMail(this.GetUser(uid));
-      }
-
-      /// <summary>
-      /// Genera el correo de envío de datos de connexión.
-      /// </summary>
-      /// <param name="user">Una instancia de <see cref="User"/>.</param>
-      /// <returns>Una instancia de <see cref="MailMessage"/> que contiene los datos de conexión de un usuario.</returns>
-      public MailMessage GetUserDataMail(User user)
-      {
-         MailMessage msg = new MailMessage();
-
-         // Inicializa el correo electrónico
-         msg.From = new MailAddress(_ws.Settings.GetString(SecurityService.UsersMailFromAddress),
-                                    _ws.Settings.GetString(SecurityService.UsersMailFromName, _ws.Settings.GetString(SecurityService.UsersMailFromAddress)));
-         msg.To.Add(new MailAddress(user.Mail,
-                                    string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
-
-         // Formatea el cuerpo del mensaje
-         string body = _ws.Settings.GetString(SecurityService.UsersRecoverBody);
-         body = body.Replace(TAG_USER_LOGIN, user.Login);
-         body = body.Replace(TAG_USER_MAIL, user.Mail);
-         body = body.Replace(TAG_USER_NAME, user.Name);
-         body = body.Replace(TAG_USER_PASSWORD, user.Password);
-         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
-
-         if (_ws.Settings.GetBoolean(SecurityService.UsersRecoverHTMLFormat))
-         {
-            msg.Body = body;
-            msg.IsBodyHtml = true;
-         }
-         else
-         {
-            msg.Body = body;
-            msg.IsBodyHtml = false;
-         }
-
-         // Formatea el asunto del mensaje
-         string subject = _ws.Settings.GetString(SecurityService.UsersRecoverSubject);
-         subject = subject.Replace(TAG_USER_LOGIN, user.Login);
-         subject = subject.Replace(TAG_USER_MAIL, user.Mail);
-         subject = subject.Replace(TAG_USER_NAME, user.Name);
-         subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
-         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
-
-         msg.Subject = subject;
-
-         return msg;
-      }
-
-      /// <summary>
-      /// Genera el correo de envío de datos de connexión.
-      /// </summary>
-      /// <param name="uid">Identificador del usuario.</param>
-      public MailMessage GetUserDataMail(int uid)
-      {
-         return GetUserDataMail(this.GetUser(uid));
       }
 
       #endregion

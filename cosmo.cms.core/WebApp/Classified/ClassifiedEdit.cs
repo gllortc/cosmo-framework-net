@@ -1,10 +1,12 @@
 ﻿using Cosmo.Cms.Classified;
+using Cosmo.Cms.Common;
 using Cosmo.Cms.Content;
 using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.Utils;
+using System;
 using System.Reflection;
 
 namespace Cosmo.WebApp.Classified
@@ -14,10 +16,10 @@ namespace Cosmo.WebApp.Classified
    {
       // Declaración de nombres de parámetros
       private const string FIELD_TITLE = "tit";
-      private const string FIELD_DESCRIPTION = "des";
       private const string FIELD_CONTENT = "con";
       private const string FIELD_THUMBNAIL = "thb";
       private const string FIELD_ATTACHMENT = "att";
+      private const string FIELD_SECTION = "section";
       private const string FIELD_STATUS = "sta";
       private const string FIELD_HIGHLIGHT = "hgl";
 
@@ -25,9 +27,7 @@ namespace Cosmo.WebApp.Classified
 
       public override void InitPage()
       {
-         string cmd;
-         ClassifiedAd doc = null;
-         ClassifiedAdsSection folder = null;
+         ClassifiedAd ad = null;
 
          // Agrega los recursos necesarios para representar la página actual
          Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
@@ -38,46 +38,32 @@ namespace Cosmo.WebApp.Classified
 
          // Obtiene los parámetros de llamada
          int docId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+         int sectionId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
 
          //-------------------------------
          // Obtención de datos
          //-------------------------------
 
          // Inicializaciones
-         ClassifiedAdsDAO docs = new ClassifiedAdsDAO(Workspace);
+         ClassifiedAdsDAO adsDao = new ClassifiedAdsDAO(Workspace);
 
-         cmd = Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND);
-         switch (cmd)
+         if (docId > 0)
          {
-            case Cosmo.Workspace.COMMAND_EDIT:
-               doc = docs.Item(docId);
-               break;
-
-            case Cosmo.Workspace.COMMAND_ADD:
-               doc = new ClassifiedAd();
-               doc.FolderID = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
-               break;
-
-            default:
-               ShowError("Llamada incorrecta!",
-                         "Hemos detectado una llamada incorrecta al editor de anuncios. No es posible abrir el editor en estas condiciones.");
-               break;
+            // Classified ad edition
+            ad = adsDao.Item(docId);
          }
-
-         // Obtiene el documento y la carpeta
-         folder = docs.GetFolder(doc.FolderID);
-         if (folder == null)
+         else
          {
-            ShowError("Categoria no encontrada",
-                      "No se ha podido determinar la categoria a la que desea añadir el anuncio. No es posible abrir el editor en estas condiciones.");
-            return;
+            // New classified ad
+            ad = new ClassifiedAd();
+            ad.FolderID = sectionId;
          }
 
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
 
-         Title = ClassifiedAdsDAO.SERVICE_NAME + " | " + doc.Title;
+         Title = ClassifiedAdsDAO.SERVICE_NAME + " | " + ad.Title;
          // ActiveMenuId = folder.MenuId;
 
          // Cabecera
@@ -93,25 +79,45 @@ namespace Cosmo.WebApp.Classified
          MainContent.Add(header);
 
          // Formulario
-         FormControl form = new FormControl(this);
+         FormControl form = new FormControl(this, "frmCAd");
          form.Icon = "fa-edit";
          form.Caption = "Editar artículo";
          form.Action = GetType().Name;
 
-         form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
-         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, doc.ID);
-         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderID);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ad.ID);
 
-         form.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, doc.Title));
-         form.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Anuncio", FormFieldEditor.FieldEditorType.HTML, doc.Body));
+         FormFieldText txtTitle = new FormFieldText(this, FIELD_TITLE);
+         txtTitle.Label = "Título";
+         txtTitle.Value = ad.Title;
+         txtTitle.Required = true;
+         form.Content.Add(txtTitle);
 
-         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Status == Cms.Common.PublishStatus.Published ? "1" : "0"));
-         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
-         lstStatus.Values.Add(new KeyValue("Publicado", "1"));
+         FormFieldEditor txtBody = new FormFieldEditor(this, FIELD_CONTENT);
+         txtBody.Label = "Texto del anuncio";
+         txtBody.Type = FormFieldEditor.FieldEditorType.HTML;
+         txtBody.Value = ad.Body;
+         txtBody.Required = true;
+         form.Content.Add(txtBody);
+
+         FormFieldText txtPrice = new FormFieldText(this, "txtPrice");
+         txtPrice.Label = "Precio (€)";
+         txtPrice.Value = ad.Price;
+         txtPrice.Type = FormFieldText.FieldDataType.Number;
+         txtPrice.Required = false;
+         form.Content.Add(txtPrice);
+
+         FormFieldList lstFolder = new FormFieldList(this, Cosmo.Workspace.PARAM_FOLDER_ID, "Categoria", FormFieldList.ListType.Single, ad.FolderID.ToString());
+         lstFolder.LoadValuesFromDataList("ads-folders");
+         lstFolder.Required = true;
+         form.Content.Add(lstFolder);
+
+         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, ((int)ad.Status).ToString());
+         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", (int)CmsPublishStatus.PublishStatus.Unpublished));
+         lstStatus.Values.Add(new KeyValue("Publicado", (int)CmsPublishStatus.PublishStatus.Published));
          form.Content.Add(lstStatus);
 
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
-         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ClassifiedView.GetURL(doc.ID), string.Empty));
+         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ClassifiedView.GetURL(ad.ID), string.Empty));
 
          form.FormButtons[0].Color = ComponentColorScheme.Success;
          form.FormButtons[0].Icon = "fa-check";
@@ -119,47 +125,33 @@ namespace Cosmo.WebApp.Classified
          MainContent.Add(form);
       }
 
-      public override void LoadPage()
-      {
-         // Nothing to do
-      }
-
       /// <summary>
       /// Trata los datos recibidos de un formulario.
       /// </summary>
       public override void FormDataReceived(FormControl receivedForm)
       {
-         Document clsAd = new Document();
+         ClassifiedAd clsAd = new ClassifiedAd();
 
          // Obtiene los datos del formulario
          clsAd.ID = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
-         clsAd.FolderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
+         clsAd.FolderID = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
          clsAd.Title = Parameters.GetString(FIELD_TITLE);
-         clsAd.Description = Parameters.GetString(FIELD_DESCRIPTION);
-         clsAd.Content = Parameters.GetString(FIELD_CONTENT);
-         clsAd.Published = Parameters.GetBoolean(FIELD_STATUS);
-         clsAd.Hightlight = Parameters.GetBoolean(FIELD_HIGHLIGHT);
-         if (Collections.ContainsKey(Request.Files, FIELD_THUMBNAIL)) clsAd.Thumbnail = Request.Files.Get(FIELD_THUMBNAIL).FileName;
-         if (Collections.ContainsKey(Request.Files, FIELD_ATTACHMENT)) clsAd.Attachment = Request.Files.Get(FIELD_ATTACHMENT).FileName;
+         clsAd.Body = Parameters.GetString(FIELD_CONTENT);
+         clsAd.Price = Parameters.GetInteger("txtPrice");
+         clsAd.Status = CmsPublishStatus.ToPublishStatus(Parameters.GetInteger(FIELD_STATUS));
+         clsAd.UserID = Workspace.CurrentUser.User.ID;
+         clsAd.UserLogin = Workspace.CurrentUser.User.Login;
 
          // Realiza las operaciones de persistencia
-         DocumentDAO docs = new DocumentDAO(Workspace);
-         switch (Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND))
+         ClassifiedAdsDAO ads = new ClassifiedAdsDAO(Workspace);
+         if (clsAd.ID <= 0)
          {
-            case Cosmo.Workspace.COMMAND_EDIT:
-               docs.Update(clsAd);
-               break;
-
-            case Cosmo.Workspace.COMMAND_ADD:
-               docs.Add(clsAd);
-               break;
-
-            default: 
-               break;
+            ads.Add(clsAd);
          }
-
-         // Tratamiento de los archivos adjuntos
-         // TODO!
+         else
+         {
+            ads.Update(clsAd);
+         }
 
          // Redirige a la página del artículo
          Redirect(ClassifiedView.GetURL(clsAd.ID));
@@ -170,6 +162,11 @@ namespace Cosmo.WebApp.Classified
       /// </summary>
       /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
       public override void FormDataLoad(string formDomID)
+      {
+         // Nothing to do
+      }
+
+      public override void LoadPage()
       {
          // Nothing to do
       }

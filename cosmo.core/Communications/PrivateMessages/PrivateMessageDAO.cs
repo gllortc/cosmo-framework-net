@@ -13,7 +13,7 @@ namespace Cosmo.Communications.PrivateMessages
    /// </summary>
    public class PrivateMessageDAO
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
 
       /// <summary>Identificador del parámetro QueryString para el identificador de mensaje.</summary>
@@ -191,7 +191,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          SqlTransaction trans = null;
          PrivateMessage message = null;
 
@@ -207,12 +206,13 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
             cmd.Parameters.Add(new SqlParameter("@id", messageId));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadPrivateMessage(reader);
+               if (reader.Read())
+               {
+                  message = ReadPrivateMessage(reader);
+               }
             }
-            reader.Close();
 
             // Lanza una excepción si no existe el mensaje
             if (message == null)
@@ -293,7 +293,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -309,13 +308,14 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@tousrid", recipientId));
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadPrivateMessage(reader);
-               messages.Add(message);
+               while (reader.Read())
+               {
+                  message = ReadPrivateMessage(reader);
+                  messages.Add(message);
+               }
             }
-            reader.Close();
 
             return messages;
          }
@@ -344,7 +344,6 @@ namespace Cosmo.Communications.PrivateMessages
          bool first = true;
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PrivateMessage message = null;
          PrivateMessageThread thread = new PrivateMessageThread();
 
@@ -368,23 +367,26 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@owner", ownerUserId));
             cmd.Parameters.Add(new SqlParameter("@remote", remoteUserId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadPrivateMessage(reader);
-               thread.Messages.Add(message);
-
-               if (first)
+               while (reader.Read())
                {
-                  /*thread.FromId = ((int)reader["fromid"] == null ? -1 : (int)reader["fromid"]);
-                  thread.ToId = ((int)reader["toid"] == null ? -1 : (int)reader["toid"]);
-                  thread.FromName = ((string)reader["fromname"] == null ? string.Empty : (string)reader["fromname"]);
-                  thread.ToName = ((string)reader["toname"] == null ? string.Empty : (string)reader["toname"]);
-                  thread.FromLogin = ((string)reader["fromlogin"] == null ? string.Empty : (string)reader["fromlogin"]);
-                  thread.ToLogin = ((string)reader["tologin"] == null ? string.Empty : (string)reader["tologin"]);*/
+                  message = ReadPrivateMessage(reader);
+                  thread.Messages.Add(message);
 
-                  thread.LastMessagesDate = thread.Messages[0].Sended;
-                  thread.HaveUnreadMessages = (thread.Messages[0].Status == PrivateMessage.UserMessageStatus.Unreaded);
+                  if (first)
+                  {
+                     /*thread.FromId = ((int)reader["fromid"] == null ? -1 : (int)reader["fromid"]);
+                     thread.ToId = ((int)reader["toid"] == null ? -1 : (int)reader["toid"]);
+                     thread.FromName = ((string)reader["fromname"] == null ? string.Empty : (string)reader["fromname"]);
+                     thread.ToName = ((string)reader["toname"] == null ? string.Empty : (string)reader["toname"]);
+                     thread.FromLogin = ((string)reader["fromlogin"] == null ? string.Empty : (string)reader["fromlogin"]);
+                     thread.ToLogin = ((string)reader["tologin"] == null ? string.Empty : (string)reader["tologin"]);*/
+
+                     thread.LastMessagesDate = thread.Messages[0].Sended;
+                     thread.HaveUnreadMessages = (thread.Messages[0].Status == PrivateMessage.UserMessageStatus.Unreaded);
+                  }
                }
             }
          }
@@ -414,7 +416,6 @@ namespace Cosmo.Communications.PrivateMessages
          // int id;
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PrivateMessageThread thread = null;
          List<PrivateMessageThread> threads = new List<PrivateMessageThread>();
          List<int> userIds = new List<int>();
@@ -447,17 +448,19 @@ namespace Cosmo.Communications.PrivateMessages
                   "WHERE s.rk = 1";
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@userId", userId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-               thread = new PrivateMessageThread();
-               thread.RemoteUserId = (int)reader["remoteusrid"];
-               thread.LastMessagesDate = (DateTime)reader["sended"];
-               thread.HaveUnreadMessages = ((int)reader["status"] == 0);
 
-               threads.Add(thread);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               while (reader.Read())
+               {
+                  thread = new PrivateMessageThread();
+                  thread.RemoteUserId = (int)reader["remoteusrid"];
+                  thread.LastMessagesDate = (DateTime)reader["sended"];
+                  thread.HaveUnreadMessages = ((int)reader["status"] == 0);
+
+                  threads.Add(thread);
+               }
             }
-            reader.Close();
 
             // Obtiene usuarios remotos
             foreach (PrivateMessageThread th in threads)
@@ -491,7 +494,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -508,13 +510,15 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@threadid", ownerId));
             cmd.Parameters.Add(new SqlParameter("@tousrid", userId));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadPrivateMessage(reader);
-               messages.Add(message);
+               while (reader.Read())
+               {
+                  message = ReadPrivateMessage(reader);
+                  messages.Add(message);
+               }
             }
-            reader.Close();
 
             return messages;
          }
@@ -551,7 +555,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
          try
@@ -566,23 +569,24 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@tousrid", uid));
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               PrivateMessage message = new PrivateMessage();
-               message.ID = reader.GetInt32(0);
-               message.FromUserID = reader.GetInt32(1);
-               message.ToUserID = reader.GetInt32(2);
-               message.FromIP = reader.GetString(3);
-               message.Sended = reader.GetDateTime(4);
-               message.Subject = reader.GetString(5);
-               // message.Body = reader.GetString(6);
-               message.Status = (PrivateMessage.UserMessageStatus)reader.GetInt32(7);
-               message.OwnerId = reader.GetInt32(8);
-               message.Responses = reader.GetInt32(9);
-               messages.Add(message);
+               while (reader.Read())
+               {
+                  PrivateMessage message = new PrivateMessage();
+                  message.ID = reader.GetInt32(0);
+                  message.FromUserID = reader.GetInt32(1);
+                  message.ToUserID = reader.GetInt32(2);
+                  message.FromIP = reader.GetString(3);
+                  message.Sended = reader.GetDateTime(4);
+                  message.Subject = reader.GetString(5);
+                  // message.Body = reader.GetString(6);
+                  message.Status = (PrivateMessage.UserMessageStatus)reader.GetInt32(7);
+                  message.OwnerId = reader.GetInt32(8);
+                  message.Responses = reader.GetInt32(9);
+                  messages.Add(message);
+               }
             }
-            reader.Close();
 
             return messages;
          }
@@ -609,7 +613,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -625,13 +628,14 @@ namespace Cosmo.Communications.PrivateMessages
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
 
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               message = ReadPrivateMessage(reader);
-               messages.Add(message);
+               if (reader.Read())
+               {
+                  message = ReadPrivateMessage(reader);
+                  messages.Add(message);
+               }
             }
-            reader.Close();
 
             return messages;
          }

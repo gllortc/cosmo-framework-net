@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cosmo.Data.Connection;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,6 +13,7 @@ namespace Cosmo.Diagnostics
    /// </summary>
    public class LoggerService
    {
+      // Internal data declarations
       private Workspace _workspace = null;
 
       #region Constructors
@@ -145,7 +147,6 @@ namespace Cosmo.Diagnostics
       public List<LogEntry> List(int status)
       {
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
          List<LogEntry> events = new List<LogEntry>();
 
          try
@@ -161,23 +162,25 @@ namespace Cosmo.Diagnostics
             cmd = new SqlCommand(sql, _workspace.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@sltype", SqlDbType.Int));
             cmd.Parameters["@sltype"].Value = status;
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-               LogEntry eventlog = new LogEntry();
-               eventlog.ID = (int)reader[0];
-               eventlog.Date = (DateTime)reader[1];
-               eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : "";
-               eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
-               eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
-               eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
-               eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
-               eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
-               eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
 
-               events.Add(eventlog);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               while (reader.Read())
+               {
+                  LogEntry eventlog = new LogEntry();
+                  eventlog.ID = (int)reader[0];
+                  eventlog.Date = (DateTime)reader[1];
+                  eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : "";
+                  eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
+                  eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
+                  eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
+                  eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
+                  eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
+                  eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
+
+                  events.Add(eventlog);
+               }
             }
-            reader.Close();
 
             return events;
          }
@@ -187,8 +190,7 @@ namespace Cosmo.Diagnostics
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _workspace.DataSource.Disconnect();
          }
       }
@@ -202,7 +204,6 @@ namespace Cosmo.Diagnostics
       {
          LogEntry eventlog = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -216,21 +217,23 @@ namespace Cosmo.Diagnostics
             cmd = new SqlCommand(sql, _workspace.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@slid", SqlDbType.Int));
             cmd.Parameters["@slid"].Value = id;
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               eventlog = new LogEntry();
-               eventlog.ID = (int)reader[0];
-               eventlog.Date = (DateTime)reader[1];
-               eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : string.Empty;
-               eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
-               eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
-               eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
-               eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
-               eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
-               eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
+               if (reader.Read())
+               {
+                  eventlog = new LogEntry();
+                  eventlog.ID = (int)reader[0];
+                  eventlog.Date = (DateTime)reader[1];
+                  eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : string.Empty;
+                  eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
+                  eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
+                  eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
+                  eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
+                  eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
+                  eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
+               }
             }
-            reader.Close();
 
             return eventlog;
          }
@@ -240,8 +243,7 @@ namespace Cosmo.Diagnostics
          }
          finally
          {
-            reader.Dispose();
-            cmd.Dispose();
+            IDataModule.CloseAndDispose(cmd);
             _workspace.DataSource.Disconnect();
          }
       }

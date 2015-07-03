@@ -20,7 +20,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="KeyValue"/>.
+      /// Gets a new instance of <see cref="KeyValue"/>.
       /// </summary>
       /// <param name="label"></param>
       /// <param name="value"></param>
@@ -30,6 +30,19 @@
 
          Label = label;
          Value = value;
+      }
+
+      /// <summary>
+      /// Gets a new instance of <see cref="KeyValue"/>.
+      /// </summary>
+      /// <param name="label"></param>
+      /// <param name="value"></param>
+      public KeyValue(string label, int value)
+      {
+         Initialize();
+
+         Label = label;
+         Value = value.ToString();
       }
 
       #endregion

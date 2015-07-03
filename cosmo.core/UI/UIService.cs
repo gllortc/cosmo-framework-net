@@ -21,7 +21,7 @@ namespace Cosmo.UI
       private string _activeRenderer;
       private Workspace _ws;
       private Dictionary<string, RenderModule> _renderers;
-      private Dictionary<string, IMenuProvider> _menus;
+      private Dictionary<string, MenuProvider> _menus;
 
       #region Constructors
 
@@ -222,7 +222,7 @@ namespace Cosmo.UI
       {
          if (_menus.ContainsKey(id))
          {
-            return ((IMenuProvider)_menus[id]).GenerateSidebar(parentView, activeId);
+            return ((MenuProvider)_menus[id]).GenerateSidebar(parentView, activeId);
          }
          else
          {
@@ -255,7 +255,7 @@ namespace Cosmo.UI
       {
          if (_menus.ContainsKey(id))
          {
-            return ((IMenuProvider)_menus[id]).GenerateNavbar(parentView, activeId);
+            return ((MenuProvider)_menus[id]).GenerateNavbar(parentView, activeId);
          }
          else
          {
@@ -310,7 +310,7 @@ namespace Cosmo.UI
       {
          string applyRule = string.Empty;
          Type type = null;
-         IMenuProvider _module;
+         MenuProvider _module;
 
          foreach (Plugin plugin in _ws.Settings.MenuModules.Plugins)
          {
@@ -319,7 +319,7 @@ namespace Cosmo.UI
             args[1] = plugin;
 
             type = Type.GetType(plugin.Class, true, true);
-            _module = (IMenuProvider)Activator.CreateInstance(type, args);
+            _module = (MenuProvider)Activator.CreateInstance(type, args);
 
             if (_module != null)
             {
@@ -336,7 +336,7 @@ namespace Cosmo.UI
          _activeRenderer = string.Empty;
          _ws = null;
          _renderers = new Dictionary<string, RenderModule>();
-         _menus = new Dictionary<string, IMenuProvider>();
+         _menus = new Dictionary<string, MenuProvider>();
       }
 
       #endregion

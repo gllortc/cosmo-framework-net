@@ -80,7 +80,7 @@ namespace Cosmo.WebApp.UserServices
                // Genera la nueva cuenta de usuario
             Workspace.SecurityService.SendData(receivedForm.GetStringFieldValue("mail"));
 
-               CalloutControl callout = new CalloutControl(null, ComponentColorScheme.Success);
+               CalloutControl callout = new CalloutControl(this, ComponentColorScheme.Success);
                callout.Icon = IconControl.ICON_CHECK;
                callout.Title = "Datos enviados";
                callout.Text = "En breves instantes recibirás un correo electrónico que contiene los " +
@@ -102,7 +102,7 @@ namespace Cosmo.WebApp.UserServices
          }
          catch (UserNotFoundException ex)
          {
-            CalloutControl callout = new CalloutControl(null, ComponentColorScheme.Warning);
+            CalloutControl callout = new CalloutControl(this, ComponentColorScheme.Warning);
             callout.Icon = IconControl.ICON_WARNING;
             callout.Title = "Dirección de correo electrónico no encontrada";
             callout.Text = ex.Message;
@@ -120,7 +120,7 @@ namespace Cosmo.WebApp.UserServices
          }
          catch (Exception)
          {
-            CalloutControl callout = new CalloutControl(null, ComponentColorScheme.Error);
+            CalloutControl callout = new CalloutControl(this, ComponentColorScheme.Error);
             callout.Icon = IconControl.ICON_WARNING;
             callout.Title = "Opssss! Se ha producido un error";
             callout.Text = "Se ha producido un error durante el procesado de su petición de datos y no se ha podido enviar el correo.";

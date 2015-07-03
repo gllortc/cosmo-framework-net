@@ -124,7 +124,7 @@ namespace Cosmo.WebApp.Forums
 
          // Muestra los mensajes
          string month = string.Empty;
-         Formatter formatter = new Formatter();
+         BBCodeTextParser formatter = new BBCodeTextParser();
          foreach (ForumMessage message in messages)
          {
             if (!month.Equals(message.Date.ToString(Formatter.FORMAT_LONGDATE)) && !first)
@@ -143,7 +143,7 @@ namespace Cosmo.WebApp.Forums
             item.Type = TimelineItem.TimelineItemType.Entry;
             item.TitleControl = new UserLinkControl(this, message.UserID, message.Name, userData);
             item.Icon = message.ParentMessageID == 0 ? IconControl.ICON_ENVELOPE : IconControl.ICON_REPLY;
-            item.Body = formatter.bbCodeParser(message.Body); 
+            item.Body = formatter.ParseText(message.Body);
             item.Time = message.Date.ToString(Formatter.FORMAT_DATETIME);
 
             if (Workspace.CurrentUser.IsAuthenticated)

@@ -6,23 +6,30 @@ using System.Web;
 namespace Cosmo.Net
 {
    /// <summary>
-   /// Clase especializada en la detección del tipo de dispositivo.
+   /// Implements a device detector class.
    /// </summary>
    public static class DeviceDetector
    {
+
+      #region Enumerations
+
       /// <summary>
-      /// Enumera los distintos tipos de dispositivo.
+      /// Enumerate the distinct types of devices.
       /// </summary>
       public enum DeviceType
       {
-         /// <summary>Dispositivo de sobremesa con todas las capacidades de visualización</summary>
+         /// <summary>Desktop devices (PC, laptop).</summary>
          Desktop,
-         /// <summary>Dispositivo tipo tablet</summary>
+         /// <summary>Tablet devices.</summary>
          Tablet,
-         /// <summary>Dispositivo tipo Smartphone</summary>
+         /// <summary>Smartphone devices.</summary>
          Mobile
       }
- 
+
+      #endregion
+
+      #region Static Members
+
       public static DeviceType DetectDeviceType(HttpRequest request)
       {
          int tablet_browser = 0;
@@ -103,5 +110,8 @@ namespace Cosmo.Net
             return DeviceType.Desktop;
          }
       }
+
+      #endregion
+
    }
 }

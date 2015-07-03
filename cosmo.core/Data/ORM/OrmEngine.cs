@@ -553,6 +553,10 @@ namespace Cosmo.Data.ORM
                return DateTime.Parse(value);
             }
          }
+         else if (Cosmo.Utils.BooleanUtils.IsBooleanType(property.PropertyType))
+         {
+            return Cosmo.Utils.BooleanUtils.ToBoolean(value);
+         }
          else
          {
             return value;

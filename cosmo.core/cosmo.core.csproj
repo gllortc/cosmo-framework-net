@@ -58,9 +58,6 @@
     <Reference Include="CodeKicker.BBCode">
       <HintPath>..\..\lib\CodeKicker\CodeKicker.BBCode.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.1.0\lib\net40\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -102,7 +99,6 @@
     <Compile Include="FileSystem\IFileSystemService.cs" />
     <Compile Include="FileSystem\Impl\CosmoFileSystemImpl.cs" />
     <Compile Include="Net\Mail.cs" />
-    <Compile Include="Net\UrlRoute.cs" />
     <Compile Include="REST\RestHandler.cs" />
     <Compile Include="REST\CommunicationsRestHandler.cs" />
     <Compile Include="REST\RestMethod.cs" />
@@ -124,6 +120,7 @@
     <Compile Include="UI\Controls\PictureControl.cs" />
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Controls\UserLinkControl.cs" />
+    <Compile Include="UI\Formatter.cs" />
     <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
     <Compile Include="UI\Scripting\PartialViewSendFormScript.cs" />
     <Compile Include="UI\Scripting\PartialViewLoadScript.cs" />
@@ -172,11 +169,11 @@
     <Compile Include="UI\Controls\TreeViewControl.cs" />
     <Compile Include="UI\PageView.cs" />
     <Compile Include="UI\ViewResource.cs" />
-    <Compile Include="UI\CosmoTemplate.cs" />
     <Compile Include="UI\View.cs" />
-    <Compile Include="UI\Menu\IMenuProvider.cs" />
-    <Compile Include="UI\Menu\Impl\DbMenuProviderImpl.cs" />
-    <Compile Include="UI\Menu\Impl\StaticMenuProviderImpl.cs" />
+    <Compile Include="UI\Menu\MenuProvider.cs" />
+    <Compile Include="UI\Menu\Impl\SqlMenuProvider.cs" />
+    <Compile Include="UI\Menu\Impl\StaticMenuProvider.cs" />
+    <Compile Include="Utils\BooleanUtils.cs" />
     <Compile Include="Utils\Collections.cs" />
     <Compile Include="Utils\ControlCollection.cs" />
     <Compile Include="Utils\PluginCollection.cs" />
@@ -249,13 +246,7 @@
     <Compile Include="Utils\Drawing\JpegTables.cs" />
     <Compile Include="Utils\Drawing\DrawingUtils.cs" />
     <Compile Include="Utils\Drawing\Captcha.cs" />
-    <Compile Include="Utils\Html\Formatter.cs" />
-    <Compile Include="Utils\Html\HtmlAttribute.cs" />
-    <Compile Include="Utils\Html\HtmlDocument.cs" />
-    <Compile Include="Utils\Html\HtmlTag.cs" />
-    <Compile Include="Utils\Html\HtmlText.cs" />
-    <Compile Include="Utils\Html\Parsers\BBCodeParserOld.cs" />
-    <Compile Include="Utils\Html\Parsers\PlainTextParser.cs" />
+    <Compile Include="Utils\Html\BBCodeTextParser.cs" />
     <Compile Include="Utils\Plugin.cs" />
     <Compile Include="Net\Rss\RssChannel.cs" />
     <Compile Include="Net\Rss\RssChannelImage.cs" />
@@ -271,7 +262,6 @@
     <Compile Include="Utils\AssemblyInfo.cs" />
     <Compile Include="Security\Cryptography\UriCryptography.cs" />
     <Compile Include="Utils\IO\Compression\ZipStorer.cs" />
-    <Compile Include="Utils\Mime.cs" />
     <Compile Include="WorkspaceSettings.cs" />
     <Compile Include="Utils\IO\Shell.cs" />
     <Compile Include="Utils\Number.cs" />
@@ -284,7 +274,7 @@
     <Compile Include="Security\Auth\SecurityService.cs" />
     <Compile Include="Security\Auth\SecurityModule.cs" />
     <Compile Include="Security\Auth\Impl\LdapSecurityModule.cs" />
-    <Compile Include="Security\Auth\Impl\SqlServerSecurityModule.cs" />
+    <Compile Include="Security\Auth\Impl\SqlSecurityModule.cs" />
     <Compile Include="Security\UserNotVerifiedException.cs" />
     <Compile Include="Security\UserDisabledException.cs" />
     <Compile Include="Communications\PrivateMessages\PrivateMessageDAO.cs" />
@@ -311,259 +301,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\idr_dll.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\repair.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\form_presentation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\msdotnet.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\logo_dotnet.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\access_intent_wiz.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ost_icon.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\checkout_action.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow_nav_backward.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow_nav_forward.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bkmrk_nav.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\contents_view.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_print.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\e_show_all.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help_doc_admin.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help_topic.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\file_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\addauthoritycontraints_wiz_.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NavForward.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NavBack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\offshore.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit_copy.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit_cut.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit_paste.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_import.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\print_edit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\saveas_edit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\search_results_view.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\searchu_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\search_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\undo_edit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\redo_edit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\doc_script.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_export.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_label.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\form_about_background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\form_login_background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\none.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_warning.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_disabled.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_single.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\connection_005.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_open.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_closed.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pub_resource_server_wiz.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_ws.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\innerinterface_public_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Windows XP Cellular Phone.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Windows XP Icon 2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Windows XP PDA.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\error_st_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\intf_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\error_fatalerror_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\warn_tsk.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_warning1.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\title_bg.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save_edit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_prj_obj_2.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\package_jworkingSet_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\package_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\doc_file_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_lateral.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_icon_db.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_top.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_group_disabled.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_group.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_ws_disabled.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\doc_inet.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\label_obj.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\server.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\db_procedure.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_oft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mobilewhere.3.0.sql" />
-    <None Include="Resources\title_bg_short.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wizard_end.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\format_italic.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\format_bold.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\insert_table.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\insert_image.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\insert_table_cellspacing.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\insert_table_cellpadding.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\workspace.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

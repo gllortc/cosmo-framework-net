@@ -32,10 +32,10 @@ namespace Cosmo.WebApp.UserServices
          ActiveMenuId = string.Empty;
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar", this.ActiveMenuId));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
 
          // Barra de navegación lateral
-         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar", this.ActiveMenuId));
+         LeftContent.Add(Workspace.UIService.GetSidebarMenu(this, "sidebar"));
 
          //-------------------------------
          // Configuración de la vista
@@ -67,8 +67,21 @@ namespace Cosmo.WebApp.UserServices
                // Genera la nueva cuenta de usuario
                Workspace.SecurityService.Create(user);
 
-               // Redirige al usuario a su página persnal
-               Redirect("Home");
+               MainContent.Clear();
+
+               CalloutControl waitBox = new CalloutControl(this);
+               waitBox.DomID = "result-box";
+               waitBox.Title = "Suscripción correcta!";
+               waitBox.Icon = IconControl.ICON_CHECK;
+               waitBox.Text = "Para finalizar el registro hemos enviado un correo a la cuenta " + user.Mail + " con un enlace que sirve para verificar los datos. Mira en tu buzón de correo y sigue las instrucciones que encontrarán en dicho correo.";
+               waitBox.Type = ComponentColorScheme.Success;
+
+               PanelControl panel = new PanelControl(this);
+               panel.Caption = "Verificación de cuentas de usuario";
+               panel.Content.Add(waitBox);
+               panel.Footer.Add(new ButtonControl(this, "btnLogin", "Ir al inicio", IconControl.ICON_HOME, "Home", string.Empty));
+
+               MainContent.Add(panel);
             }
          }
          catch (Exception ex)

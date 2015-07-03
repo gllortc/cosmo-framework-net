@@ -1,31 +1,61 @@
 ﻿using Cosmo.Net;
+using Cosmo.Security.Cryptography;
 using Cosmo.Services;
 using Cosmo.Utils;
 using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Web;
+using System.Net.Mail;
 
 namespace Cosmo.Security.Auth
 {
 
    /// <summary>
-   /// Interface para los proveedores de seguridad de los usuarios del workspace.
+   /// Abstrcta class that must be implemented by security modules.
    /// </summary>
    public abstract class SecurityModule
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Plugin _plugin;
       private Workspace _ws;
+
+      #region Constants
 
       // Sesión de usuario requerida.
       private const string SETTING_SECURITY_ENABLED = "security.enabled";
       // Sesión de usuario requerida.
       private const string SETTING_SECURITY_BLOQUEDIP = "security.bloquedip";
-      // Comprueba el correo electrónico de los usuario al crear un nuevo usuario (envía un mail de confirmación)
-      private const string SETTING_SECURITY_MAILVERIFICATION = "security.verifymail";
       // Clave de encriptación por defecto a usar para encriptar cadenas de texto.
       private const string SETTING_SECURITY_ENCRYPTIONKEY = "security.encryptionkey";
+      // Verification mail enabled
+      private const string SETTING_SECURITY_VERIFMSG_ENABLED = "security.verifymail.required";
+      // Verification mail HTML format
+      private const string SETTING_SECURITY_VERIFMSG_HTML = "security.verifymail.html";
+      // Verification mail subject
+      private const string SETTING_SECURITY_VERIFMSG_SUBJECT = "security.verifymail.subject";
+      // Verification mail body
+      private const string SETTING_SECURITY_VERIFMSG_BODY = "security.verifymail.body";
+      // Personal data mail HTML format
+      private const string SETTING_SECURITY_PDATAMSG_HTML = "security.pdatamail.html";
+      // Personal data mail subject
+      private const string SETTING_SECURITY_PDATAMSG_SUBJECT = "security.pdatamail.subject";
+      // Personal data mail body
+      private const string SETTING_SECURITY_PDATAMSG_BODY = "security.pdatamail.body";
+
+      /// <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
+      public const string TAG_USER_LOGIN = "<%LOGIN%>";
+      /// <summary>TAG para insertar el correo electrónico del usuario en el texto del mensaje.</summary>
+      public const string TAG_USER_MAIL = "<%MAIL%>";
+      /// <summary>TAG para insertar el nombre real del usuario en el texto del mensaje.</summary>
+      public const string TAG_USER_NAME = "<%NAME%>";
+      /// <summary>TAG para insertar la contraseña del usuario en el texto del mensaje.</summary>
+      public const string TAG_USER_PASSWORD = "<%PASSWORD%>";
+      /// <summary>TAG para insertar el link que da acceso a la verificación de la cuenta de correo.</summary>
+      public const string TAG_USER_VERIFYLINK = "<%VERIFY_LINK%>";
+      /// <summary>TAG para insertar el mail de contacto del responsable del workspace en el texto del mensaje.</summary>
+      public const string TAG_WORKSPACE_MAIL = "<%CONTACTMAIL%>";
+
+      #endregion
 
       #region Constructors
 
@@ -69,20 +99,68 @@ namespace Cosmo.Security.Auth
       }
 
       /// <summary>
-      /// Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
-      /// de verificación.
-      /// </summary>
-      public bool IsVerificationMailRequired
-      {
-         get { return _plugin.GetBoolean(SETTING_SECURITY_MAILVERIFICATION); }
-      }
-
-      /// <summary>
       ///  Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
       /// </summary>
       public string EncriptionKey
       {
          get { return _plugin.GetString(SETTING_SECURITY_ENCRYPTIONKEY); }
+      }
+
+      /// <summary>
+      /// Gets a boolean value indicating if the signup process must verify the mail address sending a mail
+      /// with a verification link.
+      /// </summary>
+      public bool IsVerificationMailRequired
+      {
+         get { return _plugin.GetBoolean(SETTING_SECURITY_VERIFMSG_ENABLED); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail subject.
+      /// </summary>
+      public string VerificationMailSubject
+      {
+         get { return _plugin.GetString(SETTING_SECURITY_VERIFMSG_SUBJECT); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail body.
+      /// </summary>
+      public string VerificationMailBody
+      {
+         get { return _plugin.GetString(SETTING_SECURITY_VERIFMSG_BODY); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail body.
+      /// </summary>
+      public bool IsVerificationMailHtmlFormat
+      {
+         get { return _plugin.GetBoolean(SETTING_SECURITY_VERIFMSG_HTML); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail subject.
+      /// </summary>
+      public string PersonalDataMailSubject
+      {
+         get { return _plugin.GetString(SETTING_SECURITY_PDATAMSG_SUBJECT); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail body.
+      /// </summary>
+      public string PersonalDataMailBody
+      {
+         get { return _plugin.GetString(SETTING_SECURITY_PDATAMSG_BODY); }
+      }
+
+      /// <summary>
+      /// Gets the verification mail body.
+      /// </summary>
+      public bool IsPersonalDataMailHtmlFormat
+      {
+         get { return _plugin.GetBoolean(SETTING_SECURITY_PDATAMSG_HTML); }
       }
 
       #endregion
@@ -115,43 +193,158 @@ namespace Cosmo.Security.Auth
          return url.ToString();
       }
 
+      /// <summary>
+      /// Genera el correo de verificación de cuenta de correo.
+      /// </summary>
+      /// <param name="user">Una instancia de <see cref="User"/>.</param>
+      /// <returns>Una instancia de <see cref="MailMessage"/> que contiene el correo de verificación de cuentas de eMail.</returns>
+      public MailMessage GetVerificationMail(User user)
+      {
+         MailMessage msg = new MailMessage();
+
+         // Genera la URL de verificación
+         string qs = UriCryptography.Encrypt("obj=" + user.Mail + "&id=" + user.ID, this.EncriptionKey);
+         string url = Cosmo.Net.Url.Combine(_ws.Url, UserJoinVerification.GetURL(qs));
+
+         // Generate mail message
+         msg.To.Add(new MailAddress(user.Mail, string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
+
+         // Message body generation
+         string body = this.VerificationMailBody;
+         body = body.Replace(TAG_USER_LOGIN, user.Login);
+         body = body.Replace(TAG_USER_MAIL, user.Mail);
+         body = body.Replace(TAG_USER_NAME, user.Name);
+         body = body.Replace(TAG_USER_PASSWORD, user.Password);
+         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+
+         if (this.IsVerificationMailHtmlFormat)
+         {
+            body = body.Replace(TAG_USER_VERIFYLINK, "<a href=\"" + url.Replace("&", "&amp;") + "\" target=\"_blank\">" + url.Replace("&", "&amp;") + "</a>");
+            msg.Body = body;
+            msg.IsBodyHtml = true;
+         }
+         else
+         {
+            body = body.Replace(TAG_USER_VERIFYLINK, url);
+            msg.Body = body;
+            msg.IsBodyHtml = false;
+         }
+
+         // Formatea el asunto del mensaje
+         string subject = this.VerificationMailSubject;
+         subject = subject.Replace(TAG_USER_LOGIN, user.Login);
+         subject = subject.Replace(TAG_USER_MAIL, user.Mail);
+         subject = subject.Replace(TAG_USER_NAME, user.Name);
+         subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
+         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+
+         msg.Subject = subject;
+
+         return msg;
+      }
+
+      /// <summary>
+      /// Genera el correo de verificación de cuenta de correo.
+      /// </summary>
+      /// <param name="uid">Identificador del usuario.</param>
+      public MailMessage GetVerificationMail(int uid)
+      {
+         return GetVerificationMail(this.GetUser(uid));
+      }
+
+      /// <summary>
+      /// Genera el correo de envío de datos de connexión.
+      /// </summary>
+      /// <param name="user">Una instancia de <see cref="User"/>.</param>
+      /// <returns>Una instancia de <see cref="MailMessage"/> que contiene los datos de conexión de un usuario.</returns>
+      public MailMessage GetUserDataMail(User user)
+      {
+         MailMessage msg = new MailMessage();
+
+         // Inicializa el correo electrónico
+         msg.To.Add(new MailAddress(user.Mail, string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
+
+         // Formatea el cuerpo del mensaje
+         string body = this.PersonalDataMailBody;
+         body = body.Replace(TAG_USER_LOGIN, user.Login);
+         body = body.Replace(TAG_USER_MAIL, user.Mail);
+         body = body.Replace(TAG_USER_NAME, user.Name);
+         body = body.Replace(TAG_USER_PASSWORD, user.Password);
+         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+
+         if (this.IsPersonalDataMailHtmlFormat)
+         {
+            msg.Body = body;
+            msg.IsBodyHtml = true;
+         }
+         else
+         {
+            msg.Body = body;
+            msg.IsBodyHtml = false;
+         }
+
+         // Formatea el asunto del mensaje
+         string subject = this.PersonalDataMailSubject;
+         subject = subject.Replace(TAG_USER_LOGIN, user.Login);
+         subject = subject.Replace(TAG_USER_MAIL, user.Mail);
+         subject = subject.Replace(TAG_USER_NAME, user.Name);
+         subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
+         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+
+         msg.Subject = subject;
+
+         return msg;
+      }
+
+      /// <summary>
+      /// Genera el correo de envío de datos de connexión.
+      /// </summary>
+      /// <param name="uid">Identificador del usuario.</param>
+      public MailMessage GetUserDataMail(int uid)
+      {
+         return GetUserDataMail(this.GetUser(uid));
+      }
+
       #endregion
 
       #region Abstract Members
 
       /// <summary>
-      /// Autentica al usuario.
+      /// User authentication.
       /// </summary>
-      /// <param name="login">Login del usuario.</param>
-      /// <param name="password">Contraseña.</param>
-      /// <returns>Si ha tenido exito, devuelve </returns>
+      /// <param name="login">User login.</param>
+      /// <param name="password">User password.</param>
+      /// <returns>Returns the <see cref="User"/> instance with authenticated user data.</returns>
+      /// <remarks>
+      /// In case of authentication failure, this method must raise an exception. See security exceptions.
+      /// </remarks>
       public abstract User Autenticate(string login, string password);
 
       /// <summary>
-      /// Obtiene una lista de usuarios.
+      /// Gets a list of all users in workspace.
       /// </summary>
-      /// <returns>Una lista de usuarios.</returns>
+      /// <returns>A list of <see cref="User"/> instances.</returns>
       public abstract List<User> GetUsersList();
 
       /// <summary>
-      /// Obtiene una lista de usuarios de un determinado estado.
+      /// Gets a list of all users in workspace filtered by his status.
       /// </summary>
-      /// <param name="status">Estado para el que se desea filtrar.</param>
-      /// <returns>Una lista de usuarios.</returns>
+      /// <param name="status">Status filter.</param>
+      /// <returns>A list of <see cref="User"/> instances.</returns>
       public abstract List<User> GetUsersList(User.UserStatus status);
 
       /// <summary>
-      /// Obtiene las propiedades de un usuario.
+      /// Get a user account.
       /// </summary>
-      /// <param name="login">Login del usuario.</param>
-      /// <returns>Una instancia de User con los datos del usuario.</returns>
+      /// <param name="login">User login.</param>
+      /// <returns>An instance of <see cref="User"/> corresponding to the requested user or <c>null</c> if login don't exist.</returns>
       public abstract User GetUser(string login);
 
       /// <summary>
-      /// Obtiene las propiedades de un usuario.
+      /// Get a user account.
       /// </summary>
-      /// <param name="uid">Identificador único del usuario.</param>
-      /// <returns>Una instancia de User con los datos del usuario.</returns>
+      /// <param name="uid">User unique identifier (DB).</param>
+      /// <returns>An instance of <see cref="User"/> corresponding to the requested user or <c>null</c> if identifier doesn't exist.</returns>
       public abstract User GetUser(int uid);
 
       /// <summary>
@@ -162,76 +355,78 @@ namespace Cosmo.Security.Auth
       public abstract string GetUserLocation(int uid);
 
       /// <summary>
-      /// Crea una nueva cuenta de usuario.
+      /// Creates a new user account.
       /// </summary>
-      /// <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
-      public abstract void Create(User user);
-
-      /// <summary>
-      /// Crea una nueva cuenta de usuario.
-      /// </summary>
-      /// <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
-      /// <param name="confirm">Indica si se desea confirmar la cuenta de correo electrónico vía correo electrónico.</param>
+      /// <param name="user">An instance containing the new user data.</param>
+      /// <param name="confirm">If it's <c>true</c> this process must be validated by clicking a link in an email sent to user.</param>
       public abstract void Create(User user, bool confirm);
 
       /// <summary>
-      /// Actualiza los datos de una cuenta de usuario.
+      /// Update user account data.
       /// </summary>
-      /// <param name="user">Una instancia de User con los datos actualizados de la cuenta.</param>
+      /// <param name="user">An instance with updated user data.</param>
       /// <remarks>
-      /// Para actualizar la contraseña debe usar el método SetPassword() ya que éste método no actualiza la contraseña.
+      /// This method don't update the password. The method <c>SetPassword()</c> perform this change.
       /// </remarks>
       public abstract void Update(User user);
 
       /// <summary>
-      /// Elimina una cuenta de usuario.
+      /// Delete a user account.
       /// </summary>
-      /// <param name="uid">Identificador de la cuenta a eliminar.</param>
+      /// <param name="uid">User account unique identifier (DB).</param>
+      /// <remarks>
+      /// This method remove the record in database.
+      /// </remarks>
       public abstract void Delete(int uid);
 
       /// <summary>
-      /// Cancela una cuenta de usuario.
+      /// Cancel a user account.
       /// </summary>
-      /// <param name="uid">Identificador de la cuenta a cancelar.</param>
+      /// <param name="uid">User account unique identifier (DB).</param>
+      /// <remarks>
+      /// This method don't remove the database related record, only update data to erase all personal data. It can be
+      /// useful to mantain the login reserved.
+      /// </remarks>
       public abstract void Cancel(int uid);
 
       /// <summary>
-      /// Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
+      /// Verify a user account (with the verification pending status).
       /// </summary>
-      /// <param name="uid">Identificador de la cuenta de usuario.</param>
-      /// <param name="mail">Correo electrónico asociado a la cuenta.</param>
-      /// <returns>Una instancia de User con los datos del usuario verificado.</returns>
+      /// <param name="uid">User account unique identifier (DB).</param>
+      /// <param name="mail">Mail account corresponding to the user account.</param>
+      /// <returns>An instance of <see cref="User"/> corresponding to the verified user.</returns>
       public abstract User Verify(int uid, string mail);
 
       /// <summary>
-      /// Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
+      /// Verify a user account (with the verification pending status).
       /// </summary>
-      /// <param name="QueryString">Una instancia de NameValueCollection que puede ser Server.Params.</param>
-      /// <returns>Una instancia de User con los datos del usuario verificado.</returns>
+      /// <param name="QueryString">A collection with URL parameters obtained in request.</param>
+      /// <returns>An instance of <see cref="User"/> corresponding to the verified user.</returns>
       public abstract User Verify(NameValueCollection QueryString);
 
       /// <summary>
-      /// Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
+      /// Send a mail to user with connection data.
       /// </summary>
-      /// <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
+      /// <param name="address">Mail address corresponding to the user account.</param>
       public abstract User SendData(string address);
 
       /// <summary>
-      /// Actualiza los datos de una cuenta de usuario del workspace.
+      /// Change the passord for an user account.
       /// </summary>
-      /// <param name="uid">Identificador de la cuenta de usuario.</param>
-      /// <param name="newPassword">Nueva contraseña del usuario.</param>
+      /// <param name="uid">User account unique identifier (DB).</param>
+      /// <param name="newPassword">A string with new password.</param>
       public abstract void SetPassword(int uid, string newPassword);
 
       /// <summary>
-      /// Actualiza los datos de una cuenta de usuario del workspace.
+      /// Change the passord for an user account.
       /// </summary>
-      /// <param name="uid">Identificador de la cuenta de usuario.</param>
-      /// <param name="oldPassword">Contraseña actual.</param>
-      /// <param name="newPassword">Nueva contraseña del usuario.</param>
-      /// <param name="newPasswordVerification">Verificación de la nueva contraseña.</param>
+      /// <param name="uid">User account unique identifier (DB).</param>
+      /// <param name="oldPassword">Current password.</param>
+      /// <param name="newPassword">New password.</param>
+      /// <param name="newPasswordVerification">New password re-typed.</param>
       /// <remarks>
-      /// Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="SecurityException"/>.
+      /// If parameters <c>newPassword</c> and <c>newPasswordVerification</c> must be identicals. If not, 
+      /// a <see cref="SecurityException"/> is raised.
       /// </remarks>
       public abstract void SetPassword(int uid, string oldPassword, string newPassword, string newPasswordVerification);
 

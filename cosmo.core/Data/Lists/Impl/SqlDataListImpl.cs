@@ -12,7 +12,7 @@ namespace Cosmo.Data.Lists.Impl
    /// </summary>
    public class SqlDataListImpl : IDataList
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _loaded;
       private bool _cache;
       private List<KeyValue> _values;
@@ -104,7 +104,6 @@ namespace Cosmo.Data.Lists.Impl
       public void LoadData()
       {
          KeyValue value;
-         SqlDataReader reader = null;
          SqlCommand cmd = null;
 
          // Evita recargas innecesareas
@@ -120,20 +119,21 @@ namespace Cosmo.Data.Lists.Impl
             cmd = new SqlCommand(this.SqlQuery, Workspace.DataService.GetDataSource(this.DataModuleID).Connection);
             // cmd.Parameters.Add(new SqlParameter("@id", folderId));
 
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               value = new KeyValue();
-               value.Value = reader[0].ToString();
-
-               for (int i = 1; i < reader.FieldCount; i++)
+               while (reader.Read())
                {
-                  value.Label = (string.IsNullOrEmpty(value.Label) ? string.Empty : LABEL_VALUES_SEPARATOR) + reader[i].ToString().Trim();
-               }
+                  value = new KeyValue();
+                  value.Value = reader[0].ToString();
 
-               _values.Add(value);
+                  for (int i = 1; i < reader.FieldCount; i++)
+                  {
+                     value.Label = (string.IsNullOrEmpty(value.Label) ? string.Empty : LABEL_VALUES_SEPARATOR) + reader[i].ToString().Trim();
+                  }
+
+                  _values.Add(value);
+               }
             }
-            reader.Close();
 
             _loaded = true;
          }
@@ -146,9 +146,7 @@ namespace Cosmo.Data.Lists.Impl
          }
          finally
          {
-            IDataModule.CloseAndDispose(reader);
             IDataModule.CloseAndDispose(cmd);
-
             Workspace.DataService.GetDataSource(this.DataModuleID).Disconnect();
          }
       }

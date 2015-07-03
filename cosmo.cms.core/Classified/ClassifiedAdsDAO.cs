@@ -17,7 +17,7 @@ namespace Cosmo.Cms.Classified
    /// </summary>
    public class ClassifiedAdsDAO
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
 
       #region Constants
@@ -113,11 +113,11 @@ namespace Cosmo.Cms.Classified
 
          try
          {
-            sql = "INSERT INTO " + SQL_OBJECTS_TABLE_NAME + " (annuserid,anndate,annfolderid,anntitle,annbody,annprice,annname,annphone,annemail,annurl,anndeleted,annowner) " +
-                  "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annprice,@annname,@annphone,@annemail,@annurl,0,'" + SecurityService.ACCOUNT_SUPER + "')";
+            //sql = "INSERT INTO " + SQL_OBJECTS_TABLE_NAME + " (annuserid,anndate,annfolderid,anntitle,annbody,annprice,annname,annphone,annemail,annurl,anndeleted,annowner) " +
+            //      "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annprice,@annname,@annphone,@annemail,@annurl,0,'" + SecurityService.ACCOUNT_SUPER + "')";
 
-            // string sql = "INSERT INTO announces (annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,adprice,annurl,anndeleted,annowner) " +
-            //              "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annname,@annphone,@annemail,@adprice,@annurl,0,'" + UserAuthentication.ACCOUNT_SUPER + "')";
+            sql = @"INSERT INTO announces (annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,annprice,annurl,anndeleted,annowner) 
+                    VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annname,@annphone,@annemail,@annprice,@annurl,0,'" + Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER + "')";
 
             _ws.DataSource.Connect();
 
@@ -155,15 +155,19 @@ namespace Cosmo.Cms.Classified
             param.Value = ad.Mail;
             cmd.Parameters.Add(param);
 
-            // param = new SqlParameter("@adprice", SqlDbType.Money);
-            // param.Value = ad.Price;
-            // cmd.Parameters.Add(param);
-
             param = new SqlParameter("@annurl", SqlDbType.NVarChar, 1024);
             param.Value = ad.URL;
             cmd.Parameters.Add(param);
 
             cmd.ExecuteNonQuery();
+
+            // Gets the new database ID
+            sql = @"SELECT Max(annid)
+                    FROM   " + SQL_OBJECTS_TABLE_NAME;
+
+            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+
+            ad.ID = (int)cmd.ExecuteScalar();
          }
          catch (Exception ex)
          {
@@ -378,7 +382,6 @@ namespace Cosmo.Cms.Classified
          string sql = string.Empty;
          ClassifiedAd ad = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -391,12 +394,14 @@ namespace Cosmo.Cms.Classified
             // Obtiene las carpetas
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annid", adId));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               ad = ReadClassifiedAd(reader);
+               if (reader.Read())
+               {
+                  ad = ReadClassifiedAd(reader);
+               }
             }
-            reader.Close();
 
             return ad;
          }
@@ -410,7 +415,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -460,7 +464,6 @@ namespace Cosmo.Cms.Classified
          string sql = string.Empty;
          List<ClassifiedAd> ads = new List<ClassifiedAd>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -473,12 +476,14 @@ namespace Cosmo.Cms.Classified
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             if (enabled) cmd.Parameters.Add(new SqlParameter("@months", this.ValidityDays));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               ads.Add(ReadClassifiedAd(reader));
+               while (reader.Read())
+               {
+                  ads.Add(ReadClassifiedAd(reader));
+               }
             }
-            reader.Close();
 
             return ads;
          }
@@ -492,7 +497,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -509,7 +513,6 @@ namespace Cosmo.Cms.Classified
          string sql = string.Empty;
          List<ClassifiedAd> ads = new List<ClassifiedAd>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -524,12 +527,14 @@ namespace Cosmo.Cms.Classified
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
             cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               ads.Add(ReadClassifiedAd(reader));
+               while (reader.Read())
+               {
+                  ads.Add(ReadClassifiedAd(reader));
+               }
             }
-            reader.Close();
 
             return ads;
          }
@@ -543,7 +548,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -560,7 +564,6 @@ namespace Cosmo.Cms.Classified
          string sql = string.Empty;
          List<ClassifiedAd> ads = new List<ClassifiedAd>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -575,12 +578,14 @@ namespace Cosmo.Cms.Classified
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annuserid", uid));
             if (enabled) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               ads.Add(ReadClassifiedAd(reader));
+               while (reader.Read())
+               {
+                  ads.Add(ReadClassifiedAd(reader));
+               }
             }
-            reader.Close();
 
             return ads;
          }
@@ -594,7 +599,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -648,7 +652,6 @@ namespace Cosmo.Cms.Classified
          string sql = string.Empty;
          ClassifiedAdsSection folder = null;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -662,19 +665,21 @@ namespace Cosmo.Cms.Classified
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfldrid", folderId));
             cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-            reader = cmd.ExecuteReader();
-            if (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folder = new ClassifiedAdsSection();
-               folder.ID = folderId;
-               folder.Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
-               folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-               folder.IsListDefault = reader.GetBoolean(4);
-               folder.IsNotSelectable = reader.GetBoolean(5);
-               folder.Enabled = reader.GetBoolean(3);
-               folder.Objects = reader.GetInt32(6);
+               if (reader.Read())
+               {
+                  folder = new ClassifiedAdsSection();
+                  folder.ID = folderId;
+                  folder.Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
+                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
+                  folder.IsListDefault = reader.GetBoolean(4);
+                  folder.IsNotSelectable = reader.GetBoolean(5);
+                  folder.Enabled = reader.GetBoolean(3);
+                  folder.Objects = reader.GetInt32(6);
+               }
             }
-            reader.Close();
 
             return folder;
          }
@@ -688,7 +693,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -705,7 +709,6 @@ namespace Cosmo.Cms.Classified
          ClassifiedAdsSection folder = null;
          List<ClassifiedAdsSection> folders = new List<ClassifiedAdsSection>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -720,20 +723,22 @@ namespace Cosmo.Cms.Classified
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfldrenabled", published));
             if (published) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-               folder = new ClassifiedAdsSection();
-               folder.ID = reader.GetInt32(0);
-               folder.Name = reader.GetString(1);
-               folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-               folder.IsListDefault = reader.GetBoolean(4);
-               folder.IsNotSelectable = reader.GetBoolean(5);
-               folder.Enabled = reader.GetBoolean(3);
-               folder.Objects = reader.GetInt32(6);
-               folders.Add(folder);
+               while (reader.Read())
+               {
+                  folder = new ClassifiedAdsSection();
+                  folder.ID = reader.GetInt32(0);
+                  folder.Name = reader.GetString(1);
+                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
+                  folder.IsListDefault = reader.GetBoolean(4);
+                  folder.IsNotSelectable = reader.GetBoolean(5);
+                  folder.Enabled = reader.GetBoolean(3);
+                  folder.Objects = reader.GetInt32(6);
+                  folders.Add(folder);
+               }
             }
-            reader.Close();
 
             return folders;
          }
@@ -747,7 +752,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -763,7 +767,6 @@ namespace Cosmo.Cms.Classified
          ClassifiedAdsSection folder = null;
          List<ClassifiedAdsSection> folders = new List<ClassifiedAdsSection>();
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -776,21 +779,23 @@ namespace Cosmo.Cms.Classified
 
             // Recupera las carpetas
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-               folder = new ClassifiedAdsSection();
-               folder.ID = reader.GetInt32(0);
-               folder.Name = reader.GetString(1);
-               folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-               folder.IsListDefault = reader.GetBoolean(4);
-               folder.IsNotSelectable = reader.GetBoolean(5);
-               folder.Enabled = reader.GetBoolean(3);
-               folder.Objects = reader.GetInt32(6);
 
-               folders.Add(folder);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+               while (reader.Read())
+               {
+                  folder = new ClassifiedAdsSection();
+                  folder.ID = reader.GetInt32(0);
+                  folder.Name = reader.GetString(1);
+                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
+                  folder.IsListDefault = reader.GetBoolean(4);
+                  folder.IsNotSelectable = reader.GetBoolean(5);
+                  folder.Enabled = reader.GetBoolean(3);
+                  folder.Objects = reader.GetInt32(6);
+
+                  folders.Add(folder);
+               }
             }
-            reader.Close();
 
             return folders;
          }
@@ -804,7 +809,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -819,7 +823,6 @@ namespace Cosmo.Cms.Classified
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         SqlDataReader reader = null;
 
          try
          {
@@ -832,12 +835,14 @@ namespace Cosmo.Cms.Classified
 
             // Rellena el control
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            list.DataSource = reader;
-            list.DataTextField = "annfldrname";
-            list.DataValueField = "annfldrid";
-            list.DataBind();
-            reader.Close();
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            {
+               list.DataSource = reader;
+               list.DataTextField = "annfldrname";
+               list.DataValueField = "annfldrid";
+               list.DataBind();
+            }
 
             // Preselecciona el elemento
             if (defaultSelected > 0)
@@ -853,7 +858,6 @@ namespace Cosmo.Cms.Classified
          }
          finally
          {
-            reader.Dispose();
             cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
@@ -1189,12 +1193,12 @@ namespace Cosmo.Cms.Classified
          ad.FolderID = reader.GetInt32(3);
          ad.Title = reader.IsDBNull(4) ? string.Empty : reader.GetString(4);
          ad.Body = reader.IsDBNull(5) ? string.Empty : reader.GetString(5);
-         ad.UserLogin = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);                     // Usuario de Workspace
+         ad.UserLogin = reader.IsDBNull(6) ? string.Empty : reader.GetString(6); // Usuario de Workspace
          ad.Phone = reader.IsDBNull(7) ? string.Empty : reader.GetString(7);
          ad.Mail = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
          ad.URL = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
          ad.Deleted = reader.GetBoolean(10);
-         ad.Owner = reader.IsDBNull(11) ? SecurityService.ACCOUNT_SUPER : reader.GetString(11);   // Usuario de Cosmo
+         ad.Owner = reader.IsDBNull(11) ? SecurityService.ACCOUNT_SUPER : reader.GetString(11); // Usuario de Cosmo
          ad.Price = reader.GetDecimal(12);
          ad.PublishedDays = reader.GetInt32(13);
 

@@ -98,15 +98,6 @@ namespace Cosmo.Security.Auth.Impl
       }
 
       /// <summary>
-      /// Crea una nueva cuenta de usuario del workspace
-      /// </summary>
-      /// <param name="user">Instáncia de WSUser que contiene los datos de la nueva cuenta</param>
-      public override void Create(User user)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
       /// Actualiza los datos de una cuenta de usuario del workspace.
       /// </summary>
       /// <param name="user">Instáncia de MWUser que contiene los datos actualizados de la cuenta.</param>

@@ -14,7 +14,7 @@ namespace Cosmo.Cms.Content
    /// </summary>
    public class DocumentDAO
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
 
       /// <summary>Nombre del servicio</summary>

@@ -16,13 +16,13 @@ namespace Cosmo.UI.Menu
       /// </summary>
       public enum MenuItemType
       {
-         /// <summary>Elemento estándard (enlace)</summary>
+         /// <summary>Simple menu item (link).</summary>
          Standard,
-         /// <summary>Elemento que contiene el logo de la aplicación</summary>
+         /// <summary>Menu item that contains the logo of the site or application.</summary>
          Brand,
-         /// <summary>Elemento de perfil de usuario (acceso/login)</summary>
+         /// <summary>Menu item that allows to acces to user profile (login, logoff, etc).</summary>
          UserProfile,
-         /// <summary>Elemento de mensajes privados de usuario</summary>
+         /// <summary>Menu item that enable to show new private messages.</summary>
          PrivateMessages
       }
 
@@ -113,6 +113,27 @@ namespace Cosmo.UI.Menu
          {
             this.Roles = rolesCsvList.Split(new string[1] { "," }, 
                                             StringSplitOptions.RemoveEmptyEntries);
+         }
+      }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Convert a string value to <see cref="MenuItem.MenuItemType"/> enumeration element.
+      /// </summary>
+      /// <param name="strType">String value to convert.</param>
+      /// <returns>An element of <see cref="MenuItem.MenuItemType"/> enumeration.</returns>
+      public static MenuItem.MenuItemType ToMenuItemType(string strType)
+      {
+         try
+         {
+            return (MenuItem.MenuItemType)Enum.Parse(typeof(MenuItem.MenuItemType), strType);
+         }
+         catch
+         {
+            return MenuItem.MenuItemType.Standard;
          }
       }
 

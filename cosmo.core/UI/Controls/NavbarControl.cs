@@ -73,7 +73,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="item">Una instancia de <see cref="NavbarIButtonControl"/> que representa la cabecera de la barra.</param>
       /// <param name="align">Posición en que se deve alinear el elemento en la barra.</param>
-      public void AddItem(NavbarIButtonControl item, NavbarItemPosition align)
+      public void AddItem(NavbarIButtonControl item, NavbarIButtonControl.NavbarItemPosition align)
       {
          if (item == null) return;
          if (this.Items == null) this.Items = new List<NavbarIButtonControl>();

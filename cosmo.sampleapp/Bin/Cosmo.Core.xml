@@ -1046,53 +1046,6 @@
             <param name="address">Dirección de correo electrónico a verificar</param>
             <returns>Un valor que indica si una dirección es válida</returns>
         </member>
-        <member name="T:Cosmo.Net.UrlRoute">
-            <summary>
-            Implementa un gestor de rutas URL <em>friendly</em>.
-            Concretamente esta clase permite recuperar de forma transparente los datos de una URL 
-            con el siguiente formato:
-            
-            [ServerAddress]/ServiceName/Action/ID
-            
-            Por ejemplo:
-            www.myserver.com/Photos/ByUser/12
-            
-            ...dónde:
-            Action -> <c>ByUser</c>
-            ID -> <c>12</c>
-            </summary>
-        </member>
-        <member name="M:Cosmo.Net.UrlRoute.#ctor(System.Web.HttpRequest)">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Net.UrlRoute"/>.
-            </summary>
-            <param name="request">El contexto de la llamada.</param>
-        </member>
-        <member name="M:Cosmo.Net.UrlRoute.Initiazlize">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Net.UrlRoute.GetService">
-            <summary>
-            Devuelve el nombre del servicio.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Net.UrlRoute.GetAction">
-            <summary>
-            Devuelve el nombre de la acción.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Net.UrlRoute.GetStringID">
-            <summary>
-            Devuelve el identificador de la acción (en formato <em>string</em>).
-            </summary>
-        </member>
-        <member name="P:Cosmo.Net.UrlRoute.GetIntegerID">
-            <summary>
-            Devuelve el identificador de la acción (en formato <em>int</em>).
-            </summary>
-        </member>
         <member name="T:Cosmo.REST.RestHandler">
             <summary>
             Implementas an abstract base class to create Cosmo REST handlers.
@@ -1559,22 +1512,22 @@
         </member>
         <member name="T:Cosmo.Net.DeviceDetector">
             <summary>
-            Clase especializada en la detección del tipo de dispositivo.
+            Implements a device detector class.
             </summary>
         </member>
         <member name="T:Cosmo.Net.DeviceDetector.DeviceType">
             <summary>
-            Enumera los distintos tipos de dispositivo.
+            Enumerate the distinct types of devices.
             </summary>
         </member>
         <member name="F:Cosmo.Net.DeviceDetector.DeviceType.Desktop">
-            <summary>Dispositivo de sobremesa con todas las capacidades de visualización</summary>
+            <summary>Desktop devices (PC, laptop).</summary>
         </member>
         <member name="F:Cosmo.Net.DeviceDetector.DeviceType.Tablet">
-            <summary>Dispositivo tipo tablet</summary>
+            <summary>Tablet devices.</summary>
         </member>
         <member name="F:Cosmo.Net.DeviceDetector.DeviceType.Mobile">
-            <summary>Dispositivo tipo Smartphone</summary>
+            <summary>Smartphone devices.</summary>
         </member>
         <member name="T:Cosmo.UI.ControlCache">
             <summary>
@@ -2112,6 +2065,29 @@
             <summary>
             Gets or sets the modal view used to show the user data.
             </summary>
+        </member>
+        <member name="T:Cosmo.UI.Formatter">
+            <summary>
+            Declare different data formats as a default formats.
+            </summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_DATETIME">
+            <summary>Formatter para fecha/hora (24h).</summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_DATE">
+            <summary>Formatter para fecha corta.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_LONGDATE">
+            <summary>Formatter para fecha larga.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_SHORTTIME">
+            <summary>Formato para hora.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_DATE_MONTHYEAR">
+            <summary>Formato para mostrar mes/año.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Formatter.FORMAT_SHORTDATE">
+            <summary>Formato para mostrar mes/año.</summary>
         </member>
         <member name="T:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior">
             <summary>
@@ -5233,205 +5209,137 @@
         <member name="F:Cosmo.UI.ViewResource.ResourceType.JavaScript">
             <summary>Archivo de código JavaScript.</summary>
         </member>
-        <member name="T:Cosmo.UI.CosmoTemplate">
+        <member name="T:Cosmo.UI.Menu.MenuProvider">
             <summary>
-            Implementa un fragmento de página que se puede refrescar mediante AJAX.
-            Indicado para listados y otros elementos dinámicos.
+            Abstract class that must be implemented by menu provider modules.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.#ctor">
-            <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.CosmoTemplate"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.LoadTemplate">
-            <summary>
-            Método invocado durante la carga de la página.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.ProcessRequest(System.Web.HttpContext)">
-            <summary>
-            Evento que se lanza al recibir una petición.
-            Equivale al ciclo de vida de la página.
-            </summary>
-            <param name="context">Contexto del servidor en el momento de la llamada.</param>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.Initialize">
-            <summary>
-            Inicializa la instancia.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.CheckSecurityConstrains">
-            <summary>
-            Comprueba las reglas de seguridad para acceder a la página actual.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.ShowError(System.String,System.String)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="title">Título del error.</param>
-            <param name="description">Descripción del error.</param>
-        </member>
-        <member name="M:Cosmo.UI.CosmoTemplate.ShowError(System.Exception)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="exception">Excepción a mostrar.</param>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.DomID">
-            <summary>
-            Devuelve o establece el identificador del elemento en la estructura DOM de la página web.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.Request">
-            <summary>
-            Devuelve una instancia de <see cref="T:System.Web.HttpRequest"/> que representa el contexto de llamada a la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.Content">
-            <summary>
-            Devuelve o establece la lista de controles que contiene la cabecera.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.IsAuthenticated">
-            <summary>
-            Indica si existe un usuario autenticado.
-            </summary>
-            <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.Parameters">
-            <summary>
-            Devuelve la colección de parámetros de llamada (o de un formulario) que ha recibido la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.CosmoTemplate.IsReusable">
-            <summary>
-            Indica al servidor web si la instancia es rehusable.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.Menu.IMenuProvider">
-            <summary>
-            Clase abstracta que deben implementar los proveedores de menú.
-            </summary>
-        </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_TAG">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_TAG">
             <summary>Tag XML que contiene la definición del elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_ID">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_ID">
             <summary>Atributo XML que contiene el identificador del elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_NAME">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_NAME">
             <summary>Atributo XML que contiene el nombre del elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_HREF">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_HREF">
             <summary>Atributo XML que contiene el enlace del elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_ICON">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_ICON">
             <summary>Atributo XML que contiene el icono del elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_TYPE">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_TYPE">
             <summary>Atributo XML que contiene el tipo de elemento de menú</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.XML_MENUITEM_ATTRIB_ROLES">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.XML_MENUITEM_ATTRIB_ROLES">
             <summary>XML attribute that contains the roles authorized to view the element.</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.MENUITEM_TYPE_NORMAL">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.MENUITEM_TYPE_NORMAL">
             <summary>Tipo de elemento de menú estándar</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.MENUITEM_TYPE_BRAND">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.MENUITEM_TYPE_BRAND">
             <summary>Tipo de elemento de menú que contiene el logotipo de la aplicación</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.MENUITEM_TYPE_PROFILE">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.MENUITEM_TYPE_PROFILE">
             <summary>Tipo de elemento de menú para perfil de usuario</summary>
         </member>
-        <member name="F:Cosmo.UI.Menu.IMenuProvider.MENUITEM_TYPE_PRIVATEMESSAGES">
+        <member name="F:Cosmo.UI.Menu.MenuProvider.MENUITEM_TYPE_PRIVATEMESSAGES">
             <summary>Tipo de elemento de menú para mensajes privados</summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Menu.IMenuProvider"/>.
+            Gets a new instance of <see cref="T:Cosmo.UI.Menu.MenuProvider"/>.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
-            <param name="plugin">Una instancia de <see cref="P:Cosmo.UI.Menu.IMenuProvider.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
+            <param name="plugin">Una instancia de <see cref="P:Cosmo.UI.Menu.MenuProvider.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateSidebar(Cosmo.UI.View,System.String)">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.GenerateSidebar(Cosmo.UI.View,System.String)">
             <summary>
             Genera un menú usando un control <see cref="T:Cosmo.UI.Controls.SidebarControl"/>.
             </summary>
+            <param name="parentViewport">Owner view that contains the current menu.</param>
             <param name="activeMenuItemId">Identificador del elemento activo actualmente.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/> que representa el menú solicitado.</returns>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.GenerateNavbar(Cosmo.UI.View,System.String)">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.GenerateNavbar(Cosmo.UI.View,System.String)">
             <summary>
             Genera un menú usando un control <see cref="T:Cosmo.UI.Controls.NavbarControl"/>.
             </summary>
+            <param name="parentViewport">Owner view that contains the current menu.</param>
             <param name="activeMenuItemId">Una cadena que contiene el identificador del elemento de menú que debe aparecer activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.NavbarControl"/> convenientemente configurada y lista para ser renderizada.</returns>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToSidebarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.ConvertToSidebarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
             <summary>
             Convierte la instancia <see cref="T:Cosmo.UI.Menu.MenuItem"/> en <see cref="T:Cosmo.UI.Controls.SidebarButton"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.ConvertToNavbarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.ConvertToNavbarButton(Cosmo.UI.View,Cosmo.UI.Menu.MenuItem,System.String)">
             <summary>
-            Convierte la instancia <see cref="T:Cosmo.UI.Menu.MenuItem"/> en <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/>.
+            Convert a <see cref="T:Cosmo.UI.Menu.MenuItem"/> instante to another instance of <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/> to use in navbar control.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.IMenuProvider.GetBrand(System.Collections.Generic.List{Cosmo.UI.Menu.MenuItem})">
+        <member name="M:Cosmo.UI.Menu.MenuProvider.GetBrand(System.Collections.Generic.List{Cosmo.UI.Menu.MenuItem})">
             <summary>
             Obtiene el elemento de menú que contiene el logotipo de la aplicación.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Menu.IMenuProvider.Workspace">
+        <member name="P:Cosmo.UI.Menu.MenuProvider.Workspace">
             <summary>
             Devuelve una instancia del workspace actual.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Menu.IMenuProvider.Plugin">
+        <member name="P:Cosmo.UI.Menu.MenuProvider.Plugin">
             <summary>
             Devuelve una instancia del workspace actual.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Menu.IMenuProvider.ID">
+        <member name="P:Cosmo.UI.Menu.MenuProvider.ID">
             <summary>
             Devuelve el nombre (ID) del módulo.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Menu.IMenuProvider.MenuItems">
+        <member name="P:Cosmo.UI.Menu.MenuProvider.MenuItems">
             <summary>
             Devuelve o establece los elementos de menú que ha obtenido el proveedor.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.Menu.Impl.DbMenuProviderImpl">
+        <member name="T:Cosmo.UI.Menu.Impl.SqlMenuProvider">
             <summary>
             Implementa un proveedor de menús de aplicación que obtiene las opciones de una base de datos.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.Impl.DbMenuProviderImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.UI.Menu.Impl.SqlMenuProvider.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Menu.Impl.DbMenuProviderImpl"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Menu.Impl.SqlMenuProvider"/>.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="T:Cosmo.UI.Menu.Impl.StaticMenuProviderImpl">
+        <member name="T:Cosmo.UI.Menu.Impl.StaticMenuProvider">
             <summary>
             Implementa un proveedor de menús de aplicación que obtiene las distintas opciones del archivo de configuración del workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.Menu.Impl.StaticMenuProviderImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.UI.Menu.Impl.StaticMenuProvider.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.UI.Menu.Impl.StaticMenuProviderImpl"/>.
+            Devuelve una instancia de <see cref="T:Cosmo.UI.Menu.Impl.StaticMenuProvider"/>.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.UI.Menu.Impl.StaticMenuProviderImpl.LoadMenu(System.Xml.XmlNode)">
+        <member name="M:Cosmo.UI.Menu.Impl.StaticMenuProvider.LoadMenu(System.Xml.XmlNode)">
             <summary>
             Carga el menú a partir de la información XML contenida dentro de la definición de Plugin.
             </summary>
+        </member>
+        <member name="M:Cosmo.Utils.BooleanUtils.IsBooleanType(System.Type)">
+            <summary>
+            Check if an instance is boolean.
+            </summary>
+            <param name="objectType">Type to check.</param>
+            <returns><c>true</c> if the instance if boolean or <c>false</c> in all other cases.</returns>
         </member>
         <member name="T:Cosmo.Utils.Collections">
             <summary>
@@ -7301,7 +7209,7 @@
             </summary>
             <param name="item">Una instancia de <see cref="T:Cosmo.UI.Controls.NavbarIButtonControl"/> que representa la cabecera de la barra.</param>
         </member>
-        <member name="M:Cosmo.UI.Controls.NavbarControl.AddItem(Cosmo.UI.Controls.NavbarIButtonControl,Cosmo.UI.Controls.NavbarItemPosition)">
+        <member name="M:Cosmo.UI.Controls.NavbarControl.AddItem(Cosmo.UI.Controls.NavbarIButtonControl,Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemPosition)">
             <summary>
             Agrega un nuevo elemento en la barra de navegación.
             </summary>
@@ -7373,31 +7281,6 @@
             Devuelve o establece la URL correspondiente a la imagen usada como logotipo del workspace.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.Controls.NavbarItemType">
-            <summary>
-            Describe los sitintos tipos de elementos que puede contener una barra de navegación.
-            </summary>
-        </member>
-        <member name="F:Cosmo.UI.Controls.NavbarItemType.Button">
-            <summary>Botón normal (enlace) o menú desplegable.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Controls.NavbarItemType.Divider">
-            <summary>Línea divisoria entre distintos elementos.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Controls.NavbarItemType.Login">
-            <summary>Botón de inicio de sesión.</summary>
-        </member>
-        <member name="T:Cosmo.UI.Controls.NavbarItemPosition">
-            <summary>
-            Describe los sitintos tipos de elementos que puede contener una barra de navegación.
-            </summary>
-        </member>
-        <member name="F:Cosmo.UI.Controls.NavbarItemPosition.Left">
-            <summary>Alineado a la izquierda.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Controls.NavbarItemPosition.Right">
-            <summary>Alineado a la derecha.</summary>
-        </member>
         <member name="T:Cosmo.UI.Controls.NavbarIButtonControl">
             <summary>
             Representa un elemento insertable en un componente Navbar de Bootstrap.
@@ -7468,6 +7351,31 @@
             <summary>
             Lista de elementos contenidos en el elemento actual (para generar desplegables).
             </summary>
+        </member>
+        <member name="T:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemType">
+            <summary>
+            Describe los sitintos tipos de elementos que puede contener una barra de navegación.
+            </summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemType.Button">
+            <summary>Botón normal (enlace) o menú desplegable.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemType.Divider">
+            <summary>Línea divisoria entre distintos elementos.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemType.Login">
+            <summary>Botón de inicio de sesión.</summary>
+        </member>
+        <member name="T:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemPosition">
+            <summary>
+            Describe los sitintos tipos de elementos que puede contener una barra de navegación.
+            </summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemPosition.Left">
+            <summary>Alineado a la izquierda.</summary>
+        </member>
+        <member name="F:Cosmo.UI.Controls.NavbarIButtonControl.NavbarItemPosition.Right">
+            <summary>Alineado a la derecha.</summary>
         </member>
         <member name="T:Cosmo.UI.Controls.NavbarPrivateMessagesItem">
             <summary>
@@ -7816,6 +7724,13 @@
             </summary>
             <param name="rolesCsvList">Vomma separated values list of roles.</param>
         </member>
+        <member name="M:Cosmo.UI.Menu.MenuItem.ToMenuItemType(System.String)">
+            <summary>
+            Convert a string value to <see cref="T:Cosmo.UI.Menu.MenuItem.MenuItemType"/> enumeration element.
+            </summary>
+            <param name="strType">String value to convert.</param>
+            <returns>An element of <see cref="T:Cosmo.UI.Menu.MenuItem.MenuItemType"/> enumeration.</returns>
+        </member>
         <member name="M:Cosmo.UI.Menu.MenuItem.Initialize">
             <summary>
             Inicialización de la instancia.
@@ -7867,16 +7782,16 @@
             </summary>
         </member>
         <member name="F:Cosmo.UI.Menu.MenuItem.MenuItemType.Standard">
-            <summary>Elemento estándard (enlace)</summary>
+            <summary>Simple menu item (link).</summary>
         </member>
         <member name="F:Cosmo.UI.Menu.MenuItem.MenuItemType.Brand">
-            <summary>Elemento que contiene el logo de la aplicación</summary>
+            <summary>Menu item that contains the logo of the site or application.</summary>
         </member>
         <member name="F:Cosmo.UI.Menu.MenuItem.MenuItemType.UserProfile">
-            <summary>Elemento de perfil de usuario (acceso/login)</summary>
+            <summary>Menu item that allows to acces to user profile (login, logoff, etc).</summary>
         </member>
         <member name="F:Cosmo.UI.Menu.MenuItem.MenuItemType.PrivateMessages">
-            <summary>Elemento de mensajes privados de usuario</summary>
+            <summary>Menu item that enable to show new private messages.</summary>
         </member>
         <member name="T:Cosmo.UI.Menu.MenuDAO">
             <summary>
@@ -8124,11 +8039,11 @@
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.Render(Cosmo.UI.Controls.Control,System.String)">
             <summary>
-            Renderiza un control.
+            Renderizes a control.
             </summary>
-            <param name="control">Instancia del control a renderizar.</param>
-            <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-            <returns>Una cadena que contiene XHTML.</returns>
+            <param name="control">Control to renderize.</param>
+            <param name="receivedFormID">The identifier of the form received or empty string if no form is received.</param>
+            <returns>A string containing the XHTML code corresponding to the control renderized.</returns>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.Render(Cosmo.UI.Controls.Control)">
             <summary>
@@ -8180,13 +8095,6 @@
             </summary>
             <param name="parentView">Una instancia de <see cref="T:Cosmo.UI.ModalView"/> que representa la instancia renderizar.</param>
             <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-            <returns>Una cadena que contiene XHTML.</returns>
-        </member>
-        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderTemplate(Cosmo.UI.CosmoTemplate)">
-            <summary>
-            Renderiza una plantilla de visualización.
-            </summary>
-            <param name="template">Una instancia de <see cref="T:Cosmo.UI.CosmoTemplate"/> que representa la instancia renderizar.</param>
             <returns>Una cadena que contiene XHTML.</returns>
         </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderScripts(Cosmo.UI.View)">
@@ -9537,255 +9445,17 @@
             Color único con el que se generará la imagen Captcha.
             </summary>
         </member>
-        <member name="T:Cosmo.Utils.Html.Formatter">
+        <member name="T:Cosmo.Utils.Html.BBCodeTextParser">
             <summary>
-            Helper para formateo de información.
+            BBCode parser.
             </summary>
         </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_SHORTTIME">
-            <summary>Formato para hora.</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_DATE_MONTHYEAR">
-            <summary>Formato para mostrar mes/año.</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_SHORTDATE">
-            <summary>Formato para mostrar mes/año.</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_DATETIME">
-            <summary>Formatter para fecha/hora (24h).</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_DATE">
-            <summary>Formatter para fecha corta.</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Formatter.FORMAT_LONGDATE">
-            <summary>Formatter para fecha larga.</summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.Formatter.bbCodeParser(System.String)">
+        <member name="M:Cosmo.Utils.Html.BBCodeTextParser.ParseText(System.String)">
             <summary>
             Convierte un texto con tags bbCodes a HTML.
             </summary>
             <param name="bbCodeText">Texto original que contiene códigos bbCodes.</param>
             <returns>Una cadena HTML.</returns>
-        </member>
-        <member name="T:Cosmo.Utils.Html.HtmlAttribute">
-            <summary>
-            Representa un atributo de un TAG Html.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlAttribute.#ctor(System.String)">
-            <summary>
-            Devuelve una instancia de HtmlAttribute.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlAttribute.#ctor(System.String,System.String)">
-            <summary>
-            Devuelve una instancia de HtmlAttribute.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlAttribute.Name">
-            <summary>
-            Devuelve o establece el nombre del parámetro.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlAttribute.Value">
-            <summary>
-            Devuelve o establece el valor del parámetro.
-            </summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.HtmlTokens.Text">
-            <summary>Lee texto (sin Tag analizado)</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.HtmlTokens.Tag">
-            <summary>Lee el Tag</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.HtmlTokens.Attribute">
-            <summary>Lee un parámetro</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.HtmlTokens.Value">
-            <summary>Lee el valor de parámetro</summary>
-        </member>
-        <member name="T:Cosmo.Utils.Html.HtmlDocument">
-            <summary>
-            Implementa una clase que representa un documento HTML separado por TAGs y texto. 
-            Esta clase permite sanitizar fragmentos HTML capturados externamente.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.#ctor">
-            <summary>
-            Devuelve una instancia de Html.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.#ctor(System.String)">
-            <summary>
-            Devuelve una instancia de Html.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.Parse(System.String)">
-            <summary>
-            Parsea el contenido Html original.
-            </summary>
-            <param name="inputHtml">Una cadena de texto que contiene el Html original.</param>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.IsAllowedTag(System.String)">
-            <summary>
-            Indica si un determinado TAG está permitido.
-            </summary>
-            <param name="tag">Nombre del TAG.</param>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.IsAllowedAttribute(System.String)">
-            <summary>
-            Indica si un determinado parámetro está permitido.
-            </summary>
-            <param name="attribute">Nombre del parámetro.</param>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlDocument.ToHtml">
-            <summary>
-            Convierte el Html interpretado en una cadena lista para enviar al cliente.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlDocument.InputHtml">
-            <summary>
-            Devuelve o establece la cadena HTML original (sin parsear).
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlDocument.DisallowedTags">
-            <summary>
-            Contiene la lista de TAGs prohibidos.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlDocument.DisallowedAttributes">
-            <summary>
-            Contiene la lista de atributos prohibidos.
-            </summary>
-        </member>
-        <member name="T:Cosmo.Utils.Html.HtmlTag">
-            <summary>
-            Representa un TAG Html, es decir, cualquier elemento encapsulado entre &lt; y &gt;.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlTag.#ctor(Cosmo.Utils.Html.HtmlDocument,System.String)">
-            <summary>
-            Devuelve una instancia de HtmlTag.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlTag.GetParameter(System.String)">
-            <summary>
-            Permite obtener el valor de un parámetro capturado.
-            </summary>
-            <param name="key">Clave del parámetro que se desea obtener.</param>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlTag.ToXhtml">
-            <summary>
-            Convierte el TAG en una cadena de texto lista para enviar a un cliente.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlTag.Parse(System.String)">
-            <summary>
-            Parsea el contenido del TAG.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlTag.GetValue(System.String,System.Int32@)">
-            <summary>
-            Obtiene el siguiente valor. Este debe estar entre comillar simples o dobles.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlTag.IsClosigTag">
-            <summary>
-            Indica si se trata de un TAG de cierre.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlTag.Name">
-            <summary>
-            Nombre del TAG.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlTag.Attributes">
-            <summary>
-            Contiene la lista de atributos del TAG.
-            </summary>
-        </member>
-        <member name="T:Cosmo.Utils.Html.HtmlText">
-            <summary>
-            Representa un fragmento de texto HTML.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlText.#ctor">
-            <summary>
-            Devuelve una instancia de HtmlText.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlText.#ctor(System.String)">
-            <summary>
-            Devuelve una instancia de HtmlText.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.HtmlText.ToXhtml">
-            <summary>
-            Convierte el objeto a una cadena de texto agregable al documento HTML.
-            </summary>
-            <returns>Una cadena de texto presentable en un documento HTML.</returns>
-        </member>
-        <member name="P:Cosmo.Utils.Html.HtmlText.Text">
-            <summary>
-            Devuelve o establece el fragmento de texto.
-            </summary>
-        </member>
-        <member name="T:Cosmo.Utils.Html.Parsers.BBCodeParserOld">
-            <summary>
-            Parser para mensajes formateados con BBCodes.
-            </summary>
-            <remarks>
-            Basado en el <a href="http://eksith.wordpress.com/2009/01/14/aspnet-bbcode-c/">artículo siguiente</a>.
-            </remarks>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Parsers.BBCodeParserOld.IMG_CLASS">
-            <summary>Nombre de la clase que se aplica por defecto a las imágenes incluidas en los mensajes del foro.</summary>
-        </member>
-        <member name="F:Cosmo.Utils.Html.Parsers.BBCodeParserOld.MAX_QUOTE_LEVELS">
-            <summary>Establece el número máximo de niveles de citación (quote).</summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.Parsers.BBCodeParserOld.Parse(System.String)">
-            <summary>
-            Converts the input plain-text BBCode to HTML output and replacing carriage returns
-            and spaces with <br /> and   etc...
-            Recommended: Use this function only during storage and updates.
-            Keep a seperate field in your database for HTML formatted content and raw text.
-            An optional third, plain text field, with no formatting info will make full text searching
-            more accurate.
-            E.G. BodyText(with BBCode for textarea/WYSIWYG), BodyPlain(plain text for searching),
-            BodyHtml(formatted HTML for output pages)
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.Parsers.BBCodeParserOld.StripTags(System.String)">
-            <summary>
-            Elimina cualquier posible TAG HTML.
-            </summary>
-            <param name="content">Cadena de texto a tratar.</param>
-            <returns>Una cadena sin ningún TAG.</returns>
-        </member>
-        <member name="M:Cosmo.Utils.Html.Parsers.BBCodeParserOld.MatchReplace(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
-            <summary>
-            Match and replace a specific pattern with formatted text
-            </summary>
-            <param name="pattern">Regular expression pattern</param>
-            <param name="match">Match replacement</param>
-            <param name="content">Text to format</param>
-            <param name="multi">Multiline text (optional)</param>
-            <param name="white">Ignore white space (optional)</param>
-            <param name="cult">Indica si el reemplazo no es dependiente d ela cultura.</param>
-            <returns>HTML Formatted from the original BBCode</returns>
-        </member>
-        <member name="T:Cosmo.Utils.Html.Parsers.PlainTextParser">
-            <summary>
-            Parser para mensajes de texto ASCII.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Html.Parsers.PlainTextParser.Parse(System.String)">
-            <summary>
-            Transforma los códigos BBCode de un mensaje a XHTML
-            </summary>
-            <param name="content">Texto original del mensaje</param>
-            <returns>Una cadena XHTML que contiene el mensaje a visualizar</returns>
         </member>
         <member name="T:Cosmo.Utils.Plugin">
             <summary>
@@ -10135,7 +9805,14 @@
         </member>
         <member name="M:Cosmo.Utils.KeyValue.#ctor(System.String,System.String)">
             <summary>
-            Devuelve una instancia de <see cref="T:Cosmo.Utils.KeyValue"/>.
+            Gets a new instance of <see cref="T:Cosmo.Utils.KeyValue"/>.
+            </summary>
+            <param name="label"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Cosmo.Utils.KeyValue.#ctor(System.String,System.Int32)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.Utils.KeyValue"/>.
             </summary>
             <param name="label"></param>
             <param name="value"></param>
@@ -10969,18 +10646,6 @@
             <summary>Overriden method</summary>
             <returns>Filename in Zip</returns>
         </member>
-        <member name="T:Cosmo.Utils.Mime">
-            <summary>
-            Implementa una clase con utilidades MIME.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.Mime.GetType(System.String)">
-            <summary>
-            Obtiene el tipo MIME associado a un archivo.
-            </summary>
-            <param name="filename">Nombre y path del archivo.</param>
-            <returns>Una cadena que describe el tipo MIME asociado.</returns>
-        </member>
         <member name="T:Cosmo.WorkspaceSettings">
             <summary>
             Clase que gestiona la lectura y el acceso a los parámetros de configuración del workspace.
@@ -11478,29 +11143,8 @@
             Esta clase hace uso de los proveedores de autenticación.
             </remarks>
         </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.PROVIDER_DEFAULT">
-            <summary>Proveedor de autenticación por defecto (Cosmo Workspace Authentication provider).</summary>
-        </member>
         <member name="F:Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER">
             <summary>Login del usuario super</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_LOGIN">
-            <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_MAIL">
-            <summary>TAG para insertar el correo electrónico del usuario en el texto del mensaje.</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_NAME">
-            <summary>TAG para insertar el nombre real del usuario en el texto del mensaje.</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_PASSWORD">
-            <summary>TAG para insertar la contraseña del usuario en el texto del mensaje.</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_USER_VERIFYLINK">
-            <summary>TAG para insertar el link que da acceso a la verificación de la cuenta de correo.</summary>
-        </member>
-        <member name="F:Cosmo.Security.Auth.SecurityService.TAG_WORKSPACE_MAIL">
-            <summary>TAG para insertar el mail de contacto del responsable del workspace en el texto del mensaje.</summary>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityService.#ctor(Cosmo.Workspace)">
             <summary>
@@ -11673,32 +11317,6 @@
             <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
             <returns>A string containing the requested url.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.SecurityService.GetVerificationMail(Cosmo.Security.User)">
-            <summary>
-            Genera el correo de verificación de cuenta de correo.
-            </summary>
-            <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
-            <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene el correo de verificación de cuentas de eMail.</returns>
-        </member>
-        <member name="M:Cosmo.Security.Auth.SecurityService.GetVerificationMail(System.Int32)">
-            <summary>
-            Genera el correo de verificación de cuenta de correo.
-            </summary>
-            <param name="uid">Identificador del usuario.</param>
-        </member>
-        <member name="M:Cosmo.Security.Auth.SecurityService.GetUserDataMail(Cosmo.Security.User)">
-            <summary>
-            Genera el correo de envío de datos de connexión.
-            </summary>
-            <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
-            <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene los datos de conexión de un usuario.</returns>
-        </member>
-        <member name="M:Cosmo.Security.Auth.SecurityService.GetUserDataMail(System.Int32)">
-            <summary>
-            Genera el correo de envío de datos de connexión.
-            </summary>
-            <param name="uid">Identificador del usuario.</param>
-        </member>
         <member name="M:Cosmo.Security.Auth.SecurityService.IsAuthenticated(System.Web.SessionState.HttpSessionState)">
             <summary>
             Determina si existe una sesión de usuario iniciada.
@@ -11771,8 +11389,26 @@
         </member>
         <member name="T:Cosmo.Security.Auth.SecurityModule">
             <summary>
-            Interface para los proveedores de seguridad de los usuarios del workspace.
+            Abstrcta class that must be implemented by security modules.
             </summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_USER_LOGIN">
+            <summary>TAG para insertar el login del usuario en el texto del mensaje.</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_USER_MAIL">
+            <summary>TAG para insertar el correo electrónico del usuario en el texto del mensaje.</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_USER_NAME">
+            <summary>TAG para insertar el nombre real del usuario en el texto del mensaje.</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_USER_PASSWORD">
+            <summary>TAG para insertar la contraseña del usuario en el texto del mensaje.</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_USER_VERIFYLINK">
+            <summary>TAG para insertar el link que da acceso a la verificación de la cuenta de correo.</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityModule.TAG_WORKSPACE_MAIL">
+            <summary>TAG para insertar el mail de contacto del responsable del workspace en el texto del mensaje.</summary>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
@@ -11795,40 +11431,69 @@
             <param name="redirectToUrl">If the authentication process is successful, the Url to navigate.</param>
             <returns>A string containing the requested url.</returns>
         </member>
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetVerificationMail(Cosmo.Security.User)">
+            <summary>
+            Genera el correo de verificación de cuenta de correo.
+            </summary>
+            <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
+            <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene el correo de verificación de cuentas de eMail.</returns>
+        </member>
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetVerificationMail(System.Int32)">
+            <summary>
+            Genera el correo de verificación de cuenta de correo.
+            </summary>
+            <param name="uid">Identificador del usuario.</param>
+        </member>
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUserDataMail(Cosmo.Security.User)">
+            <summary>
+            Genera el correo de envío de datos de connexión.
+            </summary>
+            <param name="user">Una instancia de <see cref="T:Cosmo.Security.User"/>.</param>
+            <returns>Una instancia de <see cref="T:System.Net.Mail.MailMessage"/> que contiene los datos de conexión de un usuario.</returns>
+        </member>
+        <member name="M:Cosmo.Security.Auth.SecurityModule.GetUserDataMail(System.Int32)">
+            <summary>
+            Genera el correo de envío de datos de connexión.
+            </summary>
+            <param name="uid">Identificador del usuario.</param>
+        </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Autenticate(System.String,System.String)">
             <summary>
-            Autentica al usuario.
+            User authentication.
             </summary>
-            <param name="login">Login del usuario.</param>
-            <param name="password">Contraseña.</param>
-            <returns>Si ha tenido exito, devuelve </returns>
+            <param name="login">User login.</param>
+            <param name="password">User password.</param>
+            <returns>Returns the <see cref="T:Cosmo.Security.User"/> instance with authenticated user data.</returns>
+            <remarks>
+            In case of authentication failure, this method must raise an exception. See security exceptions.
+            </remarks>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.GetUsersList">
             <summary>
-            Obtiene una lista de usuarios.
+            Gets a list of all users in workspace.
             </summary>
-            <returns>Una lista de usuarios.</returns>
+            <returns>A list of <see cref="T:Cosmo.Security.User"/> instances.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
-            Obtiene una lista de usuarios de un determinado estado.
+            Gets a list of all users in workspace filtered by his status.
             </summary>
-            <param name="status">Estado para el que se desea filtrar.</param>
-            <returns>Una lista de usuarios.</returns>
+            <param name="status">Status filter.</param>
+            <returns>A list of <see cref="T:Cosmo.Security.User"/> instances.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.GetUser(System.String)">
             <summary>
-            Obtiene las propiedades de un usuario.
+            Get a user account.
             </summary>
-            <param name="login">Login del usuario.</param>
-            <returns>Una instancia de User con los datos del usuario.</returns>
+            <param name="login">User login.</param>
+            <returns>An instance of <see cref="T:Cosmo.Security.User"/> corresponding to the requested user or <c>null</c> if login don't exist.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.GetUser(System.Int32)">
             <summary>
-            Obtiene las propiedades de un usuario.
+            Get a user account.
             </summary>
-            <param name="uid">Identificador único del usuario.</param>
-            <returns>Una instancia de User con los datos del usuario.</returns>
+            <param name="uid">User unique identifier (DB).</param>
+            <returns>An instance of <see cref="T:Cosmo.Security.User"/> corresponding to the requested user or <c>null</c> if identifier doesn't exist.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.GetUserLocation(System.Int32)">
             <summary>
@@ -11837,78 +11502,80 @@
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.SecurityModule.Create(Cosmo.Security.User)">
-            <summary>
-            Crea una nueva cuenta de usuario.
-            </summary>
-            <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
-        </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
-            Crea una nueva cuenta de usuario.
+            Creates a new user account.
             </summary>
-            <param name="user">Una instancia de User con los datos de la cuenta a crear.</param>
-            <param name="confirm">Indica si se desea confirmar la cuenta de correo electrónico vía correo electrónico.</param>
+            <param name="user">An instance containing the new user data.</param>
+            <param name="confirm">If it's <c>true</c> this process must be validated by clicking a link in an email sent to user.</param>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Update(Cosmo.Security.User)">
             <summary>
-            Actualiza los datos de una cuenta de usuario.
+            Update user account data.
             </summary>
-            <param name="user">Una instancia de User con los datos actualizados de la cuenta.</param>
+            <param name="user">An instance with updated user data.</param>
             <remarks>
-            Para actualizar la contraseña debe usar el método SetPassword() ya que éste método no actualiza la contraseña.
+            This method don't update the password. The method <c>SetPassword()</c> perform this change.
             </remarks>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Delete(System.Int32)">
             <summary>
-            Elimina una cuenta de usuario.
+            Delete a user account.
             </summary>
-            <param name="uid">Identificador de la cuenta a eliminar.</param>
+            <param name="uid">User account unique identifier (DB).</param>
+            <remarks>
+            This method remove the record in database.
+            </remarks>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Cancel(System.Int32)">
             <summary>
-            Cancela una cuenta de usuario.
+            Cancel a user account.
             </summary>
-            <param name="uid">Identificador de la cuenta a cancelar.</param>
+            <param name="uid">User account unique identifier (DB).</param>
+            <remarks>
+            This method don't remove the database related record, only update data to erase all personal data. It can be
+            useful to mantain the login reserved.
+            </remarks>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Verify(System.Int32,System.String)">
             <summary>
-            Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
+            Verify a user account (with the verification pending status).
             </summary>
-            <param name="uid">Identificador de la cuenta de usuario.</param>
-            <param name="mail">Correo electrónico asociado a la cuenta.</param>
-            <returns>Una instancia de User con los datos del usuario verificado.</returns>
+            <param name="uid">User account unique identifier (DB).</param>
+            <param name="mail">Mail account corresponding to the user account.</param>
+            <returns>An instance of <see cref="T:Cosmo.Security.User"/> corresponding to the verified user.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
-            Verifica una cuenta de usuario (pendiente de verificación por correo electrónico).
+            Verify a user account (with the verification pending status).
             </summary>
-            <param name="QueryString">Una instancia de NameValueCollection que puede ser Server.Params.</param>
-            <returns>Una instancia de User con los datos del usuario verificado.</returns>
+            <param name="QueryString">A collection with URL parameters obtained in request.</param>
+            <returns>An instance of <see cref="T:Cosmo.Security.User"/> corresponding to the verified user.</returns>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.SendData(System.String)">
             <summary>
-            Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
+            Send a mail to user with connection data.
             </summary>
-            <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
+            <param name="address">Mail address corresponding to the user account.</param>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.SetPassword(System.Int32,System.String)">
             <summary>
-            Actualiza los datos de una cuenta de usuario del workspace.
+            Change the passord for an user account.
             </summary>
-            <param name="uid">Identificador de la cuenta de usuario.</param>
-            <param name="newPassword">Nueva contraseña del usuario.</param>
+            <param name="uid">User account unique identifier (DB).</param>
+            <param name="newPassword">A string with new password.</param>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
-            Actualiza los datos de una cuenta de usuario del workspace.
+            Change the passord for an user account.
             </summary>
-            <param name="uid">Identificador de la cuenta de usuario.</param>
-            <param name="oldPassword">Contraseña actual.</param>
-            <param name="newPassword">Nueva contraseña del usuario.</param>
-            <param name="newPasswordVerification">Verificación de la nueva contraseña.</param>
+            <param name="uid">User account unique identifier (DB).</param>
+            <param name="oldPassword">Current password.</param>
+            <param name="newPassword">New password.</param>
+            <param name="newPasswordVerification">New password re-typed.</param>
             <remarks>
-            Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
+            If parameters <c>newPassword</c> and <c>newPasswordVerification</c> must be identicals. If not, 
+            a <see cref="T:Cosmo.Security.SecurityException"/> is raised.
             </remarks>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.CheckPassword(System.Int32,System.String)">
@@ -11965,15 +11632,45 @@
             Gets a boolean indicating id the security is enabled for the current workspace.
             </summary>
         </member>
-        <member name="P:Cosmo.Security.Auth.SecurityModule.IsVerificationMailRequired">
-            <summary>
-            Indica si al crear una cuenta se verifica la cuenta de correo mediante el envio de un correo 
-            de verificación.
-            </summary>
-        </member>
         <member name="P:Cosmo.Security.Auth.SecurityModule.EncriptionKey">
             <summary>
              Devuelve la clave de encriptación usada para encriptar todo lo referente a seguridad.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.IsVerificationMailRequired">
+            <summary>
+            Gets a boolean value indicating if the signup process must verify the mail address sending a mail
+            with a verification link.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.VerificationMailSubject">
+            <summary>
+            Gets the verification mail subject.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.VerificationMailBody">
+            <summary>
+            Gets the verification mail body.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.IsVerificationMailHtmlFormat">
+            <summary>
+            Gets the verification mail body.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.PersonalDataMailSubject">
+            <summary>
+            Gets the verification mail subject.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.PersonalDataMailBody">
+            <summary>
+            Gets the verification mail body.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Security.Auth.SecurityModule.IsPersonalDataMailHtmlFormat">
+            <summary>
+            Gets the verification mail body.
             </summary>
         </member>
         <member name="T:Cosmo.Security.Auth.Impl.LdapSecurityModule">
@@ -12031,12 +11728,6 @@
             </summary>
             <param name="user">Instáncia de WSUser que contiene los datos de la nueva cuenta</param>
             <param name="confirm">Indica que al agregar el usuario se le mandará un correo electrónico para la confirmación de su cuenta de correo y mientras no se confirme, la cuenta estará en estado pendiente de verificación.</param>
-        </member>
-        <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Create(Cosmo.Security.User)">
-            <summary>
-            Crea una nueva cuenta de usuario del workspace
-            </summary>
-            <param name="user">Instáncia de WSUser que contiene los datos de la nueva cuenta</param>
         </member>
         <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.Update(Cosmo.Security.User)">
             <summary>
@@ -12146,7 +11837,7 @@
             Devuelve una lista de paises
             </summary>
         </member>
-        <member name="T:Cosmo.Security.Auth.Impl.SqlServerSecurityModule">
+        <member name="T:Cosmo.Security.Auth.Impl.SqlSecurityModule">
             <summary>
             Proveedor de autenticación nativo de Cosmo.
             </summary>
@@ -12154,54 +11845,48 @@
             Este proveedor usa para la autenticación de usuario la base de datos del workspace (tabla USERS).
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
             Devuelve una instancia de Users.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
             <summary>
             Devuelve una lista de todos los usuarios.
             </summary>
             <param name="status">Filtra por el estado de la cuenta.</param>
             <returns>Una lista de objetos <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUsersList">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.GetUsersList">
             <summary>
             Devuelve una lista de todos los usuarios.
             </summary>
             <returns>Una lista de objetos <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUser(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.GetUser(System.String)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="login">Login de la cuenta de usuario.</param>
             <returns>Una instáncia <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUser(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.GetUser(System.Int32)">
             <summary>
             Obtiene los datos de una cuenta del workspace.
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una instáncia <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Create(Cosmo.Security.User,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Create(Cosmo.Security.User,System.Boolean)">
             <summary>
             Crea una nueva cuenta de usuario del workspace
             </summary>
             <param name="user">Instáncia de <see cref="T:Cosmo.Security.User"/> que contiene los datos de la nueva cuenta</param>
             <param name="confirm">Indica que al agregar el usuario se le mandará un correo electrónico para la confirmación de su cuenta de correo y mientras no se confirme, la cuenta estará en estado pendiente de verificación.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Create(Cosmo.Security.User)">
-            <summary>
-            Crea una nueva cuenta de usuario del workspace.
-            </summary>
-            <param name="user">Instáncia de <see cref="T:Cosmo.Security.User"/> que contiene los datos de la nueva cuenta.</param>
-        </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Update(Cosmo.Security.User)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Update(Cosmo.Security.User)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12211,19 +11896,19 @@
             actualiza la contraseña.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Delete(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Delete(System.Int32)">
             <summary>
             Elimina una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta a eliminar</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Cancel(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Cancel(System.Int32)">
             <summary>
             Cancela una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta a cancelar</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Verify(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Verify(System.Int32,System.String)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
@@ -12231,21 +11916,21 @@
             <param name="uid">Identificador del usuario.</param>
             <param name="mail">Cuenta de correo del usuario</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Verify(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Verifica una cuenta de usuario (pasa del estado 'No verificada' a 'Activa'). Este método permite implementar
             un sistema de generación de cuentas por parte de los usuarios (registro de usuarios).
             </summary>
             <param name="QueryString">Colección de parámetros del enlace de verificación mandado por correo electrónico al usuario (Request.QueryString).</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SendData(System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.SendData(System.String)">
             <summary>
             Envia los datos de un usuario a su cuenta de correo para el acceso al Workspace
             </summary>
             <param name="address">Dirección de correo a la que se mandarán los datos. Debe coincidir con la dirección de una cuenta de usuario.</param>
             <returns>La instáncia de <see cref="T:Cosmo.Security.User"/> con los datos del usuario que realiza la petición.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Autenticate(System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Autenticate(System.String,System.String)">
             <summary>
             Permite verificar las credenciales de acceso a una cuenta de usuario (login).
             </summary>
@@ -12255,14 +11940,14 @@
             Una instancia de <see cref="T:Cosmo.Security.User"/> que representa el usuario autenticado.
             </returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SetPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.SetPassword(System.Int32,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
             <param name="uid">Identificador de la cuenta de usuario.</param>
             <param name="newPassword">Nueva contraseña del usuario.</param>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.SetPassword(System.Int32,System.String,System.String,System.String)">
             <summary>
             Actualiza los datos de una cuenta de usuario del workspace.
             </summary>
@@ -12274,7 +11959,7 @@
             Los parámetros newPassword y newPasswordVerification deben coincidir o de lo contrario se lanzará la excepción <see cref="T:Cosmo.Security.SecurityException"/>.
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.CheckPassword(System.Int32,System.String)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.CheckPassword(System.Int32,System.String)">
             <summary>
             Verifica una contraseña de usuario.
             </summary>
@@ -12282,14 +11967,14 @@
             <param name="password">Contraseña a verificar.</param>
             <returns>Devuelve <c>true</c> si la contraseña coincide o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.FindByCriteria(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Selecciona un grupo de usuarios.
             </summary>
             <param name="selector">Selector que contiene los critérios de búsqueda.</param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Find(System.String,System.String,System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Find(System.String,System.String,System.Int32)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12298,7 +11983,7 @@
             <param name="countryId">Identificador del pais a buscar</param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.Find(System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.Find(System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             Busca usuarios del workspace.
             </summary>
@@ -12308,26 +11993,26 @@
             <param name="onlyEnabledUsers"></param>
             <returns>Una lista de instancias de <see cref="T:Cosmo.Security.User"/>.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ListCountry">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.ListCountry">
             <summary>
             Devuelve una lista de paises.
             </summary>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.GetUserLocation(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.GetUserLocation(System.Int32)">
             <summary>
             Gets the user location (city and country name) with a standard format.
             </summary>
             <param name="uid">User unique identifier.</param>
             <returns>A string with formatted city and country information.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ConvertUidToLogin(System.Int32)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.ConvertUidToLogin(System.Int32)">
             <summary>
             Obtiene el login asociado a un UID.
             </summary>
             <param name="uid">Identificador del usuario.</param>
             <returns>Una cadena que representa el login del usuario.</returns>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ReadUserFields(System.Data.SqlClient.SqlDataReader)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.ReadUserFields(System.Data.SqlClient.SqlDataReader)">
             <summary>
             Devuelve una instancia de MWUser con los datos recuperados de un objeto SqlDataReader que apunte a un registro de la tabla USERS
             </summary>
@@ -12337,7 +12022,7 @@
             Para usar este método la senténcia SQL debe contener los campos indicados en la constante USER_FIELDS
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.ReadRole(System.Data.SqlClient.SqlDataReader)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.ReadRole(System.Data.SqlClient.SqlDataReader)">
             <summary>
             Lee los datos de un rol de usuario de la base de datos.
             </summary>
@@ -12347,7 +12032,7 @@
             Para usar este método la senténcia SQL debe contener los campos indicados en la constante USER_FIELDS
             </remarks>
         </member>
-        <member name="M:Cosmo.Security.Auth.Impl.SqlServerSecurityModule.SelectorSQL(Cosmo.Security.UserSearchCriteria)">
+        <member name="M:Cosmo.Security.Auth.Impl.SqlSecurityModule.SelectorSQL(Cosmo.Security.UserSearchCriteria)">
             <summary>
             Genera la clausula WHERE correspondiente a un filtro para seleccionar usuarios
             </summary>

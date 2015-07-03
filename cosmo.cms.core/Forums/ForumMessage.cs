@@ -98,8 +98,8 @@ namespace Cosmo.Cms.Forums
       /// <returns>Una cadena XHTML a enviar al cliente.</returns>
       public string GetHTMLBody()
       {
-         Formatter bbParser = new Formatter();
-         return bbParser.bbCodeParser(this.Body);
+         BBCodeTextParser bbParser = new BBCodeTextParser();
+         return bbParser.ParseText(this.Body);
       }
 
 

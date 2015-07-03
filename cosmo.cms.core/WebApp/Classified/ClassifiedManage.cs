@@ -2,7 +2,6 @@
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.Utils.Html;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -38,45 +37,21 @@ namespace Cosmo.WebApp.Classified
          Title = ClassifiedAdsDAO.SERVICE_NAME + " - Mia anuncios";
 
          //--------------------------------------------------------------
-         // Lista de carpetas
-         //--------------------------------------------------------------
-
-         // Panel de herramientas administrativas
-
-         /*Button btnTool;
-
-         Panel adminPanel = new Panel(this);
-
-         btnTool = new Button(this);
-         btnTool.Icon = "fa-plus-square-o";
-         btnTool.Caption = "Nuevo anuncio";
-         btnTool.Color = ComponentColorScheme.Success;
-         btnTool.IsBlock = true;
-         btnTool.Href = "ContentEdit?" + Cosmo.Workspace.PARAM_FOLDER_ID + "=" + 0 + "&" +
-                                         Cosmo.Workspace.PARAM_COMMAND + "=" + Cosmo.Workspace.COMMAND_ADD;
-         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR);
-
-         adminPanel.Content.Add(btnTool);
-
-         btnTool = new Button(this);
-         btnTool.Icon = "fa-plus-square-o";
-         btnTool.Caption = "Mis anuncios";
-         btnTool.Color = ComponentColorScheme.Success;
-         btnTool.IsBlock = true;
-         btnTool.Href = "ContentEdit?" + Cosmo.Workspace.PARAM_FOLDER_ID + "=" + 0 + "&" +
-                                         Cosmo.Workspace.PARAM_COMMAND + "=" + Cosmo.Workspace.COMMAND_ADD;
-         btnTool.Enabled = Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR);
-
-         adminPanel.Content.Add(btnTool);
-
-         RightContent.Add(adminPanel);*/
-
-         //--------------------------------------------------------------
          // Genera la lista de anuncios a mostrar
          //--------------------------------------------------------------
 
          ClassifiedAdsDAO ads = new ClassifiedAdsDAO(Workspace);
          List<ClassifiedAd> adlist = ads.Items(false, Workspace.CurrentUser.User.ID);
+
+         HtmlContentControl html = new HtmlContentControl(this);
+         html.AppendParagraph("Puede gestionar en esta página sus anuncios clasificados. Puede crear nuevos anuncios, editar los anuncios, republicar los anuncios caducados o eliminar anuncios obsoletos.");
+
+         PanelControl panel = new PanelControl(this);
+         panel.Caption = "Mis anuncios clasificados";
+         panel.CaptionIcon = IconControl.ICON_BOOKMARK;
+         panel.Content.Add(html);
+
+         panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Crear nuevo anuncio", IconControl.ICON_PLUS, ClassifiedEdit.GetURL(0), string.Empty));
 
          if (adlist.Count > 0)
          {
@@ -120,18 +95,7 @@ namespace Cosmo.WebApp.Classified
                table.Rows.Add(row);
             }
 
-            HtmlContentControl html = new HtmlContentControl(this);
-            html.AppendParagraph("Puede gestionar en esta página sus anuncios clasificados. Puede crear nuevos anuncios, editar los anuncios, republicar los anuncios caducados o eliminar anuncios obsoletos.");
-
-            PanelControl panel = new PanelControl(this);
-            panel.Caption = "Mis anuncios clasificados";
-            panel.CaptionIcon = IconControl.ICON_BOOKMARK;
-            panel.Content.Add(html);
             panel.Content.Add(table);
-
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Crear nuevo anuncio", IconControl.ICON_PLUS, ClassifiedEdit.GetURL(0), string.Empty));
-
-            MainContent.Add(panel);
          }
          else
          {
@@ -140,8 +104,10 @@ namespace Cosmo.WebApp.Classified
             callout.Title = "Sin anuncios";
             callout.Text = "Actualmente no dispone de ningún anuncio clasificado.";
 
-            MainContent.Add(callout);
+            panel.Content.Add(callout);
          }
+
+         MainContent.Add(panel);
       }
 
       public override void InitPage()

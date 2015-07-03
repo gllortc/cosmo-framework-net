@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cosmo.Utils;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -229,12 +230,7 @@ namespace Cosmo.Net
       /// <returns>El valor booleano del parámetro</returns>
       public bool GetBoolean(string name, bool defaultvalue)
       {
-         if (_params[name] == null) return defaultvalue;
-
-         if (_params[name].Trim().ToLower().Equals("false") || _params[name].Trim().Equals("0")) return false;
-         if (_params[name].Trim().ToLower().Equals("true") || _params[name].Trim().Equals("1")) return true;
-
-         return defaultvalue;
+         return BooleanUtils.ToBoolean(name, defaultvalue);
       }
 
       /// <summary>
@@ -245,7 +241,7 @@ namespace Cosmo.Net
       /// <remarks>En caso de no existir el parámetro, devuelve una valor false</remarks>
       public bool GetBoolean(string name)
       {
-         return GetBoolean(name, false);
+         return BooleanUtils.ToBoolean(name);
       }
 
       /// <summary>

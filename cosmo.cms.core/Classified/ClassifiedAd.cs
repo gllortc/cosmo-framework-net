@@ -116,9 +116,9 @@ namespace Cosmo.Cms.Classified
       /// <summary>
       /// Indica si está publicado (visible públicamente) o no
       /// </summary>
-      public PublishStatus Status
+      public CmsPublishStatus.PublishStatus Status
       {
-         get { return PublishStatus.Published; }
+         get { return CmsPublishStatus.PublishStatus.Published; }
          set { }
       }
 

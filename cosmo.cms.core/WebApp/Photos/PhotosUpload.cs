@@ -3,7 +3,6 @@ using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.Utils.Html;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -136,7 +135,7 @@ namespace Cosmo.WebApp.Photos
          picture.PictureFile = receivedForm.GetFileFieldValue("file").Name;
          picture.UserID = Workspace.CurrentUser.User.ID;
          picture.Description = receivedForm.GetStringFieldValue("body") + "<br />" +
-                               "<em>" + receivedForm.GetStringFieldValue("site") + ", " + 
+                               "<em>" + receivedForm.GetStringFieldValue("site") + ", " +
                                receivedForm.GetDateFieldValue("date").ToString(Formatter.FORMAT_DATE) + "</em>";
          picture.Author = receivedForm.GetStringFieldValue("author");
          picture.Created = DateTime.Now;
