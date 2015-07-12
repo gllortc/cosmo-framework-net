@@ -27,7 +27,7 @@ namespace Cosmo.UI
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="View"/>.
+      /// Gets a new instance of <see cref="View"/>.
       /// </summary>
       protected View()
       {
@@ -39,7 +39,7 @@ namespace Cosmo.UI
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el workspace actual.
+      /// Gets or sets el workspace actual.
       /// </summary>
       public Workspace Workspace { get; set; }
 
@@ -52,7 +52,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="HttpRequest"/> que representa el contexto de llamada a la página.
+      /// Gets a new instance of <see cref="HttpRequest"/> que representa el contexto de llamada a la página.
       /// </summary>
       public HttpRequest Request
       {
@@ -60,7 +60,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="HttpResponse"/> que representa la respuesta del servidor.
+      /// Gets a new instance of <see cref="HttpResponse"/> que representa la respuesta del servidor.
       /// </summary>
       public HttpResponse Response
       {
@@ -269,7 +269,7 @@ namespace Cosmo.UI
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

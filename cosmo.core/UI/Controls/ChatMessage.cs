@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using System.Web;
 
 namespace Cosmo.UI.Controls
 {
    /// <summary>
-   /// Representa un mnesaje de chat.
+   /// Implements a chat message for the <see cref="ChatControl"/>.
    /// </summary>
    public class ChatMessage
    {
+
+      #region Enumerations
+
       /// <summary>
       /// Enumera las direcciones posibles del elemento.
       /// </summary>
@@ -20,138 +21,77 @@ namespace Cosmo.UI.Controls
          Left
       }
 
-      // Declaración de variables sinternas
-      private string _id;
-      private string _caption;
-      private string _content;
-      private string _author;
-      private string _time;
-      private List<ChatMessageToolbarButtonControl> _buttons;
-      private ChatMessageDirections _direction;
+      #endregion
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PopoverControl"/>.
+      /// Gets a new instance of <see cref="ChatMessage"/>.
       /// </summary>
       public ChatMessage()
       {
          Initialize();
       }
 
-      /*/// <summary>
-      /// Devuelve o establece el identificador del elemento en el DOM del navegador.
-      /// </summary>
-      public string DomID
-      {
-         get { return _domId; }
-         set { _domId = value; }
-      }*/
+      #endregion
+
+      #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador del mesnaje.
+      /// Gets or sets el identificador del mesnaje.
       /// </summary>
-      public string DomID
-      {
-         get { return _id; }
-         set { _id = value; }
-      }
+      public string DomID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el título del mensaje.
+      /// Gets or sets el título del mensaje.
       /// </summary>
-      public string Caption
-      {
-         get { return _caption; }
-         set { _caption = value; }
-      }
+      public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el contenido del mensaje.
+      /// Gets or sets el contenido del mensaje.
       /// Esta propiedad sólo admite texto (no reconoce HTML).
       /// </summary>
-      public string Content
-      {
-         get { return _content; }
-         set { _content = value; }
-      }
+      public string Content { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el autor del mensaje.
+      /// Gets or sets el autor del mensaje.
       /// </summary>
-      public string Author
-      {
-         get { return _author; }
-         set { _author = value; }
-      }
+      public string Author { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la fecha/hora de publicación del mensaje.
+      /// Gets or sets la fecha/hora de publicación del mensaje.
       /// </summary>
-      public string Time
-      {
-         get { return _time; }
-         set { _time = value; }
-      }
+      public string Time { get; set; }
 
       /// <summary>
       /// Establece la dirección que en que muestra el mensaje (permite definir, por ejemplo, derecha para el usuario e izquierda para el interlocutor).
       /// </summary>
-      public ChatMessageDirections Direction
-      {
-         get { return _direction; }
-         set { _direction = value; }
-      }
+      public ChatMessageDirections Direction { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de botones que contiene la barra de herramientas del mensaje.
+      /// Gets or sets la lista de botones que contiene la barra de herramientas del mensaje.
       /// </summary>
-      public List<ChatMessageToolbarButtonControl> ToolbarButtons
-      {
-         get { return _buttons; }
-         set { _buttons = value; }
-      }
-      /*
-      /// <summary>
-      /// Convierte el componente en código XHTML.
-      /// </summary>
-      /// <returns>Una cadena que contiene el código XHTML necesario para representar el componente en un navegador.</returns>
-      public string ToXhtml()
-      {
-         StringBuilder xhtml = new StringBuilder();
+      public List<ChatMessageToolbarButtonControl> ToolbarButtons { get; set; }
 
-         // xhtml.AppendLine("<div id=\"" + _domId + "\" class=\"popover " + ConvertPopoverDirectionToString(_direction) + " chat-message-" + ConvertPopoverDirectionToString(_direction) + "\">");
-         xhtml.AppendLine("  <div class=\"arrow\"></div>");
-         xhtml.AppendLine("  <div class=\"chat-msg-toolbar clearfix\">");
-         xhtml.AppendLine("    <div class=\"chat-msg-title\">" + HttpUtility.HtmlDecode(_caption) + "</div>");
-         if (_buttons.Count > 0)
-         {
-            xhtml.AppendLine("    <div class=\"btn-group pull-right\">");
-            foreach (ChatMessageToolbarButton button in _buttons)
-            {
-               xhtml.AppendLine("      <a href=\"" + button.Href + "\" class=\"btn btn-default btn-xs\">" + (string.IsNullOrWhiteSpace(button.Icon) ? string.Empty : Icon.GetIcon(button.Icon)) + " " + HttpUtility.HtmlDecode(button.Caption) + "</a>");
-            }
-            xhtml.AppendLine("    </div>");
-         }
-         xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("  <div class=\"popover-content\">");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(_content).Replace("\n", "<br />\n"));
-         xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("</div>");
+      #endregion
 
-         return xhtml.ToString();
-      }
-      */
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _id = string.Empty;
-         _caption = string.Empty;
-         _content = string.Empty;
-         _author = string.Empty;
-         _time = string.Empty;
-         _buttons = new List<ChatMessageToolbarButtonControl>();
-         _direction = ChatMessageDirections.Left;
+         this.DomID = string.Empty;
+         this.Caption = string.Empty;
+         this.Content = string.Empty;
+         this.Author = string.Empty;
+         this.Time = string.Empty;
+         this.ToolbarButtons = new List<ChatMessageToolbarButtonControl>();
+         this.Direction = ChatMessageDirections.Left;
       }
+
+      #endregion
+
    }
 }

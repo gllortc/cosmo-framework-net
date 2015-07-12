@@ -5,7 +5,7 @@
    /// </summary>
    public class ListItem
    {
-      // Declaración de variables internas.
+      // Internal data declarations.
       private string _caption;
       private string _description;
       private string _badge;
@@ -17,7 +17,7 @@
       private ComponentColorScheme _type;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ListItem"/>.
+      /// Gets a new instance of <see cref="ListItem"/>.
       /// </summary>
       public ListItem() 
       {
@@ -25,7 +25,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el título visible del elemento.
+      /// Gets or sets el título visible del elemento.
       /// </summary>
       public string Text
       {
@@ -34,7 +34,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el texto descriptivo del elemento.
+      /// Gets or sets el texto descriptivo del elemento.
       /// No soporta XHTML, sólo texto.
       /// </summary>
       public string Description
@@ -44,7 +44,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece la URL asociada al elemento.
+      /// Gets or sets la URL asociada al elemento.
       /// </summary>
       public string Href
       {
@@ -53,7 +53,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar junto al título del elemento.
+      /// Gets or sets el código del icono a mostrar junto al título del elemento.
       /// </summary>
       public string Icon
       {
@@ -62,7 +62,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el texto que aparecerá como <em>badge</em> (usualmente para indicar, por ejemplo, el número de elementos en un categoria).
+      /// Gets or sets el texto que aparecerá como <em>badge</em> (usualmente para indicar, por ejemplo, el número de elementos en un categoria).
       /// </summary>
       public string BadgeText
       {
@@ -80,7 +80,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el estilo de marcado del elemento.
+      /// Gets or sets el estilo de marcado del elemento.
       /// </summary>
       public ComponentColorScheme Type
       {
@@ -104,7 +104,7 @@
       }
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

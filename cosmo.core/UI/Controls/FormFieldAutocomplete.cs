@@ -19,10 +19,10 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldAutocomplete"/>.
+      /// Gets a new instance of <see cref="FormFieldAutocomplete"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormFieldAutocomplete(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -34,33 +34,33 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre del control.
+      /// Gets or sets el nombre del control.
       /// </summary>
       public string Name { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que aparecerá en la etiqueta.
+      /// Gets or sets el texto que aparecerá en la etiqueta.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto de ayuda que aparecerá dentro del cuadro de texto.
+      /// Gets or sets el texto de ayuda que aparecerá dentro del cuadro de texto.
       /// </summary>
       public string Placeholder { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL de consulta de datos.
+      /// Gets or sets la URL de consulta de datos.
       /// Para especificar dónde se sitúa el valor a consultar se debe usar la constante <c>TOKEN_QUERY</c>.
       /// </summary>
       public string SearchUrl { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el número mínimo de carácteres a partir de los cuales empieza a enviar peticiones.
+      /// Gets or sets el número mínimo de carácteres a partir de los cuales empieza a enviar peticiones.
       /// </summary>
       public int MinLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de botones de comando asociados al componente.
+      /// Gets or sets la lista de botones de comando asociados al componente.
       /// </summary>
       public List<ButtonControl> Buttons { get; set; }
 
@@ -70,7 +70,7 @@ namespace Cosmo.UI.Controls
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public override object Value { get; set; }
 
@@ -122,7 +122,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -85,7 +85,7 @@ namespace Cosmo.UI.Menu
       }
 
       /// <summary>
-      /// Devuelve o establece los elementos de menú que ha obtenido el proveedor.
+      /// Gets or sets los elementos de menú que ha obtenido el proveedor.
       /// </summary>
       public List<MenuItem> MenuItems
       {
@@ -167,7 +167,7 @@ namespace Cosmo.UI.Menu
 
          // Convierte la instancia MenuItem en SidebarButton
          SidebarButton btn = new SidebarButton(parentViewport);
-         btn.Caption = item.Name;
+         btn.Text = item.Name;
          btn.Href = item.Href;
          btn.Icon = item.Icon;
          btn.Active = (activeMenuItemId.Equals(item.ID));

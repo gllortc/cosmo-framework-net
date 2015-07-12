@@ -61,13 +61,13 @@ namespace Cosmo.FileSystem
    /// </summary>
    public abstract class IFileSystemService
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IFileSystemService"/>.
+      /// Gets a new instance of <see cref="IFileSystemService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/>.</param>
       protected IFileSystemService(Workspace workspace)

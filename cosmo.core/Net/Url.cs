@@ -28,7 +28,7 @@ namespace Cosmo.Net
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Url"/>.
+      /// Gets a new instance of <see cref="Url"/>.
       /// </summary>
       public Url() 
       {
@@ -36,7 +36,7 @@ namespace Cosmo.Net
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Url"/>.
+      /// Gets a new instance of <see cref="Url"/>.
       /// </summary>
       /// <param name="url">La dirección URL.</param>
       public Url(string url)
@@ -46,7 +46,7 @@ namespace Cosmo.Net
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Url"/>.
+      /// Gets a new instance of <see cref="Url"/>.
       /// </summary>
       /// <param name="url">La dirección URL.</param>
       /// <param name="anchorName">Nombre del enlace interno.</param>
@@ -58,7 +58,7 @@ namespace Cosmo.Net
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Url"/>.
+      /// Gets a new instance of <see cref="Url"/>.
       /// </summary>
       public Url(NameValueCollection clone) 
       {
@@ -90,7 +90,7 @@ namespace Cosmo.Net
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Url"/>.
+      /// Gets a new instance of <see cref="Url"/>.
       /// </summary>
       /// <param name="request">Una instancia de <see cref="HttpRequest"/></param>
       public Url(HttpRequest request)
@@ -128,7 +128,7 @@ namespace Cosmo.Net
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre del ancla.
+      /// Gets or sets el nombre del ancla.
       /// </summary>
       public string AnchorName
       {
@@ -137,7 +137,7 @@ namespace Cosmo.Net
       }
 
       /// <summary>
-      /// Devuelve o establece el nombre del archivo.
+      /// Gets or sets el nombre del archivo.
       /// </summary>
       public string Filename
       {

@@ -1,29 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Cosmo.UI.Controls
+﻿namespace Cosmo.UI.Controls
 {
+   /// <summary>
+   /// Implements a control that show a message to user that can be hidden permanently by the user.
+   /// </summary>
    public class CookiesAdvisorControl : Control
    {
       public const string SETTINGS_ENABLED = "cosmo.ui.cookiesadvisor.enabled";
       public const string SETTINGS_CONTENTID = "cosmo.ui.cookiesadvisor.infocontentid";
 
+      #region Constructors
+
+      /// <summary>
+      /// Gets a new instance of <see cref="CookiesAdvisorControl"/>.
+      /// </summary>
+      /// <param name="parentView"></param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public CookiesAdvisorControl(View parentView, string domId) 
          : base(parentView, domId)
       {
 
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
-      /// Return or set the message thes show this control to user.
+      /// Gets or sets the message thes show this control to user.
       /// </summary>
       public string Message { get; set; }
 
       /// <summary>
-      /// Return or set the content ID that contains more detailed information about legal aspects.
+      /// Gets or sets the content ID that contains more detailed information about legal aspects.
       /// </summary>
       public string InformationHref { get; set; }
+
+      #endregion
+
    }
 }

@@ -13,7 +13,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="LayoutContainerControl"/>.
+      /// Gets a new instance of <see cref="LayoutContainerControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public LayoutContainerControl(View parentView)
@@ -33,27 +33,27 @@ namespace Cosmo.UI.Controls
       public bool FadeBackground { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la cabecera.
+      /// Gets or sets la lista de controles que contiene la cabecera.
       /// </summary>
       public ControlCollection Header { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene el pie.
+      /// Gets or sets la lista de controles que contiene el pie.
       /// </summary>
       public ControlCollection Footer { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la columna izquierda.
+      /// Gets or sets la lista de controles que contiene la columna izquierda.
       /// </summary>
       public ControlCollection LeftContent { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la zona de contenidos de la página.
+      /// Gets or sets la lista de controles que contiene la zona de contenidos de la página.
       /// </summary>
       public ControlCollection MainContent { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la columna derecha.
+      /// Gets or sets la lista de controles que contiene la columna derecha.
       /// </summary>
       public ControlCollection RightContent { get; set; }
 
@@ -103,7 +103,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

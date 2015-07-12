@@ -72,7 +72,7 @@ namespace Cosmo.Security
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="User"/>.
+      /// Gets a new instance of <see cref="User"/>.
       /// </summary>
       public User()
       {
@@ -445,7 +445,7 @@ namespace Cosmo.Security
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

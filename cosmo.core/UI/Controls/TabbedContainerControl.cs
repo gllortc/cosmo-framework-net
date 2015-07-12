@@ -7,11 +7,11 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class TabbedContainerControl : Control, IControlCollectionContainer
    {
-      // Internal data declarations
-      private List<TabItemControl> _tabs;
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TabbedContainerControl"/>.
+      /// Gets a new instance of <see cref="TabbedContainerControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public TabbedContainerControl(View parentView) 
@@ -20,14 +20,14 @@ namespace Cosmo.UI.Controls
          Initialize();
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
       /// Lista de pestañas que contiene el control.
       /// </summary>
-      public List<TabItemControl> TabItems
-      {
-         get { return _tabs; }
-         set { _tabs = value; }
-      }
+      public List<TabItemControl> TabItems { get; set; }
 
       /// <summary>
       /// Colección de controles contenedores que son la base del control.
@@ -37,7 +37,7 @@ namespace Cosmo.UI.Controls
          get 
          {
             List<IControlSingleContainer> containers = new List<IControlSingleContainer>();
-            foreach (IControlSingleContainer container in _tabs)
+            foreach (IControlSingleContainer container in this.TabItems)
             {
                containers.Add(container);
             }
@@ -45,12 +45,19 @@ namespace Cosmo.UI.Controls
          } 
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _tabs = new List<TabItemControl>();
+         this.TabItems = new List<TabItemControl>();
       }
+
+      #endregion
+
    }
 }

@@ -13,7 +13,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class FormFieldFile : FormField
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private FileInfo _value;
       private FileInfo _thumbnail;
       private List<string> _allowedExt;
@@ -21,24 +21,24 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldFile"/>.
+      /// Gets a new instance of <see cref="FormFieldFile"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldFile(View parentViewport, string domId)
-         : base(parentViewport, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public FormFieldFile(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldFile"/>.
+      /// Gets a new instance of <see cref="FormFieldFile"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
-      public FormFieldFile(View parentViewport, string domId, string label)
-         : base(parentViewport, domId)
+      public FormFieldFile(View parentView, string domId, string label)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -46,14 +46,14 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldFile"/>.
+      /// Gets a new instance of <see cref="FormFieldFile"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldFile(View parentViewport, string domId, string label, string value)
-         : base(parentViewport, domId)
+      public FormFieldFile(View parentView, string domId, string label, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -62,15 +62,15 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldFile"/>.
+      /// Gets a new instance of <see cref="FormFieldFile"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="description"></param>
       /// <param name="value"></param>
-      public FormFieldFile(View parentViewport, string domId, string label, string description, string value)
-         : base(parentViewport, domId)
+      public FormFieldFile(View parentView, string domId, string label, string description, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -97,28 +97,28 @@ namespace Cosmo.UI.Controls
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que mostrará la etiqueta del campo.
+      /// Gets or sets el texto que mostrará la etiqueta del campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece un texto en el control que desaparece cuando contiene algún valor.
+      /// Gets or sets un texto en el control que desaparece cuando contiene algún valor.
       /// </summary>
       public string Placeholder { get; set; }
 
       /// <summary>
-      /// Devuelve o establece una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
+      /// Gets or sets una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre que recibirá el archivo al ser guardado en el servidor.
+      /// Gets or sets el nombre que recibirá el archivo al ser guardado en el servidor.
       /// Si esta propiedad se deja en blanco, se usará el nombre original.
       /// </summary>
       public string FileName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la ruta a la carpeta dónde se debe almacenar el archivo recibido.
+      /// Gets or sets la ruta a la carpeta dónde se debe almacenar el archivo recibido.
       /// </summary>
       public string DowloadPath { get; set; }
 
@@ -129,23 +129,23 @@ namespace Cosmo.UI.Controls
       public bool CreateThumbnail { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la anchura máxima de la imagen miniatura a crear si la propiedad <c>CreateThumbnail = true</c>.
+      /// Gets or sets la anchura máxima de la imagen miniatura a crear si la propiedad <c>CreateThumbnail = true</c>.
       /// </summary>
       public int ThumbnailMaxWith { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la altura máxima de la imagen miniatura a crear si la propiedad <c>CreateThumbnail = true</c>.
+      /// Gets or sets la altura máxima de la imagen miniatura a crear si la propiedad <c>CreateThumbnail = true</c>.
       /// </summary>
       public int ThumbnailMaxHeight { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tamaño máximo que puede tener el archivo transferido.
+      /// Gets or sets el tamaño máximo que puede tener el archivo transferido.
       /// Si se especifica <c>MaxLength <= 0</c> se interpreta como tamaño ilimitado.
       /// </summary>
       public int MaxLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de extensiones de archivo permitidas.
+      /// Gets or sets la lista de extensiones de archivo permitidas.
       /// </summary>
       public List<string> AllowedExtensions
       {
@@ -283,7 +283,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -10,7 +10,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ViewParameter"/>.
+      /// Gets a new instance of <see cref="ViewParameter"/>.
       /// </summary>
       public ViewParameter()
       {
@@ -22,12 +22,12 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre del parámetro.
+      /// Gets or sets el nombre del parámetro.
       /// </summary>
       public string ParameterName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre de la propiedad a la que se debe asociar.
+      /// Gets or sets el nombre de la propiedad a la que se debe asociar.
       /// </summary>
       public string PropertyName { get; set; }
 
@@ -36,7 +36,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

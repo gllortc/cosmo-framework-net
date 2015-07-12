@@ -8,14 +8,14 @@ namespace Cosmo.Communications
    /// </summary>
    public abstract class ICommunicationsModule
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Plugin _plugin;
       private Workspace _ws;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ICommunicationsModule"/>.
+      /// Gets a new instance of <see cref="ICommunicationsModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -67,7 +67,7 @@ namespace Cosmo.Communications
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

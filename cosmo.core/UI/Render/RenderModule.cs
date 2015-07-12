@@ -39,7 +39,7 @@ namespace Cosmo.UI.Render
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="RenderModule"/>.
+      /// Gets a new instance of <see cref="RenderModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -220,7 +220,7 @@ namespace Cosmo.UI.Render
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

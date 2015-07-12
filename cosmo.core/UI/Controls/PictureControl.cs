@@ -11,7 +11,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PictureControl"/>.
+      /// Gets a new instance of <see cref="PictureControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public PictureControl(View parentView) : 
@@ -21,10 +21,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PictureControl"/>.
+      /// Gets a new instance of <see cref="PictureControl"/>.
       /// </summary>
       /// <param name="parentView">The view that contains the control.</param>
-      /// <param name="domId">Identificador del elemento en el documento (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public PictureControl(View parentView, string domId) :
          base(parentView)
       {
@@ -38,27 +38,27 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece en ancho (en píxeles) la imagen miniatura.
+      /// Gets or sets en ancho (en píxeles) la imagen miniatura.
       /// </summary>
       public int Width { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL del enlace que representa la imagen miniatura.
+      /// Gets or sets la URL del enlace que representa la imagen miniatura.
       /// </summary>
       public string ImageHref { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL de la imagen miniatura.
+      /// Gets or sets la URL de la imagen miniatura.
       /// </summary>
       public string ImageUrl { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto alternativo que se mostrará en lugar de la imagen (propiedad Alt).
+      /// Gets or sets el texto alternativo que se mostrará en lugar de la imagen (propiedad Alt).
       /// </summary>
       public string ImageAlternativeText { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto a mostrar bajo la imagen.
+      /// Gets or sets el texto a mostrar bajo la imagen.
       /// </summary>
       public string Text { get; set; }
 
@@ -72,7 +72,7 @@
       public object Footer { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color del cuadro de la imagen (dependerá del renderizador dónde se aplique el color).
+      /// Gets or sets el color del cuadro de la imagen (dependerá del renderizador dónde se aplique el color).
       /// </summary>
       public ComponentColorScheme Type { get; set; }
 
@@ -105,7 +105,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

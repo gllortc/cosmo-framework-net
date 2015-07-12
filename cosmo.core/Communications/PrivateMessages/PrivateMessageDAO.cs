@@ -48,7 +48,7 @@ namespace Cosmo.Communications.PrivateMessages
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de MWNetUserMessages
+      /// Gets a new instance of MWNetUserMessages
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public PrivateMessageDAO(Workspace workspace)

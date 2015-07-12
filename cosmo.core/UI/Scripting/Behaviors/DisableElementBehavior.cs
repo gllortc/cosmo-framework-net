@@ -10,7 +10,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="DisableElementBehavior"/>.
+      /// Gets a new instance of <see cref="DisableElementBehavior"/>.
       /// </summary>
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Identificador del elemento.</param>
@@ -27,7 +27,7 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador del elemento a habilitar/deshabilitar.
+      /// Gets or sets el identificador del elemento a habilitar/deshabilitar.
       /// </summary>
       public string DomId { get; set; }
 

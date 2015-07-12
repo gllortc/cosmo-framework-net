@@ -93,7 +93,7 @@
       private TransferEncoding zTransferEncoding = TransferEncoding.Base64;
 
       /// <summary>
-      /// Devuelve una instancia de MailAddress.
+      /// Gets a new instance of MailAddress.
       /// </summary>
       public MailAddress(String inMailAddress)
       {
@@ -105,7 +105,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de MailAddress.
+      /// Gets a new instance of MailAddress.
       /// </summary>
       public MailAddress(String inMailAddress, String inDisplayName)
       {

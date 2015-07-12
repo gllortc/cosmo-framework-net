@@ -24,7 +24,7 @@ namespace Cosmo.Communications.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SmtpMailModuleImpl"/>.
+      /// Gets a new instance of <see cref="SmtpMailModuleImpl"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -88,7 +88,7 @@ namespace Cosmo.Communications.Impl
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el workspace actual.
+      /// Gets or sets el workspace actual.
       /// </summary>
       private Workspace Workspace { get; set; }
 
@@ -98,27 +98,27 @@ namespace Cosmo.Communications.Impl
       private bool UseSSL { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la dirección del servidor SMTP.
+      /// Gets or sets la dirección del servidor SMTP.
       /// </summary>
       private string ServerAddress { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el puerto del servidor SMTP.
+      /// Gets or sets el puerto del servidor SMTP.
       /// </summary>
       private int ServerPort { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el login del usuario de acceso al servidor SMTP.
+      /// Gets or sets el login del usuario de acceso al servidor SMTP.
       /// </summary>
       private string AccountLogin { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la contraseña del usuario de acceso al servidor SMTP.
+      /// Gets or sets la contraseña del usuario de acceso al servidor SMTP.
       /// </summary>
       private string AccountPassword { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la clase (con namespace) de los mensajes que gestiona este módulo.
+      /// Gets or sets la clase (con namespace) de los mensajes que gestiona este módulo.
       /// </summary>
       private string MessageClassName { get; set; }
 

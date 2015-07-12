@@ -13,7 +13,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Role"/>.
+      /// Gets a new instance of <see cref="Role"/>.
       /// </summary>
       public Role()
       {
@@ -21,7 +21,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Role"/>.
+      /// Gets a new instance of <see cref="Role"/>.
       /// </summary>
       public Role(int id, string name)
       {
@@ -45,7 +45,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el nombre del rol.
+      /// Gets or sets el nombre del rol.
       /// </summary>
       public string Name
       {
@@ -54,7 +54,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece la descripción del rol.
+      /// Gets or sets la descripción del rol.
       /// </summary>
       public string Description
       {
@@ -67,7 +67,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

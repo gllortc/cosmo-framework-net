@@ -14,7 +14,7 @@ namespace Cosmo.Communications.Impl
       private const string SETTING_TWITTER_CONSUMERKEY = "twitter.consumer.key";
       private const string SETTING_TWITTER_CONSUMERSECRET = "twitter.consumer.secret";
 
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
       private string _accessToken;
       private string _accessTokenSecret;
@@ -24,7 +24,7 @@ namespace Cosmo.Communications.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SmtpMailModuleImpl"/>.
+      /// Gets a new instance of <see cref="SmtpMailModuleImpl"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>

@@ -11,7 +11,7 @@
       /// Gets a new instance of <see cref="PartialViewContainerControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public PartialViewContainerControl(View parentView, string domId)
          : base(parentView, domId)
       {

@@ -8,18 +8,18 @@ namespace Cosmo.UI.Controls
    public class ControlNotFoundException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="ControlNotFoundException"/>.
       /// </summary>
       public ControlNotFoundException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="ControlNotFoundException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public ControlNotFoundException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="ControlNotFoundException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

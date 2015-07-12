@@ -13,7 +13,7 @@ namespace Cosmo.Communications.PrivateMessages
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrivateMessageThread"/>.
+      /// Gets a new instance of <see cref="PrivateMessageThread"/>.
       /// </summary>
       public PrivateMessageThread()
       {
@@ -25,12 +25,12 @@ namespace Cosmo.Communications.PrivateMessages
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador de usuario remoto.
+      /// Gets or sets el identificador de usuario remoto.
       /// </summary>
       internal int RemoteUserId { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el usuario remoto con el que se establece la conversación.
+      /// Gets or sets el usuario remoto con el que se establece la conversación.
       /// </summary>
       public User RemoteUser { get; set; }
 
@@ -40,12 +40,12 @@ namespace Cosmo.Communications.PrivateMessages
       public bool HaveUnreadMessages { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la fecha del último mensaje enviado al hilo.
+      /// Gets or sets la fecha del último mensaje enviado al hilo.
       /// </summary>
       public DateTime LastMessagesDate { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de mensajes privados que componen el hilo.
+      /// Gets or sets la lista de mensajes privados que componen el hilo.
       /// </summary>
       public List<PrivateMessage> Messages { get; set; }
 
@@ -70,7 +70,7 @@ namespace Cosmo.Communications.PrivateMessages
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

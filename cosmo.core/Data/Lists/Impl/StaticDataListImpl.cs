@@ -8,13 +8,13 @@ namespace Cosmo.Data.Lists.Impl
    /// </summary>
    public class StaticDataListImpl : IDataList
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private List<KeyValue> _values;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="StaticDataListImpl"/>.
+      /// Gets a new instance of <see cref="StaticDataListImpl"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene los datos del módulo y su configuración.</param>
@@ -30,7 +30,7 @@ namespace Cosmo.Data.Lists.Impl
       #region IDataList Implementation
 
       /// <summary>
-      /// Devuelve o establece la lista de valores que contiene la lista.
+      /// Gets or sets la lista de valores que contiene la lista.
       /// </summary>
       public override List<Utils.KeyValue> Values
       {
@@ -61,7 +61,7 @@ namespace Cosmo.Data.Lists.Impl
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -11,17 +11,15 @@ namespace Cosmo.UI.Scripting
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SimpleScript"/>.
+      /// Gets a new instance of <see cref="SimpleScript"/>.
       /// </summary>
       /// <param name="viewport">Instancia de <see cref="View"/> que actúa de contenedor del control actual.</param>
       public SimpleScript(View viewport)
          : base(viewport)
-      {
-
-      }
+      { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SimpleScript"/>.
+      /// Gets a new instance of <see cref="SimpleScript"/>.
       /// </summary>
       /// <param name="viewport">Instancia de <see cref="View"/> que actúa de contenedor del control actual.</param>
       /// <param name="source">Una cadena que contiene el código JavaScript.</param>
@@ -30,7 +28,7 @@ namespace Cosmo.UI.Scripting
       { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SimpleScript"/>.
+      /// Gets a new instance of <see cref="SimpleScript"/>.
       /// </summary>
       /// <param name="viewport">Instancia de <see cref="ICosmoViewport"/> que actúa de contenedor del control actual.</param>
       /// <param name="source"´>Una instancia de <see cref="StringBuilder"/> que contiene código JavaScript.</param>
@@ -48,6 +46,13 @@ namespace Cosmo.UI.Scripting
       /// <returns>Una cadena que contiene código JavaScript.</returns>
       public override string GetSource()
       {
+         // Evaluate if execution is attached on an event
+         if (ExecutionType == ScriptExecutionMethod.OnEvent)
+         {
+            Source.Insert(0, "$('#" + this.EventDomID + "').on('" + this.EventName + "', function () {");
+            Source.Append("});");
+         }
+
          return Source.ToString();
       }
 

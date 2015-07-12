@@ -8,18 +8,18 @@ namespace Cosmo
    public class WorkspaceSettingsException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       public WorkspaceSettingsException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       public WorkspaceSettingsException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

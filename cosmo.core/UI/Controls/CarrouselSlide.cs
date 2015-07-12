@@ -42,7 +42,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de CSCarrouselSlide.
+      /// Gets a new instance of CSCarrouselSlide.
       /// </summary>
       public CarrouselSlide() 
       {
@@ -54,49 +54,49 @@
       #region Settings
 
       /// <summary>
-      /// Devuelve o establece el nombre (con la ruta virtual) del archivo de imágen o SWF que se mostrará en el slide.
+      /// Gets or sets el nombre (con la ruta virtual) del archivo de imágen o SWF que se mostrará en el slide.
       /// </summary>
       public string FileName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre (con la ruta física) del archivo de imágen o SWF que se mostrará en el slide.
+      /// Gets or sets el nombre (con la ruta física) del archivo de imágen o SWF que se mostrará en el slide.
       /// </summary>
       public string FullName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tipo de slide a mostrar.
+      /// Gets or sets el tipo de slide a mostrar.
       /// </summary>
       public SlideType Type { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la posición dónde debe aparecer el caption del slide.
+      /// Gets or sets la posición dónde debe aparecer el caption del slide.
       /// </summary>
       public SlideCaptionPositions CaptionPosition { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el ancho del slide. Debe coincidir con el ancho del 
+      /// Gets or sets el ancho del slide. Debe coincidir con el ancho del 
       /// banner especificado en la propiedad <code>FileName</code>.
       /// </summary>
       public int Width { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la altura del slide. Debe coincidir con el ancho del 
+      /// Gets or sets la altura del slide. Debe coincidir con el ancho del 
       /// banner especificado en la propiedad <code>FileName</code>.
       /// </summary>
       public int Height { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL de destino. Si no se establece el slide no será un enlace.
+      /// Gets or sets la URL de destino. Si no se establece el slide no será un enlace.
       /// </summary>
       public string Link { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el título del slide.
+      /// Gets or sets el título del slide.
       /// </summary>
       public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre identificador del slide.
+      /// Gets or sets el nombre identificador del slide.
       /// Básicamente es usado para como texto alternativo de la imagen.
       /// </summary>
       public string Name { get; set; }
@@ -106,7 +106,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -32,7 +32,7 @@ namespace Cosmo.Security.Auth.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de Users.
+      /// Gets a new instance of Users.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -1072,7 +1072,7 @@ namespace Cosmo.Security.Auth.Impl
       #region Private Members
 
       /// <summary>
-      /// Devuelve una instancia de MWUser con los datos recuperados de un objeto SqlDataReader que apunte a un registro de la tabla USERS
+      /// Gets a new instance of MWUser con los datos recuperados de un objeto SqlDataReader que apunte a un registro de la tabla USERS
       /// </summary>
       /// <param name="reader">Objeto SqlDataReader que apunte a un registro válido</param>
       /// <returns>Una instancia de WSUser</returns>

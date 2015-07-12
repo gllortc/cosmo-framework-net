@@ -27,7 +27,7 @@ namespace Cosmo.Communications.PrivateMessages
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrivateMessage"/>.
+      /// Gets a new instance of <see cref="PrivateMessage"/>.
       /// </summary>
       public PrivateMessage()
       {
@@ -44,7 +44,7 @@ namespace Cosmo.Communications.PrivateMessages
       public int ID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el propietario del mensaje.
+      /// Gets or sets el propietario del mensaje.
       /// </summary>
       public int OwnerId { get; set; }
 
@@ -93,7 +93,7 @@ namespace Cosmo.Communications.PrivateMessages
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -17,7 +17,7 @@ namespace Cosmo.UI.Menu
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MenuDAO"/>.
+      /// Gets a new instance of <see cref="MenuDAO"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public MenuDAO(Workspace workspace)

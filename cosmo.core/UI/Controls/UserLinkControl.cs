@@ -27,6 +27,7 @@ namespace Cosmo.UI.Controls
       /// <param name="view">Container view of the control.</param>
       /// <param name="userId">User unique identifier.</param>
       /// <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
+      /// <param name="modalView">Modal view that the link opens.</param>
       public UserLinkControl(View view, int userId, string userDisplayName, ModalView modalView)
          : base(view)
       {
@@ -42,7 +43,7 @@ namespace Cosmo.UI.Controls
       /// </summary>
       /// <param name="view">Container view of the control.</param>
       /// <param name="user">An instance of <see cref="User"/> representing the user.</param>
-      /// <param name="userDisplayName">User display name (usually the <c>login</c>.</param>
+      /// <param name="modalView">Modal view that the link opens.</param>
       public UserLinkControl(View view, User user, ModalView modalView)
          : base(view)
       {

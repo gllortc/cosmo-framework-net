@@ -49,7 +49,7 @@ namespace Cosmo
       // Versión de la definición del archivo de configuración soportada
       private const string PROPERTIES_VERSION = "1.0";
 
-      // Declaración de variables internas
+      // Internal data declarations
       private string _appName;
       private string _appUrl;
       private string _appMail;
@@ -75,7 +75,7 @@ namespace Cosmo
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="WorkspaceSettings"/>.
+      /// Gets a new instance of <see cref="WorkspaceSettings"/>.
       /// </summary>
       /// <param name="context">Contexto de la llamada HTTP.</param>
       public WorkspaceSettings(HttpContext context)
@@ -399,7 +399,7 @@ namespace Cosmo
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize(HttpContext context)
       {

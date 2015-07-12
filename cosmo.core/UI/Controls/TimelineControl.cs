@@ -7,11 +7,11 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class TimelineControl : Control
    {
-      // Internal data declarations
-      private List<TimelineItem> _items;
 
+      #region Constructors
+      
       /// <summary>
-      /// Devuelve una instancia de <see cref="TimelineControl"/>.
+      /// Gets a new instance of <see cref="TimelineControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public TimelineControl(View parentView)
@@ -21,20 +21,35 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
+      /// Gets a new instance of <see cref="TimelineControl"/>.
+      /// </summary>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public TimelineControl(View parentView, string domId)
+         : base(parentView)
+      {
+         Initialize();
+      }
+
+      #endregion
+
+      #region Properties
+
+      /// <summary>
       /// Contiene la lista de elementos de la línea de timepo.
       /// </summary>
-      public List<TimelineItem> Items
-      {
-         get { return _items; }
-         set { _items = value; }
-      }
+      public List<TimelineItem> Items { get; set; }
+
+      #endregion
+
+      #region Methods
 
       /// <summary>
       /// Limpia todos los elementos de la línea de tiempo.
       /// </summary>
       public void clear()
       {
-         _items.Clear();
+         this.Items.Clear();
       }
 
       /// <summary>
@@ -43,15 +58,22 @@ namespace Cosmo.UI.Controls
       /// <param name="item">La instancia de <see cref="TimelineItem"/> a añadir.</param>
       public void AddItem(TimelineItem item)
       {
-         _items.Add(item);
+         this.Items.Add(item);
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _items = new List<TimelineItem>();
+         this.Items = new List<TimelineItem>();
       }
+
+      #endregion
+
    }
 }

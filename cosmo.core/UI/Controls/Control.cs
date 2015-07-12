@@ -76,7 +76,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Control"/>.
+      /// Gets a new instance of <see cref="Control"/>.
       /// </summary>
       /// <param name="parentView">Instancia de <see cref="View"/> que contiene el control.</param>
       protected Control(View parentView)
@@ -87,10 +87,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Control"/>.
+      /// Gets a new instance of <see cref="Control"/>.
       /// </summary>
       /// <param name="parentView">Instancia de <see cref="View"/> que contiene el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       protected Control(View parentView, string domId)
       {
          Initialize();
@@ -104,13 +104,13 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador del componente en el DOM.
+      /// Gets or sets el identificador del componente en el DOM.
       /// Sólo se debe establecer este valor si se desea acceder al componente a través de JavaScript.
       /// </summary>
       public string DomID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la instancia de <see cref="View"/> que contiene el control.
+      /// Gets or sets la instancia de <see cref="View"/> que contiene el control.
       /// </summary>
       public View ParentView { get; set; }
 
@@ -170,7 +170,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

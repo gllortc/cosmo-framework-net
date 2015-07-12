@@ -4,21 +4,19 @@ using System.Collections.Generic;
 namespace Cosmo.UI.Scripting
 {
    /// <summary>
-   /// Implementa un script para enviar el contenido de un formulario via AJAX a un 
-   /// <see cref="Cosmo.REST.RestHandler"/>, <see cref="Cosmo.UI.PageView"/> o 
-   /// <see cref="Cosmo.UI.PartialView"/> .
+   /// Generates a script that sends form data via AJAX.
    /// </summary>
-   public class ModalViewSendFormScript : Script
+   public class PartialViewSendFormScript : Script
    {
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ModalViewSendFormScript"/>.
+      /// Gets a new instance of <see cref="ModalViewSendFormScript"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-      public ModalViewSendFormScript(ModalView parentView, FormControl form) 
+      public PartialViewSendFormScript(ModalView parentView, FormControl form) 
          : base(parentView) 
       {
          Initialize();
@@ -32,7 +30,7 @@ namespace Cosmo.UI.Scripting
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el formulario para el que se desea generar el script.
+      /// Gets or sets el formulario para el que se desea generar el script.
       /// </summary>
       public FormControl Form { get; set; }
 
@@ -87,7 +85,7 @@ namespace Cosmo.UI.Scripting
             Source.AppendLine("    processData: false,");
          }
          Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
-         Source.AppendLine("      $('#" + ((ModalView)Form.ParentView).DomID + " .modal-dialog').html(data);");
+         Source.AppendLine("      $('#" + ((PartialView)Form.ParentView).DomID + "').html(data);");
          Source.AppendLine("    },");
          Source.AppendLine("    error: function(jqXHR, textStatus, errorThrown) {");
          Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
@@ -104,7 +102,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

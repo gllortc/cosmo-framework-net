@@ -5,13 +5,13 @@
    /// </summary>
    public class BadgeControl : Control
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private ComponentColorScheme _type;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BadgeControl"/>.
+      /// Gets a new instance of <see cref="BadgeControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public BadgeControl(View parentView) : 
@@ -21,7 +21,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BadgeControl"/>.
+      /// Gets a new instance of <see cref="BadgeControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text">Texto que contiene el control.</param>
@@ -42,7 +42,7 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el contenido del <em>badge</em>.
+      /// Gets or sets el contenido del <em>badge</em>.
       /// </summary>
       public string Text { get; set; }
 
@@ -52,7 +52,7 @@
       public bool RoundedBorders { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color del componente.
+      /// Gets or sets el color del componente.
       /// </summary>
       public ComponentColorScheme Type
       {
@@ -75,7 +75,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

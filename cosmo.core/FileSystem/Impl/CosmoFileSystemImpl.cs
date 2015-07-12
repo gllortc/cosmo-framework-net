@@ -12,13 +12,13 @@ namespace Cosmo.FileSystem.Impl
    /// </summary>
    public class CosmoFileSystemImpl : IFileSystemService
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _wsPath;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Cosmo.Workspace.FileSystemService"/>.
+      /// Gets a new instance of <see cref="Cosmo.Workspace.FileSystemService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/>.</param>
       /// <param name="plugin">Contiene toda la información de configuración del módulo.</param>
@@ -34,7 +34,7 @@ namespace Cosmo.FileSystem.Impl
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre de la carpeta que contiene el sistema de archivos del workspace.
+      /// Gets or sets el nombre de la carpeta que contiene el sistema de archivos del workspace.
       /// </summary>
       /// <remarks>
       /// Usualmente suele ser <c>docs</c>.
@@ -154,7 +154,7 @@ namespace Cosmo.FileSystem.Impl
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="DirectoryInfo"/> que representa la carpeta temporal.
+      /// Gets a new instance of <see cref="DirectoryInfo"/> que representa la carpeta temporal.
       /// </summary>
       public DirectoryInfo GetTemporaryFolder()
       {

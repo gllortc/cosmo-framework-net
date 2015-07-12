@@ -11,7 +11,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SplitButtonControl"/>.
+      /// Gets a new instance of <see cref="SplitButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public SplitButtonControl(View parentView) 
@@ -34,7 +34,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicialización de la clase.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

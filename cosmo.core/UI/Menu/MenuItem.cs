@@ -31,7 +31,7 @@ namespace Cosmo.UI.Menu
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MenuItem"/>.
+      /// Gets a new instance of <see cref="MenuItem"/>.
       /// </summary>
       public MenuItem()
       {
@@ -39,7 +39,7 @@ namespace Cosmo.UI.Menu
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MenuItem"/>.
+      /// Gets a new instance of <see cref="MenuItem"/>.
       /// </summary>
       /// <param name="name">Nombre de la sección.</param>
       /// <param name="href">URL de acceso a la sección.</param>

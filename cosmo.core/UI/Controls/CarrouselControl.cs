@@ -15,10 +15,10 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="CarrouselControl"/>.
+      /// Gets a new instance of <see cref="CarrouselControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de una vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public CarrouselControl(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -35,27 +35,27 @@ namespace Cosmo.UI.Controls
       public List<CarrouselSlide> Slides { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el ancho del control.
+      /// Gets or sets el ancho del control.
       /// </summary>
       public int Width { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la altura del control.
+      /// Gets or sets la altura del control.
       /// </summary>
       public int Height { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tiempo entre slide y slide.
+      /// Gets or sets el tiempo entre slide y slide.
       /// </summary>
       public int Timeout { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el porcentaje de opacidad del fondo contenedor de texto del slide (0 a 100).
+      /// Gets or sets el porcentaje de opacidad del fondo contenedor de texto del slide (0 a 100).
       /// </summary>
       public int CaptionOpacity { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color del texto del slide.
+      /// Gets or sets el color del texto del slide.
       /// </summary>
       public string CaptionFontColor
       {
@@ -67,7 +67,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el color de fondo del contenedor de texto del slide.
+      /// Gets or sets el color de fondo del contenedor de texto del slide.
       /// </summary>
       public string CaptionBackgroundColor
       {
@@ -149,7 +149,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicialización de la clase.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

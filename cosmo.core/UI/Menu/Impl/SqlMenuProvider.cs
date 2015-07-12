@@ -9,7 +9,7 @@ namespace Cosmo.UI.Menu.Impl
    public class SqlMenuProvider : MenuProvider
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="SqlMenuProvider"/>.
+      /// Gets a new instance of <see cref="SqlMenuProvider"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>

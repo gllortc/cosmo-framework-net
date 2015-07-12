@@ -5,24 +5,11 @@
    /// </summary>
    public class ProgressBarControl : Control
    {
-      /// <summary>
-      /// Enumera las direcciones posibles del elemento.
-      /// </summary>
-      public enum PopoverDirections
-      {
-         /// <summary>Orientación derecha</summary>
-         Right,
-         /// <summary>Orientación izquierda</summary>
-         Left
-      }
 
-      // Internal data declarations
-      private int _percentage;
-      private ComponentColorScheme _color;
-      private string _description;
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PopoverControl"/>.
+      /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ProgressBarControl(View parentView)
@@ -32,7 +19,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PopoverControl"/>.
+      /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="percentage"></param>
@@ -42,12 +29,12 @@
       {
          Initialize();
 
-         _percentage = percentage;
-         _color = color;
+         this.Percentage = percentage;
+         this.Color = color;
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PopoverControl"/>.
+      /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="percentage"></param>
@@ -58,46 +45,45 @@
       {
          Initialize();
 
-         _percentage = percentage;
-         _color = color;
-         _description = description;
+         this.Percentage = percentage;
+         this.Color = color;
+         this.Text = description;
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
-      /// Devuelve o establece el título visible del elemento.
+      /// Gets or sets el título visible del elemento.
       /// </summary>
-      public int Percentage
-      {
-         get { return _percentage; }
-         set { _percentage = value; }
-      }
+      public int Percentage { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color del elemento.
+      /// Gets or sets el color del elemento.
       /// </summary>
-      public ComponentColorScheme Color
-      {
-         get { return _color; }
-         set { _color = value; }
-      }
+      public ComponentColorScheme Color { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto descriptivo que aparece junto a la barra del progreso.
+      /// Gets or sets el texto descriptivo que aparece junto a la barra del progreso.
       /// </summary>
-      public string Description
-      {
-         get { return _description; }
-         set { _description = value; }
-      }
+      public string Text { get; set; }
+
+      #endregion
+
+      #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _color = ComponentColorScheme.Normal;
-         _percentage = 50;
-         _description = string.Empty;
+         this.Color = ComponentColorScheme.Normal;
+         this.Percentage = 50;
+         this.Text = string.Empty;
       }
+
+      #endregion
+
    }
 }

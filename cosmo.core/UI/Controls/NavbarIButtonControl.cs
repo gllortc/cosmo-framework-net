@@ -47,7 +47,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
+      /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public NavbarIButtonControl(View parentView)
@@ -57,7 +57,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
+      /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption">Título visible del elemento.</param>
@@ -72,7 +72,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarIButtonControl"/>.
+      /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="isDivider">Indica si el elemento es un divisor.</param>
@@ -89,7 +89,7 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título visible del elemento.
+      /// Gets or sets el título visible del elemento.
       /// </summary>
       public string Caption
       {
@@ -98,7 +98,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece la URL que se invocará al hacer clic en el elemento.
+      /// Gets or sets la URL que se invocará al hacer clic en el elemento.
       /// </summary>
       public string Href
       {
@@ -107,7 +107,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el icono a mostrar en el elemento de menú superior.
+      /// Gets or sets el icono a mostrar en el elemento de menú superior.
       /// </summary>
       public string Icon
       {
@@ -125,7 +125,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el tipo de elemento al que representa.
+      /// Gets or sets el tipo de elemento al que representa.
       /// </summary>
       public NavbarItemType Type
       {
@@ -134,7 +134,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece la posición del elemento en la barra de botones.
+      /// Gets or sets la posición del elemento en la barra de botones.
       /// </summary>
       public NavbarItemPosition Position
       {
@@ -167,7 +167,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

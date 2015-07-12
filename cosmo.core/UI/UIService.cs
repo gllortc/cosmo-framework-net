@@ -26,7 +26,7 @@ namespace Cosmo.UI
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UIService"/>.
+      /// Gets a new instance of <see cref="UIService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="context">Una instancia del contexto actual que permite acceder al tipo de navegador y elegir el módulo de renderizado.</param>
@@ -127,7 +127,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Render a view.
+      /// Render a page view.
       /// </summary>
       /// <param name="parentView">A page view container.</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
@@ -137,7 +137,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Render a view.
+      /// Render a page view.
       /// </summary>
       /// <param name="parentView">A page view container.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
@@ -148,7 +148,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Render a view.
+      /// Render a modal view.
       /// </summary>
       /// <param name="parentView">A modal view container.</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
@@ -158,12 +158,33 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Render a view.
+      /// Render a modal view.
       /// </summary>
       /// <param name="parentView">A modal view container.</param>
       /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
       public string RenderPage(ModalView parentView, string receivedFormID)
+      {
+         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
+      }
+
+      /// <summary>
+      /// Render a partial view.
+      /// </summary>
+      /// <param name="parentView">A partial view container.</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(PartialView parentView)
+      {
+         return RenderPage(parentView, string.Empty);
+      }
+
+      /// <summary>
+      /// Render a partial view.
+      /// </summary>
+      /// <param name="parentView">A partial view container.</param>
+      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
+      public string RenderPage(PartialView parentView, string receivedFormID)
       {
          return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
       }
@@ -329,7 +350,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

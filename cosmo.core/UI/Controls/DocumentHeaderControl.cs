@@ -10,7 +10,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PageHeaderControl"/>.
+      /// Gets a new instance of <see cref="DocumentHeaderControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public DocumentHeaderControl(View parentView)
@@ -24,17 +24,17 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título de la página.
+      /// Gets or sets el título de la página.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el subtítulo de la página.
+      /// Gets or sets el subtítulo de la página.
       /// </summary>
       public string SubTitle { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono que acompaña el título.
+      /// Gets or sets el código del icono que acompaña el título.
       /// </summary>
       public string Icon { get; set; }
 
@@ -43,7 +43,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

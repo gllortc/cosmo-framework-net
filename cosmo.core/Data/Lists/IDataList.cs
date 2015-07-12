@@ -8,7 +8,7 @@ namespace Cosmo.Data.Lists
    /// </summary>
    public abstract class IDataList
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
       private Plugin _plugin;
       private string _defaultValue;
@@ -16,7 +16,7 @@ namespace Cosmo.Data.Lists
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IDataList"/>.
+      /// Gets a new instance of <see cref="IDataList"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene los datos del módulo y su configuración.</param>
@@ -39,7 +39,7 @@ namespace Cosmo.Data.Lists
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador único de la lista.
+      /// Gets or sets el identificador único de la lista.
       /// </summary>
       public string ID
       {
@@ -47,7 +47,7 @@ namespace Cosmo.Data.Lists
       }
 
       /// <summary>
-      /// Devuelve o establece el valor por defecto que debe aparecer seleccionado en la listas.
+      /// Gets or sets el valor por defecto que debe aparecer seleccionado en la listas.
       /// </summary>
       public string DefaultValue
       {
@@ -60,7 +60,7 @@ namespace Cosmo.Data.Lists
       #region Abstract Members
 
       /// <summary>
-      /// Devuelve o establece la lista de valores que contiene la lista.
+      /// Gets or sets la lista de valores que contiene la lista.
       /// </summary>
       public abstract List<KeyValue> Values { get; set; }
 

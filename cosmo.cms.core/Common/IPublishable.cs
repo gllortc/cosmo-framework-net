@@ -8,32 +8,32 @@ namespace Cosmo.Cms.Common
    public interface IPublishable
    {
       /// <summary>
-      /// Devuelve o establece el identificador del objeto.
+      /// Gets or sets el identificador del objeto.
       /// </summary>
       int ID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el identificador de la rama del repositorio Cosmo al que pertenece.
+      /// Gets or sets el identificador de la rama del repositorio Cosmo al que pertenece.
       /// </summary>
       int FolderId { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el estado de publicación del objeto.
+      /// Gets or sets el estado de publicación del objeto.
       /// </summary>
       CmsPublishStatus.PublishStatus Status { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la fecha de creación del objeto.
+      /// Gets or sets la fecha de creación del objeto.
       /// </summary>
       DateTime Created { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la fecha de la última modificación del objeto.
+      /// Gets or sets la fecha de la última modificación del objeto.
       /// </summary>
       DateTime Updated { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el login del propietario del objeto.
+      /// Gets or sets el login del propietario del objeto.
       /// </summary>
       /// <remarks>
       /// Por defecto, el propietario del objeto es el usuario creador del mismo.

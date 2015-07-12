@@ -25,7 +25,7 @@ namespace Cosmo.Cms.Utils.Rss
       public const string URL_SERVICE = "rss.do";
 
       /// <summary>
-      /// Devuelve una instancia de CSLinksHandler.
+      /// Gets a new instance of CSLinksHandler.
       /// </summary>
       public RssHandler() { }
 

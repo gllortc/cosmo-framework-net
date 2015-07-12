@@ -19,7 +19,7 @@ namespace Cosmo.UI
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PartialView"/>.
+      /// Gets a new instance of <see cref="PartialView"/>.
       /// </summary>
       protected PartialView()
       {
@@ -41,7 +41,7 @@ namespace Cosmo.UI
       public string DomID { get; protected set; }
 
       /// <summary>
-      /// Devuelve o establece el contenido de la página.
+      /// Gets or sets el contenido de la página.
       /// </summary>
       public ControlCollection Content { get; set; }
 
@@ -243,7 +243,7 @@ namespace Cosmo.UI
 
          // Renderiza la página
          Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.Render(Content, receivedFormID));
+         Response.Write(Workspace.UIService.RenderPage(this, receivedFormID));
 
          watch.Stop();
          Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");
@@ -254,7 +254,7 @@ namespace Cosmo.UI
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -26,22 +26,22 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título de la página.
+      /// Gets or sets el título de la página.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el subtítulo de la página.
+      /// Gets or sets el subtítulo de la página.
       /// </summary>
       public string SubTitle { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el icono que acompaña el título.
+      /// Gets or sets el icono que acompaña el título.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el componente que permite integrar una ruta a la cabecera de página.
+      /// Gets or sets el componente que permite integrar una ruta a la cabecera de página.
       /// </summary>
       public BreadcrumbControl Breadcrumb { get; set; }
 

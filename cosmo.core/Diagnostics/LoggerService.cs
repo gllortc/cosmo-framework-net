@@ -19,7 +19,7 @@ namespace Cosmo.Diagnostics
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de Logger
+      /// Gets a new instance of Logger
       /// </summary>
       /// <param name="workspace">Workspace actual</param>
       public LoggerService(Workspace workspace)

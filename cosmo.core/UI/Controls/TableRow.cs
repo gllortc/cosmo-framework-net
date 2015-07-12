@@ -5,14 +5,16 @@
    /// </summary>
    public class TableRow
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _isHeader;
       private int _cols;
       private string _domId;
       private TableCell[] _row;
 
+      #region Constructors
+
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableRow"/>.
+      /// Gets a new instance of <see cref="TableRow"/>.
       /// </summary>
       public TableRow(int columns)
       {
@@ -29,15 +31,15 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableRow"/>.
+      /// Gets a new instance of <see cref="TableRow"/>.
       /// </summary>
-      /// <param name="id">Identificador único de la fila en la página.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="cellValues">Un array que contiene los valores de la fila (una objeto por celda).</param>
-      public TableRow(string id, params object[] cellValues)
+      public TableRow(string domId, params object[] cellValues)
       {
          Initialize();
 
-         this.DomID = id;
+         this.DomID = domId;
          _row = new TableCell[cellValues.Length];
          _cols = cellValues.Length;
 
@@ -50,7 +52,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableRow"/>.
+      /// Gets a new instance of <see cref="TableRow"/>.
       /// </summary>
       public TableRow(params object[] cellValues)
       {
@@ -67,6 +69,10 @@
          }
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
       /// Indica si la columna es una cabecera o no.
       /// </summary>
@@ -77,7 +83,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador del elemento en la estructura DOM de la página.
+      /// Gets or sets el identificador del elemento en la estructura DOM de la página.
       /// </summary>
       public string DomID
       {
@@ -109,8 +115,12 @@
          }
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
@@ -119,5 +129,8 @@
          _row = null;
          _domId = string.Empty;
       }
+
+      #endregion
+
    }
 }

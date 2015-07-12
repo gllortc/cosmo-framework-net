@@ -17,7 +17,7 @@ namespace Cosmo.Net.Rss
       private RssChannel _owner;
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem()
       {
@@ -32,7 +32,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem(RssChannel ownerChannel)
       {
@@ -47,7 +47,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem(string link, string title, string description)
       {
@@ -59,7 +59,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem(string link, string title, string description, RssChannel parentFeed)
       {
@@ -71,7 +71,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem(string link, string title, string description, DateTime pubDate)
       {
@@ -82,7 +82,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssItem
+      /// Gets a new instance of RssItem
       /// </summary>
       public RssItem(string link, string title, string description, DateTime pubDate, RssChannel parentFeed)
       {

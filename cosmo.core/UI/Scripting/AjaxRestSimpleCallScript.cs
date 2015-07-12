@@ -1,4 +1,4 @@
-﻿using Cosmo.Utils;
+﻿using Cosmo.Net.REST;
 using System.Collections.Specialized;
 
 namespace Cosmo.UI.Scripting
@@ -13,7 +13,7 @@ namespace Cosmo.UI.Scripting
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AjaxRestSimpleCallScript"/>.
+      /// Gets a new instance of <see cref="AjaxRestSimpleCallScript"/>.
       /// </summary>
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       public AjaxRestSimpleCallScript(View viewport)
@@ -27,12 +27,12 @@ namespace Cosmo.UI.Scripting
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre (identificador) de la función.
+      /// Gets or sets el nombre (identificador) de la función.
       /// </summary>
       public string FunctionName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre del script a invocar.
+      /// Gets or sets el nombre del script a invocar.
       /// </summary>
       public string URL { get; set; }
 
@@ -94,7 +94,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

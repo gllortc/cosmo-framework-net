@@ -12,7 +12,7 @@ namespace Cosmo.UI.Scripting
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ModalViewSendFormScript"/>.
+      /// Gets a new instance of <see cref="ModalViewSendFormScript"/>.
       /// </summary>
       /// <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
       public ModalViewOpenScript(ModalView modalView)
@@ -86,7 +86,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

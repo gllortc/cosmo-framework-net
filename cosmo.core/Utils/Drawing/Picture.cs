@@ -30,7 +30,7 @@ namespace Cosmo.Utils.Drawing
       private string _filename;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Picture"/>.
+      /// Gets a new instance of <see cref="Picture"/>.
       /// </summary>
       public Picture()
       {
@@ -38,7 +38,7 @@ namespace Cosmo.Utils.Drawing
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Picture"/>.
+      /// Gets a new instance of <see cref="Picture"/>.
       /// </summary>
       /// <param name="filename">Nombre (y ruta) del archivo de imagen.</param>
       public Picture(string filename) : this()

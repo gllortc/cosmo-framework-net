@@ -9,16 +9,12 @@ namespace Cosmo.UI.Controls
    public class TableControl : Control
    {
       // Internal data declarations
-      private bool _isStriped;
-      private bool _isBordered;
-      private bool _isHover;
-      private bool _isCondensed;
-      private bool _isResponsive;
       private TableRow _header;
-      private List<TableRow> _rows;
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableControl"/>.
+      /// Gets a new instance of <see cref="TableControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public TableControl(View parentView)
@@ -28,49 +24,44 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
+      /// Gets a new instance of <see cref="TableControl"/>.
+      /// </summary>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public TableControl(View parentView, string domId)
+         : base(parentView, domId)
+      {
+         Initialize();
+      }
+
+      #endregion
+
+      #region Properties
+
+      /// <summary>
       /// Indica si la tabla representa todos los bordes.
       /// </summary>
-      public bool Bordered
-      {
-         get { return _isBordered; }
-         set { _isBordered = value; }
-      }
+      public bool Bordered { get; set; }
 
       /// <summary>
       /// Indica si la tabla resalta la fila dónde se encuentra el puntero del mouse.
       /// </summary>
-      public bool Hover
-      {
-         get { return _isHover; }
-         set { _isHover = value; }
-      }
+      public bool Hover { get; set; }
 
       /// <summary>
       /// Indica si la tabla se presenta en un formato más comprimido.
       /// </summary>
-      public bool Condensed
-      {
-         get { return _isCondensed; }
-         set { _isCondensed = value; }
-      }
+      public bool Condensed { get; set; }
 
       /// <summary>
       /// Indica si la tabla es <em>responsive</em> (se adapta frente al cambio dinámico de tamaño).
       /// </summary>
-      public bool Responsive
-      {
-         get { return _isResponsive; }
-         set { _isResponsive = value; }
-      }
+      public bool Responsive { get; set; }
 
       /// <summary>
       /// Indica si la tabla alterna colores de fila.
       /// </summary>
-      public bool Striped
-      {
-         get { return _isStriped; }
-         set { _isStriped = value; }
-      }
+      public bool Striped { get; set; }
 
       /// <summary>
       /// Contiene la fila de títulos de la tabla.
@@ -88,23 +79,26 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Contiene la lista de filas de la tabla.
       /// </summary>
-      public List<TableRow> Rows
-      {
-         get { return _rows; }
-         set { _rows = value; }
-      }
+      public List<TableRow> Rows { get; set; }
+
+      #endregion
+
+      #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _isStriped = false;
-         _isBordered = false;
-         _isHover = false;
-         _isCondensed = false;
-         _isResponsive = true;
-         _rows = new List<TableRow>();
+         this.Striped = false;
+         this.Bordered = false;
+         this.Hover = false;
+         this.Condensed = false;
+         this.Responsive = true;
+         this.Rows = new List<TableRow>();
       }
+
+      #endregion
+
    }
 }

@@ -52,7 +52,7 @@ namespace Cosmo.Data.ORM
       public List<String> DiscardFields { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la forma de representar los grupos de controles en los formularios generados.
+      /// Gets or sets la forma de representar los grupos de controles en los formularios generados.
       /// </summary>
       public OrmEngine.OrmFormStyle FormStyle { get; set; }
 
@@ -258,7 +258,7 @@ namespace Cosmo.Data.ORM
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

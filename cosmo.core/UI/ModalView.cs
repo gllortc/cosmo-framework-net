@@ -52,7 +52,7 @@ namespace Cosmo.UI
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el contenido de la página.
+      /// Gets or sets el contenido de la página.
       /// </summary>
       public ControlCollection Content { get; set; }
       
@@ -228,7 +228,7 @@ namespace Cosmo.UI
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -47,7 +47,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ButtonControl(View parentView) 
@@ -57,10 +57,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="type">Tipo de botón a representar.</param>
       public ButtonControl(View parentView, string domId, string caption, ButtonTypes type)
@@ -73,10 +73,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>
       /// <param name="type">Tipo de botón a representar.</param>
@@ -91,10 +91,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
       public ButtonControl(View parentView, string domId, string caption, ModalView modal)
@@ -109,10 +109,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
       public ButtonControl(View parentView, string domId, string caption, string icon, ModalView modal)
@@ -128,10 +128,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="href">Enlace dónde se redirige al hacer clic.</param>
       /// <param name="jsAction">Acción JS que se ejecutará al hacer clic.</param>
@@ -147,10 +147,10 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonControl"/>.
+      /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del control en la página (DOM ID).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>
       /// <param name="href">Enlace dónde se redirige al hacer clic.</param>
@@ -182,17 +182,17 @@
       public bool IsBlock { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto visible que mostrará el componente.
+      /// Gets or sets el texto visible que mostrará el componente.
       /// </summary>
       public string Text { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono que se mostrará en el componente.
+      /// Gets or sets el código del icono que se mostrará en el componente.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la llamada a una acción JavaScript.
+      /// Gets or sets la llamada a una acción JavaScript.
       /// </summary>
       /// <example>
       /// <c>...onclick="javascript:<b>navigateToUrl();</b>"...</c>
@@ -200,27 +200,27 @@
       public string JavaScriptAction { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL a la que se invocará si se hace click..
+      /// Gets or sets la URL a la que se invocará si se hace click..
       /// </summary>
       public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el identificador del formulario modal que debe abrir el botón.
+      /// Gets or sets el identificador del formulario modal que debe abrir el botón.
       /// </summary>
       public string ModalDomId { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color que se aplicará al componente.
+      /// Gets or sets el color que se aplicará al componente.
       /// </summary>
       public ComponentColorScheme Color { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tamaño que debe adoptar el componente.
+      /// Gets or sets el tamaño que debe adoptar el componente.
       /// </summary>
       public ButtonSizes Size { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tipo de botón.
+      /// Gets or sets el tipo de botón.
       /// </summary>
       public ButtonTypes Type { get; set; }
 
@@ -229,7 +229,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

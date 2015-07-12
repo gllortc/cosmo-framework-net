@@ -195,34 +195,6 @@ namespace Cosmo.Cms.Utils.Banners
          }
       }
 
-      /// <summary>
-      /// Obtiene el código XHTML para mostrar los banners.
-      /// </summary>
-      /// <param name="Position">Indica la posición para la que se desea obtener el código XHTML a devolver al cliente.</param>
-      /// <returns>El código XHTML correspondiente a los banners seleccionados.</returns>
-      public string ToXhtml(BannerPositions Position)
-      {
-         string xhtml = string.Empty;
-
-         try
-         {
-            // Obtiene los anuncios a mostrar
-            List<Banner> banners = this.GetBanners(Position);
-
-            // Convierte los anuncios a código de presentación
-            foreach (Banner banner in banners)
-            {
-               xhtml += banner.ToXhtml();
-            }
-
-            return xhtml;
-         }
-         catch
-         {
-            return string.Empty;
-         }
-      }
-
       #endregion
 
    }

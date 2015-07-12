@@ -9,13 +9,13 @@ namespace Cosmo.Data.ORM
    [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
    public class MappingFieldGroup : System.Attribute
    {
-      // Declaración de variables internas
+      // Internal data declarations
       // private string _id;
       // private string _title;
       // private string _description;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MappingField"/>.
+      /// Gets a new instance of <see cref="MappingField"/>.
       /// </summary>
       public MappingFieldGroup()
       {
@@ -41,7 +41,7 @@ namespace Cosmo.Data.ORM
       }*/
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -23,7 +23,7 @@ namespace Cosmo.Data.Connection
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IDataModule"/>.
+      /// Gets a new instance of <see cref="IDataModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -51,7 +51,7 @@ namespace Cosmo.Data.Connection
       #region Abstract Members
 
       /// <summary>
-      /// Devuelve o establece la conexión a la base de datos.
+      /// Gets or sets la conexión a la base de datos.
       /// </summary>
       public abstract SqlConnection Connection  { get; set; }
 
@@ -134,7 +134,7 @@ namespace Cosmo.Data.Connection
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

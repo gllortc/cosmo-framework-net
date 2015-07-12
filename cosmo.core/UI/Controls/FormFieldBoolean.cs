@@ -8,30 +8,30 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class FormFieldBoolean : FormField
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _value;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldBoolean"/>.
+      /// Gets a new instance of <see cref="FormFieldBoolean"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de la vista (DOM).</param>
-      public FormFieldBoolean(View parentViewport, string domId)
-         : base(parentViewport, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public FormFieldBoolean(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldBoolean"/>.
+      /// Gets a new instance of <see cref="FormFieldBoolean"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del control en la página.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label">Texto visible del control.</param>
-      public FormFieldBoolean(View parentViewport, string domId, string label)
-         : base(parentViewport)
+      public FormFieldBoolean(View parentView, string domId, string label)
+         : base(parentView)
       {
          Initialize();
 
@@ -40,18 +40,18 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldBoolean"/>.
+      /// Gets a new instance of <see cref="FormFieldBoolean"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del control en la página.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label">Texto visible del control.</param>
       /// <param name="value">Valor de inicialización que tendrá el campo.</param>
-      public FormFieldBoolean(View parentViewport, string id, string label, bool value)
-         : base(parentViewport)
+      public FormFieldBoolean(View parentView, string domId, string label, bool value)
+         : base(parentView)
       {
          Initialize();
 
-         this.DomID = id;
+         this.DomID = domId;
          this.Label = label;
          this.Value = value;
       }
@@ -74,17 +74,17 @@ namespace Cosmo.UI.Controls
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que mostrará la etiqueta del campo.
+      /// Gets or sets el texto que mostrará la etiqueta del campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
+      /// Gets or sets una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public override object Value
       {
@@ -141,7 +141,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

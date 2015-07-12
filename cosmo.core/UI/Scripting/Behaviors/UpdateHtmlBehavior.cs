@@ -10,7 +10,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavigateBehavior"/>.
+      /// Gets a new instance of <see cref="NavigateBehavior"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
@@ -25,7 +25,7 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador del elemento a actualizar.
+      /// Gets or sets el identificador del elemento a actualizar.
       /// </summary>
       public string DomID { get; set; }
 

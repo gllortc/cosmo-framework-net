@@ -8,18 +8,18 @@ namespace Cosmo.Communications
    public class CommunicationsException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       public CommunicationsException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       public CommunicationsException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

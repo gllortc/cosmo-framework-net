@@ -22,7 +22,7 @@ namespace Cosmo.UI
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PageView"/>.
+      /// Gets a new instance of <see cref="PageView"/>.
       /// </summary>
       protected PageView()
       {
@@ -42,17 +42,17 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece el título de la página.
+      /// Gets or sets el título de la página.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la descripción del contenido de la página.
+      /// Gets or sets la descripción del contenido de la página.
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece las palabras clave que definene el contenido de la página.
+      /// Gets or sets las palabras clave que definene el contenido de la página.
       /// </summary>
       public string Keywords { get; set; }
 
@@ -67,7 +67,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la cabecera.
+      /// Gets or sets la lista de controles que contiene la cabecera.
       /// </summary>
       public ControlCollection HeaderContent
       {
@@ -76,7 +76,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene el pie.
+      /// Gets or sets la lista de controles que contiene el pie.
       /// </summary>
       public ControlCollection FooterContent
       {
@@ -85,7 +85,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la columna izquierda.
+      /// Gets or sets la lista de controles que contiene la columna izquierda.
       /// </summary>
       public ControlCollection LeftContent
       {
@@ -94,7 +94,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la zona de contenidos de la página.
+      /// Gets or sets la lista de controles que contiene la zona de contenidos de la página.
       /// </summary>
       public ControlCollection MainContent
       {
@@ -103,7 +103,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles que contiene la columna derecha.
+      /// Gets or sets la lista de controles que contiene la columna derecha.
       /// </summary>
       public ControlCollection RightContent
       {
@@ -112,7 +112,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador del elemento de menú que debe mostrarse activo.
+      /// Gets or sets el identificador del elemento de menú que debe mostrarse activo.
       /// </summary>
       public string ActiveMenuId { get; set; }
 
@@ -228,7 +228,7 @@ namespace Cosmo.UI
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

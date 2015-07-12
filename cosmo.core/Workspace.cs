@@ -126,7 +126,7 @@ namespace Cosmo
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Workspace"/>. 
+      /// Gets a new instance of <see cref="Workspace"/>. 
       /// </summary>
       /// <param name="context">Instancia de <see cref="HttpContext"/> que contiene el contexto actual de servidor web.</param>
       public Workspace(HttpContext context)
@@ -217,7 +217,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve o establece la conexión a la base de datos.
+      /// Gets or sets la conexión a la base de datos.
       /// </summary>
       public IDataModule DataSource
       {
@@ -225,7 +225,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve o establece la instancia de <see cref="HttpContext"/> del servidor.
+      /// Gets or sets la instancia de <see cref="HttpContext"/> del servidor.
       /// </summary>
       public HttpContext Context
       {
@@ -238,7 +238,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve o establece el estado del workspace.
+      /// Gets or sets el estado del workspace.
       /// </summary>
       public WorkspaceStatus Status
       {
@@ -246,7 +246,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FileSystemService"/> que permite acceder al sistema de archivos del workspace.
+      /// Gets a new instance of <see cref="FileSystemService"/> que permite acceder al sistema de archivos del workspace.
       /// </summary>
       public FileSystemService FileSystemService
       {
@@ -258,7 +258,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve o establece la instancia de <see cref="WorkspaceSettings"/> que contiene la configuración del workspace.
+      /// Gets or sets la instancia de <see cref="WorkspaceSettings"/> que contiene la configuración del workspace.
       /// </summary>
       public WorkspaceSettings Settings
       {
@@ -395,7 +395,7 @@ namespace Cosmo
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize(HttpContext context)
       {

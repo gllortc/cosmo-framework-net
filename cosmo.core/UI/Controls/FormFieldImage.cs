@@ -5,30 +5,30 @@
    /// </summary>
    public class FormFieldImage : Control //, IFormField
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _value;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldImage"/>.
+      /// Gets a new instance of <see cref="FormFieldImage"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldImage(View parentViewport, string domId)
-         : base(parentViewport, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public FormFieldImage(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldImage"/>.
+      /// Gets a new instance of <see cref="FormFieldImage"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
-      public FormFieldImage(View parentViewport, string domId, string label)
-         : base(parentViewport, domId)
+      public FormFieldImage(View parentView, string domId, string label)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -36,14 +36,14 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldImage"/>.
+      /// Gets a new instance of <see cref="FormFieldImage"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="value"></param>
-      public FormFieldImage(View parentViewport, string domId, string label, string value)
-         : base(parentViewport, domId)
+      public FormFieldImage(View parentView, string domId, string label, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -52,15 +52,15 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldImage"/>.
+      /// Gets a new instance of <see cref="FormFieldImage"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="description"></param>
       /// <param name="value"></param>
-      public FormFieldImage(View parentViewport, string domId, string label, string description, string value)
-         : base(parentViewport, domId)
+      public FormFieldImage(View parentView, string domId, string label, string description, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -79,37 +79,37 @@
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que mostrará la etiqueta del campo.
+      /// Gets or sets el texto que mostrará la etiqueta del campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece un texto en el control que desaparece cuando contiene algún valor.
+      /// Gets or sets un texto en el control que desaparece cuando contiene algún valor.
       /// </summary>
       public string Placeholder { get; set; }
 
       /// <summary>
-      /// Devuelve o establece una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
+      /// Gets or sets una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL (relativa o absoluta) de la imagen que se debe previsualizar.
+      /// Gets or sets la URL (relativa o absoluta) de la imagen que se debe previsualizar.
       /// </summary>
       public string PreviewUrl { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la longitud (en carácteres) mínima que debe tener el valor.
+      /// Gets or sets la longitud (en carácteres) mínima que debe tener el valor.
       /// </summary>
       public int MinLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la longitud (en carácteres) máxima que debe tener el valor.
+      /// Gets or sets la longitud (en carácteres) máxima que debe tener el valor.
       /// </summary>
       public int MaxLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public object Value
       {
@@ -140,7 +140,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

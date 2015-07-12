@@ -13,7 +13,7 @@ namespace Cosmo.UI.Menu.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="StaticMenuProvider"/>.
+      /// Gets a new instance of <see cref="StaticMenuProvider"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>

@@ -20,7 +20,7 @@ namespace Cosmo.Data
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="DataService"/>.
+      /// Gets a new instance of <see cref="DataService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public DataService(Workspace workspace)
@@ -71,7 +71,7 @@ namespace Cosmo.Data
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

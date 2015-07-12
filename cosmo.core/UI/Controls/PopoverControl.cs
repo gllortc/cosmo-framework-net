@@ -5,6 +5,9 @@
    /// </summary>
    public class PopoverControl : Control
    {
+
+      #region Enumerations
+
       /// <summary>
       /// Enumera las direcciones posibles del elemento.
       /// </summary>
@@ -16,13 +19,12 @@
          Left
       }
 
-      // Internal data declarations
-      private string _caption;
-      private string _content;
-      private PopoverDirections _direction;
+      #endregion
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PopoverControl"/>.
+      /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public PopoverControl(View parentView)
@@ -31,41 +33,37 @@
          Initialize();
       }
 
-      /// <summary>
-      /// Devuelve o establece el título visible del elemento.
-      /// </summary>
-      public string Caption
-      {
-         get { return _caption; }
-         set { _caption = value; }
-      }
+      #endregion
+
+      #region Properties
 
       /// <summary>
-      /// Devuelve o establece el texto visible del elemento.
+      /// Gets or sets el título visible del elemento.
       /// </summary>
-      public string Text
-      {
-         get { return _content; }
-         set { _content = value; }
-      }
+      public string Text { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la dirección en la que debe aparecer el elemento.
+      /// Gets or sets the text in popover control.
       /// </summary>
-      public PopoverDirections Direction
-      {
-         get { return _direction; }
-         set { _direction = value; }
-      }
-      
+      public string Description { get; set; }
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Gets or sets la dirección en la que debe aparecer el elemento.
+      /// </summary>
+      public PopoverDirections Direction { get; set; }
+
+      #endregion
+
+      #region Private Members
+
+      /// <summary>
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _caption = string.Empty;
-         _content = string.Empty;
-         _direction = PopoverDirections.Left;
+         this.Text = string.Empty;
+         this.Description = string.Empty;
+         this.Direction = PopoverDirections.Left;
       }
 
       /// <summary>
@@ -85,5 +83,8 @@
                return string.Empty;
          }
       }
+
+      #endregion
+
    }
 }

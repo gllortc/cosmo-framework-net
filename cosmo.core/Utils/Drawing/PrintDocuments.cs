@@ -10,13 +10,13 @@ namespace Cosmo.Utils.Drawing
    /// </summary>
    public class PrintDocuments : PrintDocument
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private List<PrintDocument> _documents;
       private int _docIndex;
       private PrintEventArgs _args;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrintDocuments"/>.
+      /// Gets a new instance of <see cref="PrintDocuments"/>.
       /// </summary>
       public PrintDocuments()
       {
@@ -24,7 +24,7 @@ namespace Cosmo.Utils.Drawing
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrintDocuments"/>.
+      /// Gets a new instance of <see cref="PrintDocuments"/>.
       /// </summary>
       public PrintDocuments(PrintDocument document1, PrintDocument document2)
       {
@@ -34,7 +34,7 @@ namespace Cosmo.Utils.Drawing
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrintDocuments"/>.
+      /// Gets a new instance of <see cref="PrintDocuments"/>.
       /// </summary>
       public PrintDocuments(PrintDocument[] documents)
       {

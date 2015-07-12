@@ -5,13 +5,13 @@
    /// </summary>
    public class PrivateMessagesService
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PrivateMessagesService"/>.
+      /// Gets a new instance of <see cref="PrivateMessagesService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public PrivateMessagesService(Workspace workspace)

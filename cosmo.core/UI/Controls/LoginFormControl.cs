@@ -13,10 +13,10 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="LoginFormControl"/>.
+      /// Gets a new instance of <see cref="LoginFormControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public LoginFormControl(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -24,10 +24,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="LoginFormControl"/>.
+      /// Gets a new instance of <see cref="LoginFormControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Una cadena que contiene el identificador único del formulario dentro del DOM.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="openButtonText">Texto que aparece en el botón de abrir el formulario.</param>
       public LoginFormControl(View parentView, string domId, string openButtonText)
          : base(parentView, domId)
@@ -42,27 +42,27 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título del formulario.
+      /// Gets or sets el título del formulario.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que debe contener el botón de apertura del Login.
+      /// Gets or sets el texto que debe contener el botón de apertura del Login.
       /// </summary>
       public string OpenButtonCaption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL a la que se debe acceder cuando se complete con éxito la autenticación.
+      /// Gets or sets la URL a la que se debe acceder cuando se complete con éxito la autenticación.
       /// </summary>
       public string RedirectionUrl { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL a la que se debe acceder para crear una nueva cuenta de usuario.
+      /// Gets or sets la URL a la que se debe acceder para crear una nueva cuenta de usuario.
       /// </summary>
       public string UserJoinUrl { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL a la que se debe acceder para recuperar la contraseña.
+      /// Gets or sets la URL a la que se debe acceder para recuperar la contraseña.
       /// </summary>
       public string UserRememberPasswordUrl { get; set; }
 
@@ -90,7 +90,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -6,12 +6,12 @@ using System.Text;
 namespace Cosmo.Data.ORM
 {
    /// <summary>
-   /// Devuelve una instancia de <see cref="MappingObject"/>.
+   /// Gets a new instance of <see cref="MappingObject"/>.
    /// </summary>
    [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = false)]
    public class MappingObject : System.Attribute
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _caption;
       private string _captionIcon;
       private string _description;
@@ -19,7 +19,7 @@ namespace Cosmo.Data.ORM
       private OrmEngine.OrmFormStyle _style;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MappingObject"/>.
+      /// Gets a new instance of <see cref="MappingObject"/>.
       /// </summary>
       public MappingObject()
       {
@@ -27,7 +27,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Devuelve o establece el título del formulario.
+      /// Gets or sets el título del formulario.
       /// </summary>
       public string Caption
       {
@@ -36,7 +36,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Devuelve o establece el icono que aparece junto al título del formulario.
+      /// Gets or sets el icono que aparece junto al título del formulario.
       /// </summary>
       public string CaptionIcon
       {
@@ -45,7 +45,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Devuelve o establece la descripción del formulario.
+      /// Gets or sets la descripción del formulario.
       /// </summary>
       public string Description
       {
@@ -54,7 +54,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Devuelve o establece el nombre de la tabla de datos dónde se almacenan los objetos.
+      /// Gets or sets el nombre de la tabla de datos dónde se almacenan los objetos.
       /// </summary>
       public string DatabaseTableName
       {
@@ -63,7 +63,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Devuelve o establece el estilo de formulario que se generará.
+      /// Gets or sets el estilo de formulario que se generará.
       /// </summary>
       public OrmEngine.OrmFormStyle FormStyle
       {
@@ -72,7 +72,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

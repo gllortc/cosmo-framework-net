@@ -10,7 +10,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavigateBehavior"/>.
+      /// Gets a new instance of <see cref="NavigateBehavior"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
@@ -38,7 +38,7 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece la URL dónde se desea navegar.
+      /// Gets or sets la URL dónde se desea navegar.
       /// </summary>
       public string URL { get; set; }
 

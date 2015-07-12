@@ -18,7 +18,7 @@ namespace Cosmo.Utils
       private XmlNode _configXml;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Plugin"/>.
+      /// Gets a new instance of <see cref="Plugin"/>.
       /// </summary>
       public Plugin()
       {
@@ -35,7 +35,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador del plugin.
+      /// Gets or sets el identificador del plugin.
       /// </summary>
       public string ID
       {
@@ -44,7 +44,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador del plugin.
+      /// Gets or sets el identificador del plugin.
       /// </summary>
       public string Class
       {
@@ -53,7 +53,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve o establece el identificador del plugin.
+      /// Gets or sets el identificador del plugin.
       /// </summary>
       public bool Default
       {
@@ -62,7 +62,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve o establece el nodo XML que contiene la definición del plugin.
+      /// Gets or sets el nodo XML que contiene la definición del plugin.
       /// </summary>
       public XmlNode XmlPluginNode
       {
@@ -71,7 +71,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de parámetros de configuración del plugin.
+      /// Gets or sets la lista de parámetros de configuración del plugin.
       /// </summary>
       public NameValueCollection Settings
       {
@@ -175,7 +175,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

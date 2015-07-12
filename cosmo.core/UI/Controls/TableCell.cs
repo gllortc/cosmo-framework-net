@@ -5,14 +5,14 @@
    /// </summary>
    public class TableCell
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private object val;
       private string href;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableCell"/>.
+      /// Gets a new instance of <see cref="TableCell"/>.
       /// </summary>
       /// <param name="value"></param>
       public TableCell(object value)
@@ -23,7 +23,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TableCell"/>.
+      /// Gets a new instance of <see cref="TableCell"/>.
       /// </summary>
       /// <param name="value">The value of the cell.</param>
       /// <param name="href">A string that contains a url to provide a link for the current cell.</param>
@@ -40,7 +40,7 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el contenido de la celda.
+      /// Gets or sets el contenido de la celda.
       /// </summary>
       public object Value
       {

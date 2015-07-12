@@ -25,7 +25,7 @@
       /// Gets a new instance of <see cref="JumbotronControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del componente en una vista (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public JumbotronControl(View parentView, string domId)
          : base(parentView, domId)
       {

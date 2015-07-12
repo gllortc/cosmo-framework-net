@@ -1,4 +1,5 @@
 ﻿using Cosmo.UI.Controls;
+using System;
 using System.Collections.Generic;
 
 namespace Cosmo.UI.Scripting
@@ -27,6 +28,9 @@ namespace Cosmo.UI.Scripting
 
       #region Properties
 
+      /// <summary>
+      /// Gets or sets the partial view that is being load by this script.
+      /// </summary>
       public PartialView PartialView 
       {
          get { return (PartialView)this.ParentView; } 
@@ -39,7 +43,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
       /// </summary>
-      /// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+      /// <returns>A string containing the JavaScript requested code.</returns>
       public override string GetSource()
       {
          bool first = true;
@@ -84,7 +88,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

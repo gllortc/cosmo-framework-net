@@ -16,8 +16,10 @@
       private int _current;
       private string _url;
 
+      #region Constructors
+
       /// <summary>
-      /// Devuelve una instancia de <see cref="PaginationControl"/>
+      /// Gets a new instance of <see cref="PaginationControl"/>
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public PaginationControl(View parentView) 
@@ -26,8 +28,12 @@
          Initialize();
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
-      /// Devuelve o establece el número mínimo de página.
+      /// Gets or sets el número mínimo de página.
       /// </summary>
       public int Min
       {
@@ -36,7 +42,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el número máximo de página.
+      /// Gets or sets el número máximo de página.
       /// </summary>
       public int Max
       {
@@ -45,7 +51,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece el número de página actual.
+      /// Gets or sets el número de página actual.
       /// </summary>
       public int Current
       {
@@ -54,7 +60,7 @@
       }
 
       /// <summary>
-      /// Devuelve o establece la URL base que servirá para generar la URL particular para cada página.
+      /// Gets or sets la URL base que servirá para generar la URL particular para cada página.
       /// Para ello se usa el tag <see cref="URL_PAGEID_TAG"/> como indicador de número de página.
       /// </summary>
       public string UrlPattern
@@ -63,8 +69,12 @@
          set { _url = value; }
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
@@ -73,5 +83,8 @@
          _current = 1;
          _url = string.Empty;
       }
+
+      #endregion
+
    }
 }

@@ -130,7 +130,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IconControl"/>.
+      /// Gets a new instance of <see cref="IconControl"/>.
       /// </summary>
       /// <param name="code">Código de icono a representar.</param>
       /// <param name="parentView">El contenedor dónde se representará el control.</param>
@@ -143,7 +143,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IconControl"/>.
+      /// Gets a new instance of <see cref="IconControl"/>.
       /// </summary>
       /// <param name="parentView">El contenedor dónde se representará el control.</param>
       /// <param name="code">Código de icono a representar.</param>
@@ -158,7 +158,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="IconControl"/>.
+      /// Gets a new instance of <see cref="IconControl"/>.
       /// </summary>
       /// <param name="code">Código de icono a representar.</param>
       /// <param name="bgColor">Color de fondo.</param>
@@ -177,17 +177,17 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el código del icono.
+      /// Gets or sets el código del icono.
       /// </summary>
       public string Code { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código de movimiento del icono.
+      /// Gets or sets el código de movimiento del icono.
       /// </summary>
       public string Action { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el color de fondo del icono.
+      /// Gets or sets el color de fondo del icono.
       /// </summary>
       public ComponentBackgroundColor BackgroundColor { get; set; }
 
@@ -240,7 +240,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

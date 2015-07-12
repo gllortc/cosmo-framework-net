@@ -32,7 +32,7 @@ namespace Cosmo.Utils.Drawing
       public static string SESSION_CAPTCHA = "cosmo.web.session.captcha";
 
       /// <summary>
-      /// Devuelve una instancia de Captcha.
+      /// Gets a new instance of Captcha.
       /// </summary>
       /// <remarks>
       /// Usa los siguientes valores por defecto:
@@ -47,7 +47,7 @@ namespace Cosmo.Utils.Drawing
       }
 
       /// <summary>
-      /// Devuelve una instancia de Captcha.
+      /// Gets a new instance of Captcha.
       /// </summary>
       /// <param name="ImageWidth">Width of the GIF image produced.</param>
       /// <param name="Imageheight">Height of the GIF image produced.</param>
@@ -65,7 +65,7 @@ namespace Cosmo.Utils.Drawing
       }
 
       /// <summary>
-      /// Devuelve una instancia de Captcha.
+      /// Gets a new instance of Captcha.
       /// </summary>
       /// <param name="ImageWidth">Width of the GIF image produced.</param>
       /// <param name="Imageheight">Height of the GIF image produced.</param>

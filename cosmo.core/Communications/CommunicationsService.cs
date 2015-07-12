@@ -10,7 +10,7 @@ namespace Cosmo.Communications
    /// </summary>
    public class CommunicationsService
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws;
       private PrivateMessagesService _upm;
       private Dictionary<string, ICommunicationsModule> _modules;
@@ -18,7 +18,7 @@ namespace Cosmo.Communications
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="CommunicationsService"/>.
+      /// Gets a new instance of <see cref="CommunicationsService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public CommunicationsService(Workspace workspace)
@@ -77,7 +77,7 @@ namespace Cosmo.Communications
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

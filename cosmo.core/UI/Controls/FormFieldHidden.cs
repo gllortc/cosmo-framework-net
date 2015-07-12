@@ -13,24 +13,24 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del campo en el formulario.</param>
-      public FormFieldHidden(View parentViewport, string domId)
-         : base(parentViewport, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public FormFieldHidden(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del campo en el formulario.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="value">Valor inicial del campo.</param>
-      public FormFieldHidden(View parentViewport, string domId, string value)
-         : base(parentViewport, domId)
+      public FormFieldHidden(View parentView, string domId, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -50,7 +50,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public override object Value 
       {
@@ -94,7 +94,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

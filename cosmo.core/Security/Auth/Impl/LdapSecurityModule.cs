@@ -14,7 +14,7 @@ namespace Cosmo.Security.Auth.Impl
    /// </remarks>
    public class LdapSecurityModule : SecurityModule
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private Workspace _ws = null;
 
       private const int USER_OPTIONS_NOTIFY_INSIDE = 1;
@@ -26,7 +26,7 @@ namespace Cosmo.Security.Auth.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="LdapSecurityModule"/>.
+      /// Gets a new instance of <see cref="LdapSecurityModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que permite obtener los parámetros de configuración.</param>

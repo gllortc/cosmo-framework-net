@@ -12,7 +12,7 @@ namespace Cosmo.Utils.IO
       Encoding encoding;
 
       /// <summary>
-      /// Devuelve una instancia de EncodedStringWriter.
+      /// Gets a new instance of EncodedStringWriter.
       /// </summary>
       /// <param name="builder"></param>
       /// <param name="encoding"></param>

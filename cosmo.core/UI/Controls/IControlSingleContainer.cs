@@ -8,7 +8,7 @@ namespace Cosmo.UI.Controls
    public interface IControlSingleContainer
    {
       /// <summary>
-      /// Devuelve o establece el contenido del contenedor.
+      /// Gets or sets el contenido del contenedor.
       /// </summary>
       ControlCollection Content { get; set; }
    }

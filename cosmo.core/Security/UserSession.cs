@@ -15,7 +15,7 @@ namespace Cosmo.Security
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserSession"/>. 
+      /// Gets a new instance of <see cref="UserSession"/>. 
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public UserSession(Workspace workspace)
@@ -38,7 +38,7 @@ namespace Cosmo.Security
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="User"/> que representa el usuario que ha generado la sesión.
+      /// Gets a new instance of <see cref="User"/> que representa el usuario que ha generado la sesión.
       /// </summary>
       public User User
       {
@@ -54,7 +54,7 @@ namespace Cosmo.Security
       }
 
       /// <summary>
-      /// Devuelve o establece el workspace asociado a la sesión de usuario.
+      /// Gets or sets el workspace asociado a la sesión de usuario.
       /// </summary>
       public Workspace Workspace
       {

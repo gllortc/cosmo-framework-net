@@ -32,7 +32,7 @@ namespace Cosmo.UI.Controls
       {
          Initialize();
 
-         this.Caption = caption;
+         this.Text = caption;
          this.Href = href;
       }
 
@@ -48,7 +48,7 @@ namespace Cosmo.UI.Controls
       {
          Initialize();
 
-         this.Caption = caption;
+         this.Text = caption;
          this.Href = href;
          this.Icon = icon;
       }
@@ -63,27 +63,27 @@ namespace Cosmo.UI.Controls
       public bool Active { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto visible del control.
+      /// Gets or sets el texto visible del control.
       /// </summary>
-      public string Caption { get; set; }
+      public string Text { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL de destino (enlace).
+      /// Gets or sets la URL de destino (enlace).
       /// </summary>
       public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar junto al texto.
+      /// Gets or sets el código del icono a mostrar junto al texto.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que se mostrará en la etiqueta (<c>badge</c>).
+      /// Gets or sets el texto que se mostrará en la etiqueta (<c>badge</c>).
       /// </summary>
       public string BadgeText { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que se mostrará en la etiqueta (<c>badge</c>).
+      /// Gets or sets el texto que se mostrará en la etiqueta (<c>badge</c>).
       /// </summary>
       public List<SidebarButton> SubItems { get; set; }
 
@@ -118,11 +118,11 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         this.Caption = string.Empty;
+         this.Text = string.Empty;
          this.Href = string.Empty;
          this.Icon = string.Empty;
          this.BadgeText = string.Empty;

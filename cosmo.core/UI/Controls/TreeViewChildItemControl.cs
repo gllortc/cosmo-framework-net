@@ -11,7 +11,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ListItem"/>.
+      /// Gets a new instance of <see cref="ListItem"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public TreeViewChildItemControl(View parentView)
@@ -21,10 +21,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ListItem"/>.
+      /// Gets a new instance of <see cref="ListItem"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del componente en una vista (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public TreeViewChildItemControl(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -36,28 +36,28 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título visible del elemento.
+      /// Gets or sets el título visible del elemento.
       /// </summary>
       public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto descriptivo del elemento.
+      /// Gets or sets el texto descriptivo del elemento.
       /// No soporta XHTML, sólo texto.
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL asociada al elemento.
+      /// Gets or sets la URL asociada al elemento.
       /// </summary>
       public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar junto al título del elemento.
+      /// Gets or sets el código del icono a mostrar junto al título del elemento.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que aparecerá como <em>badge</em> (usualmente para indicar, por ejemplo, el número de elementos en un categoria).
+      /// Gets or sets el texto que aparecerá como <em>badge</em> (usualmente para indicar, por ejemplo, el número de elementos en un categoria).
       /// </summary>
       public string BadgeText { get; set; }
 
@@ -67,14 +67,14 @@ namespace Cosmo.UI.Controls
       public bool IsActive { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el estilo de marcado del elemento.
+      /// Gets or sets el estilo de marcado del elemento.
       /// </summary>
       public ComponentColorScheme Type { get; set; }
 
       internal ListGroupControl.ListGroupStyle Style { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de hijos de la rama actual.
+      /// Gets or sets la lista de hijos de la rama actual.
       /// </summary>
       public List<TreeViewChildItemControl> ChildItems { get; set; }
 
@@ -83,7 +83,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

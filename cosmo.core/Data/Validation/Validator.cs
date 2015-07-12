@@ -24,7 +24,7 @@ namespace Cosmo.Data.Validation
                                                 @"[a-zA-Z]{2,}))$";
 
       /// <summary>
-      /// Devuelve una instancia de Validator.
+      /// Gets a new instance of Validator.
       /// </summary>
       public Validator() 
       {
@@ -35,7 +35,7 @@ namespace Cosmo.Data.Validation
       }
 
       /// <summary>
-      /// Devuelve una instancia de Validator.
+      /// Gets a new instance of Validator.
       /// </summary>
       /// <param name="exceptionOnValidationError">Indica si se debe lanzar una excepción cuando falle una validación.</param>
       public Validator(bool exceptionOnValidationError) : this()

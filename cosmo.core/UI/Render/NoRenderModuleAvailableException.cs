@@ -8,18 +8,18 @@ namespace Cosmo.UI.Render
    public class NoRenderModuleAvailableException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       public NoRenderModuleAvailableException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       public NoRenderModuleAvailableException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

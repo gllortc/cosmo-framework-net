@@ -8,18 +8,18 @@ namespace Cosmo.Data.ORM
    public class OrmException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="OrmException"/>.
       /// </summary>
       public OrmException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="OrmException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public OrmException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="OrmException"/>.
+      /// Gets a new instance of <see cref="OrmException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

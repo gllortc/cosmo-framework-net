@@ -8,18 +8,18 @@ namespace Cosmo.Security
    public class UserNotFoundException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserDisabledException"/>.
+      /// Gets a new instance of <see cref="UserDisabledException"/>.
       /// </summary>
       public UserNotFoundException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserDisabledException"/>.
+      /// Gets a new instance of <see cref="UserDisabledException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public UserNotFoundException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserDisabledException"/>.
+      /// Gets a new instance of <see cref="UserDisabledException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

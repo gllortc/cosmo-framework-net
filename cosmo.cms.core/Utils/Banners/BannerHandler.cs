@@ -13,13 +13,13 @@ namespace Cosmo.Cms.Utils.Banners
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de CSBannersHandler.
+      /// Gets a new instance of CSBannersHandler.
       /// </summary>
       public BannerHandler() { }
 
       #endregion
 
-      #region Settings
+      #region Properties
 
       /// <summary>
       /// Indica si se puede reusar.

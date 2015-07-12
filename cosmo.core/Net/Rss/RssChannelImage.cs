@@ -13,7 +13,7 @@ namespace Cosmo.Net.Rss
       private string _link;
 
       /// <summary>
-      /// Devuelve una instancia de RssChannelImage
+      /// Gets a new instance of RssChannelImage
       /// </summary>
       public RssChannelImage()
       {
@@ -22,7 +22,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssChannelImage
+      /// Gets a new instance of RssChannelImage
       /// </summary>
       /// <param name="url">Url de la imagen</param>
       /// <param name="title">Título del canal</param>

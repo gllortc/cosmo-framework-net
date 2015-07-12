@@ -28,7 +28,7 @@ namespace Cosmo.Security.Auth
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SecurityService"/>.
+      /// Gets a new instance of <see cref="SecurityService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public SecurityService(Workspace workspace)
@@ -473,7 +473,7 @@ namespace Cosmo.Security.Auth
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

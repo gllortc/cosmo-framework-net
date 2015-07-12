@@ -7,13 +7,13 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class AlertControl : Control
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private ComponentColorScheme _type;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AlertControl"/>.
+      /// Gets a new instance of <see cref="AlertControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public AlertControl(View parentView)
@@ -23,7 +23,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AlertControl"/>.
+      /// Gets a new instance of <see cref="AlertControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text"></param>
@@ -38,7 +38,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AlertControl"/>.
+      /// Gets a new instance of <see cref="AlertControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="text"></param>
@@ -59,7 +59,7 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el texto visible del elemento.
+      /// Gets or sets el texto visible del elemento.
       /// </summary>
       public string Text { get; set; }
 
@@ -69,7 +69,7 @@ namespace Cosmo.UI.Controls
       public bool Closeable { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tipo de alerta que se va a mostrar.
+      /// Gets or sets el tipo de alerta que se va a mostrar.
       /// </summary>
       public ComponentColorScheme Type
       {
@@ -92,7 +92,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

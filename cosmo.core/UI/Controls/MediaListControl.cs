@@ -26,7 +26,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MediaListControl"/>.
+      /// Gets a new instance of <see cref="MediaListControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public MediaListControl(View parentView)
@@ -45,12 +45,12 @@ namespace Cosmo.UI.Controls
       public bool UseItemSeparator { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el estilo de representación de la lista.
+      /// Gets or sets el estilo de representación de la lista.
       /// </summary>
       public MediaListStyle Style { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de elementos.
+      /// Gets or sets la lista de elementos.
       /// </summary>
       public List<MediaItem> Items { get; set; }
 
@@ -80,7 +80,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

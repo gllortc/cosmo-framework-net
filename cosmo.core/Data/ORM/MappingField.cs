@@ -39,7 +39,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="MappingField"/>.
+      /// Gets a new instance of <see cref="MappingField"/>.
       /// </summary>
       public MappingField()
       {
@@ -61,12 +61,12 @@
       public string FieldName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la etiqueta visible que aparecerá junto al campo.
+      /// Gets or sets la etiqueta visible que aparecerá junto al campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el identificador del grupo de controles al que debe agregarse el campo.
+      /// Gets or sets el identificador del grupo de controles al que debe agregarse el campo.
       /// </summary>
       /// <remarks>
       /// Si no se establece, el control será representado al inicio del formulario fuera de los 
@@ -75,12 +75,12 @@
       public string GroupID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tipo de datos que contiene el campo.
+      /// Gets or sets el tipo de datos que contiene el campo.
       /// </summary>
       public MappingDataType DataType  { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el identificador de la lista que rellena la lista de posibles 
+      /// Gets or sets el identificador de la lista que rellena la lista de posibles 
       /// valores del control.
       /// </summary>
       /// <remarks>
@@ -112,7 +112,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

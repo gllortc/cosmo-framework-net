@@ -9,7 +9,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BreadcrumbItem"/>.
+      /// Gets a new instance of <see cref="BreadcrumbItem"/>.
       /// </summary>
       public BreadcrumbItem()
       {
@@ -17,7 +17,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BreadcrumbItem"/>.
+      /// Gets a new instance of <see cref="BreadcrumbItem"/>.
       /// </summary>
       /// <param name="caption">Texto visible que se mostrará en el elemento.</param>
       /// <param name="href">URL asociada al enlace del elemento.</param>
@@ -30,7 +30,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BreadcrumbItem"/>.
+      /// Gets a new instance of <see cref="BreadcrumbItem"/>.
       /// </summary>
       /// <param name="caption">Texto visible que se mostrará en el elemento.</param>
       /// <param name="href">URL asociada al enlace del elemento.</param>
@@ -45,7 +45,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BreadcrumbItem"/>.
+      /// Gets a new instance of <see cref="BreadcrumbItem"/>.
       /// </summary>
       /// <param name="caption">Texto visible que se mostrará en el elemento.</param>
       /// <param name="href">URL asociada al enlace del elemento.</param>
@@ -69,17 +69,17 @@
       public bool IsActive { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto visible que se mostrará en el elemento.
+      /// Gets or sets el texto visible que se mostrará en el elemento.
       /// </summary>
       public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL asociada al enlace del elemento.
+      /// Gets or sets la URL asociada al enlace del elemento.
       /// </summary>
       public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar junto al elemento.
+      /// Gets or sets el código del icono a mostrar junto al elemento.
       /// </summary>
       public string Icon { get; set; }
 
@@ -88,7 +88,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

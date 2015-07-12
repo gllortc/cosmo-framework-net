@@ -9,7 +9,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Country"/>.
+      /// Gets a new instance of <see cref="Country"/>.
       /// </summary>
       public Country()
       {
@@ -17,7 +17,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Country"/>.
+      /// Gets a new instance of <see cref="Country"/>.
       /// </summary>
       /// <param name="id">Identificador único del pais</param>
       /// <param name="name">Nombre del pais</param>
@@ -53,7 +53,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicialización de la clase.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

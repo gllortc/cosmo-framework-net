@@ -31,25 +31,25 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
-      public FormFieldDate(View parentViewport, string domId)
-         : base(parentViewport, domId)
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
+      public FormFieldDate(View parentView, string domId)
+         : base(parentView, domId)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
-      public FormFieldDate(View parentViewport, string domId, string label, FieldDateType type)
-         : base(parentViewport, domId)
+      public FormFieldDate(View parentView, string domId, string label, FieldDateType type)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -58,15 +58,15 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="container">Página o contenedor dónde se representará el control.</param>
-      /// <param name="id">Identificador único del componente dentro de una vista.</param>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldDate(View parentViewport, string domId, string label, FieldDateType type, string value)
-         : base(parentViewport, domId)
+      public FormFieldDate(View parentView, string domId, string label, FieldDateType type, string value)
+         : base(parentView, domId)
       {
          Initialize();
 
@@ -93,27 +93,27 @@ namespace Cosmo.UI.Controls
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que mostrará la etiqueta del campo.
+      /// Gets or sets el texto que mostrará la etiqueta del campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece un texto en el control que desaparece cuando contiene algún valor.
+      /// Gets or sets un texto en el control que desaparece cuando contiene algún valor.
       /// </summary>
       public string Placeholder { get; set; }
 
       /// <summary>
-      /// Devuelve o establece una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
+      /// Gets or sets una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public FieldDateType Type { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public override object Value
       {
@@ -156,7 +156,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

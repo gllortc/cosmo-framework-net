@@ -11,7 +11,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarControl"/>.
+      /// Gets a new instance of <see cref="NavbarControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public NavbarControl(View parentView)
@@ -21,7 +21,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarControl"/>.
+      /// Gets a new instance of <see cref="NavbarControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="fixedTop">Indica si la barra debe permanecer fija en la parte superior de la pantalla.</param>
@@ -87,7 +87,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

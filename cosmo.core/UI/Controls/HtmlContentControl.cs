@@ -19,7 +19,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="HtmlContentControl"/>.
+      /// Gets a new instance of <see cref="HtmlContentControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public HtmlContentControl(View parentView) 
@@ -29,7 +29,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="HtmlContentControl"/>.
+      /// Gets a new instance of <see cref="HtmlContentControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="html">Una cadena que contiene el código HTML que será renderizado.</param>
@@ -46,7 +46,7 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el contenido.
+      /// Gets or sets el contenido.
       /// </summary>
       public StringBuilder Html { get; set; }
 
@@ -224,7 +224,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

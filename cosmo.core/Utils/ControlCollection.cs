@@ -9,14 +9,14 @@ namespace Cosmo.Utils
    /// </summary>
    public class ControlCollection : IEnumerable<Control>
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private List<Control> _controls;
       private Type _ctrlType;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ControlCollection"/>.
+      /// Gets a new instance of <see cref="ControlCollection"/>.
       /// </summary>
       public ControlCollection()
       {
@@ -24,7 +24,7 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ControlCollection"/>.
+      /// Gets a new instance of <see cref="ControlCollection"/>.
       /// </summary>
       /// <param name="type">Tipo de objetos que admite la colección (todas las instancias deben descender directamente de este tipo).</param>
       public ControlCollection(Type type)
@@ -271,7 +271,7 @@ namespace Cosmo.Utils
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

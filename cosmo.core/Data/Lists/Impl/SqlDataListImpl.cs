@@ -23,7 +23,7 @@ namespace Cosmo.Data.Lists.Impl
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SqlDataListImpl"/>.
+      /// Gets a new instance of <see cref="SqlDataListImpl"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene los datos del módulo y su configuración.</param>
@@ -44,7 +44,7 @@ namespace Cosmo.Data.Lists.Impl
       #region IDataList Implementation
 
       /// <summary>
-      /// Devuelve o establece la lista de valores que contiene la lista.
+      /// Gets or sets la lista de valores que contiene la lista.
       /// </summary>
       public override List<KeyValue> Values
       {
@@ -82,12 +82,12 @@ namespace Cosmo.Data.Lists.Impl
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador único del <see cref="IDataModule"/> que se usará para obtener los datos de una lista dinámica.
+      /// Gets or sets el identificador único del <see cref="IDataModule"/> que se usará para obtener los datos de una lista dinámica.
       /// </summary>
       public string DataModuleID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la senténcia SQL que usará una lista dinámica para obtener los datos.
+      /// Gets or sets la senténcia SQL que usará una lista dinámica para obtener los datos.
       /// </summary>
       /// <remarks>
       /// El primer campo devuelto en la consulta corresponde al valor y el resto a la/s etiqueta/s.
@@ -156,7 +156,7 @@ namespace Cosmo.Data.Lists.Impl
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

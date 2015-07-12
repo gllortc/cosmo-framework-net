@@ -8,18 +8,18 @@ namespace Cosmo.Security
    public class SecurityException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="SecurityException"/>.
+      /// Gets a new instance of <see cref="SecurityException"/>.
       /// </summary>
       public SecurityException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SecurityException"/>.
+      /// Gets a new instance of <see cref="SecurityException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public SecurityException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SecurityException"/>.
+      /// Gets a new instance of <see cref="SecurityException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

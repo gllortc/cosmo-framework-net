@@ -35,7 +35,7 @@ namespace Cosmo.Diagnostics
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       public LogEntry()
       {
@@ -43,7 +43,7 @@ namespace Cosmo.Diagnostics
       }
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       /// <param name="context">Contexto</param>
       /// <param name="message">Mensaje</param>
@@ -58,7 +58,7 @@ namespace Cosmo.Diagnostics
       }
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       /// <param name="application">Nombre de la aplicación</param>
       /// <param name="context">Contexto</param>
@@ -75,7 +75,7 @@ namespace Cosmo.Diagnostics
       }
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       /// <param name="application">Nombre de la aplicación</param>
       /// <param name="context">Contexto</param>
@@ -95,7 +95,7 @@ namespace Cosmo.Diagnostics
       }
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       /// <param name="application">Nombre de la aplicación</param>
       /// <param name="context">Contexto</param>
@@ -114,7 +114,7 @@ namespace Cosmo.Diagnostics
       }
 
       /// <summary>
-      /// Devuelve una instancia de LogEntry
+      /// Gets a new instance of LogEntry
       /// </summary>
       /// <param name="application">Nombre de la aplicación</param>
       /// <param name="context">Contexto</param>
@@ -178,17 +178,17 @@ namespace Cosmo.Diagnostics
       public string WorkspaceName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del error o evento informativo.
+      /// Gets or sets el código del error o evento informativo.
       /// </summary>
       public int Code { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el mensaje descriptivo.
+      /// Gets or sets el mensaje descriptivo.
       /// </summary>
       public string Message { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tipo de registro.
+      /// Gets or sets el tipo de registro.
       /// </summary>
       public LogEntryType Type { get; set; }
 
@@ -197,7 +197,7 @@ namespace Cosmo.Diagnostics
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -11,12 +11,12 @@ namespace Cosmo.Data.Validation
       private string _msg = string.Empty;
 
       /// <summary>
-      /// Devuelve una instancia de CosmoValidationException.
+      /// Gets a new instance of CosmoValidationException.
       /// </summary>
       public CosmoValidationException() { }
 
       /// <summary>
-      /// Devuelve una instancia de CosmoValidationException.
+      /// Gets a new instance of CosmoValidationException.
       /// </summary>
       /// <param name="message">Descripción del error.</param>
       public CosmoValidationException(string message)

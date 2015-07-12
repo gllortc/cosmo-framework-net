@@ -9,13 +9,13 @@ namespace Cosmo.UI.Scripting
    /// </summary>
    public class AjaxUpdateHtmlScript : Script
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _id;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AjaxUpdateHtmlScript"/>.
+      /// Gets a new instance of <see cref="AjaxUpdateHtmlScript"/>.
       /// </summary>
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       public AjaxUpdateHtmlScript(View viewport)
@@ -29,7 +29,7 @@ namespace Cosmo.UI.Scripting
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece una cadena única para cada script.
+      /// Gets or sets una cadena única para cada script.
       /// </summary>
       /// <remarks>
       /// Est acadena permite crear variables y funciones con un nombre distinto para cada 
@@ -42,18 +42,18 @@ namespace Cosmo.UI.Scripting
       }
 
       /// <summary>
-      /// Devuelve o establece el contenedor DIV que se actualizará cuando el tipo de script sea <c>UpdateHtml</c>.
+      /// Gets or sets el contenedor DIV que se actualizará cuando el tipo de script sea <c>UpdateHtml</c>.
       /// </summary>
       public string UpdateDiv { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre de la función que encapsula el script.
+      /// Gets or sets el nombre de la función que encapsula el script.
       /// </summary>
       public string FunctionName { get; set; }
 
 
       /// <summary>
-      /// Devuelve o establece la URL y los parámetros de la llamada a realizar para la acción AJAX.
+      /// Gets or sets la URL y los parámetros de la llamada a realizar para la acción AJAX.
       /// </summary>
       public Url Url { get; set; }
 
@@ -123,7 +123,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -5,13 +5,11 @@
    /// </summary>
    public class ChatMessageToolbarButtonControl : Control
    {
-      // Declaración de variables internas
-      private string _caption;
-      private string _href;
-      private string _icon;
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
+      /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ChatMessageToolbarButtonControl(View parentView)
@@ -21,7 +19,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
+      /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption"></param>
@@ -31,12 +29,12 @@
       {
          Initialize();
 
-         _caption = caption;
-         _href = href;
+         this.Caption = caption;
+         this.Href = href;
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ChatMessageToolbarButtonControl"/>.
+      /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption"></param>
@@ -47,46 +45,45 @@
       {
          Initialize();
 
-         _caption = caption;
-         _href = href;
-         _icon = icon;
+         this.Caption = caption;
+         this.Href = href;
+         this.Icon = icon;
       }
 
+      #endregion
+
+      #region Properties
+
       /// <summary>
-      /// Devuelve o establece la etiqueta visible asociada al control.
+      /// Gets or sets la etiqueta visible asociada al control.
       /// </summary>
-      public string Caption
-      {
-         get { return _caption; }
-         set { _caption = value; }
-      }
+      public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL (o llamada JavaScript) correspondiente al link del botón.
+      /// Gets or sets la URL (o llamada JavaScript) correspondiente al link del botón.
       /// </summary>
-      public string Href
-      {
-         get { return _href; }
-         set { _href = value; }
-      }
+      public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar.
+      /// Gets or sets el código del icono a mostrar.
       /// </summary>
-      public string Icon
-      {
-         get { return _icon; }
-         set { _icon = value; }
-      }
+      public string Icon { get; set; }
+
+      #endregion
+
+      #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _caption = string.Empty;
-         _href = string.Empty;
-         _icon = string.Empty;
+         this.Caption = string.Empty;
+         this.Href = string.Empty;
+         this.Icon = string.Empty;
       }
+
+      #endregion
+
    }
 }

@@ -9,11 +9,11 @@
    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Method, AllowMultiple = true)]
    public class AuthorizationRequired : System.Attribute
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string[] _roles;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AuthorizationRequired"/>.
+      /// Gets a new instance of <see cref="AuthorizationRequired"/>.
       /// </summary>
       /// <param name="args">Los roles que dan acceso a la página o recurso.</param>
       public AuthorizationRequired(params string[] args)

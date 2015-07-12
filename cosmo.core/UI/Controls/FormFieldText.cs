@@ -38,10 +38,10 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormFieldText(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -49,10 +49,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
       public FormFieldText(View parentView, string domId, string label, FieldDataType type)
@@ -65,10 +65,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormFieldText"/>.
+      /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
@@ -105,42 +105,42 @@ namespace Cosmo.UI.Controls
       public bool Required { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que mostrará la etiqueta del campo.
+      /// Gets or sets el texto que mostrará la etiqueta del campo.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece un texto en el control que desaparece cuando contiene algún valor.
+      /// Gets or sets un texto en el control que desaparece cuando contiene algún valor.
       /// </summary>
       public string Placeholder { get; set; }
 
       /// <summary>
-      /// Devuelve o establece una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
+      /// Gets or sets una descripción que aparecerá en pequeño junto al campo (dependiendo de la plantilla de renderización).
       /// </summary>
       public string Description { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la longitud (en carácteres) mínima que debe tener el valor.
+      /// Gets or sets la longitud (en carácteres) mínima que debe tener el valor.
       /// </summary>
       public int MinLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la longitud (en carácteres) máxima que debe tener el valor.
+      /// Gets or sets la longitud (en carácteres) máxima que debe tener el valor.
       /// </summary>
       public int MaxLength { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public FieldDataType Type { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el icono que debe aparecer como <em>addon</em>.
+      /// Gets or sets el icono que debe aparecer como <em>addon</em>.
       /// </summary>
       public string AddonIcon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo.
+      /// Gets or sets el valor del campo.
       /// </summary>
       public override object Value
       {
@@ -188,7 +188,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

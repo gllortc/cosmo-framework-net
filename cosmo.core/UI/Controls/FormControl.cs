@@ -47,7 +47,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormControl"/>.
+      /// Gets a new instance of <see cref="FormControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public FormControl(View parentView)
@@ -61,10 +61,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormControl"/>.
+      /// Gets a new instance of <see cref="FormControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormControl(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -76,22 +76,22 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el código de icono a mostrar junto al título del formulario.
+      /// Gets or sets el código de icono a mostrar junto al título del formulario.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el título visible del formulario.
+      /// Gets or sets el título visible del formulario.
       /// </summary>
       public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL dónde se mandarán los datos del formulario.
+      /// Gets or sets la URL dónde se mandarán los datos del formulario.
       /// </summary>
       public string Action { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el método de envio de datos, <em>get</em> o <em>post</em>.
+      /// Gets or sets el método de envio de datos, <em>get</em> o <em>post</em>.
       /// </summary>
       public string Method { get; set; }
 
@@ -116,7 +116,7 @@ namespace Cosmo.UI.Controls
       public bool UsePanel { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el método de envio de los datos del formulario.
+      /// Gets or sets el método de envio de los datos del formulario.
       /// </summary>
       public FormSendDataMethod SendDataMethod { get; set; }
 
@@ -422,7 +422,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

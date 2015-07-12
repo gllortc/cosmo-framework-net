@@ -2,7 +2,6 @@
 using Cosmo.Security.Cryptography;
 using Cosmo.Services;
 using Cosmo.Utils;
-using Cosmo.WebApp.UserServices;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Mail;
@@ -60,7 +59,7 @@ namespace Cosmo.Security.Auth
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SecurityModule"/>.
+      /// Gets a new instance of <see cref="SecurityModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -184,7 +183,7 @@ namespace Cosmo.Security.Auth
       /// <returns>A string containing the requested url.</returns>
       public string GetLoginUrl(string redirectToUrl)
       {
-         Url url = new Url(_plugin.GetString("security.LoginView", UserAuth.GetURL()));
+         Url url = new Url(_plugin.GetString("security.LoginView", Cosmo.Web.UserAuth.GetURL()));
          if (!string.IsNullOrWhiteSpace(redirectToUrl))
          {
             url.AddParameter(Cosmo.Workspace.PARAM_LOGIN_REDIRECT, redirectToUrl);
@@ -204,7 +203,7 @@ namespace Cosmo.Security.Auth
 
          // Genera la URL de verificación
          string qs = UriCryptography.Encrypt("obj=" + user.Mail + "&id=" + user.ID, this.EncriptionKey);
-         string url = Cosmo.Net.Url.Combine(_ws.Url, UserJoinVerification.GetURL(qs));
+         string url = Cosmo.Net.Url.Combine(_ws.Url, Cosmo.Web.UserJoinVerification.GetURL(qs));
 
          // Generate mail message
          msg.To.Add(new MailAddress(user.Mail, string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));

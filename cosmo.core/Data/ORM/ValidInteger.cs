@@ -8,13 +8,13 @@ namespace Cosmo.Data.ORM
    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false)]
    public class ValidInteger : System.Attribute
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private bool _isRequired;
       private Int64 _min;
       private Int64 _max;
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ValidInteger"/>.
+      /// Gets a new instance of <see cref="ValidInteger"/>.
       /// </summary>
       public ValidInteger()
       {
@@ -40,7 +40,7 @@ namespace Cosmo.Data.ORM
       }
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

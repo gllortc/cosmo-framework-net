@@ -7,8 +7,8 @@
     <ProjectGuid>{6A9DBA48-D69A-4716-B88B-4569A179A2AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rwm.WebApp</RootNamespace>
-    <AssemblyName>Rwm.WebApp</AssemblyName>
+    <RootNamespace>Rwm</RootNamespace>
+    <AssemblyName>Rwm.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -38,11 +38,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\AspxAdapterHandler.cs" />
-    <Compile Include="RwmForumRules.cs" />
-    <Compile Include="RwmHomePage.cs" />
+    <Compile Include="Web\Handlers\AspxAdapterHandler.cs" />
+    <Compile Include="Web\RwmForumRules.cs" />
+    <Compile Include="Web\RwmWelcome.cs" />
+    <Compile Include="Web\RwmHomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RwmPrivacy.cs" />
+    <Compile Include="Web\RwmPrivacy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cosmo.cms.core\Cosmo.Cms.Core.csproj">

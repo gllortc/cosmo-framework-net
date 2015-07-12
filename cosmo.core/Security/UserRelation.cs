@@ -34,7 +34,7 @@ namespace Cosmo.Security
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserRelation"/>.
+      /// Gets a new instance of <see cref="UserRelation"/>.
       /// </summary>
       public UserRelation()
       {

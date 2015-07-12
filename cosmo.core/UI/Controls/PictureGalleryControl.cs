@@ -11,7 +11,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AlertControl"/>.
+      /// Gets a new instance of <see cref="AlertControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public PictureGalleryControl(View parentView)
@@ -21,10 +21,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AlertControl"/>.
+      /// Gets a new instance of <see cref="AlertControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId"></param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public PictureGalleryControl(View parentView, string domId)
          : base(parentView)
       {
@@ -46,7 +46,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

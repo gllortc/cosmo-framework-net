@@ -12,7 +12,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="KeyValue"/>.
+      /// Gets a new instance of <see cref="KeyValue"/>.
       /// </summary>
       public KeyValue()
       {
@@ -50,12 +50,12 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece la etiqueta visible que verá el usuario.
+      /// Gets or sets la etiqueta visible que verá el usuario.
       /// </summary>
       public string Label { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el valor asociado a la etiqueta y que recogerá el control.
+      /// Gets or sets el valor asociado a la etiqueta y que recogerá el control.
       /// </summary>
       public string Value { get; set; }
 
@@ -64,7 +64,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -30,7 +30,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ListGroupControl"/>.
+      /// Gets a new instance of <see cref="ListGroupControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ListGroupControl(View parentView)
@@ -44,7 +44,7 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece la lista de elementos que mostrará el componente.
+      /// Gets or sets la lista de elementos que mostrará el componente.
       /// </summary>
       public List<ListItem> ListItems
       {
@@ -62,7 +62,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el estilo de visualización del componente.
+      /// Gets or sets el estilo de visualización del componente.
       /// </summary>
       public ListGroupStyle Style
       {
@@ -96,7 +96,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

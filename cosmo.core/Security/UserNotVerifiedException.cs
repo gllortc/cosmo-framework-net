@@ -8,18 +8,18 @@ namespace Cosmo.Security
    public class UserNotVerifiedException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserNotVerifiedException"/>.
+      /// Gets a new instance of <see cref="UserNotVerifiedException"/>.
       /// </summary>
       public UserNotVerifiedException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserNotVerifiedException"/>.
+      /// Gets a new instance of <see cref="UserNotVerifiedException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public UserNotVerifiedException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="UserNotVerifiedException"/>.
+      /// Gets a new instance of <see cref="UserNotVerifiedException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

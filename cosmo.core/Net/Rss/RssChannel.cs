@@ -62,7 +62,7 @@ namespace Cosmo.Net.Rss
       const string TagItemGuid = "guid";
 
       /// <summary>
-      /// Devuelve una instancia de RssChannel
+      /// Gets a new instance of RssChannel
       /// </summary>
       public RssChannel()
       {
@@ -70,7 +70,7 @@ namespace Cosmo.Net.Rss
       }
 
       /// <summary>
-      /// Devuelve una instancia de RssChannel
+      /// Gets a new instance of RssChannel
       /// </summary>
       public RssChannel(Uri url)
       {

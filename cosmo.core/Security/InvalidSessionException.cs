@@ -11,18 +11,18 @@ namespace Cosmo.Security
    public class InvalidSessionException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       public InvalidSessionException() : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       public InvalidSessionException(string s) : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de InvalidSessionException
+      /// Gets a new instance of InvalidSessionException
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

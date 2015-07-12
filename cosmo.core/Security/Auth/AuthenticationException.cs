@@ -9,20 +9,20 @@ namespace Cosmo.Security.Auth
    public class AuthenticationException : ApplicationException
    {
       /// <summary>
-      /// Devuelve una instancia de <see cref="AuthenticationException"/>.
+      /// Gets a new instance of <see cref="AuthenticationException"/>.
       /// </summary>
       public AuthenticationException() 
          : base() { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AuthenticationException"/>.
+      /// Gets a new instance of <see cref="AuthenticationException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       public AuthenticationException(string s) 
          : base(s) { }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="AuthenticationException"/>.
+      /// Gets a new instance of <see cref="AuthenticationException"/>.
       /// </summary>
       /// <param name="s">Mensaje</param>
       /// <param name="ex">Excepción</param>

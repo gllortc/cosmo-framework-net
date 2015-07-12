@@ -11,7 +11,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TreeViewControl"/>.
+      /// Gets a new instance of <see cref="TreeViewControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public TreeViewControl(View parentView)
@@ -21,10 +21,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="TreeViewControl"/>.
+      /// Gets a new instance of <see cref="TreeViewControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador del componente en una vista (DOM).</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public TreeViewControl(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -41,7 +41,7 @@ namespace Cosmo.UI.Controls
       public bool Collapsed { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de elementos hijo que penden de la rama principal del árbol.
+      /// Gets or sets la lista de elementos hijo que penden de la rama principal del árbol.
       /// </summary>
       public List<TreeViewChildItemControl> ChildItems { get; set; }
 
@@ -50,7 +50,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

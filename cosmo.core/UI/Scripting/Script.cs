@@ -5,7 +5,7 @@ using System.Text;
 namespace Cosmo.UI.Scripting
 {
    /// <summary>
-   /// Interface que deben implementar todos los scripts.
+   /// Abstract class that must be implemented by all scripting elements.
    /// </summary>
    public abstract class Script
    {
@@ -13,15 +13,17 @@ namespace Cosmo.UI.Scripting
       #region Enumerations
 
       /// <summary>
-      /// Enumera los distintos tipos de llamada al código.
+      /// Types of script execution.
       /// </summary>
       public enum ScriptExecutionMethod
       {
-         /// <summary>Se ejecuta cuando el documento está completamente cargado.</summary>
+         /// <summary>The script is executen on document ready event.</summary>
          OnDocumentReady,
-         /// <summary>Se ejecuta cuando el documento está completamente cargado.</summary>
+         /// <summary>The script is executed when an concrete event is raised.</summary>
          OnEvent,
+         /// <summary>The script is encapsulated in a function.</summary>
          OnFunctionCall,
+         /// <summary>The script is included in page and is invoked by other script or object.</summary>
          Standalone
       }
 
@@ -30,7 +32,7 @@ namespace Cosmo.UI.Scripting
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Script"/>.
+      /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       protected Script(View parentView)
@@ -41,7 +43,7 @@ namespace Cosmo.UI.Scripting
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Script"/>.
+      /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
       /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
       /// <param name="source"´>Una cadena que contiene código JavaScript.</param>
@@ -54,7 +56,7 @@ namespace Cosmo.UI.Scripting
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="Script"/>.
+      /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="source">Una instancia de <see cref="StringBuilder"/> que contiene código JavaScript.</param>
@@ -82,9 +84,19 @@ namespace Cosmo.UI.Scripting
       public View ParentView { get; internal set; }
 
       /// <summary>
-      /// Devuelve o establece el código fuente del script.
+      /// Gets or sets el código fuente del script.
       /// </summary>
       internal StringBuilder Source { get; set; }
+
+      /// <summary>
+      /// Gets or sets the DOM element ID to attach the source script.
+      /// </summary>
+      internal string EventDomID { get; set; }
+
+      /// <summary>
+      /// Gets or sets the event name to attach the source script.
+      /// </summary>
+      internal string EventName { get; set; }
 
       #endregion 
 
@@ -136,6 +148,17 @@ namespace Cosmo.UI.Scripting
          }
 
          Source = sb;
+      }
+
+      /// <summary>
+      /// Attach the source of script to an event in DOM element.
+      /// </summary>
+      /// <param name="domId">DOM element ID.</param>
+      /// <param name="eventName">Event name.</param>
+      public void AttachToEvent(string domId, string eventName)
+      {
+         this.EventDomID = domId;
+         this.EventName = eventName;
       }
 
       #endregion
@@ -195,7 +218,7 @@ namespace Cosmo.UI.Scripting
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
@@ -205,6 +228,15 @@ namespace Cosmo.UI.Scripting
       }
 
       #endregion
+
+      /// <summary>
+      /// Static class that contains the event constants.
+      /// </summary>
+      public static class Events
+      {
+         /// <summary>Bootstrap/jQuery event: On Modal Hide/// </summary>
+         public const string EVENT_ON_MODAL_CLOSE = "hidden.bs.modal";
+      }
 
    }
 }

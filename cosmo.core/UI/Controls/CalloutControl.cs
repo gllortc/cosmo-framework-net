@@ -5,13 +5,13 @@
    /// </summary>
    public class CalloutControl : Control
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private ComponentColorScheme _type;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="CalloutControl"/>.
+      /// Gets a new instance of <see cref="CalloutControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public CalloutControl(View parentView)
@@ -21,7 +21,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="CalloutControl"/>.
+      /// Gets a new instance of <see cref="CalloutControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="type">Tipo de mensaje a mostrar.</param>
@@ -38,22 +38,22 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título del control.
+      /// Gets or sets el título del control.
       /// </summary>
       public string Title { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto del control.
+      /// Gets or sets el texto del control.
       /// </summary>
       public string Text { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el código del icono a mostrar junto al título.
+      /// Gets or sets el código del icono a mostrar junto al título.
       /// </summary>
       public string Icon { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el estilo de presentación del control.
+      /// Gets or sets el estilo de presentación del control.
       /// </summary>
       public ComponentColorScheme Type
       {
@@ -76,7 +76,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -8,20 +8,11 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class ChatControl : Control
    {
-      // Declaración de variables internas
-      private bool _showComposeForm;
-      private bool _autosize;
-      private int _formToUserId;
-      private int _height;
-      private string _caption;
-      private string _formDomId;
-      private string _formSubmitButtonId;
-      private List<ChatMessage> _messages;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ChatControl"/>.
+      /// Gets a new instance of <see cref="ChatControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ChatControl(View parentView)
@@ -35,99 +26,67 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el título visible del componente.
+      /// Gets or sets el título visible del componente.
       /// </summary>
-      public string Caption
-      {
-         get { return _caption; }
-         set { _caption = value; }
-      }
+      public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la altura (en píxels) de la zona de mensajes.
+      /// Gets or sets la altura (en píxels) de la zona de mensajes.
       /// </summary>
-      public int Height
-      {
-         get { return _height; }
-         set { _height = value; }
-      }
+      public int Height { get; set; }
 
       /// <summary>
       /// Indica si se debe mostrar el formulario de redacción de mensajes.
       /// Este formulario sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
-      public bool FormShow
-      {
-         get { return _showComposeForm; }
-         set { _showComposeForm = value; }
-      }
+      public bool FormShow { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el ID del usuario destinatario del mensaje.
+      /// Gets or sets el ID del usuario destinatario del mensaje.
       /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
-      public int FormToUserID
-      {
-         get { return _formToUserId; }
-         set { _formToUserId = value; }
-      }
+      public int FormToUserID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el ID (DOM) del formulario de envio de mensajes.
+      /// Gets or sets el ID (DOM) del formulario de envio de mensajes.
       /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
-      public string FormDomID
-      {
-         get { return _formDomId; }
-         set { _formDomId = value; }
-      }
+      public string FormDomID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el ID (DOM) del botón de envío de mensajes.
+      /// Gets or sets el ID (DOM) del botón de envío de mensajes.
       /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
-      public string FormSubmitButtonID
-      {
-         get { return _formSubmitButtonId; }
-         set { _formSubmitButtonId = value; }
-      }
+      public string FormSubmitButtonID { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la lista de mensajes que aparecen en el chat.
+      /// Gets or sets la lista de mensajes que aparecen en el chat.
       /// </summary>
-      public List<ChatMessage> Messages
-      {
-         get { return _messages; }
-         set { _messages = value; }
-      }
+      public List<ChatMessage> Messages { get; set; }
 
       /// <summary>
       /// Indica si se debe calcular la altura de forma automática para evitar el scroll vertical.
       /// Si se establece a <c>true</c> no se tendrá en cuenta el valor de la propiedad <c>Height</c>.
       /// </summary>
-      public bool AutoSize
-      {
-         get { return _autosize; }
-         set { _autosize = value; }
-      }
+      public bool AutoSize { get; set; }
 
       #endregion
 
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _autosize = false;
-         _showComposeForm = false;
-         _formToUserId = 0;
-         _height = 400;
-         _caption = string.Empty;
-         _formDomId = "frmPMsgSend";
-         _formSubmitButtonId = "csSendPMsg";
-         _messages = new List<ChatMessage>();
+         this.AutoSize = false;
+         this.FormShow = false;
+         this.FormToUserID = 0;
+         this.Height = 400;
+         this.Caption = string.Empty;
+         this.FormDomID = "frmPMsgSend";
+         this.FormSubmitButtonID = "csSendPMsg";
+         this.Messages = new List<ChatMessage>();
       }
 
       #endregion

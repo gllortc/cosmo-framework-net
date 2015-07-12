@@ -17,8 +17,10 @@ namespace Cosmo.UI.Controls
       private ControlCollection _footer;
       private ButtonGroupControl _buttons;
 
+      #region Constructors
+
       /// <summary>
-      /// Devuelve una instancia de <see cref="PanelControl"/>.
+      /// Gets a new instance of <see cref="PanelControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public PanelControl(View parentView)
@@ -28,18 +30,22 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PanelControl"/>.
+      /// Gets a new instance of <see cref="PanelControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public PanelControl(View parentView, string domId)
          : base(parentView, domId)
       {
          Initialize();
       }
 
+      #endregion
+
+      #region properties
+
       /// <summary>
-      /// Devuelve o establece el título del control.
+      /// Gets or sets el título del control.
       /// </summary>
       public string Caption
       {
@@ -48,7 +54,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el código del icono que se desea mostrar al inicio del título.
+      /// Gets or sets el código del icono que se desea mostrar al inicio del título.
       /// </summary>
       public string CaptionIcon
       {
@@ -57,7 +63,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el contenido XHTML del panel.
+      /// Gets or sets el contenido XHTML del panel.
       /// </summary>
       public string ContentXhtml
       {
@@ -66,7 +72,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece el ID (DOM) del contenido del panel.
+      /// Gets or sets el ID (DOM) del contenido del panel.
       /// </summary>
       public string ContentDomId
       {
@@ -75,7 +81,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de controles contenidos dentro del control.
+      /// Gets or sets la lista de controles contenidos dentro del control.
       /// </summary>
       public ControlCollection Content
       {
@@ -84,7 +90,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve o establece la lista de componentes contenidos en el pie.
+      /// Gets or sets la lista de componentes contenidos en el pie.
       /// </summary>
       public ControlCollection Footer
       {
@@ -105,8 +111,12 @@ namespace Cosmo.UI.Controls
          set { _buttons = value; }
       }
 
+      #endregion
+
+      #region Private Members
+
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
@@ -117,5 +127,8 @@ namespace Cosmo.UI.Controls
          _footer = new ControlCollection();
          _buttons = null;
       }
+
+      #endregion
+
    }
 }

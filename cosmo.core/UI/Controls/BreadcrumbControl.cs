@@ -12,7 +12,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="BreadcrumbControl"/>.
+      /// Gets a new instance of <see cref="BreadcrumbControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public BreadcrumbControl(View parentView)
@@ -26,7 +26,7 @@ namespace Cosmo.UI.Controls
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece la lista de elementos de la ruta.
+      /// Gets or sets la lista de elementos de la ruta.
       /// </summary>
       public List<BreadcrumbItem> Items { get; set; }
 
@@ -51,7 +51,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

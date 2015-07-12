@@ -31,7 +31,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormField"/>.
+      /// Gets a new instance of <see cref="FormField"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       protected FormField(View parentView) : base(parentView)
@@ -40,10 +40,10 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="FormField"/>.
+      /// Gets a new instance of <see cref="FormField"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
-      /// <param name="domId">Identificador único del componente dentro de la vista.</param>
+      /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       protected FormField(View parentView, string domId)
          : base(parentView, domId)
       {
@@ -60,7 +60,7 @@ namespace Cosmo.UI.Controls
       public abstract FieldTypes FieldType { get; }
 
       /// <summary>
-      /// Devuelve o establece el valor del campo de formulario.
+      /// Gets or sets el valor del campo de formulario.
       /// </summary>
       public abstract object Value { get; set; }
 
@@ -70,7 +70,7 @@ namespace Cosmo.UI.Controls
       public bool IsValidContent { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el mensaje a mostrar cuando la validación del contenido del campo ha fallado.
+      /// Gets or sets el mensaje a mostrar cuando la validación del contenido del campo ha fallado.
       /// </summary>
       public string InvalidContentMessage { get; set; }
 
@@ -95,7 +95,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

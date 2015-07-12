@@ -7,11 +7,11 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class SidebarControl : Control
    {
-      // Internal data declarations
-      private List<SidebarButton> _buttons;
+
+      #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SidebarControl"/>.
+      /// Gets a new instance of <see cref="SidebarControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public SidebarControl(View parentView)
@@ -20,21 +20,28 @@ namespace Cosmo.UI.Controls
          Initialize();
       }
 
-      /// <summary>
-      /// Devuelve o establece el texto que se mostrará en la etiqueta (<c>badge</c>).
-      /// </summary>
-      public List<SidebarButton> Buttons
-      {
-         get { return _buttons; }
-         set { _buttons = value; }
-      }
+      #endregion
+
+      #region properties
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Gets or sets el texto que se mostrará en la etiqueta (<c>badge</c>).
+      /// </summary>
+      public List<SidebarButton> Buttons{ get; set; }
+
+      #endregion
+
+      #region Private Members
+
+      /// <summary>
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
-         _buttons = new List<SidebarButton>();
+         this.Buttons = new List<SidebarButton>();
       }
+
+      #endregion
+
    }
 }

@@ -9,7 +9,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarHeaderControl"/>.
+      /// Gets a new instance of <see cref="NavbarHeaderControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public NavbarHeaderControl(View parentView)
@@ -19,7 +19,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="NavbarHeaderControl"/>.
+      /// Gets a new instance of <see cref="NavbarHeaderControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       /// <param name="caption">Texto visible del elemento.</param>
@@ -38,23 +38,23 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el texto visible que se mostrará en el elemento.
+      /// Gets or sets el texto visible que se mostrará en el elemento.
       /// </summary>
       public string Caption { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL para el enlace del elemento.
+      /// Gets or sets la URL para el enlace del elemento.
       /// </summary>
       public string Href { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el texto que aparecerá en el botón de desplegar el menú cuando la
+      /// Gets or sets el texto que aparecerá en el botón de desplegar el menú cuando la
       /// barra esté contraida (en dispositivos de pantalla pequeña).
       /// </summary>
       public string ToggleNavigationText { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la URL correspondiente a la imagen usada como logotipo del workspace.
+      /// Gets or sets la URL correspondiente a la imagen usada como logotipo del workspace.
       /// </summary>
       public string LogoImageUrl { get; set; }
 
@@ -63,7 +63,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

@@ -24,7 +24,7 @@ namespace Cosmo.Utils
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="PluginCollection"/>.
+      /// Gets a new instance of <see cref="PluginCollection"/>.
       /// </summary>
       public PluginCollection()
       {
@@ -36,7 +36,7 @@ namespace Cosmo.Utils
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el identificador del plugin seleccionado por defecto.
+      /// Gets or sets el identificador del plugin seleccionado por defecto.
       /// </summary>
       public string DefaultPluginId
       {
@@ -154,7 +154,7 @@ namespace Cosmo.Utils
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

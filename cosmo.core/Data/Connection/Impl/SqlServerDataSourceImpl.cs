@@ -9,14 +9,14 @@ namespace Cosmo.Data.Connection.Impl
    /// </summary>
    public class SqlServerDataSourceImpl : IDataModule
    {
-      // Declaración de variables internas
+      // Internal data declarations
       private string _dsn;
       private SqlConnection _dbconn;
 
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="SqlServerDataSourceImpl"/>.
+      /// Gets a new instance of <see cref="SqlServerDataSourceImpl"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
@@ -34,22 +34,22 @@ namespace Cosmo.Data.Connection.Impl
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el nombre del servidor de base de datos.
+      /// Gets or sets el nombre del servidor de base de datos.
       /// </summary>
       public string ServerName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre de la base de datos.
+      /// Gets or sets el nombre de la base de datos.
       /// </summary>
       public string DatabaseName { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el login de la cuenta de acceso.
+      /// Gets or sets el login de la cuenta de acceso.
       /// </summary>
       public string AccountLogin { get; set; }
 
       /// <summary>
-      /// Devuelve o establece la contraseña de la cuenta de acceso.
+      /// Gets or sets la contraseña de la cuenta de acceso.
       /// </summary>
       public string AccountPassword { get; set; }
 
@@ -74,7 +74,7 @@ namespace Cosmo.Data.Connection.Impl
       #region IDataModule Implementation
 
       /// <summary>
-      /// Devuelve o establece la conexión a la base de datos.
+      /// Gets or sets la conexión a la base de datos.
       /// </summary>
       public override SqlConnection Connection
       {

@@ -55,57 +55,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classified\ClassifiedAd.cs" />
-    <Compile Include="Classified\ClassifiedAdsDAO.cs" />
-    <Compile Include="Classified\ClassifiedAdsSection.cs" />
-    <Compile Include="Classified\ClassifiedContactRequest.cs" />
+    <Compile Include="Model\Ads\Ad.cs" />
+    <Compile Include="Model\Ads\AdsDAO.cs" />
+    <Compile Include="Model\Ads\AdsSection.cs" />
+    <Compile Include="Model\Ads\AdContactRequest.cs" />
     <Compile Include="Cms.cs" />
     <Compile Include="Common\IPublishable.cs" />
     <Compile Include="Common\PublishStatus.cs" />
-    <Compile Include="Content\DocumentUI.cs" />
-    <Compile Include="Photos\PhotoUI.cs" />
-    <Compile Include="REST\CmsApi.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedContactModal.cs" />
-    <Compile Include="WebApp\Forums\ForumMessageEdit.cs" />
-    <Compile Include="WebApp\Forums\ForumThreadToggleStatusModal.cs" />
-    <Compile Include="WebApp\Forums\ForumThreadRemoveModal.cs" />
-    <Compile Include="WebApp\Forums\ForumThreadMoveModal.cs" />
-    <Compile Include="WebApp\Forums\ForumThreadsByUser.cs" />
-    <Compile Include="WebApp\Forums\ForumThreadView.cs" />
-    <Compile Include="WebApp\Forums\ForumFolder.cs" />
-    <Compile Include="Forums\ForumChannel.cs" />
-    <Compile Include="Forums\ForumMessage.cs" />
-    <Compile Include="Forums\ForumsDAO.cs" />
-    <Compile Include="Forums\ForumThread.cs" />
-    <Compile Include="WebApp\Photos\PhotosEditModal.cs" />
-    <Compile Include="WebApp\Photos\PhotosRemoveModal.cs" />
-    <Compile Include="WebApp\Photos\PhotosUpload.cs" />
+    <Compile Include="Model\Content\DocumentUI.cs" />
+    <Compile Include="Model\Photos\PhotoUI.cs" />
+    <Compile Include="Web\AdsUnpublishModal.cs" />
+    <Compile Include="Web\AdsRepublishModal.cs" />
+    <Compile Include="Web\AdsDeleteModal.cs" />
+    <Compile Include="Web\AdsManageListPartialView.cs" />
+    <Compile Include="Web\Handlers\CmsApi.cs" />
+    <Compile Include="Web\AdsContactModal.cs" />
+    <Compile Include="Web\ForumMessageEdit.cs" />
+    <Compile Include="Web\ForumThreadToggleStatusModal.cs" />
+    <Compile Include="Web\ForumThreadRemoveModal.cs" />
+    <Compile Include="Web\ForumThreadMoveModal.cs" />
+    <Compile Include="Web\ForumThreadsByUser.cs" />
+    <Compile Include="Web\ForumThreadView.cs" />
+    <Compile Include="Web\ForumFolder.cs" />
+    <Compile Include="Model\Forum\ForumChannel.cs" />
+    <Compile Include="Model\Forum\ForumMessage.cs" />
+    <Compile Include="Model\Forum\ForumsDAO.cs" />
+    <Compile Include="Model\Forum\ForumThread.cs" />
+    <Compile Include="Web\PhotosEditModal.cs" />
+    <Compile Include="Web\PhotosRemoveModal.cs" />
+    <Compile Include="Web\PhotosUpload.cs" />
     <Compile Include="NodeNotEmptyException.cs" />
     <Compile Include="TooManyUserObjectsException.cs" />
     <Compile Include="Utils\Banners\Banner.cs" />
     <Compile Include="Utils\Banners\BannerHandler.cs" />
     <Compile Include="Utils\Banners\BannerDAO.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedManage.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedByFolder.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedView.cs" />
-    <Compile Include="WebApp\Content\ContentView.cs" />
-    <Compile Include="WebApp\Classified\ClassifiedEdit.cs" />
-    <Compile Include="WebApp\Content\ContentEdit.cs" />
-    <Compile Include="WebApp\Content\ContentEditFileList.cs" />
-    <Compile Include="WebApp\Photos\PhotosBrowse.cs" />
-    <Compile Include="WebApp\Photos\PhotosByFolder.cs" />
-    <Compile Include="WebApp\Content\ContentByFolder.cs" />
-    <Compile Include="WebApp\Home.cs" />
-    <Compile Include="Content\Document.cs" />
-    <Compile Include="Content\DocumentDAO.cs" />
-    <Compile Include="Content\DocumentFolder.cs" />
-    <Compile Include="Forums\Parsers\CSForumMessageParser.cs" />
-    <Compile Include="Forums\Parsers\CSForumBBCodeParser.cs" />
-    <Compile Include="Forums\Parsers\CSForumPlainTextParser.cs" />
-    <Compile Include="Forums\Parsers\IForumParser.cs" />
-    <Compile Include="Photos\Photo.cs" />
-    <Compile Include="Photos\PhotoDAO.cs" />
-    <Compile Include="Photos\PhotoFolder.cs" />
+    <Compile Include="Web\AdsManage.cs" />
+    <Compile Include="Web\AdsByFolder.cs" />
+    <Compile Include="Web\AdsView.cs" />
+    <Compile Include="Web\ContentView.cs" />
+    <Compile Include="Web\AdsEditor.cs" />
+    <Compile Include="Web\ContentEdit.cs" />
+    <Compile Include="Web\ContentEditFileList.cs" />
+    <Compile Include="Web\PhotosBrowse.cs" />
+    <Compile Include="Web\PhotosByFolder.cs" />
+    <Compile Include="Web\ContentByFolder.cs" />
+    <Compile Include="Web\Home.cs" />
+    <Compile Include="Model\Content\Document.cs" />
+    <Compile Include="Model\Content\DocumentDAO.cs" />
+    <Compile Include="Model\Content\DocumentFolder.cs" />
+    <Compile Include="Model\Forum\Parsers\CSForumMessageParser.cs" />
+    <Compile Include="Model\Forum\Parsers\CSForumBBCodeParser.cs" />
+    <Compile Include="Model\Forum\Parsers\CSForumPlainTextParser.cs" />
+    <Compile Include="Model\Forum\Parsers\IForumParser.cs" />
+    <Compile Include="Model\Photos\Photo.cs" />
+    <Compile Include="Model\Photos\PhotoDAO.cs" />
+    <Compile Include="Model\Photos\PhotoFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Rss\RssHandler.cs" />
   </ItemGroup>
@@ -115,9 +119,7 @@
       <Name>Cosmo.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classified\Model\_obsolete\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

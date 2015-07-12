@@ -24,7 +24,7 @@
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ViewResource"/>.
+      /// Gets a new instance of <see cref="ViewResource"/>.
       /// </summary>
       public ViewResource()
       {
@@ -32,7 +32,7 @@
       }
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ViewResource"/>.
+      /// Gets a new instance of <see cref="ViewResource"/>.
       /// </summary>
       /// <param name="type">Tipo de recurso.</param>
       /// <param name="filePath">Ruta al recurso.</param>
@@ -49,12 +49,12 @@
       #region Properties
 
       /// <summary>
-      /// Devuelve o establece el tipo de recurso.
+      /// Gets or sets el tipo de recurso.
       /// </summary>
       public ResourceType Type { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el nombre del archivo (y la ruta de acceso).
+      /// Gets or sets el nombre del archivo (y la ruta de acceso).
       /// </summary>
       public string FilePath { get; set; }
 
@@ -63,7 +63,7 @@
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {

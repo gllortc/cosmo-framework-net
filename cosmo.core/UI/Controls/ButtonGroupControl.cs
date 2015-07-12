@@ -12,7 +12,7 @@ namespace Cosmo.UI.Controls
       #region Constructors
 
       /// <summary>
-      /// Devuelve una instancia de <see cref="ButtonGroupControl"/>.
+      /// Gets a new instance of <see cref="ButtonGroupControl"/>.
       /// </summary>
       /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
       public ButtonGroupControl(View parentView)
@@ -31,7 +31,7 @@ namespace Cosmo.UI.Controls
       public bool Vertical { get; set; }
 
       /// <summary>
-      /// Devuelve o establece el tamaño que deben tener los botones de la barra.
+      /// Gets or sets el tamaño que deben tener los botones de la barra.
       /// </summary>
       public ButtonControl.ButtonSizes Size { get; set; }
 
@@ -45,7 +45,7 @@ namespace Cosmo.UI.Controls
       #region Private Members
 
       /// <summary>
-      /// Inicializa la instancia.
+      /// Initializes the instance data.
       /// </summary>
       private void Initialize()
       {
