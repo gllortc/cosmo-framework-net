@@ -1914,12 +1914,12 @@
             Initializes the instance data.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Title">
+        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Text">
             <summary>
             Gets or sets el título de la página.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.SubTitle">
+        <member name="P:Cosmo.UI.Controls.DocumentHeaderControl.Description">
             <summary>
             Gets or sets el subtítulo de la página.
             </summary>

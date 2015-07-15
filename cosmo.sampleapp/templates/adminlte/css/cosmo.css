@@ -1,4 +1,9 @@
-﻿
+﻿/* GENERAL */
+
+.page-header {
+   margin-top: 40px;
+}
+
 /* FORMS */
 
 .form-control-image {

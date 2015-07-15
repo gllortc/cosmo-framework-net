@@ -72,8 +72,8 @@ namespace Cosmo.Cms.Web
 
          // Cabecera del cocumento
          DocumentHeaderControl docHead = new DocumentHeaderControl(this);
-         docHead.Title = doc.Title;
-         docHead.SubTitle = doc.Description;
+         docHead.Text = doc.Title;
+         docHead.Description = doc.Description;
 
          // Content
          HtmlContentControl html = new HtmlContentControl(this, doc.Content);

@@ -940,8 +940,8 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<h4 class=\"page-header\">");
-         xhtml.AppendLine(HttpUtility.HtmlDecode(control.Title));
-         xhtml.AppendLine("<small>" + HttpUtility.HtmlDecode(control.SubTitle) + "</small>");
+         xhtml.AppendLine(HttpUtility.HtmlDecode(control.Text));
+         xhtml.AppendLine("<small>" + HttpUtility.HtmlDecode(control.Description) + "</small>");
          xhtml.AppendLine("</h4>");
 
          return xhtml.ToString();

@@ -26,12 +26,12 @@
       /// <summary>
       /// Gets or sets el título de la página.
       /// </summary>
-      public string Title { get; set; }
+      public string Text { get; set; }
 
       /// <summary>
       /// Gets or sets el subtítulo de la página.
       /// </summary>
-      public string SubTitle { get; set; }
+      public string Description { get; set; }
 
       /// <summary>
       /// Gets or sets el código del icono que acompaña el título.
@@ -47,8 +47,8 @@
       /// </summary>
       private void Initialize()
       {
-         this.Title = string.Empty;
-         this.SubTitle = string.Empty;
+         this.Text = string.Empty;
+         this.Description = string.Empty;
          this.Icon = string.Empty;
       }
 

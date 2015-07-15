@@ -15,20 +15,17 @@ namespace Cosmo.Cms.Web
       // Declaración de nombres de parámetros
       private const string FIELD_TITLE = "tit";
       private const string FIELD_CONTENT = "con";
-      private const string FIELD_THUMBNAIL = "thb";
-      private const string FIELD_ATTACHMENT = "att";
+      private const string FIELD_PRICE = "pr";
       private const string FIELD_SECTION = "section";
       private const string FIELD_STATUS = "sta";
-      private const string FIELD_HIGHLIGHT = "hgl";
+      private const string FIELD_CONTACT_PHONE = "cp";
+      private const string FIELD_CONTACT_MAIL = "cm";
 
       #region PageView Implementation
 
       public override void InitPage()
       {
          Ad ad = null;
-
-         // Agrega los recursos necesarios para representar la página actual
-         Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
 
          //-------------------------------
          // Obtención de parámetros
@@ -55,6 +52,8 @@ namespace Cosmo.Cms.Web
             // New classified ad
             ad = new Ad();
             ad.FolderID = sectionId;
+            ad.Mail = Workspace.CurrentUser.User.MailAlternative;
+            ad.Phone = Workspace.CurrentUser.User.Phone;
          }
 
          //-------------------------------
@@ -97,11 +96,12 @@ namespace Cosmo.Cms.Web
          txtBody.Required = true;
          form.Content.Add(txtBody);
 
-         FormFieldText txtPrice = new FormFieldText(this, "txtPrice");
+         FormFieldText txtPrice = new FormFieldText(this, FIELD_PRICE);
          txtPrice.Label = "Precio (€)";
          txtPrice.Value = ad.Price;
          txtPrice.Type = FormFieldText.FieldDataType.Number;
          txtPrice.Required = false;
+         txtPrice.Description = "Si no desea especificar precio, deje este campo a 0.";
          form.Content.Add(txtPrice);
 
          FormFieldList lstFolder = new FormFieldList(this, Cosmo.Workspace.PARAM_FOLDER_ID, "Categoria", FormFieldList.ListType.Single, ad.FolderID.ToString());
@@ -113,6 +113,36 @@ namespace Cosmo.Cms.Web
          lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", (int)CmsPublishStatus.PublishStatus.Unpublished));
          lstStatus.Values.Add(new KeyValue("Publicado", (int)CmsPublishStatus.PublishStatus.Published));
          form.Content.Add(lstStatus);
+
+         CalloutControl callout = new CalloutControl(this);
+         callout.Type = ComponentColorScheme.Information;
+         callout.Title = "Formulario de contacto";
+         callout.Text = @"Las personas interesadas en este anuncio pueden contactar con usted mediante el formulario 
+                          de contacto. El siguiente campo muestra la cuenta (" + HtmlContentControl.BoldText("oculto a cualquier persona") + @") 
+                          a la que recibirá las peticiones de contacto. Este dato no puede ser visto por ninguna persona." +
+                          HtmlContentControl.HTML_NEW_LINE + HtmlContentControl.HTML_NEW_LINE +
+                          "Mail de contacto: " + HtmlContentControl.BoldText(Workspace.CurrentUser.User.Mail);
+         form.Content.Add(callout);
+
+         DocumentHeaderControl contactSection = new DocumentHeaderControl(this);
+         contactSection.Text = "Datos de contacto opcionales";
+         contactSection.Description = @"Si usted lo desea puede agregar al anuncio una cuenta de correo y/o un teléfono de contacto " +
+                                        HtmlContentControl.BoldText("que se mostrarán de forma pública") + ".";
+         form.Content.Add(contactSection);
+
+         FormFieldText txtContactPhone = new FormFieldText(this, FIELD_CONTACT_PHONE);
+         txtContactPhone.Label = "Teléfono de contacto";
+         txtContactPhone.Value = ad.Phone;
+         txtContactPhone.Required = true;
+         txtContactPhone.Type = FormFieldText.FieldDataType.Phone;
+         form.Content.Add(txtContactPhone);
+
+         FormFieldText txtContactMail = new FormFieldText(this, FIELD_CONTACT_MAIL);
+         txtContactMail.Label = "Correo de contacto";
+         txtContactMail.Value = ad.Mail;
+         txtContactMail.Required = true;
+         txtContactMail.Type = FormFieldText.FieldDataType.Email;
+         form.Content.Add(txtContactMail);
 
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", AdsView.GetURL(ad.ID), string.Empty));
@@ -133,12 +163,15 @@ namespace Cosmo.Cms.Web
          // Obtiene los datos del formulario
          clsAd.ID = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
          clsAd.FolderID = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
-         clsAd.Title = Parameters.GetString(FIELD_TITLE);
-         clsAd.Body = Parameters.GetString(FIELD_CONTENT);
-         clsAd.Price = Parameters.GetInteger("txtPrice");
-         clsAd.Status = CmsPublishStatus.ToPublishStatus(Parameters.GetInteger(FIELD_STATUS));
          clsAd.UserID = Workspace.CurrentUser.User.ID;
          clsAd.UserLogin = Workspace.CurrentUser.User.Login;
+
+         clsAd.Title = Parameters.GetString(FIELD_TITLE);
+         clsAd.Body = Parameters.GetString(FIELD_CONTENT);
+         clsAd.Price = Parameters.GetInteger(FIELD_PRICE);
+         clsAd.Status = CmsPublishStatus.ToPublishStatus(Parameters.GetInteger(FIELD_STATUS));
+         clsAd.Phone = Parameters.GetString(FIELD_CONTACT_PHONE);
+         clsAd.Mail = Parameters.GetString(FIELD_CONTACT_MAIL);
 
          // Realiza las operaciones de persistencia
          AdsDAO ads = new AdsDAO(Workspace);
