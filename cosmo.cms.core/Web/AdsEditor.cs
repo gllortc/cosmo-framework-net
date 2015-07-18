@@ -32,7 +32,7 @@ namespace Cosmo.Cms.Web
          //-------------------------------
 
          // Obtiene los parámetros de llamada
-         int docId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+         int adId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
          int sectionId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
 
          //-------------------------------
@@ -42,10 +42,10 @@ namespace Cosmo.Cms.Web
          // Inicializaciones
          AdsDAO adsDao = new AdsDAO(Workspace);
 
-         if (docId > 0)
+         if (adId > 0)
          {
             // Classified ad edition
-            ad = adsDao.Item(docId);
+            ad = adsDao.Item(adId);
          }
          else
          {

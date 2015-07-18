@@ -129,7 +129,7 @@ namespace Cosmo.Cms.Web
                tbrAd = new ButtonGroupControl(this);
                tbrAd.Size = ButtonControl.ButtonSizes.ExtraSmall;
 
-               tbrAd.Buttons.Add(new ButtonControl(this, "cmdEdit" + ad.ID, "Editar", IconControl.ICON_EDIT, AdsEditor.GetURL(ad.ID), string.Empty));
+               tbrAd.Buttons.Add(new ButtonControl(this, "cmdEdit" + ad.ID, "Editar", IconControl.ICON_EDIT, AdsEditor.GetURL(ad.FolderID, ad.ID), string.Empty));
 
                if (!ad.IsPublished)
                {

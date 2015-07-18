@@ -95,9 +95,7 @@ namespace Cosmo.Cms.Web
             panel.Content.Add(table);
 
             panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnAddClassified", "Añadir anuncio", "fa-plus", AdsEditor.GetURL(folderid), string.Empty));
-
-            url = new Url("ClassifiedManage");
-            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnManageAds", "Mis anuncios", "fa-bookmark", url.ToString(true), string.Empty));
+            panel.ButtonBar.Buttons.Add(new ButtonControl(this, "btnManageAds", "Mis anuncios", "fa-bookmark", AdsManage.GetURL(), string.Empty));
 
             MainContent.Add(panel);
          }

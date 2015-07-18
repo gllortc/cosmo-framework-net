@@ -49,10 +49,13 @@ namespace Cosmo.Cms.Model.Ads
       private const string CONF_ADS_CONTACTMAIL_SUBJECT = "cs.ads.contactmail.subject";
       private const string CONF_ADS_CONTACTMAIL_BODY = "cs.ads.contactmail.body";
 
-      // Fragmentos SQL reaprovechables
-      private const string SQL_OBJECTS_TABLE_NAME = "announces";
-      private const string SQL_OBJECTS_FIELDS = "annid,annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,annurl,anndeleted,annowner,annprice,DateDiff(dd, anndate, GetDate())";
-      private const string SQL_FOLDERS_TABLE_NAME = "annfolders";
+      // SQL definitions
+      private const string SQL_OBJ_TABLE_NAME = "announces";
+      private const string SQL_OBJ_FIELDS_SELECT = "annid,annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,annurl,anndeleted,annowner,annprice,DateDiff(dd, anndate, GetDate())";
+      private const string SQL_OBJ_FIELDS_INSERT = "annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,annurl,anndeleted,annowner,annprice";
+      private const string SQL_CAT_TABLE_NAME = "annfolders";
+      private const string SQL_CAT_FIELDS_SELECT = "ANNFLDRID, ANNFLDRNAME, ANNFLDRDESC, ANNFLDRENABLED, ANNFLDRLSTDEFAULT, ANNFLDRNOTSELECTABLE";
+      private const string SQL_CAT_FIELDS_INSERT = "ANNFLDRNAME, ANNFLDRDESC, ANNFLDRENABLED, ANNFLDRLSTDEFAULT, ANNFLDRNOTSELECTABLE";
 
       #endregion
 
@@ -69,7 +72,7 @@ namespace Cosmo.Cms.Model.Ads
 
       #endregion
 
-      #region Settings
+      #region Properties
 
       /// <summary>
       /// Dias de validez de un anuncio publicado
@@ -77,7 +80,7 @@ namespace Cosmo.Cms.Model.Ads
       /// <remarks>Corresponde a la entrada cs.ads.validitymonths del archivo de configuración.</remarks>
       public int ValidityDays
       {
-         get { return _ws.Settings.GetInt(CONF_ADS_VALIDITYDAYS); }
+         get { return _ws.Settings.GetInt(CONF_ADS_VALIDITYDAYS, 30); }
       }
 
       /// <summary>
@@ -115,8 +118,8 @@ namespace Cosmo.Cms.Model.Ads
             //sql = "INSERT INTO " + SQL_OBJECTS_TABLE_NAME + " (annuserid,anndate,annfolderid,anntitle,annbody,annprice,annname,annphone,annemail,annurl,anndeleted,annowner) " +
             //      "VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annprice,@annname,@annphone,@annemail,@annurl,0,'" + SecurityService.ACCOUNT_SUPER + "')";
 
-            sql = @"INSERT INTO announces (annuserid,anndate,annfolderid,anntitle,annbody,annname,annphone,annemail,annprice,annurl,anndeleted,annowner) 
-                    VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annname,@annphone,@annemail,@annprice,@annurl,0,'" + Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER + "')";
+            sql = @"INSERT INTO " + SQL_OBJ_TABLE_NAME + @" (" + SQL_OBJ_FIELDS_INSERT + @") 
+                    VALUES (@annuserid,getdate(),@annfolderid,@anntitle,@annbody,@annname,@annphone,@annemail,@annurl,0,@annowner,@annprice)";
 
             _ws.DataSource.Connect();
 
@@ -138,10 +141,6 @@ namespace Cosmo.Cms.Model.Ads
             param.Value = ad.Body;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annprice", SqlDbType.Money);
-            param.Value = ad.Price;
-            cmd.Parameters.Add(param);
-
             param = new SqlParameter("@annname", SqlDbType.NVarChar, 64);
             param.Value = ad.UserLogin;
             cmd.Parameters.Add(param);
@@ -158,11 +157,19 @@ namespace Cosmo.Cms.Model.Ads
             param.Value = ad.URL;
             cmd.Parameters.Add(param);
 
+            param = new SqlParameter("@annowner", SqlDbType.NVarChar, 64);
+            param.Value = string.IsNullOrWhiteSpace(ad.Owner) ? Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER : ad.Owner;
+            cmd.Parameters.Add(param);
+
+            param = new SqlParameter("@annprice", SqlDbType.Money);
+            param.Value = ad.Price;
+            cmd.Parameters.Add(param);
+
             cmd.ExecuteNonQuery();
 
             // Gets the new database ID
             sql = @"SELECT Max(annid)
-                    FROM   " + SQL_OBJECTS_TABLE_NAME;
+                    FROM   " + SQL_OBJ_TABLE_NAME;
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
 
@@ -195,17 +202,17 @@ namespace Cosmo.Cms.Model.Ads
 
          try
          {
-            sql = "UPDATE " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "SET anndate     = @anndate, " +
-                  "    annfolderid = @annfolderid," +
-                  "    anntitle    = @anntitle," +
-                  "    annbody     = @annbody," +
-                  "    annprice    = @annprice," +
-                  "    annphone    = @annphone," +
-                  "    annemail    = @annemail," +
-                  "    annurl      = @annurl, " +
-                  "    anndeleted  = @anndeleted " +
-                  "WHERE annid = @annid";
+            sql = @"UPDATE " + SQL_OBJ_TABLE_NAME + @" 
+                    SET    anndate     = @anndate, 
+                           annfolderid = @annfolderid,
+                           anntitle    = @anntitle,
+                           annbody     = @annbody,
+                           annprice    = @annprice,
+                           annphone    = @annphone,
+                           annemail    = @annemail,
+                           annurl      = @annurl, 
+                           anndeleted  = @anndeleted 
+                    WHERE  annid = @annid";
 
             _ws.DataSource.Connect();
 
@@ -252,14 +259,15 @@ namespace Cosmo.Cms.Model.Ads
          {
             if (!deleteRow)
             {
-               sql = "UPDATE " + SQL_OBJECTS_TABLE_NAME + " " +
-                     "SET anndeleted=1 " +
-                     "WHERE annid=@annid";
+               sql = @"UPDATE " + SQL_OBJ_TABLE_NAME + @" 
+                       SET    anndeleted = 1 
+                       WHERE  annid = @annid";
             }
             else
             {
-               sql = "DELETE FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                     "WHERE annid=@annid";
+               sql = @"DELETE 
+                       FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                       WHERE  annid = @annid";
             }
 
             _ws.DataSource.Connect();
@@ -299,19 +307,21 @@ namespace Cosmo.Cms.Model.Ads
 
             if (ad.Deleted)
             {
-               sql = "DELETE FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                     "WHERE annid=@annid";
+               sql = @"DELETE 
+                       FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                       WHERE  annid = @annid";
             }
             else if (Cosmo.Utils.Calendar.DateDiff(Cosmo.Utils.Calendar.DateInterval.Day, ad.Created, DateTime.Now) > this.ValidityDays)
             {
-               sql = "DELETE FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                     "WHERE annid=@annid";
+               sql = @"DELETE 
+                       FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                       WHERE  annid = @annid";
             }
             else
             {
-               sql = "UPDATE " + SQL_OBJECTS_TABLE_NAME + " " +
-                     "SET anndeleted=1 " +
-                     "WHERE annid=@annid";
+               sql = @"UPDATE " + SQL_OBJ_TABLE_NAME + @" 
+                       SET    anndeleted = 1 
+                       WHERE  annid = @annid";
             }
 
             _ws.DataSource.Connect();
@@ -349,8 +359,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "DELETE FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "WHERE annuserid=@annuserid";
+            sql = @"DELETE 
+                    FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                    WHERE  annuserid = @annuserid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annuserid", uid));
@@ -386,9 +397,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_OBJECTS_FIELDS + " " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "WHERE annid=@annid";
+            sql = @"SELECT " + SQL_OBJ_FIELDS_SELECT + @" 
+                    FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                    WHERE  annid = @annid";
 
             // Obtiene las carpetas
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
@@ -398,7 +409,7 @@ namespace Cosmo.Cms.Model.Ads
             {
                if (reader.Read())
                {
-                  ad = ReadClassifiedAd(reader);
+                  ad = ReadObjectRecord(reader);
                }
             }
 
@@ -432,8 +443,8 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT Count(*) As regs " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME;
+            sql = @"SELECT Count(*) As regs 
+                    FROM   " + SQL_OBJ_TABLE_NAME;
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             return (int)cmd.ExecuteScalar();
@@ -468,8 +479,8 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_OBJECTS_FIELDS + " " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_OBJ_FIELDS_SELECT + " " +
+                  "FROM " + SQL_OBJ_TABLE_NAME + " " +
                   (enabled ? "WHERE anndeleted=0 AND DateDiff(mm, anndate, GetDate())<=@months" : string.Empty) +
                   "ORDER BY annid Desc";
 
@@ -480,7 +491,7 @@ namespace Cosmo.Cms.Model.Ads
             {
                while (reader.Read())
                {
-                  ads.Add(ReadClassifiedAd(reader));
+                  ads.Add(ReadObjectRecord(reader));
                }
             }
 
@@ -517,8 +528,8 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_OBJECTS_FIELDS + " " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_OBJ_FIELDS_SELECT + " " +
+                  "FROM " + SQL_OBJ_TABLE_NAME + " " +
                   "WHERE annfolderid=@annfolderid And " +
                   (enabled ? "(anndeleted=0 AND DateDiff(dd, anndate, GetDate())<=@days)" : "(anndeleted=1 Or DateDiff(dd, anndate, GetDate())>@days)") + " " +
                   "ORDER BY anndate Desc";
@@ -531,7 +542,7 @@ namespace Cosmo.Cms.Model.Ads
             {
                while (reader.Read())
                {
-                  ads.Add(ReadClassifiedAd(reader));
+                  ads.Add(ReadObjectRecord(reader));
                }
             }
 
@@ -568,8 +579,8 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_OBJECTS_FIELDS + " " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_OBJ_FIELDS_SELECT + " " +
+                  "FROM " + SQL_OBJ_TABLE_NAME + " " +
                   "WHERE annuserid=@annuserid " +
                   (enabled ? " And (DateDiff(dd, anndate, GetDate())<=@days AND anndeleted=0)" : string.Empty) + " " + // "(DateDiff(dd, anndate, GetDate())>@days OR anndeleted=1)") + " " +
                   "ORDER BY annid Desc";
@@ -582,7 +593,7 @@ namespace Cosmo.Cms.Model.Ads
             {
                while (reader.Read())
                {
-                  ads.Add(ReadClassifiedAd(reader));
+                  ads.Add(ReadObjectRecord(reader));
                }
             }
 
@@ -617,10 +628,10 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "UPDATE " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "SET anndeleted = 0, " +
-                      "anndate = GetDate() " +
-                  "WHERE annid=@annid";
+            sql = @"UPDATE " + SQL_OBJ_TABLE_NAME + @" 
+                    SET    anndeleted = 0, 
+                           anndate = GetDate() 
+                    WHERE  annid = @annid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annid", adId));
@@ -656,9 +667,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT annfldrid,annfldrname,annfldrdesc,annfldrenabled,annfldrlstdefault,annfldrnotselectable," +
-                         "(SELECT Count(*) AS nregs FROM " + SQL_OBJECTS_TABLE_NAME + " WHERE annfolderid=" + SQL_FOLDERS_TABLE_NAME + ".annfldrid And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days) As objects " +
-                  "FROM " + SQL_FOLDERS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_CAT_FIELDS_SELECT + "," +
+                         "(SELECT Count(*) AS nregs FROM " + SQL_OBJ_TABLE_NAME + " WHERE annfolderid=" + SQL_CAT_TABLE_NAME + ".annfldrid And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days) As objects " +
+                  "FROM " + SQL_CAT_TABLE_NAME + " " +
                   "WHERE annfldrid=@annfldrid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
@@ -669,13 +680,9 @@ namespace Cosmo.Cms.Model.Ads
             {
                if (reader.Read())
                {
-                  folder = new AdsSection();
-                  folder.ID = folderId;
-                  folder.Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
-                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-                  folder.IsListDefault = reader.GetBoolean(4);
-                  folder.IsNotSelectable = reader.GetBoolean(5);
-                  folder.Enabled = reader.GetBoolean(3);
+                  folder = ReadSectionRecord(reader);
+
+                  // Add information related to additional fields
                   folder.Objects = reader.GetInt32(6);
                }
             }
@@ -713,9 +720,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT annfldrid,annfldrname,annfldrdesc,annfldrenabled,annfldrlstdefault,annfldrnotselectable, " +
-                         "(SELECT Count(*) FROM " + SQL_OBJECTS_TABLE_NAME + " WHERE annfolderid=" + SQL_FOLDERS_TABLE_NAME + ".annfldrid " + (published ? " And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days" : string.Empty) + ") " +
-                  "FROM " + SQL_FOLDERS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_CAT_FIELDS_SELECT + ", " +
+                         "(SELECT Count(*) FROM " + SQL_OBJ_TABLE_NAME + " WHERE annfolderid=" + SQL_CAT_TABLE_NAME + ".annfldrid " + (published ? " And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days" : string.Empty) + ") " +
+                  "FROM " + SQL_CAT_TABLE_NAME + " " +
                   "WHERE annfldrenabled=@annfldrenabled " +
                   "ORDER BY annfldrname ASC";
 
@@ -727,14 +734,11 @@ namespace Cosmo.Cms.Model.Ads
             {
                while (reader.Read())
                {
-                  folder = new AdsSection();
-                  folder.ID = reader.GetInt32(0);
-                  folder.Name = reader.GetString(1);
-                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-                  folder.IsListDefault = reader.GetBoolean(4);
-                  folder.IsNotSelectable = reader.GetBoolean(5);
-                  folder.Enabled = reader.GetBoolean(3);
+                  folder = ReadSectionRecord(reader);
+
+                  // Add information related to additional fields
                   folder.Objects = reader.GetInt32(6);
+
                   folders.Add(folder);
                }
             }
@@ -771,9 +775,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT annfldrid,annfldrname,annfldrdesc,annfldrenabled,annfldrlstdefault,annfldrnotselectable, " +
-                         "(SELECT Count(*) FROM " + SQL_OBJECTS_TABLE_NAME + " WHERE annfolderid=" + SQL_FOLDERS_TABLE_NAME + ".annfldrid) As objects " +
-                  "FROM " + SQL_FOLDERS_TABLE_NAME + " " +
+            sql = "SELECT " + SQL_CAT_FIELDS_SELECT + ", " +
+                          "(SELECT Count(*) FROM " + SQL_OBJ_TABLE_NAME + " WHERE annfolderid=" + SQL_CAT_TABLE_NAME + ".annfldrid) As objects " +
+                  "FROM " + SQL_CAT_TABLE_NAME + " " +
                   "ORDER BY annfldrname ASC";
 
             // Recupera las carpetas
@@ -783,13 +787,9 @@ namespace Cosmo.Cms.Model.Ads
             {
                while (reader.Read())
                {
-                  folder = new AdsSection();
-                  folder.ID = reader.GetInt32(0);
-                  folder.Name = reader.GetString(1);
-                  folder.Description = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
-                  folder.IsListDefault = reader.GetBoolean(4);
-                  folder.IsNotSelectable = reader.GetBoolean(5);
-                  folder.Enabled = reader.GetBoolean(3);
+                  folder = ReadSectionRecord(reader);
+
+                  // Add information related to additional fields
                   folder.Objects = reader.GetInt32(6);
 
                   folders.Add(folder);
@@ -827,10 +827,11 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT annfldrid, annfldrname " +
-                  "FROM " + SQL_FOLDERS_TABLE_NAME + " " +
-                  "WHERE annfldrenabled=1 AND annfldrnotselectable=0 " +
-                  "ORDER BY annfldrname ASC";
+            sql = @"SELECT    annfldrid, annfldrname 
+                    FROM      " + SQL_CAT_TABLE_NAME + @" 
+                    WHERE     annfldrenabled = 1 And 
+                              annfldrnotselectable = 0 
+                    ORDER BY  annfldrname ASC";
 
             // Rellena el control
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
@@ -886,10 +887,10 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "WHERE annfolderid=@annfolderid " +
-                  (enabled ? " And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days" : string.Empty);
+            sql = @"SELECT Count(*) AS nregs 
+                    FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                    WHERE  annfolderid = @annfolderid " +
+                    (enabled ? " And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days" : string.Empty);
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
@@ -925,9 +926,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT Count(*) " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "WHERE annuserid=@annuserid";
+            sql = @"SELECT Count(*) 
+                    FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                    WHERE  annuserid = @annuserid";
 
             // Rellena las entradas de noticias al canal
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
@@ -1029,7 +1030,7 @@ namespace Cosmo.Cms.Model.Ads
 
          try
          {
-            string sql = "INSERT INTO " + SQL_FOLDERS_TABLE_NAME + " (annfldrname,annfldrdesc,annfldrenabled,annfldrlstdefault,annfldrnotselectable) " +
+            string sql = "INSERT INTO " + SQL_CAT_TABLE_NAME + " (" + SQL_CAT_FIELDS_INSERT + ") " +
                          "VALUES (@annfldrname,@annfldrdesc,@annfldrenabled,@annfldrlstdefault,@annfldrnotselectable)";
 
             _ws.DataSource.Connect();
@@ -1079,17 +1080,18 @@ namespace Cosmo.Cms.Model.Ads
       /// <param name="ad">Una instáncia de <see cref="AdsSection"/> que contanga los datos actualizados.</param>
       public void UpdateSection(AdsSection section)
       {
+         string sql = string.Empty;
          SqlCommand cmd = null;
 
          try
          {
-            string sql = "UPDATE " + SQL_FOLDERS_TABLE_NAME + " " +
-                         "SET annfldrname         =@annfldrname, " +
-                             "annfldrdesc         =@annfldrdesc," +
-                             "annfldrenabled      =@annfldrenabled," +
-                             "annfldrlstdefault   =@annfldrlstdefault," +
-                             "annfldrnotselectable=@annfldrnotselectable " +
-                         "WHERE annfldrid=@annfldrid";
+            sql = @"UPDATE " + SQL_CAT_TABLE_NAME + @" 
+                    SET    annfldrname          = @annfldrname, 
+                           annfldrdesc          = @annfldrdesc,
+                           annfldrenabled       = @annfldrenabled,
+                           annfldrlstdefault    = @annfldrlstdefault,
+                           annfldrnotselectable = @annfldrnotselectable 
+                    WHERE  annfldrid = @annfldrid";
 
             _ws.DataSource.Connect();
 
@@ -1130,9 +1132,9 @@ namespace Cosmo.Cms.Model.Ads
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT Count(*) As regs " +
-                  "FROM " + SQL_OBJECTS_TABLE_NAME + " " +
-                  "WHERE annfolderid=@annfolderid";
+            sql = @"SELECT Count(*) As regs 
+                    FROM   " + SQL_OBJ_TABLE_NAME + @" 
+                    WHERE  annfolderid = @annfolderid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfolderid", sectionId));
@@ -1141,8 +1143,9 @@ namespace Cosmo.Cms.Model.Ads
                throw new NodeNotEmptyException("La sección #" + sectionId + " no se puede eliminar: contiene objetos asociados.");
             }
 
-            sql = "DELETE FROM " + SQL_FOLDERS_TABLE_NAME + " " +
-                  "WHERE annfldrid=@annfldrid";
+            sql = @"DELETE 
+                    FROM   " + SQL_CAT_TABLE_NAME + @" 
+                    WHERE  annfldrid = @annfldrid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@annfldrid", sectionId));
@@ -1168,9 +1171,9 @@ namespace Cosmo.Cms.Model.Ads
       #region Private Members
 
       /// <summary>
-      /// Lee un anuncio classificado de la posición actual del cursor en la base de datos.
+      /// Reads an ad from current database record.
       /// </summary>
-      private Ad ReadClassifiedAd(SqlDataReader reader)
+      private Ad ReadObjectRecord(SqlDataReader reader)
       {
          Ad ad = new Ad();
          ad.ID = reader.GetInt32(0);
@@ -1187,6 +1190,25 @@ namespace Cosmo.Cms.Model.Ads
          ad.Owner = reader.IsDBNull(11) ? SecurityService.ACCOUNT_SUPER : reader.GetString(11); // Usuario de Cosmo
          ad.Price = reader.GetDecimal(12);
          ad.PublishedDays = reader.GetInt32(13);
+
+         return ad;
+      }
+
+      /// <summary>
+      /// Reads a section data from current database record.
+      /// </summary>
+      private AdsSection ReadSectionRecord(SqlDataReader reader)
+      {
+         // ANNFLDRID, ANNFLDRNAME, ANNFLDRDESC, ANNFLDRENABLED, ANNFLDRLSTDEFAULT, ANNFLDRNOTSELECTABLE
+
+
+         AdsSection ad = new AdsSection();
+         ad.ID = reader.GetInt32(0);
+         ad.Name = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+         ad.Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
+         ad.Enabled = reader.GetBoolean(3);
+         ad.IsListDefault = reader.GetBoolean(4);
+         ad.IsNotSelectable = reader.GetBoolean(5);
 
          return ad;
       }
