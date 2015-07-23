@@ -94,7 +94,7 @@ namespace Cosmo.Cms.Web
          html.AppendParagraph("Puede gestionar en esta página sus anuncios clasificados. Puede crear nuevos anuncios, editar los anuncios, republicar los anuncios caducados o eliminar anuncios obsoletos.");
 
          PanelControl panel = new PanelControl(this);
-         panel.Caption = "Mis anuncios clasificados";
+         panel.Text = "Mis anuncios clasificados";
          panel.CaptionIcon = IconControl.ICON_BOOKMARK;
          panel.Content.Add(html);
 

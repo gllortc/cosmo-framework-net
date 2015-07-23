@@ -85,7 +85,7 @@ namespace Cosmo.Cms.Web
 
             PanelControl panel = new PanelControl(this);
             panel.CaptionIcon = IconControl.ICON_USER;
-            panel.Caption = "Mis hilos";
+            panel.Text = "Mis hilos";
             panel.Content.Add(html);
             panel.Content.Add(table);
             panel.Footer.Add(pages);

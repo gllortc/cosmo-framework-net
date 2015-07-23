@@ -185,7 +185,7 @@ namespace Cosmo.Cms.Web
          myBtn.Href = PhotosByFolder.GetPhotosByUserUrl();
 
          PanelControl toolsPanel = new PanelControl(this);
-         toolsPanel.Caption = "Menú Fotos";
+         toolsPanel.Text = "Menú Fotos";
          toolsPanel.Content.Add(navBtn);
          toolsPanel.Content.Add(recentBtn);
          toolsPanel.Content.Add(myBtn);
@@ -209,7 +209,7 @@ namespace Cosmo.Cms.Web
             addBtn.Href = PhotosUpload.GetPhotosUploadURL(folderid);
 
             PanelControl panel = new PanelControl(this);
-            panel.Caption = "Enviar imágenes";
+            panel.Text = "Enviar imágenes";
             panel.Content.Add(content);
             panel.Content.Add(addBtn);
 

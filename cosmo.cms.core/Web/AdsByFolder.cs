@@ -89,7 +89,7 @@ namespace Cosmo.Cms.Web
             html.AppendParagraph(folder.Description);
 
             PanelControl panel = new PanelControl(this);
-            panel.Caption = folder.Name;
+            panel.Text = folder.Name;
             panel.CaptionIcon = IconControl.ICON_FOLDER_OPEN;
             panel.Content.Add(html);
             panel.Content.Add(table);

@@ -1590,6 +1590,11 @@
             Gets the current workspace.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Controls.PartialViewContainerControl">
+            <summary>
+            Implements a control that can show a partial view.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Controls.Control">
             <summary>
             Clase abstracta que deben implementar todos los componentes de Bootstrap.
@@ -1658,6 +1663,15 @@
             </summary>
             <param name="parentView">Página o contenedor dónde se representará el control.</param>
             <param name="view">An instance of partial view which will be shown in this control.</param>
+        </member>
+        <member name="M:Cosmo.UI.Controls.PartialViewContainerControl.#ctor(Cosmo.UI.View,Cosmo.UI.PartialView,Cosmo.UI.Scripting.Script.ScriptExecutionMethod,System.Object[])">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/>.
+            </summary>
+            <param name="parentView">Página o contenedor dónde se representará el control.</param>
+            <param name="view">An instance of partial view which will be shown in this control.</param>
+            <param name="executionType">Type of script execution.</param>
+            <param name="parameters">Partial view parameters.</param>
         </member>
         <member name="P:Cosmo.UI.Controls.PartialViewContainerControl.View">
             <summary>
@@ -5611,6 +5625,58 @@
             <param name="userId">User identifier.</param>
             <returns>A string containing the requested URL.</returns>
         </member>
+        <member name="T:Cosmo.Web.PrivateMessagesPartialView">
+            <summary>
+            Implements a view of message thread with current user and another user.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessagesPartialView.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.PrivateMessagesPartialView"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessagesPartialView.#ctor(System.Int32)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.PrivateMessagesPartialView"/>.
+            </summary>
+            <param name="remoteUserID">Remote user ID</param>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessagesPartialView.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessagesPartialView.GetURL(System.Int32)">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <param name="userId">User identifier.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="P:Cosmo.Web.PrivateMessagesPartialView.RemoteUserID">
+            <summary>
+            Gets or sets the remote user ID.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Web.PrivateMessages">
+            <summary>
+            Implements a manager class for private messages.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessages.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.Web.PrivateMessages.GetURL(System.Int32)">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <param name="userId">User identifier.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
         <member name="T:Cosmo.Web.UploadFilesModal">
             <summary>
             Implementa un formulario modal para subir archivos al servidor.
@@ -7478,7 +7544,7 @@
             Initializes the instance data.
             </summary>
         </member>
-        <member name="P:Cosmo.UI.Controls.PanelControl.Caption">
+        <member name="P:Cosmo.UI.Controls.PanelControl.Text">
             <summary>
             Gets or sets el título del control.
             </summary>
@@ -8057,6 +8123,11 @@
             Devuelve el nombre (identificador) del skin a aplicar.
             </summary>
         </member>
+        <member name="P:Cosmo.UI.Render.RenderModule.TemplatePath">
+            <summary>
+            Gets the relative path to active template.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
             Gets a new instance of <see cref="T:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl"/>.
@@ -8591,6 +8662,11 @@
         <member name="P:Cosmo.UI.UIService.XIcon">
             <summary>
             Devuelve la referencia al icono de tipo <c>X-Icon</c> que debe decorar la pestaña/página actual.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.UIService.TemplatePath">
+            <summary>
+            Gets the relative path to current template.
             </summary>
         </member>
         <member name="T:Cosmo.Data.Validation.CosmoValidationException">

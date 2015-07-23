@@ -89,7 +89,7 @@ namespace Cosmo.Cms.Web
 
          // Contenedor de los mensajes
          PanelControl panel = new PanelControl(this);
-         panel.Caption = thread.Title;
+         panel.Text = thread.Title;
 
          // Genera la barra de herramientas
          if (isModerator)

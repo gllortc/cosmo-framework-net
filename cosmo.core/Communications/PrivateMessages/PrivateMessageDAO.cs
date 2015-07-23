@@ -43,7 +43,9 @@ namespace Cosmo.Communications.PrivateMessages
       // Cuerpo del mensaje de notificación de recepción de mensaje privado.
       private const string PrivateMessagesNotifyBody = "workspace.privatemsg.notify.body";
 
-      private const string SQL_SELECT = "ID, FROMUSRID, TOUSRID, FROMIP, SENDED, SUBJECT, STATUS, BODY, THREADID";
+      private const string SQL_PMSG_SELECT = "ID, FROMUSRID, TOUSRID, FROMIP, SENDED, SUBJECT, STATUS, BODY, OWNERUSRID";
+      private const string SQL_PMSG_INSERT = "FROMUSRID, TOUSRID, FROMIP, SENDED, SUBJECT, STATUS, BODY, OWNERUSRID";
+      private const string SQL_PMSG_TABLE = "sysusersmsg";
 
       #region Constructors
 
@@ -67,108 +69,112 @@ namespace Cosmo.Communications.PrivateMessages
       public void SendMessage(PrivateMessage message)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          SqlParameter param = null;
-         SqlTransaction trans = null;
 
          try
          {
             _ws.DataSource.Connect();
-            trans = _ws.DataSource.Connection.BeginTransaction();
 
-            sql = "INSERT INTO sysusersmsg (threadid,fromusrid,tousrid,fromip,sended,subject,body,status) " +
-                  "VALUES (@threadid,@fromusrid,@tousrid,@fromip,getdate(),@subject,@body,@status)";
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
+            {
+               sql = @"INSERT INTO " + SQL_PMSG_TABLE + @" (" + SQL_PMSG_INSERT + @") 
+                       VALUES (@fromusrid, @tousrid, @fromip, getdate(), @subject, @status, @body, @ownerusrid)";
 
-            // Inserta el mensaje para el destinatario
-            message.OwnerId = message.ToUserID;
-            
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               // Inserta el mensaje para el destinatario
+               message.OwnerId = message.ToUserID;
 
-            param = new SqlParameter("@threadid", System.Data.SqlDbType.Int);
-            param.Value = message.OwnerId;
-            cmd.Parameters.Add(param);
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  param = new SqlParameter("@fromusrid", System.Data.SqlDbType.Int);
+                  param.Value = message.FromUserID;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fromusrid", System.Data.SqlDbType.Int);
-            param.Value = message.FromUserID;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@tousrid", System.Data.SqlDbType.Int);
+                  param.Value = message.ToUserID;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@tousrid", System.Data.SqlDbType.Int);
-            param.Value = message.ToUserID;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@fromip", System.Data.SqlDbType.NVarChar, 20);
+                  param.Value = message.FromIP;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fromip", System.Data.SqlDbType.NVarChar, 20);
-            param.Value = message.FromIP;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@subject", System.Data.SqlDbType.NVarChar, 512);
+                  param.Value = message.Subject.Trim();
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@subject", System.Data.SqlDbType.NVarChar, 512);
-            param.Value = message.Subject.Trim();
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@body", System.Data.SqlDbType.NVarChar, 4000);
+                  param.Value = (message.Body == null ? string.Empty : message.Body.Trim());
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@body", System.Data.SqlDbType.NVarChar, 4000);
-            param.Value = (message.Body == null ? string.Empty : message.Body.Trim());
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@status", System.Data.SqlDbType.Int);
+                  param.Value = (int)PrivateMessage.UserMessageStatus.Unreaded;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@status", System.Data.SqlDbType.Int);
-            param.Value = (int)PrivateMessage.UserMessageStatus.Unreaded;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@ownerusrid", System.Data.SqlDbType.Int);
+                  param.Value = message.OwnerId;
+                  cmd.Parameters.Add(param);
 
-            cmd.ExecuteNonQuery();
+                  cmd.ExecuteNonQuery();
+               }
 
-            // Inserta el mensaje para el autor (copia)
-            message.OwnerId = message.FromUserID;
+               // Inserta el mensaje para el autor (copia)
+               message.OwnerId = message.FromUserID;
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  param = new SqlParameter("@fromusrid", System.Data.SqlDbType.Int);
+                  param.Value = message.FromUserID;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@threadid", System.Data.SqlDbType.Int);
-            param.Value = message.OwnerId;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@tousrid", System.Data.SqlDbType.Int);
+                  param.Value = message.ToUserID;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fromusrid", System.Data.SqlDbType.Int);
-            param.Value = message.FromUserID;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@fromip", System.Data.SqlDbType.NVarChar, 20);
+                  param.Value = message.FromIP;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@tousrid", System.Data.SqlDbType.Int);
-            param.Value = message.ToUserID;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@subject", System.Data.SqlDbType.NVarChar, 512);
+                  param.Value = message.Subject.Trim();
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fromip", System.Data.SqlDbType.NVarChar, 20);
-            param.Value = message.FromIP;
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@body", System.Data.SqlDbType.NVarChar, 4000);
+                  param.Value = (message.Body == null ? string.Empty : message.Body.Trim());
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@subject", System.Data.SqlDbType.NVarChar, 512);
-            param.Value = message.Subject.Trim();
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@status", System.Data.SqlDbType.Int);
+                  param.Value = (int)PrivateMessage.UserMessageStatus.Readed;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@body", System.Data.SqlDbType.NVarChar, 4000);
-            param.Value = (message.Body == null ? string.Empty : message.Body.Trim());
-            cmd.Parameters.Add(param);
+                  param = new SqlParameter("@ownerusrid", System.Data.SqlDbType.Int);
+                  param.Value = message.OwnerId;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@status", System.Data.SqlDbType.Int);
-            param.Value = (int)PrivateMessage.UserMessageStatus.Unreaded;
-            cmd.Parameters.Add(param);
+                  cmd.ExecuteNonQuery();
+               }
 
-            cmd.ExecuteNonQuery();
+               // Obtiene el identificador del mensaje enviado (no la copia)
+               sql = @"SELECT Max(id) 
+                       FROM   " + SQL_PMSG_TABLE + @" 
+                       WHERE  ownerusrid = @ownerusrid";
 
-            // Obtiene el identificador del mensaje enviado (no la copia)
-            sql = "SELECT Max(id) FROM sysusersmsg WHERE threadid=@threadid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  param = new SqlParameter("@ownerusrid", System.Data.SqlDbType.Int);
+                  param.Value = message.ToUserID;
+                  cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@threadid", System.Data.SqlDbType.Int);
-            param.Value = message.ToUserID;
-            cmd.Parameters.Add(param);
+                  message.ID = (int)cmd.ExecuteScalar();
+                  message.OwnerId = message.ID;
+               }
 
-            message.ID = (int)cmd.ExecuteScalar();
-            message.OwnerId = message.ID;
-
-            trans.Commit();
+               trans.Commit();
+            }
 
             // Notifica al receptor por eMail
             SendNotify(message);
          }
          catch (Exception ex)
          {
-            trans.Rollback();
-
             _ws.Logger.Add(new LogEntry(GetType().Name + ".SendMessage()", 
                                         ex.Message, 
                                         LogEntry.LogEntryType.EV_ERROR));
@@ -177,7 +183,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -190,53 +195,60 @@ namespace Cosmo.Communications.PrivateMessages
       public PrivateMessage GetMessage(int messageId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
-         SqlTransaction trans = null;
          PrivateMessage message = null;
 
          try
          {
             _ws.DataSource.Connect();
-            trans = _ws.DataSource.Connection.BeginTransaction();
 
-            // Obtiene los datos del mensaje
-            sql = "SELECT " + SQL_SELECT + " " +
-                  "FROM sysusersmsg " +
-                  "WHERE id=@id";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-            cmd.Parameters.Add(new SqlParameter("@id", messageId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
             {
-               if (reader.Read())
+               // Obtiene los datos del mensaje
+               sql = @"SELECT " + SQL_PMSG_SELECT + @" 
+                       FROM   " + SQL_PMSG_TABLE + @" 
+                       WHERE  id = @id";
+
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
                {
-                  message = ReadPrivateMessage(reader);
+                  cmd.Parameters.Add(new SqlParameter("@id", messageId));
+
+                  using (SqlDataReader reader = cmd.ExecuteReader())
+                  {
+                     if (reader.Read())
+                     {
+                        message = ReadPrivateMessage(reader);
+                     }
+                  }
                }
-            }
 
-            // Lanza una excepción si no existe el mensaje
-            if (message == null)
-            {
-               throw new CommunicationsException("El mensaje solicitado no existe.");
-            }
+               // Lanza una excepción si no existe el mensaje
+               if (message == null)
+               {
+                  throw new CommunicationsException("El mensaje solicitado no existe.");
+               }
 
-            // Marca el mensaje como leído
-            if (message.Status != PrivateMessage.UserMessageStatus.Readed)
-            {
-               sql = "UPDATE sysusersmsg SET status=" + (int)PrivateMessage.UserMessageStatus.Readed + " WHERE id=@id";
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@id", messageId));
-               cmd.ExecuteNonQuery();
-            }
+               // Marca el mensaje como leído
+               if (message.Status != PrivateMessage.UserMessageStatus.Readed)
+               {
+                  sql = "UPDATE  " + SQL_PMSG_TABLE + @" 
+                         SET     status = @status 
+                         WHERE   id = @id";
 
-            trans.Commit();
+                  using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+                  {
+                     cmd.Parameters.Add(new SqlParameter("@id", messageId));
+                     cmd.Parameters.Add(new SqlParameter("@status", (int)PrivateMessage.UserMessageStatus.Readed));
+                     cmd.ExecuteNonQuery();
+                  }
+               }
+
+               trans.Commit();
+            }
 
             return message;
          }
          catch (Exception ex)
          {
-            trans.Rollback();
-
             _ws.Logger.Add(new LogEntry(GetType().Name + ".GetMessage()", 
                                         ex.Message, 
                                         LogEntry.LogEntryType.EV_ERROR));
@@ -244,8 +256,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            trans.Dispose();
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -257,17 +267,21 @@ namespace Cosmo.Communications.PrivateMessages
       public void DeleteMessage(int messageId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
             // Elimina el mensaje
-            sql = "DELETE FROM sysusersmsg WHERE id=@id";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@id", messageId));
-            cmd.ExecuteNonQuery();
+            sql = @"DELETE 
+                    FROM   " + SQL_PMSG_TABLE + @" 
+                    WHERE  id = @id";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@id", messageId));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
@@ -278,7 +292,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -292,7 +305,6 @@ namespace Cosmo.Communications.PrivateMessages
       public List<PrivateMessage> GetMessagesByRecipient(int recipientId, bool onlyUnreaded)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -301,19 +313,22 @@ namespace Cosmo.Communications.PrivateMessages
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT " + SQL_SELECT + " " +
-                  "FROM sysusersmsg " +
-                  "WHERE tousrid=@tousrid" + (onlyUnreaded ? " And status=0" : string.Empty) + " " +
-                  "ORDER BY id Desc";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@tousrid", recipientId));
+            sql = @"SELECT    " + SQL_PMSG_SELECT + @" 
+                    FROM      " + SQL_PMSG_TABLE + @" 
+                    WHERE     tousrid = @tousrid" + (onlyUnreaded ? " And status=0" : string.Empty) + @" 
+                    ORDER BY  id Desc";
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@tousrid", recipientId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  message = ReadPrivateMessage(reader);
-                  messages.Add(message);
+                  while (reader.Read())
+                  {
+                     message = ReadPrivateMessage(reader);
+                     messages.Add(message);
+                  }
                }
             }
 
@@ -328,7 +343,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -343,7 +357,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          bool first = true;
          string sql = string.Empty;
-         SqlCommand cmd = null;
          PrivateMessage message = null;
          PrivateMessageThread thread = new PrivateMessageThread();
 
@@ -356,39 +369,45 @@ namespace Cosmo.Communications.PrivateMessages
                            tou.usrname As toname 
                  FROM      sysusersmsg Left Join users fru On (sysusersmsg.fromusrid = fru.usrid) 
                                        Left Join users tou On (sysusersmsg.tousrid = tou.usrid) 
-                 WHERE     (sysusersmsg.fromusrid = @remote Or sysusersmsg.tousrid=@remote) And 
-                           sysusersmsg.threadid = @owner 
+                 WHERE     (sysusersmsg.fromusrid = @owner And sysusersmsg.tousrid = @remote) Or 
+                           (sysusersmsg.fromusrid = @remote And sysusersmsg.tousrid = @owner) 
                  ORDER BY  sysusersmsg.id Desc";
 
          try
          {
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@owner", ownerUserId));
-            cmd.Parameters.Add(new SqlParameter("@remote", remoteUserId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@owner", ownerUserId));
+               cmd.Parameters.Add(new SqlParameter("@remote", remoteUserId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  message = ReadPrivateMessage(reader);
-                  thread.Messages.Add(message);
-
-                  if (first)
+                  while (reader.Read())
                   {
-                     /*thread.FromId = ((int)reader["fromid"] == null ? -1 : (int)reader["fromid"]);
-                     thread.ToId = ((int)reader["toid"] == null ? -1 : (int)reader["toid"]);
-                     thread.FromName = ((string)reader["fromname"] == null ? string.Empty : (string)reader["fromname"]);
-                     thread.ToName = ((string)reader["toname"] == null ? string.Empty : (string)reader["toname"]);
-                     thread.FromLogin = ((string)reader["fromlogin"] == null ? string.Empty : (string)reader["fromlogin"]);
-                     thread.ToLogin = ((string)reader["tologin"] == null ? string.Empty : (string)reader["tologin"]);*/
+                     message = ReadPrivateMessage(reader);
+                     thread.Messages.Add(message);
 
-                     thread.LastMessagesDate = thread.Messages[0].Sended;
-                     thread.HaveUnreadMessages = (thread.Messages[0].Status == PrivateMessage.UserMessageStatus.Unreaded);
+                     if (first)
+                     {
+                        /*thread.FromId = ((int)reader["fromid"] == null ? -1 : (int)reader["fromid"]);
+                        thread.ToId = ((int)reader["toid"] == null ? -1 : (int)reader["toid"]);
+                        thread.FromName = ((string)reader["fromname"] == null ? string.Empty : (string)reader["fromname"]);
+                        thread.ToName = ((string)reader["toname"] == null ? string.Empty : (string)reader["toname"]);
+                        thread.FromLogin = ((string)reader["fromlogin"] == null ? string.Empty : (string)reader["fromlogin"]);
+                        thread.ToLogin = ((string)reader["tologin"] == null ? string.Empty : (string)reader["tologin"]);*/
+
+                        thread.LastMessagesDate = thread.Messages[0].Sended;
+                        thread.HaveUnreadMessages = (thread.Messages[0].Status == PrivateMessage.UserMessageStatus.Unreaded);
+
+                        first = false;
+                     }
                   }
                }
             }
+
+            return thread;
          }
          catch (Exception ex)
          {
@@ -399,11 +418,8 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
-
-         return null;
       }
 
       /// <summary>
@@ -415,7 +431,6 @@ namespace Cosmo.Communications.PrivateMessages
       {
          // int id;
          string sql = string.Empty;
-         SqlCommand cmd = null;
          PrivateMessageThread thread = null;
          List<PrivateMessageThread> threads = new List<PrivateMessageThread>();
          List<int> userIds = new List<int>();
@@ -425,40 +440,43 @@ namespace Cosmo.Communications.PrivateMessages
             _ws.DataSource.Connect();
 
             // Obtiene la lista de usuarios (ID) con los que existe una conversa abierta
-            sql = "WITH summary AS (SELECT p.id,  " +
-                  "                        p.REMOTEUSRID, " +
-                  "                        p.sended, " +
-                  "                        p.body, " +
-                  "                        p.status, " +
-                  "                        ROW_NUMBER() OVER(PARTITION BY p.remoteusrid " +
-                  "                                          ORDER BY p.sended DESC) AS rk " + 
-                  "                 FROM (SELECT id, " +
-                  "                              CASE WHEN FROMUSRID = @userId AND TOUSRID = @userId THEN 0 " +
-                  "                                   WHEN FROMUSRID = @userId THEN TOUSRID " +
-                  "                                   WHEN TOUSRID   = @userId THEN FROMUSRID " +
-                  "                                   ELSE 0 " +
-                  "                              END AS REMOTEUSRID, " +
-                  "                              sended, " +
-                  "                              body, " +
-                  "                              status " +
-                  "                       FROM sysusersmsg " +
-                  "                       WHERE threadid=@userId And FROMUSRID<>TOUSRID) p) " +
-                  "SELECT s.* " +
-                  "FROM summary s " +
-                  "WHERE s.rk = 1";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@userId", userId));
+            sql = @"WITH summary AS (SELECT p.id,  
+                                            p.REMOTEUSRID, 
+                                            p.sended, 
+                                            p.body, 
+                                            p.status, 
+                                            ROW_NUMBER() OVER(PARTITION BY p.remoteusrid 
+                                                              ORDER BY p.sended DESC) AS rk 
+                                     FROM (SELECT id, 
+                                                  CASE WHEN FROMUSRID = @userId AND TOUSRID = @userId THEN 0 
+                                                       WHEN FROMUSRID = @userId THEN TOUSRID 
+                                                       WHEN TOUSRID   = @userId THEN FROMUSRID 
+                                                       ELSE 0 
+                                                  END AS REMOTEUSRID, 
+                                                  sended, 
+                                                  body, 
+                                                  status 
+                                           FROM " + SQL_PMSG_TABLE + @" 
+                                           WHERE ownerusrid = @userId And FROMUSRID <> TOUSRID) p) 
+                    SELECT s.* 
+                    FROM summary s 
+                    WHERE s.rk = 1";
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
-               {
-                  thread = new PrivateMessageThread();
-                  thread.RemoteUserId = (int)reader["remoteusrid"];
-                  thread.LastMessagesDate = (DateTime)reader["sended"];
-                  thread.HaveUnreadMessages = ((int)reader["status"] == 0);
+               cmd.Parameters.Add(new SqlParameter("@userId", userId));
 
-                  threads.Add(thread);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     thread = new PrivateMessageThread();
+                     thread.RemoteUserId = (int)reader["remoteusrid"];
+                     thread.LastMessagesDate = (DateTime)reader["sended"];
+                     thread.HaveUnreadMessages = ((int)reader["status"] == 0);
+
+                     threads.Add(thread);
+                  }
                }
             }
 
@@ -479,7 +497,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -493,7 +510,6 @@ namespace Cosmo.Communications.PrivateMessages
       public List<PrivateMessage> GetThreadMessages(int ownerId, int userId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -502,21 +518,24 @@ namespace Cosmo.Communications.PrivateMessages
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT " + SQL_SELECT + " " +
-                  "FROM sysusersmsg " +
-                  "WHERE threadid=@threadid And " +
-                  "      (tousrid=@tousrid Or fromusrid=@tousrid) " +
-                  "ORDER BY id Asc";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@threadid", ownerId));
-            cmd.Parameters.Add(new SqlParameter("@tousrid", userId));
+            sql = @"SELECT    " + SQL_PMSG_SELECT + @" 
+                    FROM      " + SQL_PMSG_TABLE + @" 
+                    WHERE     ownerusrid = @ownerusrid And 
+                              (tousrid = @tousrid Or fromusrid = @tousrid) 
+                    ORDER BY  id Asc";
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@ownerusrid", ownerId));
+               cmd.Parameters.Add(new SqlParameter("@tousrid", userId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  message = ReadPrivateMessage(reader);
-                  messages.Add(message);
+                  while (reader.Read())
+                  {
+                     message = ReadPrivateMessage(reader);
+                     messages.Add(message);
+                  }
                }
             }
 
@@ -531,7 +550,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -554,7 +572,7 @@ namespace Cosmo.Communications.PrivateMessages
       public List<PrivateMessage> ReceivedThreads(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
+         PrivateMessage message;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
          try
@@ -562,29 +580,28 @@ namespace Cosmo.Communications.PrivateMessages
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT sm.id,sm.fromusrid,sm.tousrid,sm.fromip,sm.sended,sm.subject,sm.body,sm.status,sm.threadid,(SELECT Count(*) FROM sysusersmsg smc WHERE smc.threadid=sm.id) " +
-                  "FROM sysusersmsg sm " +
-                  "WHERE sm.tousrid=@tousrid And sm.id=sm.threadid " +
-                  "ORDER BY sm.id Desc";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@tousrid", uid));
+            sql = @"SELECT     " + SQL_PMSG_SELECT + @", (SELECT  Count(*) 
+                                                          FROM    " + SQL_PMSG_TABLE + @" smc 
+                                                          WHERE   smc.ownerusrid = sm.id) 
+                    FROM       " + SQL_PMSG_TABLE + @" sm 
+                    WHERE      sm.tousrid = @tousrid And 
+                               sm.id = sm.ownerusrid 
+                    ORDER BY   sm.id Desc";
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@tousrid", uid));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  PrivateMessage message = new PrivateMessage();
-                  message.ID = reader.GetInt32(0);
-                  message.FromUserID = reader.GetInt32(1);
-                  message.ToUserID = reader.GetInt32(2);
-                  message.FromIP = reader.GetString(3);
-                  message.Sended = reader.GetDateTime(4);
-                  message.Subject = reader.GetString(5);
-                  // message.Body = reader.GetString(6);
-                  message.Status = (PrivateMessage.UserMessageStatus)reader.GetInt32(7);
-                  message.OwnerId = reader.GetInt32(8);
-                  message.Responses = reader.GetInt32(9);
-                  messages.Add(message);
+                  while (reader.Read())
+                  {
+                     message = ReadPrivateMessage(reader);
+                     if (message != null)
+                     {
+                        messages.Add(message);
+                     }
+                  }
                }
             }
 
@@ -599,7 +616,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -612,7 +628,6 @@ namespace Cosmo.Communications.PrivateMessages
       public List<PrivateMessage> Sended(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          PrivateMessage message = null;
          List<PrivateMessage> messages = new List<PrivateMessage>();
 
@@ -621,19 +636,25 @@ namespace Cosmo.Communications.PrivateMessages
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT " + SQL_SELECT + " " +
-                  "FROM sysusersmsg " +
-                  "WHERE fromusrid=@fromusrid " +
-                  "ORDER BY id Desc";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
+            sql = @"SELECT    " + SQL_PMSG_SELECT + @" 
+                    FROM      " + SQL_PMSG_TABLE + @" 
+                    WHERE     fromusrid = @fromusrid 
+                    ORDER BY  id Desc";
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  message = ReadPrivateMessage(reader);
-                  messages.Add(message);
+                  if (reader.Read())
+                  {
+                     message = ReadPrivateMessage(reader);
+                     if (message != null)
+                     {
+                        messages.Add(message);
+                     }
+                  }
                }
             }
 
@@ -648,7 +669,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -661,20 +681,21 @@ namespace Cosmo.Communications.PrivateMessages
       public int Count(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT Count(*) " +
-                  "FROM sysusersmsg " +
-                  "WHERE fromusrid=@fromusrid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
+            sql = @"SELECT Count(*) 
+                    FROM   " + SQL_PMSG_TABLE + @" 
+                    WHERE  fromusrid = @fromusrid";
 
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
@@ -685,7 +706,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -699,28 +719,24 @@ namespace Cosmo.Communications.PrivateMessages
       public int CountByReceiver(int uid, PrivateMessage.UserMessageStatus status)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT Count(*) " +
-                  "FROM sysusersmsg " +
-                  "WHERE tousrid=@tousrid And status=@status";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@tousrid", uid));
-            cmd.Parameters.Add(new SqlParameter("@status", (int)status));
+            sql = @"SELECT Count(*) 
+                    FROM   " + SQL_PMSG_TABLE + @" 
+                    WHERE  tousrid = @tousrid And 
+                           status = @status";
 
-            return (int)cmd.ExecuteScalar();
-         }
-         catch (SqlException ex)
-         {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".CountByReceiver()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-            throw ex;
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@tousrid", uid));
+               cmd.Parameters.Add(new SqlParameter("@status", (int)status));
+
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
@@ -731,7 +747,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -745,28 +760,24 @@ namespace Cosmo.Communications.PrivateMessages
       public int Count(int uid, PrivateMessage.UserMessageStatus status)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
             // Obtiene los datos del mensaje
-            sql = "SELECT Count(*) " +
-                  "FROM sysusersmsg " +
-                  "WHERE fromusrid=@fromusrid And status=@status";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
-            cmd.Parameters.Add(new SqlParameter("@status", (int)status));
+            sql = @"SELECT Count(*) 
+                    FROM   " + SQL_PMSG_TABLE + @" 
+                    WHERE  fromusrid = @fromusrid And 
+                           status = @status";
 
-            return (int)cmd.ExecuteScalar();
-         }
-         catch (SqlException ex)
-         {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Count()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-            throw ex;
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@fromusrid", uid));
+               cmd.Parameters.Add(new SqlParameter("@status", (int)status));
+
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
@@ -777,7 +788,6 @@ namespace Cosmo.Communications.PrivateMessages
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }

@@ -3,15 +3,20 @@ using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.Utils.Html;
-using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Cosmo.Web
 {
+   /// <summary>
+   /// Implements a manager class for private messages.
+   /// </summary>
    [AuthenticationRequired]
    public class PrivateMessages : PageView
    {
+
+      #region PageView Implementation
+
       public override void InitPage()
       {
          int userId = Parameters.GetInteger(Cosmo.Workspace.PARAM_USER_ID);
@@ -40,34 +45,41 @@ namespace Cosmo.Web
          header.Icon = IconControl.ICON_COMMENTS;
          MainContent.Add(header);
 
-         if (userId > 0)
-         {
-            ChatMessage message;
-            ChatControl chat = new ChatControl(this);
+         PrivateMessagesPartialView pmPartial = new PrivateMessagesPartialView();
+         PartialViewContainerControl thControl = new PartialViewContainerControl(this, 
+                                                                                 pmPartial, 
+                                                                                 UI.Scripting.Script.ScriptExecutionMethod.OnDocumentReady,
+                                                                                 userId);
+         MainContent.Add(thControl);
 
-            PrivateMessageThread th = msgDao.GetThread(Workspace.CurrentUser.User.ID, userId);
-            foreach (PrivateMessage msg in th.Messages)
-            {
-               message = new ChatMessage();
-               message.DomID = "pmsg" + msg.ID;
-               message.Author = Workspace.SecurityService.GetUser(msg.FromUserID).GetDisplayName();
-               message.Time = msg.Sended.ToString(Formatter.FORMAT_DATETIME);
-               message.Content = msg.Body;
+         //if (userId > 0)
+         //{
+         //   ChatMessage message;
+         //   ChatControl chat = new ChatControl(this);
 
-               chat.Messages.Add(message);
-            }
+         //   PrivateMessageThread th = msgDao.GetThread(Workspace.CurrentUser.User.ID, userId);
+         //   foreach (PrivateMessage msg in th.Messages)
+         //   {
+         //      message = new ChatMessage();
+         //      message.DomID = "pmsg" + msg.ID;
+         //      message.Author = Workspace.SecurityService.GetUser(msg.FromUserID).GetDisplayName();
+         //      message.Time = msg.Sended.ToString(Formatter.FORMAT_DATETIME);
+         //      message.Content = msg.Body;
 
-            MainContent.Add(chat);
-         }
-         else
-         {
-            CalloutControl callout = new CalloutControl(this);
-            callout.Type = ComponentColorScheme.Information;
-            callout.Title = "Seleccione una conversación";
-            callout.Text = "Seleccione la conversación (en la parte derecha) para ver los mensajes con una determinada persona.";
+         //      chat.Messages.Add(message);
+         //   }
 
-            MainContent.Add(callout);
-         }
+         //   MainContent.Add(chat);
+         //}
+         //else
+         //{
+         //   CalloutControl callout = new CalloutControl(this);
+         //   callout.Type = ComponentColorScheme.Information;
+         //   callout.Title = "Seleccione una conversación";
+         //   callout.Text = "Seleccione la conversación (en la parte derecha) para ver los mensajes con una determinada persona.";
+
+         //   MainContent.Add(callout);
+         //}
 
          //-------------------------------
          // Configuración de la lista de conversaciones
@@ -75,27 +87,29 @@ namespace Cosmo.Web
 
          List<PrivateMessageThread> threads = msgDao.GetThreads(Workspace.CurrentUser.User.ID);
 
-         Url url = null;
          ListItem litem = null;
          ListGroupControl list = new ListGroupControl(this);
          list.Style = ListGroupControl.ListGroupStyle.Simple;
          foreach (PrivateMessageThread thread in threads)
          {
-            if (thread.Messages.Count > 0 && thread.RemoteUser != null)
+            // if (thread.Messages.Count > 0 && thread.RemoteUser != null)
+            if (thread.RemoteUser != null)
             {
-               url = new Url("PrivateMessages");
-               url.AddParameter(Cosmo.Workspace.PARAM_USER_ID, thread.RemoteUserId);
-
                litem = new ListItem();
                litem.Text = thread.RemoteUser.GetDisplayName();
-               litem.Href = url.ToString();
-               litem.IsActive = (Parameters.GetInteger(Cosmo.Workspace.PARAM_USER_ID) == thread.RemoteUserId);
+               litem.Icon = IconControl.ICON_USER;
+               litem.Href = "javascript:" + pmPartial.GetInvokeFunctionWithParameters(thread.RemoteUserId);
+               litem.IsActive = (userId == thread.RemoteUserId);
 
                list.ListItems.Add(litem);
             }
          }
 
-         RightContent.Add(list);
+         PanelControl thPanel = new PanelControl(this);
+         thPanel.Text = "Conversaciones";
+         thPanel.Content.Add(list);
+
+         RightContent.Add(thPanel);
       }
 
       public override void FormDataReceived(UI.Controls.FormControl receivedForm)
@@ -112,5 +126,36 @@ namespace Cosmo.Web
       {
          // throw new NotImplementedException();
       }
+
+      #endregion
+
+      #region Static Members
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL()
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+
+         return url.ToString();
+      }
+
+      /// <summary>
+      /// Return the appropiate URL to call this view.
+      /// </summary>
+      /// <param name="userId">User identifier.</param>
+      /// <returns>A string containing the requested URL.</returns>
+      public static string GetURL(int userId)
+      {
+         Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
+         url.AddParameter(Workspace.PARAM_USER_ID, userId);
+
+         return url.ToString();
+      }
+
+      #endregion
+
    }
 }

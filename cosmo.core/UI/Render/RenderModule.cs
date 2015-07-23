@@ -105,6 +105,14 @@ namespace Cosmo.UI.Render
          get { return _plugin.GetString("skin"); }
       }
 
+      /// <summary>
+      /// Gets the relative path to active template.
+      /// </summary>
+      public string TemplatePath
+      {
+         get { return Url.Combine(RenderModule.FOLDER_TEMPLATES, Url.Combine(_plugin.GetString("folder"))); }
+      }
+
       #endregion
 
       #region Methods

@@ -58,7 +58,7 @@ namespace Cosmo.Cms.Web
          RightContent.Add(toolsPanel);
 
          PanelControl addPanel = new PanelControl(this);
-         addPanel.Caption = "Enviar imágenes";
+         addPanel.Text = "Enviar imágenes";
          addPanel.ContentXhtml = "<p>Si desea enviar sus imágenes y es susbscriptor puede hacerlo desde la carpeta dónde desea agregarlas. Acceda a la carpeta dónde las desea agregar y pulse el enlace Enviar imagen situado en la barra vertical derecha.</p>";
 
          RightContent.Add(addPanel);
@@ -125,7 +125,7 @@ namespace Cosmo.Cms.Web
 
             PanelControl panel = new PanelControl(this);
             panel.CaptionIcon = IconControl.ICON_FOLDER_OPEN;
-            panel.Caption = "Categorías";
+            panel.Text = "Categorías";
             panel.Content.Add(description);
             panel.Content.Add(treeView);
 

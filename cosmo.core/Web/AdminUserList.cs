@@ -116,7 +116,7 @@ namespace Cosmo.Web
             }
 
             PanelControl resultsPanel = new PanelControl(this);
-            resultsPanel.Caption = "Resultados de la búsqueda";
+            resultsPanel.Text = "Resultados de la búsqueda";
             resultsPanel.Content.Add(table);
 
             MainContent.Add(resultsPanel);

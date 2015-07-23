@@ -71,7 +71,7 @@ namespace Cosmo.Cms.Web
          contactData.Add(new KeyValue("Fecha de publicación", classified.Updated.ToString(Formatter.FORMAT_DATE)));
 
          PanelControl adPanel = new PanelControl(this);
-         adPanel.Caption = classified.Title;
+         adPanel.Text = classified.Title;
          adPanel.CaptionIcon = IconControl.ICON_TAG;
          adPanel.Content.Add(new HtmlContentControl(this, classified.Body));
          adPanel.Footer.Add(new HtmlContentControl(this).AppendDataTable(contactData));
@@ -88,7 +88,7 @@ namespace Cosmo.Cms.Web
 
          // Contact
          PanelControl contactPanel = new PanelControl(this);
-         contactPanel.Caption = "Contacto";
+         contactPanel.Text = "Contacto";
          contactPanel.CaptionIcon = IconControl.ICON_ENVELOPE;
          contactPanel.Content.Add(new HtmlContentControl(this, "¿Interesado en el anuncio? Puedes ponerte en contacto con el autor del anuncio mediante el formulario de contacto."));
          contactPanel.Footer.Add(new ButtonControl(this, "cmdContact", "Contacto", IconControl.ICON_ENVELOPE, contactModal));
@@ -102,7 +102,7 @@ namespace Cosmo.Cms.Web
             ButtonControl btnTool;
 
             PanelControl adminPanel = new PanelControl(this);
-            adminPanel.Caption = "Administrar";
+            adminPanel.Text = "Administrar";
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_EDIT;
@@ -117,7 +117,7 @@ namespace Cosmo.Cms.Web
 
          // Share box
          PanelControl sharePanel = new PanelControl(this);
-         sharePanel.Caption = "Compartir";
+         sharePanel.Text = "Compartir";
 
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));

@@ -96,7 +96,7 @@ namespace Cosmo.Cms.Web
 
             PanelControl panel = new PanelControl(this);
             panel.CaptionIcon = IconControl.ICON_FOLDER_CLOSE;
-            panel.Caption = folder.Name;
+            panel.Text = folder.Name;
             panel.Content.Add(html);
             panel.Content.Add(table);
             panel.Footer.Add(pages);

@@ -72,7 +72,7 @@ namespace Cosmo.Web
                waitBox.Type = ComponentColorScheme.Success;
 
                PanelControl panel = new PanelControl(this);
-               panel.Caption = "Verificación de cuentas de usuario";
+               panel.Text = "Verificación de cuentas de usuario";
                panel.Content.Add(waitBox);
                panel.Footer.Add(new ButtonControl(this, "btnLogin", "Iniciar sesión", IconControl.ICON_USER, "UserAuth", string.Empty));
 

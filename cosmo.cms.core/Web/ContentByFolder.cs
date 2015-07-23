@@ -67,7 +67,7 @@ namespace Cosmo.Cms.Web
          //-------------------------------------------------------------------
 
          PanelControl panelFolders = new PanelControl(this);
-         panelFolders.Caption = "Navegación por carpetas";
+         panelFolders.Text = "Navegación por carpetas";
          panelFolders.Content.Add(DocumentUI.ConvertFoldersToListGroup(this, folder, true));
 
          RightContent.Add(panelFolders);
@@ -77,7 +77,7 @@ namespace Cosmo.Cms.Web
          //-------------------------------------------------------------------
 
          PanelControl panelDocs = new PanelControl(this);
-         panelDocs.Caption = folder.Name;
+         panelDocs.Text = folder.Name;
 
          // Genera la lista de documentos de la carpeta
          List<Document> documents = docs.GetDocuments(folderid);
@@ -107,7 +107,7 @@ namespace Cosmo.Cms.Web
             ButtonControl btnTool;
 
             PanelControl adminPanel = new PanelControl(this);
-            adminPanel.Caption = "Administrar";
+            adminPanel.Text = "Administrar";
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_PLUS;

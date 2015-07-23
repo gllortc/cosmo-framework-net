@@ -90,7 +90,7 @@ namespace Cosmo.Cms.Web
             MediaListControl relatedDocs = DocumentUI.ConvertToMediaList(this, doc.RelatedDocuments);
 
             PanelControl relPanel = new PanelControl(this);
-            relPanel.Caption = "Artículos relacionados";
+            relPanel.Text = "Artículos relacionados";
             relPanel.Content.Add(relatedDocs);
 
             MainContent.Add(relPanel);
@@ -117,7 +117,7 @@ namespace Cosmo.Cms.Web
             }
             
             PanelControl authPanel = new PanelControl(this);
-            authPanel.Caption = "Autor";
+            authPanel.Text = "Autor";
             authPanel.Content.Add(authContent);
 
             RightContent.Add(authPanel);
@@ -134,7 +134,7 @@ namespace Cosmo.Cms.Web
             btnAttach.Color = ComponentColorScheme.Primary;
 
             PanelControl attachPanel = new PanelControl(this);
-            attachPanel.Caption = "Archivos adjuntos";
+            attachPanel.Text = "Archivos adjuntos";
             attachPanel.Content.Add(btnAttach);
 
             RightContent.Add(attachPanel);
@@ -146,7 +146,7 @@ namespace Cosmo.Cms.Web
             ButtonControl btnTool;
 
             PanelControl adminPanel = new PanelControl(this);
-            adminPanel.Caption = "Administrar";
+            adminPanel.Text = "Administrar";
 
             btnTool = new ButtonControl(this);
             btnTool.Icon = IconControl.ICON_EDIT;
@@ -162,7 +162,7 @@ namespace Cosmo.Cms.Web
 
          // Compartir
          PanelControl sharePanel = new PanelControl(this);
-         sharePanel.Caption = "Compartir";
+         sharePanel.Text = "Compartir";
 
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
          sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));

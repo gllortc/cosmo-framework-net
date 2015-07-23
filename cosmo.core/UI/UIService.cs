@@ -80,6 +80,14 @@ namespace Cosmo.UI
          get { return _renderers[_activeRenderer].XIcon; }
       }
 
+      /// <summary>
+      /// Gets the relative path to current template.
+      /// </summary>
+      public string TemplatePath
+      {
+         get { return _renderers[_activeRenderer].TemplatePath; }
+      }
+
       #endregion
 
       #region Methods

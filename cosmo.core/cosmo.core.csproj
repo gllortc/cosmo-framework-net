@@ -179,6 +179,7 @@
     <Compile Include="Utils\XmlUtilities.cs" />
     <Compile Include="Web\AdminUserList.cs" />
     <Compile Include="Web\AdminUserData.cs" />
+    <Compile Include="Web\PrivateMessagesPartialView.cs" />
     <Compile Include="Web\PrivateMessages.cs" />
     <Compile Include="Web\ModalFormUpload.cs" />
     <Compile Include="Web\UserAuth.cs" />

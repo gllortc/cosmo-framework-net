@@ -27,7 +27,7 @@ namespace Cosmo.Web
       private FormControl securityData = null;
       private User user;
 
-      #region PageViewContainer Implementation
+      #region PageView Implementation
 
       public override void InitPage()
       {
@@ -263,7 +263,7 @@ namespace Cosmo.Web
          ButtonControl btnTool;
 
          PanelControl adminPanel = new PanelControl(this);
-         adminPanel.Caption = "Opciones";
+         adminPanel.Text = "Opciones";
 
          btnTool = new ButtonControl(this);
          btnTool.Icon = IconControl.ICON_REMOVE;

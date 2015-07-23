@@ -1,5 +1,10 @@
-﻿namespace Cosmo.UI.Controls
+﻿using Cosmo.UI.Scripting;
+
+namespace Cosmo.UI.Controls
 {
+   /// <summary>
+   /// Implements a control that can show a partial view.
+   /// </summary>
    public class PartialViewContainerControl : Control
    {
       // Internal data declarations
@@ -27,6 +32,22 @@
          : base(parentView, view.DomID)
       {
          this.View = view;
+      }
+
+      /// <summary>
+      /// Gets a new instance of <see cref="PartialViewContainerControl"/>.
+      /// </summary>
+      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="view">An instance of partial view which will be shown in this control.</param>
+      /// <param name="executionType">Type of script execution.</param>
+      /// <param name="parameters">Partial view parameters.</param>
+      public PartialViewContainerControl(View parentView, PartialView view, Script.ScriptExecutionMethod executionType, params object[] parameters)
+         : base(parentView, view.DomID)
+      {
+         this.View = view;
+
+         // Adds the script to view to avoid load partial view on view load
+         this.ParentView.Scripts.Add(view.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, parameters));
       }
 
       #endregion

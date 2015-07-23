@@ -118,7 +118,7 @@ namespace Cosmo.Cms.Web
          rules.AppendUnorderedList(rulesText);
 
          PanelControl rulesPanel = new PanelControl(this);
-         rulesPanel.Caption = "Normas para la publicación de mensajes";
+         rulesPanel.Text = "Normas para la publicación de mensajes";
          rulesPanel.CaptionIcon = IconControl.ICON_BELL;
          rulesPanel.Content.Add(rules);
 

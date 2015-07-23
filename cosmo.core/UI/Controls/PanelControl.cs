@@ -47,7 +47,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets or sets el título del control.
       /// </summary>
-      public string Caption
+      public string Text
       {
          get { return _caption; }
          set { _caption = value; }

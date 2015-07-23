@@ -1,4 +1,5 @@
-﻿using Cosmo.Net.REST;
+﻿using Cosmo.Net;
+using Cosmo.Net.REST;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
@@ -845,12 +846,12 @@ namespace Cosmo.UI.Render.Impl
          return xhtml.ToString();
       }
 
-      public string RenderChatMessage(ChatMessage msg)
+      private string RenderChatMessage(ChatMessage msg)
       {
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div class=\"item\">");
-         xhtml.AppendLine("  <img src=\"img/avatar.png\" alt=\"user image\" class=\"online\"/>");
+         xhtml.AppendLine("  <img src=\"" + Url.Combine(Workspace.UIService.TemplatePath, "img/avatar.png") + "\" alt=\"user image\" class=\"online\"/>");
          xhtml.AppendLine("  <p class=\"message\">");
          xhtml.AppendLine("    <a href=\"#\" class=\"name\">");
          xhtml.AppendLine("      <small class=\"text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> 2:15</small>");
@@ -858,13 +859,6 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("    </a>");
          xhtml.AppendLine(msg.Content);
          xhtml.AppendLine("  </p>");
-         xhtml.AppendLine("  <div class=\"attachment\">");
-         xhtml.AppendLine("    <h4>Attachments:</h4>");
-         xhtml.AppendLine("    <p class=\"filename\">Theme-thumbnail-image.jpg</p>");
-         xhtml.AppendLine("    <div class=\"pull-right\">");
-         xhtml.AppendLine("      <button class=\"btn btn-primary btn-sm btn-flat\">Open</button>");
-         xhtml.AppendLine("    </div>");
-         xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -903,7 +897,7 @@ namespace Cosmo.UI.Render.Impl
 
          PanelControl cookiesPanel = new PanelControl(control.ParentView, control.DomID);
          cookiesPanel.CaptionIcon = IconControl.ICON_LEGAL;
-         cookiesPanel.Caption = "Uso de <em>cookies</em>";
+         cookiesPanel.Text = "Uso de <em>cookies</em>";
          cookiesPanel.Content.Add(message);
 
          ButtonControl btnAccept = new ButtonControl(control.ParentView, "cmdAcceptCookies", "Aceptar cookies", string.Empty, "acceptCookies();");
@@ -2070,10 +2064,10 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
 
          xhtml.AppendLine("<div " + control.GetIdParameter() + " class=\"box box-primary\">");
-         if (!string.IsNullOrWhiteSpace(control.Caption))
+         if (!string.IsNullOrWhiteSpace(control.Text))
          {
             xhtml.AppendLine("  <div class=\"box-header\" title=\"\">");
-            xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.CaptionIcon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.CaptionIcon) + "&nbsp;&nbsp;") + control.Caption + "</h3>");
+            xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.CaptionIcon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.CaptionIcon) + "&nbsp;&nbsp;") + control.Text + "</h3>");
             if (control.ButtonBar.Buttons.Count > 0)
             {
                xhtml.AppendLine("    <div class=\"box-tools pull-right\">");
