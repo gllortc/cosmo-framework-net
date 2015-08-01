@@ -49,7 +49,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public NavbarIButtonControl(View parentView)
          : base(parentView)
       {
@@ -59,7 +59,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption">Título visible del elemento.</param>
       /// <param name="href">Dirección URL que va asociado al elemento.</param>
       public NavbarIButtonControl(View parentView, string caption, string href)
@@ -74,7 +74,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="NavbarIButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="isDivider">Indica si el elemento es un divisor.</param>
       public NavbarIButtonControl(View parentView, bool isDivider)
          : base(parentView)

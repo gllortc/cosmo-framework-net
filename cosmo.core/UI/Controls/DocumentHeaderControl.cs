@@ -12,7 +12,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="DocumentHeaderControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public DocumentHeaderControl(View parentView)
          : base(parentView)
       {

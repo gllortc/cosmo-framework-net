@@ -5,9 +5,9 @@ namespace Cosmo.UI.Controls
    /// <summary>
    /// Implementa un campo de texto simple (Input).
    /// </summary>
-   public class FormFieldText : FormField // IControl
+   public class FormFieldText : FormField 
    {
-      // Declara variables internas
+      // Internal data declarations
       private string _value;
 
       #region Enumerations
@@ -40,7 +40,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormFieldText(View parentView, string domId)
          : base(parentView, domId)
@@ -51,7 +51,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
@@ -67,7 +67,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="label"></param>
       /// <param name="type"></param>
@@ -100,7 +100,7 @@ namespace Cosmo.UI.Controls
       public bool ReadOnly { get; set; }
 
       /// <summary>
-      /// Indica si el campo es obligatorio.
+      /// Gets or sets a boolean value indicating if the field is required to validate the form.
       /// </summary>
       public bool Required { get; set; }
 
@@ -153,7 +153,7 @@ namespace Cosmo.UI.Controls
       #region Methods
 
       /// <summary>
-      /// Obtiene el valor del campo a partir de los datos recibidos mediante GET o POST.
+      /// Gets the field value from the request.
       /// </summary>
       public override bool LoadValueFromRequest()
       {
@@ -170,9 +170,9 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Valida el valor del campo.
+      /// Validate the field value.
       /// </summary>
-      /// <returns><c>true</c> si el valor és aceptable o <c>false</c> si el valor no es válido.</returns>
+      /// <c>true</c> if the field value is valid or <c>false</c> if the value is not valid.
       public override bool Validate()
       {
          if (this.Required)

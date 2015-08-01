@@ -27,9 +27,8 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="ContentEditFileList"/>.
       /// </summary>
       public ContentEditFileList()
-         : base()
+         : base(ContentEditFileList.DOM_ID)
       {
-         this.DomID = ContentEditFileList.DOM_ID;
          this.ContentID = 0;
       }
 
@@ -39,9 +38,8 @@ namespace Cosmo.Cms.Web
       /// <param name="cmd">Command type.</param>
       /// <param name="contentId">Thread identifier.</param>
       public ContentEditFileList(int contentId, string cmd) 
-         : base()
+         : base(ContentEditFileList.DOM_ID)
       {
-         this.DomID = ContentEditFileList.DOM_ID;
          this.Command = cmd;
          this.ContentID = contentId;
       }
@@ -147,25 +145,6 @@ namespace Cosmo.Cms.Web
                                              Workspace.UIService.Render(btnBar)));
          }
          Content.Add(tableFiles);
-      }
-
-      public override void LoadPage()
-      {
-         // throw new System.NotImplementedException();
-      }
-
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         // throw new System.NotImplementedException();
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

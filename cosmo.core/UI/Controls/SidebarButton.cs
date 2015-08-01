@@ -14,7 +14,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets an instance of <see cref="SidebarButton"/>.
       /// </summary>
-      /// <param name="parentViewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentViewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       public SidebarButton(View parentViewport)
          : base(parentViewport)
       {
@@ -24,7 +24,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets an instance of <see cref="SidebarButton"/>.
       /// </summary>
-      /// <param name="parentViewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentViewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
       public SidebarButton(View parentViewport, string caption, string href)
@@ -39,7 +39,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets an instance of <see cref="SidebarButton"/>.
       /// </summary>
-      /// <param name="parentViewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentViewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
       /// <param name="icon"></param>

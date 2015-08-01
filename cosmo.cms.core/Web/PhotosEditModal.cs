@@ -22,11 +22,9 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="PhotosEditModal"/>.
       /// </summary>
       public PhotosEditModal()
-         : base()
+         : base(PhotosEditModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = PhotosEditModal.DOM_ID;
       }
 
       /// <summary>
@@ -34,11 +32,10 @@ namespace Cosmo.Cms.Web
       /// </summary>
       /// <param name="photoId">Photo unique identifier.</param>
       public PhotosEditModal(int photoId) 
-         : base()
+         : base(PhotosEditModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = PhotosEditModal.DOM_ID;
          this.PhotoID = photoId;
       }
 
@@ -83,7 +80,7 @@ namespace Cosmo.Cms.Web
          form = new FormControl(this);
          form.IsMultipart = true;
          form.DomID = "frmUploadPhoto";
-         form.Caption = "Editar fotografia";
+         form.Text = "Editar fotografia";
          form.Icon = IconControl.ICON_UPLOAD;
 
          form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, photo.FolderId);
@@ -114,21 +111,6 @@ namespace Cosmo.Cms.Web
          form.FormButtons.Add(new ButtonControl(this, "cmdCancel", "Cancelar", IconControl.ICON_REPLY, ButtonControl.ButtonTypes.CloseModalForm));
 
          Content.Add(form);
-      }
-
-      public override void FormDataReceived(UI.Controls.FormControl receivedForm)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void LoadPage()
-      {
-         // throw new NotImplementedException();
       }
 
       #endregion

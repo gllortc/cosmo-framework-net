@@ -5,6 +5,7 @@ using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 using System.Web.SessionState;
@@ -29,9 +30,11 @@ namespace Cosmo.UI
       /// <summary>
       /// Gets a new instance of <see cref="View"/>.
       /// </summary>
-      protected View()
+      protected View(string domId)
       {
          Initialize();
+
+         this.DomID = domId;
       }
 
       #endregion
@@ -39,9 +42,19 @@ namespace Cosmo.UI
       #region Properties
 
       /// <summary>
-      /// Gets or sets el workspace actual.
+      /// Gets or sets the current workspace.
       /// </summary>
       public Workspace Workspace { get; set; }
+
+      /// <summary>
+      /// Gets or sets the DOM unique identifier.
+      /// </summary>
+      /// <remarks>
+      /// This property have a protected <c>setter</c> because every modal view must have a 
+      /// constant DOM unique identifier. You can set this property only in a implementations
+      /// of the abstract class <see cref="ModalView"/>.
+      /// </remarks>
+      public string DomID { get; protected set; }
 
       /// <summary>
       /// Return an instance of <see cref="ControlCache"/> that allow to store and retrieve controls in cache.
@@ -85,8 +98,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve <c>true</c> si la llamada corresponde al envio de un formulario o <c>false</c> 
-      /// en cualquier otro caso.
+      /// Gets <c>true</c> if request is a form sending or <c>false</c> in all other cases.
       /// </summary>
       public bool IsFormReceived
       {
@@ -94,7 +106,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Returns the DOM identifier of the form taht is being received.
+      /// Gets the DOM identifier of the form taht is being received.
       /// </summary>
       public string FormReceivedDomID
       {
@@ -112,28 +124,15 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve el tipo de dispositivo usado para acceder a la página.
+      /// Gets the device type used to reques the view.
       /// </summary>
       public DeviceDetector.DeviceType DeviceType
       {
          get { return _device; }
       }
-      /*
+
       /// <summary>
-      /// Lista de formularios modales que se van a invocar desde la vista actual.
-      /// </summary>
-      public ControlCollection ModalForms
-      {
-         get
-         {
-            if (_modalForms == null) _modalForms = new ControlCollection(typeof(IModalForm));
-            return _modalForms;
-         }
-         set { _modalForms = value; }
-      }
-      */
-      /// <summary>
-      /// Lista de los componentes <see cref="Script"/> que se deben usar para representar correctamente el contenido.
+      /// Gets or sets the list of scripts used to construct the view.
       /// </summary>
       public List<Script> Scripts
       {
@@ -146,7 +145,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Lista de los recursos <see cref="ViewResource"/> (archivos CSS, JS, fuentes, etc.) que se deben usar para representar correctamente el contenido.
+      /// Gets or sets the list of web resources used to create the view.
       /// </summary>
       public List<ViewResource> Resources
       {
@@ -171,6 +170,10 @@ namespace Cosmo.UI
          _context.Response.Redirect(destinationUrl, true);
       }
 
+      /// <summary>
+      /// Add a control to cache.
+      /// </summary>
+      /// <param name="control">Control to add to cache.</param>
       public void AddControlToCache(Control control)
       {
          throw new NotImplementedException();
@@ -215,7 +218,7 @@ namespace Cosmo.UI
          _device = DeviceDetector.DetectDeviceType(_context.Request);
 
          // Inicia el ciclo de vida de la página
-         StartViewLifecycle();
+         StartViewLifecycle(this.ControlContainer);
       }
 
       #endregion
@@ -223,31 +226,60 @@ namespace Cosmo.UI
       #region Abstract Members
 
       /// <summary>
-      /// Inicia el ciclo de vida de la vista.
+      /// Gets the control container used to store the view controls.
       /// </summary>
-      internal abstract void StartViewLifecycle();
+      public abstract IControlContainer ControlContainer { get; }
+
+      /// <summary>
+      /// Show a error message.
+      /// </summary>
+      /// <param name="title">Error title.</param>
+      /// <param name="description">Error description.</param>
+      public abstract void ShowError(string title, string description);
+
+      /// <summary>
+      /// Show a error message.
+      /// </summary>
+      /// <param name="exception">Exception to be shown.</param>
+      public abstract void ShowError(Exception exception);
+
+      #endregion
+
+      #region Virtual Members
 
       /// <summary>
       /// Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
       /// </summary>
-      public abstract void InitPage();
+      public virtual void InitPage()
+      {
+         // Nothing to do here
+      }
 
       /// <summary>
       /// Método invocado al recibir datos de un formulario.
       /// </summary>
       /// <param name="receivedForm">Una instancia de <see cref="FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
-      public abstract void FormDataReceived(FormControl receivedForm);
+      public virtual void FormDataReceived(FormControl receivedForm)
+      {
+         // Nothing to do here
+      }
 
       /// <summary>
       /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
       /// </summary>
       /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public abstract void FormDataLoad(string formDomID);
+      public virtual void FormDataLoad(string formDomID)
+      {
+         // Nothing to do here
+      }
 
       /// <summary>
       /// Método invocado durante la carga de la página.
       /// </summary>
-      public abstract void LoadPage();
+      public virtual void LoadPage()
+      {
+         // Nothing to do here
+      }
 
       #endregion
 
@@ -282,6 +314,58 @@ namespace Cosmo.UI
          this.Workspace = null;
          this.Resources = new List<ViewResource>();
          this.Scripts = new List<Script>();
+      }
+
+      /// <summary>
+      /// Execute the view lifecycle.
+      /// </summary>
+      private void StartViewLifecycle(IControlContainer controlContainer)
+      {
+         string receivedFormID = string.Empty;
+         var watch = Stopwatch.StartNew();
+
+         try
+         {
+            // Raises the InitPage() event
+            InitPage();
+
+            // Process form data for each form in view
+            foreach (FormControl form in controlContainer.GetControlsByType(typeof(FormControl)))
+            {
+               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
+               {
+                  form.ProcessForm(Parameters);
+                  receivedFormID = form.DomID;
+
+                  // If form data is valid, raises the FormDataReceived() event
+                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
+                  {
+                     FormDataReceived(form);
+                  }
+               }
+
+               // If form data is valid, raises the FormDataLoad() event
+               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
+               {
+                  FormDataLoad(form.DomID);
+               }
+            }
+
+            // Raises the LoadPage() event
+            LoadPage();
+         }
+         catch (Exception ex)
+         {
+            ShowError(ex);
+         }
+
+         // Renderizes the view
+         Response.ContentType = "text/html";
+         Response.Write(Workspace.UIService.RenderView(this, receivedFormID));
+
+         // Compute total time and ads a comment in HTML code
+         watch.Stop();
+         Response.Write("<!-- Created in " + watch.ElapsedMilliseconds + "mS -->");
       }
 
       /// <summary>
@@ -323,7 +407,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Comprueba las reglas de seguridad para acceder a la página actual.
+      /// Check the security rules for the current user to access to current view.
       /// </summary>
       private void CheckSecurityConstrains()
       {

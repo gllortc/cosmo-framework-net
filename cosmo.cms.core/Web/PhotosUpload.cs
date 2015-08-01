@@ -57,7 +57,7 @@ namespace Cosmo.Cms.Web
          form = new FormControl(this);
          form.IsMultipart = true;
          form.DomID = "frmUploadPhoto";
-         form.Caption = "Publicar nueva fotografia";
+         form.Text = "Publicar nueva fotografia";
          form.Icon = IconControl.ICON_UPLOAD;
 
          FormFieldHidden parentid = new FormFieldHidden(this, Cosmo.Workspace.PARAM_FOLDER_ID, folderId.ToString());
@@ -122,11 +122,6 @@ namespace Cosmo.Cms.Web
          MainContent.Add(rulesPanel);
       }
 
-      public override void LoadPage()
-      {
-         // throw new System.NotImplementedException();
-      }
-
       public override void FormDataReceived(UI.Controls.FormControl receivedForm)
       {
          // Genera la imagen
@@ -150,15 +145,6 @@ namespace Cosmo.Cms.Web
 
          // Redirige al usuario a la vista de carpeta
          Redirect("PhotosByFolder?fid=" + picture.FolderId);
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

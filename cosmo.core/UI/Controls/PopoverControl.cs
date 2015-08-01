@@ -26,7 +26,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public PopoverControl(View parentView)
          : base(parentView)
       {

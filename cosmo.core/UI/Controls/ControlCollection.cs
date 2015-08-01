@@ -1,13 +1,12 @@
-﻿using Cosmo.UI.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Cosmo.Utils
+namespace Cosmo.UI.Controls
 {
    /// <summary>
-   /// Implementa un contenedor de controles UI.
+   /// Implements a control collection.
    /// </summary>
-   public class ControlCollection : IEnumerable<Control>
+   public class ControlCollection : IEnumerable<Control>, IControlContainer
    {
       // Internal data declarations
       private List<Control> _controls;
@@ -162,39 +161,6 @@ namespace Cosmo.Utils
       }
 
       /// <summary>
-      /// Obtiene todos los controles de un determinado tipo.
-      /// </summary>
-      /// <param name="controlType">Tipo de control a obtener.</param>
-      /// <returns>La lista de controles solicitada.</returns>
-      public List<Control> GetControlsByType(Type controlType)
-      {
-         List<Control> controls = new List<Control>();
-
-         foreach (Control control in this)
-         {
-            if (controlType.IsAssignableFrom(control.GetType()))
-            {
-               controls.Add(control);
-            }
-
-            if (control is IControlSingleContainer)
-            {
-               controls.AddRange(((IControlSingleContainer)control).Content.GetControlsByType(controlType));
-            }
-
-            if (control is IControlCollectionContainer)
-            {
-               foreach (IControlSingleContainer container in ((IControlCollectionContainer)control).NestedContainers)
-               {
-                  controls.AddRange(container.Content.GetControlsByType(controlType));
-               }
-            }
-         }
-
-         return controls;
-      }
-
-      /// <summary>
       /// Obtiene todos los campos de formulario de la colección.
       /// </summary>
       /// <param name="controlType">Tipo de control a obtener.</param>
@@ -264,6 +230,43 @@ namespace Cosmo.Utils
       public IEnumerator<Control> GetEnumerator()
       {
          return _controls.GetEnumerator();
+      }
+
+      #endregion
+
+      #region IControlContainer Implementation
+
+      /// <summary>
+      /// Gets all controls of a concrete type.
+      /// </summary>
+      /// <param name="controlType">Type of control.</param>
+      /// <returns>A list of requested controls.</returns>
+      public List<Control> GetControlsByType(Type controlType)
+      {
+         List<Control> controls = new List<Control>();
+
+         foreach (Control control in this)
+         {
+            if (controlType.IsAssignableFrom(control.GetType()))
+            {
+               controls.Add(control);
+            }
+
+            if (control is IControlSingleContainer)
+            {
+               controls.AddRange(((IControlSingleContainer)control).Content.GetControlsByType(controlType));
+            }
+
+            if (control is IControlCollectionContainer)
+            {
+               foreach (IControlSingleContainer container in ((IControlCollectionContainer)control).NestedContainers)
+               {
+                  controls.AddRange(container.Content.GetControlsByType(controlType));
+               }
+            }
+         }
+
+         return controls;
       }
 
       #endregion

@@ -11,7 +11,7 @@
       #region Settings
 
       /// <summary>
-      /// Indica si el campo es obligatorio.
+      /// Gets or sets a boolean value indicating if the field is required to validate the form.
       /// </summary>
       public bool Required
       {

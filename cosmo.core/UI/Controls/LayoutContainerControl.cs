@@ -1,13 +1,12 @@
-﻿using Cosmo.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Cosmo.UI.Controls
 {
    /// <summary>
-   /// Implementa una página de Cosmo.
+   /// Implements a page layout container.
    /// </summary>
-   public class LayoutContainerControl : Control
+   public class LayoutContainerControl : Control, IControlContainer
    {
 
       #region Constructors
@@ -15,7 +14,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="LayoutContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public LayoutContainerControl(View parentView)
          : base(parentView)
       {
@@ -79,7 +78,7 @@ namespace Cosmo.UI.Controls
 
       #endregion
 
-      #region Methods
+      #region IControlContainer Implementation
 
       /// <summary>
       /// Gets all controls of a concrete type.

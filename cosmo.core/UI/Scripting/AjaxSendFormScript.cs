@@ -6,23 +6,41 @@ namespace Cosmo.UI.Scripting
    /// <summary>
    /// Generates a script that sends form data via AJAX.
    /// </summary>
-   public class ModalViewSendFormScript : Script
+   public class AjaxSendFormScript : Script
    {
 
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="ModalViewSendFormScript"/>.
+      /// Gets a new instance of <see cref="AjaxSendFormScript"/>.
       /// </summary>
-      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
-      /// <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-      public ModalViewSendFormScript(ModalView parentView, FormControl form) 
+      /// <param name="parentView">View where the script resides.</param>
+      /// <param name="form">Form to send.</param>
+      public AjaxSendFormScript(View parentView, FormControl form)
+         : base(parentView)
+      {
+         Initialize();
+
+         this.FormDomID = form.DomID;
+         this.FormAction = form.Action;
+         this.FormIsMultipart = form.IsMultipart;
+      }
+
+      /// <summary>
+      /// Gets a new instance of <see cref="AjaxSendFormScript"/>.
+      /// </summary>
+      /// <param name="parentView">View where the script resides.</param>
+      /// <param name="formDomID">DOM ID of the form to send.</param>
+      /// <param name="formAction">Action of the form to send.</param>
+      /// <param name="formMultipart">Multipart indication of the form to send.</param>
+      public AjaxSendFormScript(View parentView, string formDomID, string formAction, bool formMultipart) 
          : base(parentView) 
       {
          Initialize();
 
-         this.Form = form;
-         this.ExecutionType = ScriptExecutionMethod.Standalone;
+         this.FormDomID = formDomID;
+         this.FormAction = formAction;
+         this.FormIsMultipart = formMultipart;
       }
 
       #endregion
@@ -30,26 +48,19 @@ namespace Cosmo.UI.Scripting
       #region Properties
 
       /// <summary>
-      /// Gets or sets el formulario para el que se desea generar el script.
+      /// Gets or sets the form DOM unique ID.
       /// </summary>
-      public FormControl Form { get; set; }
+      public string FormDomID { get; set; }
 
       /// <summary>
-      /// Llista de acciones a ejecutar si la llamada tiene éxito (evento <c>success</c> de la llamada AJAX, 
-      /// con respuesta de éxito por parte del handler).
+      /// Gets or sets the form action (URL).
       /// </summary>
-      public List<Script> OnCallSuccess { get; set; }
+      public string FormAction { get; set; }
 
       /// <summary>
-      /// Llista de acciones a ejecutar si la llamada falla (evento <c>success</c> de la llamada AJAX, 
-      /// con respuesta de error por parte del handler).
+      /// Gets or sets a boolean value indicating if the form is multipart.
       /// </summary>
-      public List<Script> OnCallFail { get; set; }
-
-      /// <summary>
-      /// Llista de acciones a ejecutar si no se puede realizar la llamada (evento <c>error</c> de la llamada AJAX).
-      /// </summary>
-      public List<Script> OnCallError { get; set; }
+      public bool FormIsMultipart { get; set; }
 
       #endregion
 
@@ -62,10 +73,10 @@ namespace Cosmo.UI.Scripting
       public override string GetSource()
       {
          // Declara el evento Submit
-         Source.AppendLine("$('#" + Form.DomID + "').submit(function(e) {");
+         Source.AppendLine("$('#" + this.FormDomID + "').submit(function(e) {");
 
          // Recoge los datos del formulario
-         if (!Form.IsMultipart)
+         if (!this.FormIsMultipart)
          {
             Source.AppendLine("  var fData = $(this).serializeArray();");
          }
@@ -75,17 +86,17 @@ namespace Cosmo.UI.Scripting
          }
 
          Source.AppendLine("  $.ajax({");
-         Source.AppendLine("    url: '" + Form.Action + "',");
+         Source.AppendLine("    url: '" + this.FormAction + "',");
          Source.AppendLine("    type: 'POST',");
          Source.AppendLine("    data: fData,");
-         if (Form.IsMultipart)
+         if (this.FormIsMultipart)
          {
             Source.AppendLine("    mimeType: 'multipart/form-data',");
             Source.AppendLine("    cache: false,");
             Source.AppendLine("    processData: false,");
          }
          Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
-         Source.AppendLine("      $('#" + ((ModalView)Form.ParentView).DomID + " .modal-dialog').html(data);");
+         Source.AppendLine("      $('#" + this.ParentView.DomID + "').html(data);");
          Source.AppendLine("    },");
          Source.AppendLine("    error: function(jqXHR, textStatus, errorThrown) {");
          Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
@@ -106,7 +117,11 @@ namespace Cosmo.UI.Scripting
       /// </summary>
       private void Initialize()
       {
-         this.Form = null;
+         this.FormDomID = string.Empty;
+         this.FormAction = string.Empty;
+         this.FormIsMultipart = false;
+
+         this.ExecutionType = ScriptExecutionMethod.Standalone;
       }
 
       #endregion

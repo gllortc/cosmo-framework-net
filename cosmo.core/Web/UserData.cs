@@ -285,11 +285,6 @@ namespace Cosmo.Web
          }
       }
 
-      public override void LoadPage()
-      {
-         // Nothing to do
-      }
-
       #endregion
 
       #region Static Members

@@ -11,11 +11,6 @@ namespace Cosmo.Web
    /// <summary>
    /// Formulario de verificación de nuevas cuentas de usuario.
    /// </summary>
-   /// <remarks>
-   /// Author : Gerard Llort
-   /// Version: 1.0.0
-   /// Copyright (c) InforGEST
-   /// </remarks>
    public class UserJoinVerification : PageView
    {
       /// <summary>Parámetro que contiene la clave de verificación de una cuenta de correo.</summary>
@@ -97,25 +92,6 @@ namespace Cosmo.Web
             waitBox.Type = ComponentColorScheme.Error;
             MainContent.Add(waitBox);
          }
-      }
-
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         // Nothing to do
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing todo
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

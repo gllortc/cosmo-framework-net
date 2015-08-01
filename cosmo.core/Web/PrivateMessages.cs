@@ -52,35 +52,6 @@ namespace Cosmo.Web
                                                                                  userId);
          MainContent.Add(thControl);
 
-         //if (userId > 0)
-         //{
-         //   ChatMessage message;
-         //   ChatControl chat = new ChatControl(this);
-
-         //   PrivateMessageThread th = msgDao.GetThread(Workspace.CurrentUser.User.ID, userId);
-         //   foreach (PrivateMessage msg in th.Messages)
-         //   {
-         //      message = new ChatMessage();
-         //      message.DomID = "pmsg" + msg.ID;
-         //      message.Author = Workspace.SecurityService.GetUser(msg.FromUserID).GetDisplayName();
-         //      message.Time = msg.Sended.ToString(Formatter.FORMAT_DATETIME);
-         //      message.Content = msg.Body;
-
-         //      chat.Messages.Add(message);
-         //   }
-
-         //   MainContent.Add(chat);
-         //}
-         //else
-         //{
-         //   CalloutControl callout = new CalloutControl(this);
-         //   callout.Type = ComponentColorScheme.Information;
-         //   callout.Title = "Seleccione una conversación";
-         //   callout.Text = "Seleccione la conversación (en la parte derecha) para ver los mensajes con una determinada persona.";
-
-         //   MainContent.Add(callout);
-         //}
-
          //-------------------------------
          // Configuración de la lista de conversaciones
          //-------------------------------
@@ -110,21 +81,6 @@ namespace Cosmo.Web
          thPanel.Content.Add(list);
 
          RightContent.Add(thPanel);
-      }
-
-      public override void FormDataReceived(UI.Controls.FormControl receivedForm)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void LoadPage()
-      {
-         // throw new NotImplementedException();
       }
 
       #endregion

@@ -3,7 +3,6 @@ using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 namespace Cosmo.UI
@@ -21,7 +20,8 @@ namespace Cosmo.UI
       /// <summary>
       /// Gets a new instance of <see cref="PartialView"/>.
       /// </summary>
-      protected PartialView()
+      protected PartialView(string domId)
+         : base(domId)
       {
          Initialize();
       }
@@ -29,16 +29,6 @@ namespace Cosmo.UI
       #endregion
 
       #region Properties
-
-      /// <summary>
-      /// Gets the unique identifier in DOM for this element.
-      /// </summary>
-      /// <remarks>
-      /// This property have a protected <c>setter</c> because every modal view must have a 
-      /// constant DOM unique identifier. You can set this property only in a implementations
-      /// of the abstract class <see cref="ModalView"/>.
-      /// </remarks>
-      public string DomID { get; protected set; }
 
       /// <summary>
       /// Gets or sets el contenido de la página.
@@ -155,12 +145,24 @@ namespace Cosmo.UI
          return new PartialViewLoadScript(this);
       }
 
+      #endregion
+
+      #region View Implementation
+
+      /// <summary>
+      /// Gets the control container used to store the view controls.
+      /// </summary>
+      public override IControlContainer ControlContainer
+      {
+         get { return this.Content; }
+      }
+
       /// <summary>
       /// Muestra un mensaje de error.
       /// </summary>
       /// <param name="title">Título del error.</param>
       /// <param name="description">Descripción del error.</param>
-      public void ShowError(string title, string description)
+      public override void ShowError(string title, string description)
       {
          StringBuilder xhtml = new StringBuilder();
 
@@ -182,7 +184,7 @@ namespace Cosmo.UI
       /// Muestra un mensaje de error.
       /// </summary>
       /// <param name="exception">Excepción a mostrar.</param>
-      public void ShowError(Exception exception)
+      public override void ShowError(Exception exception)
       {
          StringBuilder xhtml = new StringBuilder();
 
@@ -196,61 +198,6 @@ namespace Cosmo.UI
 
       #endregion
 
-      #region View Implementation
-
-      /// <summary>
-      /// Inicia el ciclo de vida de la vista.
-      /// </summary>
-      internal override void StartViewLifecycle()
-      {
-         string receivedFormID = string.Empty;
-         var watch = Stopwatch.StartNew();
-
-         try
-         {
-            // Inicialización de la página
-            InitPage();
-
-            // Process form data
-            foreach (FormControl form in Content.GetControlsByType(typeof(FormControl)))
-            {
-               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
-               {
-                  form.ProcessForm(Parameters);
-                  receivedFormID = form.DomID;
-
-                  // If data is valid, raise FormDataReceived() event
-                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
-                  {
-                     FormDataReceived(form);
-                  }
-               }
-
-               // Lanza el evento FormDataLoad()
-               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
-               {
-                  FormDataLoad(form.DomID);
-               }
-            }
-
-            // Finish page load
-            LoadPage();
-         }
-         catch (Exception ex)
-         {
-            ShowError(ex);
-         }
-
-         // Renderiza la página
-         Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.RenderPage(this, receivedFormID));
-
-         watch.Stop();
-         Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");
-      }
-
-      #endregion
-
       #region Private Members
 
       /// <summary>
@@ -258,7 +205,6 @@ namespace Cosmo.UI
       /// </summary>
       private void Initialize()
       {
-         this.DomID = string.Empty;
          this.Content = new ControlCollection();
          this._modals = null;
       }

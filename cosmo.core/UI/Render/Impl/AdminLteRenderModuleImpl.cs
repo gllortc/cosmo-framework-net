@@ -814,10 +814,10 @@ namespace Cosmo.UI.Render.Impl
       {
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("<div class=\"box\">");
+         xhtml.AppendLine("<div " + control.GetIdParameter() + " class=\"box\">");
          xhtml.AppendLine("  <div class=\"box-header\">");
          xhtml.AppendLine("    <i class=\"fa fa-comments-o\"></i>");
-         xhtml.AppendLine("    <h3 class=\"box-title\">" + control.Caption + "</h3>");
+         xhtml.AppendLine("    <h3 class=\"box-title\">" + control.Text + "</h3>");
          xhtml.AppendLine("    <div class=\"box-tools pull-right\" data-toggle=\"tooltip\" title=\"Status\">");
          xhtml.AppendLine("      <div class=\"btn-group\" data-toggle=\"btn-toggle\">");
          xhtml.AppendLine("        <button type=\"button\" class=\"btn btn-default btn-sm active\"><i class=\"fa fa-square text-green\"></i></button>");
@@ -833,14 +833,6 @@ namespace Cosmo.UI.Render.Impl
          }
 
          xhtml.AppendLine("  </div>");
-         xhtml.AppendLine("  <div class=\"box-footer\">");
-         xhtml.AppendLine("    <div class=\"input-group\">");
-         xhtml.AppendLine("      <input class=\"form-control\" placeholder=\"Type message...\"/>");
-         xhtml.AppendLine("      <div class=\"input-group-btn\">");
-         xhtml.AppendLine("        <button class=\"btn btn-success\"><i class=\"fa fa-plus\"></i></button>");
-         xhtml.AppendLine("      </div>");
-         xhtml.AppendLine("    </div>");
-         xhtml.AppendLine("  </div>");
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -854,7 +846,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <img src=\"" + Url.Combine(Workspace.UIService.TemplatePath, "img/avatar.png") + "\" alt=\"user image\" class=\"online\"/>");
          xhtml.AppendLine("  <p class=\"message\">");
          xhtml.AppendLine("    <a href=\"#\" class=\"name\">");
-         xhtml.AppendLine("      <small class=\"text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> 2:15</small>");
+         xhtml.AppendLine("      <small class=\"text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> " + msg.Time + "</small>");
          xhtml.AppendLine(msg.Author);
          xhtml.AppendLine("    </a>");
          xhtml.AppendLine(msg.Content);
@@ -990,7 +982,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("<div class=\"box box-primary\">");
             xhtml.AppendLine("  <div class=\"box-header\">");
-            if (!string.IsNullOrWhiteSpace(control.Caption)) xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.Icon) + " ") + HttpUtility.HtmlDecode(control.Caption) + "</h3>");
+            if (!string.IsNullOrWhiteSpace(control.Text)) xhtml.AppendLine("    <h3 class=\"box-title\">" + (string.IsNullOrWhiteSpace(control.Icon) ? string.Empty : IconControl.GetIcon(control.ParentView, control.Icon) + " ") + HttpUtility.HtmlDecode(control.Text) + "</h3>");
             xhtml.AppendLine("  </div>");
          }
          xhtml.AppendLine("  <form " + control.GetIdParameter() + " role=\"form\" method=\"" + control.Method + "\"" + (string.IsNullOrWhiteSpace(control.Action) ? string.Empty : " action=\"" + control.Action + "\"") + (control.IsMultipart ? " enctype=\"multipart/form-data\"" : string.Empty) + ">");
@@ -1431,6 +1423,21 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("      " + HttpUtility.HtmlDecode(control.Label));
          xhtml.AppendLine("    </label>");
          xhtml.AppendLine("  </div>");
+         xhtml.AppendLine("</div>");
+
+         return xhtml.ToString();
+      }
+
+      /// <summary>
+      /// Renderizes a control of type <see cref="FormFieldAutocomplete"/>.
+      /// </summary>
+      private string RenderFormFieldAutocomplete(FormFieldAutocomplete control, string receivedFormID)
+      {
+         StringBuilder xhtml = new StringBuilder();
+
+         xhtml.AppendLine("<div class=\"form-group\">");
+         xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + HttpUtility.HtmlDecode(control.Label) + "</label>");
+         xhtml.AppendLine("  <input type=\"text\" " + control.GetIdParameter() + control.GetNameParameter() + "/>");
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();

@@ -7,7 +7,7 @@ namespace Cosmo.UI.Controls
    /// </summary>
    public class FormFieldHidden : FormField
    {
-      // Declara variables internas
+      // Internal data declarations
       private string _value;
 
       #region Constructors
@@ -15,7 +15,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormFieldHidden(View parentView, string domId)
          : base(parentView, domId)
@@ -26,7 +26,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormFieldText"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="value">Valor inicial del campo.</param>
       public FormFieldHidden(View parentView, string domId, string value)
@@ -63,16 +63,16 @@ namespace Cosmo.UI.Controls
       #region Methods
 
       /// <summary>
-      /// Valida el valor del campo.
+      /// Validate the field value.
       /// </summary>
-      /// <returns><c>true</c> si el valor és aceptable o <c>false</c> si el valor no es válido.</returns>
+      /// <c>true</c> if the field value is valid or <c>false</c> if the value is not valid.
       public override bool Validate()
       {
          return true;
       }
 
       /// <summary>
-      /// Obtiene el valor del campo a partir de los datos recibidos mediante GET o POST.
+      /// Gets the field value from the request.
       /// </summary>
       /// <returns><c>true</c> si el valor obtenido es válido o <c>false</c> si el valor no puede ser aceptado.</returns>
       public override bool LoadValueFromRequest()

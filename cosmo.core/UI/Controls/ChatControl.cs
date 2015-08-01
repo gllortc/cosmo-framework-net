@@ -6,29 +6,47 @@ namespace Cosmo.UI.Controls
    /// Implementa un componente Chat para representar un hilo de mensajes de texto.
    /// No es un componente nativo de Bootstrap. Está realizado usando componentes nativos.
    /// </summary>
-   public class ChatControl : Control
+   public class ChatControl : FormControl
    {
+      // Internal data declarations
+      private int toUsrID;
+
+      /// <summary>Field name for message text.</summary>
+      public const string FIELD_MESSAGE_DOMID = "txtMsg";
+      /// <summary>Field name for message text.</summary>
+      public const string FIELD_TOUSER_DOMID = Workspace.PARAM_USER_ID;
 
       #region Constructors
 
       /// <summary>
       /// Gets a new instance of <see cref="ChatControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public ChatControl(View parentView)
          : base(parentView)
       {
          Initialize();
+         CreateMessageForm();
+      }
+
+      /// <summary>
+      /// Gets a new instance of <see cref="ChatControl"/>.
+      /// </summary>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
+      /// <param name="toUserID">Remote user unique ID.</param>
+      public ChatControl(View parentView, int toUserID)
+         : base(parentView)
+      {
+         Initialize();
+
+         this.toUsrID = toUserID;
+
+         CreateMessageForm();
       }
 
       #endregion
 
       #region Properties
-
-      /// <summary>
-      /// Gets or sets el título visible del componente.
-      /// </summary>
-      public string Caption { get; set; }
 
       /// <summary>
       /// Gets or sets la altura (en píxels) de la zona de mensajes.
@@ -37,30 +55,29 @@ namespace Cosmo.UI.Controls
 
       /// <summary>
       /// Indica si se debe mostrar el formulario de redacción de mensajes.
-      /// Este formulario sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
       public bool FormShow { get; set; }
 
       /// <summary>
-      /// Gets or sets el ID del usuario destinatario del mensaje.
-      /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
+      /// Gets or sets the remote user unique ID.
       /// </summary>
-      public int FormToUserID { get; set; }
-
-      /// <summary>
-      /// Gets or sets el ID (DOM) del formulario de envio de mensajes.
-      /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
-      /// </summary>
-      public string FormDomID { get; set; }
+      public int ToUserID 
+      { 
+         get { return toUsrID; }
+         set
+         {
+            toUsrID = value;
+            this.SetFieldValue(ChatControl.FIELD_TOUSER_DOMID, toUsrID);
+         } 
+      }
 
       /// <summary>
       /// Gets or sets el ID (DOM) del botón de envío de mensajes.
-      /// Este dato sirve sólo para envios a través de Cosmo Communication Services.
       /// </summary>
       public string FormSubmitButtonID { get; set; }
 
       /// <summary>
-      /// Gets or sets la lista de mensajes que aparecen en el chat.
+      /// Gets or sets the message list.
       /// </summary>
       public List<ChatMessage> Messages { get; set; }
 
@@ -69,6 +86,11 @@ namespace Cosmo.UI.Controls
       /// Si se establece a <c>true</c> no se tendrá en cuenta el valor de la propiedad <c>Height</c>.
       /// </summary>
       public bool AutoSize { get; set; }
+
+      /// <summary>
+      /// Gets or sets the buttons placed at the top of chat control.
+      /// </summary>
+      public List<ButtonControl> Buttons { get; set; }
 
       #endregion
 
@@ -79,14 +101,24 @@ namespace Cosmo.UI.Controls
       /// </summary>
       private void Initialize()
       {
+         this.toUsrID = 0;
+
          this.AutoSize = false;
-         this.FormShow = false;
-         this.FormToUserID = 0;
+         this.FormShow = true;
          this.Height = 400;
-         this.Caption = string.Empty;
-         this.FormDomID = "frmPMsgSend";
+         this.Text = string.Empty;
          this.FormSubmitButtonID = "csSendPMsg";
          this.Messages = new List<ChatMessage>();
+         this.Buttons = new List<ButtonControl>();
+      }
+
+      /// <summary>
+      /// Include a form to manage the message sending.
+      /// </summary>
+      private void CreateMessageForm()
+      {
+         this.AddFormSetting(ChatControl.FIELD_TOUSER_DOMID, this.ToUserID);
+         this.Content.Add(new FormFieldText(this.ParentView, ChatControl.FIELD_MESSAGE_DOMID));
       }
 
       #endregion

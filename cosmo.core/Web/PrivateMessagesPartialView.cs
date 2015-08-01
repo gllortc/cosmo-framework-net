@@ -3,6 +3,7 @@ using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.UI.Scripting;
 using System.Reflection;
 
 namespace Cosmo.Web
@@ -15,6 +16,7 @@ namespace Cosmo.Web
                   PropertyName = "RemoteUserID")]
    public class PrivateMessagesPartialView : PartialView
    {
+      private ChatControl chat = null;
 
       // Modal element unique identifier
       private const string DOM_ID = "ads-th-list";
@@ -25,9 +27,8 @@ namespace Cosmo.Web
       /// Gets an instance of <see cref="PrivateMessagesPartialView"/>.
       /// </summary>
       public PrivateMessagesPartialView()
-         : base()
+         : base(PrivateMessagesPartialView.DOM_ID)
       {
-         this.DomID = PrivateMessagesPartialView.DOM_ID;
          this.RemoteUserID = 0;
       }
 
@@ -36,9 +37,8 @@ namespace Cosmo.Web
       /// </summary>
       /// <param name="remoteUserID">Remote user ID</param>
       public PrivateMessagesPartialView(int remoteUserID)
-         : base()
+         : base(PrivateMessagesPartialView.DOM_ID)
       {
-         this.DomID = PrivateMessagesPartialView.DOM_ID;
          this.RemoteUserID = remoteUserID;
       }
 
@@ -57,21 +57,90 @@ namespace Cosmo.Web
 
       public override void InitPage()
       {
-         PrivateMessageDAO msgDao = new PrivateMessageDAO(Workspace);
-
-         //-------------------------------
-         // Configuración de la vista
-         //-------------------------------
-
-         if (this.RemoteUserID > 0)
+         //
+         // Get URL parameters
+         //
+         if (this.RemoteUserID <= 0)
          {
-            ChatMessage message;
-            ChatControl chat = new ChatControl(this);
+            this.RemoteUserID = Parameters.GetInteger(Workspace.PARAM_USER_ID);
+         }
 
-            User remoteUser = Workspace.SecurityService.GetUser(this.RemoteUserID);
-            chat.Caption = "Mensajes con " + remoteUser.GetDisplayName();
+         // If no user selected, shows the new conversation form
+         if (this.RemoteUserID <= 0)
+         {
+            FormFieldAutocomplete txtAuto = new FormFieldAutocomplete(this, "txtName");
+            txtAuto.SearchUrl = "serachUrl";
 
+            FormControl frmNewThread = new FormControl(this, "frmNewTh");
+            frmNewThread.UsePanel = true;
+            frmNewThread.Content.Add(txtAuto);
+
+            Content.Add(frmNewThread);
+
+            CalloutControl callout = new CalloutControl(this);
+            callout.Type = ComponentColorScheme.Information;
+            callout.Title = "Seleccione una conversación";
+            callout.Text = "Seleccione la conversación (en la parte derecha) para ver los mensajes con una determinada persona.";
+
+            Content.Add(callout);
+
+            return;
+         }
+
+         //
+         // Chat control
+         //
+         chat = new ChatControl(this, this.RemoteUserID);
+         chat.DomID = "pmChat";
+         chat.Action = this.GetType().Name;
+
+         User remoteUser = Workspace.SecurityService.GetUser(this.RemoteUserID);
+         chat.Text = "Mensajes con " + remoteUser.GetDisplayName();
+
+         Content.Add(chat);
+
+         //
+         // Message sending form
+         //
+         FormFieldText txtMsg = new FormFieldText(this, "txtMsg");
+         txtMsg.Required = true;
+         txtMsg.Placeholder = "Type message...";
+
+         FormControl frmMessage = new FormControl(this, "frmChatMsg");
+         frmMessage.UsePanel = true;
+         frmMessage.AddFormSetting(Workspace.PARAM_USER_ID, this.RemoteUserID);
+         frmMessage.Content.Add(txtMsg);
+         frmMessage.FormButtons.Add(new ButtonControl(this, "cmdSendMsg", "Send", IconControl.ICON_SEND, ButtonControl.ButtonTypes.Submit));
+
+         Content.Add(frmMessage);
+
+         // Enables message sending by adding script
+         Scripts.Add(new AjaxSendFormScript(this, frmMessage));
+      }
+
+      public override void FormDataReceived(UI.Controls.FormControl receivedForm)
+      {
+         // Get message data
+         PrivateMessage pm = new PrivateMessage();
+         pm.Body = Parameters.GetString(ChatControl.FIELD_MESSAGE_DOMID);
+         pm.FromUserID = Workspace.CurrentUser.User.ID;
+         pm.ToUserID = Parameters.GetInteger(ChatControl.FIELD_TOUSER_DOMID);
+         pm.FromIP = Request.UserHostAddress;
+
+         // Send the message
+         PrivateMessageDAO pmDao = new PrivateMessageDAO(Workspace);
+         pmDao.SendMessage(pm);
+      }
+
+      public override void LoadPage()
+      {
+         ChatMessage message;
+
+         if (chat != null)
+         {
+            PrivateMessageDAO msgDao = new PrivateMessageDAO(Workspace);
             PrivateMessageThread th = msgDao.GetThread(Workspace.CurrentUser.User.ID, this.RemoteUserID);
+
             foreach (PrivateMessage msg in th.Messages)
             {
                message = new ChatMessage();
@@ -82,33 +151,7 @@ namespace Cosmo.Web
 
                chat.Messages.Add(message);
             }
-
-            Content.Add(chat);
          }
-         else
-         {
-            CalloutControl callout = new CalloutControl(this);
-            callout.Type = ComponentColorScheme.Information;
-            callout.Title = "Seleccione una conversación";
-            callout.Text = "Seleccione la conversación (en la parte derecha) para ver los mensajes con una determinada persona.";
-
-            Content.Add(callout);
-         }
-      }
-
-      public override void FormDataReceived(UI.Controls.FormControl receivedForm)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void LoadPage()
-      {
-         // throw new NotImplementedException();
       }
 
       #endregion

@@ -33,7 +33,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormField"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       protected FormField(View parentView) : base(parentView)
       {
          Initialize();
@@ -42,7 +42,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormField"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       protected FormField(View parentView, string domId)
          : base(parentView, domId)
@@ -79,15 +79,15 @@ namespace Cosmo.UI.Controls
       #region Methods
 
       /// <summary>
-      /// Obtiene el valor del campo a partir de los datos recibidos mediante GET o POST.
+      /// Gets the field value from the request.
       /// </summary>
       /// <returns><c>true</c> si el valor obtenido es válido o <c>false</c> si el valor no puede ser aceptado.</returns>
       public abstract bool LoadValueFromRequest();
 
       /// <summary>
-      /// Valida el valor del campo.
+      /// Validate the field value.
       /// </summary>
-      /// <returns><c>true</c> si el valor és aceptable o <c>false</c> si el valor no es válido.</returns>
+      /// <c>true</c> if the field value is valid or <c>false</c> if the value is not valid.
       public abstract bool Validate();
 
       #endregion

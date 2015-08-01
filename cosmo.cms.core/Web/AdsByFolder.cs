@@ -9,7 +9,6 @@ using System.Reflection;
 namespace Cosmo.Cms.Web
 {
    /// <summary>
-   /// ANUNCIOS CLASIFICADOS.
    /// Muestra el contenido de una categoria.
    /// </summary>
    public class AdsByFolder : PageView
@@ -62,7 +61,6 @@ namespace Cosmo.Cms.Web
          // Genera la lista de anuncios a mostrar
          //--------------------------------------------------------------
 
-         Url url;
          List<Ad> adlist = ads.Items(folder.ID, true);
 
          if (adlist.Count > 0)
@@ -108,25 +106,6 @@ namespace Cosmo.Cms.Web
 
             MainContent.Add(callout);
          }
-      }
-
-      public override void InitPage()
-      {
-         // Nothing to do
-      }
-
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

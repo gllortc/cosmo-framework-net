@@ -24,8 +24,9 @@ namespace Cosmo.Web
       /// Gets an instance of <see cref="UserDataModal"/>.
       /// </summary>
       public UserDataModal()
+         : base(UserDataModal.DOM_ID)
       {
-         this.DomID = UserDataModal.DOM_ID;
+
       }
 
       /// <summary>
@@ -33,8 +34,8 @@ namespace Cosmo.Web
       /// </summary>
       /// <param name="userId">User identifier.</param>
       public UserDataModal(int userId)
+         : base(UserDataModal.DOM_ID)
       {
-         this.DomID = UserDataModal.DOM_ID;
          this.UserID = userId;
       }
 
@@ -91,21 +92,6 @@ namespace Cosmo.Web
          data.AppendDataList(values);
 
          Content.Add(data);
-      }
-
-      public override void FormDataReceived(UI.Controls.FormControl receivedForm)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void LoadPage()
-      {
-         // throw new NotImplementedException();
       }
 
       #endregion

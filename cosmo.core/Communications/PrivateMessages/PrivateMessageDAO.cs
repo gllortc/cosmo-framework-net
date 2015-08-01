@@ -369,8 +369,9 @@ namespace Cosmo.Communications.PrivateMessages
                            tou.usrname As toname 
                  FROM      sysusersmsg Left Join users fru On (sysusersmsg.fromusrid = fru.usrid) 
                                        Left Join users tou On (sysusersmsg.tousrid = tou.usrid) 
-                 WHERE     (sysusersmsg.fromusrid = @owner And sysusersmsg.tousrid = @remote) Or 
-                           (sysusersmsg.fromusrid = @remote And sysusersmsg.tousrid = @owner) 
+                 WHERE     ((sysusersmsg.fromusrid = @owner And sysusersmsg.tousrid = @remote) Or 
+                            (sysusersmsg.fromusrid = @remote And sysusersmsg.tousrid = @owner)) And
+                           sysusersmsg.ownerusrid = @owner 
                  ORDER BY  sysusersmsg.id Desc";
 
          try

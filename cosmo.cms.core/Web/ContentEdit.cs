@@ -193,7 +193,7 @@ namespace Cosmo.Cms.Web
          FormControl form = new FormControl(this);
          form.IsMultipart = true;
          form.Icon = "fa-edit";
-         form.Caption = "Editar artículo";
+         form.Text = "Editar artículo";
          form.Action = GetType().Name;
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, doc.ID);
@@ -247,15 +247,6 @@ namespace Cosmo.Cms.Web
 
          // Redirige a la página del artículo
          Redirect(ContentView.GetURL(doc.ID));
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

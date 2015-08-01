@@ -12,7 +12,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="DisableElementBehavior"/>.
       /// </summary>
-      /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="viewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Identificador del elemento.</param>
       /// <param name="disabled"><c>true</c> para inhabilitar el elemento o <c>false</c> para habilitarlo.</param>
       public DisableElementBehavior(View parentViewport, string domId, bool disabled)

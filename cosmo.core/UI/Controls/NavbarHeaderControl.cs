@@ -11,7 +11,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="NavbarHeaderControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public NavbarHeaderControl(View parentView)
          : base(parentView)
       {
@@ -21,7 +21,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="NavbarHeaderControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption">Texto visible del elemento.</param>
       /// <param name="href">URL para el enlace del elemento.</param>
       public NavbarHeaderControl(View parentView, string caption, string href)

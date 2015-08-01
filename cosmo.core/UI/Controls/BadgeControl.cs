@@ -13,7 +13,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="BadgeControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public BadgeControl(View parentView) : 
          base(parentView)
       {
@@ -23,7 +23,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="BadgeControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="text">Texto que contiene el control.</param>
       /// <param name="type">Tipo (color) de mensaje a representar.</param>
       /// <param name="roundedBorders">Indica si se debe representar con los bordes redondeados.</param>

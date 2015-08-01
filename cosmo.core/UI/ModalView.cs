@@ -2,7 +2,6 @@
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using System;
-using System.Diagnostics;
 using System.Text;
 
 namespace Cosmo.UI
@@ -18,7 +17,8 @@ namespace Cosmo.UI
       /// <summary>
       /// Gets an instance of <see cref="ModalView"/>.
       /// </summary>
-      protected ModalView()
+      protected ModalView(string domId)
+         : base(domId)
       {
          Initialize();
       }
@@ -26,16 +26,6 @@ namespace Cosmo.UI
       #endregion
 
       #region Properties
-
-      /// <summary>
-      /// Gets the unique identifier in DOM for this element.
-      /// </summary>
-      /// <remarks>
-      /// This property have a protected <c>setter</c> because every modal view must have a 
-      /// constant DOM unique identifier. You can set this property only in a implementations
-      /// of the abstract class <see cref="ModalView"/>.
-      /// </remarks>
-      public string DomID { get; protected set; }
 
       /// <summary>
       /// Gets or sets the modal title.
@@ -64,45 +54,6 @@ namespace Cosmo.UI
       #endregion
 
       #region Methods
-
-      /// <summary>
-      /// Muestra un mensaje de error.
-      /// </summary>
-      /// <param name="title">Título del error.</param>
-      /// <param name="description">Descripción del error.</param>
-      public void ShowError(string title, string description)
-      {
-         StringBuilder xhtml = new StringBuilder();
-
-         // Limpia el contenido de la zona principal dónde se va a mostrar el mensaje
-         Content.Clear();
-         Content.Clear();
-
-         // Genera el mensaje de error
-         CalloutControl callout = new CalloutControl(this);
-         callout.Type = ComponentColorScheme.Error;
-         callout.Title = title;
-         callout.Text = description;
-
-         // Agrega el mensaje al contenido
-         Content.Add(callout);
-      }
-
-      /// <summary>
-      /// Muestra un mensaje de error.
-      /// </summary>
-      /// <param name="exception">Excepción a mostrar.</param>
-      public void ShowError(Exception exception)
-      {
-         StringBuilder xhtml = new StringBuilder();
-
-         // Limpia el contenido de la zona principal dónde se va a mostrar el mensaje
-         Content.Clear();
-         Content.Clear();
-
-         // Agrega el mensaje al contenido
-         Content.Add(new ErrorControl(this, exception));
-      }
 
       /// <summary>
       /// Generate JS call for modal using data passed as method parameters. 
@@ -173,54 +124,50 @@ namespace Cosmo.UI
       #region View Implementation
 
       /// <summary>
-      /// Inicia el ciclo de vida de la vista.
+      /// Gets the control container used to store the view controls.
       /// </summary>
-      internal override void StartViewLifecycle()
+      public override IControlContainer ControlContainer
       {
-         string receivedFormID = string.Empty;
-         var watch = Stopwatch.StartNew();
+         get { return this.Content; }
+      }
 
-         try
-         {
-            // Inicialización de la página
-            InitPage();
+      /// <summary>
+      /// Muestra un mensaje de error.
+      /// </summary>
+      /// <param name="title">Título del error.</param>
+      /// <param name="description">Descripción del error.</param>
+      public override void ShowError(string title, string description)
+      {
+         StringBuilder xhtml = new StringBuilder();
 
-            // Process form data
-            foreach (FormControl form in Content.GetControlsByType(typeof(FormControl)))
-            {
-               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
-               {
-                  form.ProcessForm(Parameters);
-                  receivedFormID = form.DomID;
+         // Limpia el contenido de la zona principal dónde se va a mostrar el mensaje
+         Content.Clear();
+         Content.Clear();
 
-                  // If data is valid, raise FormDataReceived() event
-                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
-                  {
-                     FormDataReceived(form);
-                  }
-               }
+         // Genera el mensaje de error
+         CalloutControl callout = new CalloutControl(this);
+         callout.Type = ComponentColorScheme.Error;
+         callout.Title = title;
+         callout.Text = description;
 
-               // Lanza el evento FormDataLoad()
-               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
-               {
-                  FormDataLoad(form.DomID);
-               }
-            }
+         // Agrega el mensaje al contenido
+         Content.Add(callout);
+      }
 
-            // Finish page load
-            LoadPage();
-         }
-         catch (Exception ex)
-         {
-            ShowError(ex);
-         }
+      /// <summary>
+      /// Muestra un mensaje de error.
+      /// </summary>
+      /// <param name="exception">Excepción a mostrar.</param>
+      public override void ShowError(Exception exception)
+      {
+         StringBuilder xhtml = new StringBuilder();
 
-         // Renderiza la página
-         Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.RenderPage(this, receivedFormID));
+         // Limpia el contenido de la zona principal dónde se va a mostrar el mensaje
+         Content.Clear();
+         Content.Clear();
 
-         watch.Stop();
-         Response.Write("<!-- Content created in " + watch.ElapsedMilliseconds + "mS -->");
+         // Agrega el mensaje al contenido
+         Content.Add(new ErrorControl(this, exception));
       }
 
       #endregion
@@ -232,7 +179,6 @@ namespace Cosmo.UI
       /// </summary>
       private void Initialize()
       {
-         this.DomID = string.Empty;
          this.Closeable = false;
          this.Content = new ControlCollection();
       }

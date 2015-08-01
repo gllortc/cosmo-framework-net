@@ -20,8 +20,8 @@ namespace Cosmo.UI
       // Internal data declarations
       private string _activeRenderer;
       private Workspace _ws;
-      private Dictionary<string, RenderModule> _renderers;
-      private Dictionary<string, MenuProvider> _menus;
+      private Dictionary<String, RenderModule> _renderers;
+      private Dictionary<String, MenuProvider> _menus;
 
       #region Constructors
 
@@ -139,62 +139,31 @@ namespace Cosmo.UI
       /// </summary>
       /// <param name="parentView">A page view container.</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PageView parentView)
+      public string RenderView(View parentView)
       {
-         return RenderPage(parentView, string.Empty);
+         return RenderView(parentView, string.Empty);
       }
 
       /// <summary>
       /// Render a page view.
       /// </summary>
       /// <param name="parentView">A page view container.</param>
-      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
+      /// <param name="receivedFormID">In a postback request, the form DOM ID received.</param>
       /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PageView parentView, string receivedFormID)
+      public string RenderView(View parentView, string receivedFormID)
       {
-         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
-      }
-
-      /// <summary>
-      /// Render a modal view.
-      /// </summary>
-      /// <param name="parentView">A modal view container.</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(ModalView parentView)
-      {
-         return RenderPage(parentView, string.Empty);
-      }
-
-      /// <summary>
-      /// Render a modal view.
-      /// </summary>
-      /// <param name="parentView">A modal view container.</param>
-      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(ModalView parentView, string receivedFormID)
-      {
-         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
-      }
-
-      /// <summary>
-      /// Render a partial view.
-      /// </summary>
-      /// <param name="parentView">A partial view container.</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PartialView parentView)
-      {
-         return RenderPage(parentView, string.Empty);
-      }
-
-      /// <summary>
-      /// Render a partial view.
-      /// </summary>
-      /// <param name="parentView">A partial view container.</param>
-      /// <param name="receivedFormID">Indica si la carga obedece a una llamada de <em>postback</em> (respuesta a un formulario).</param>
-      /// <returns>A string containing the XHTML markup to represent the view in a browser.</returns>
-      public string RenderPage(PartialView parentView, string receivedFormID)
-      {
-         return _renderers[_activeRenderer].RenderPage(parentView, receivedFormID);
+         if (parentView is ModalView)
+         {
+            return _renderers[_activeRenderer].RenderPage((ModalView)parentView, receivedFormID);
+         }
+         else if (parentView is PartialView)
+         {
+            return _renderers[_activeRenderer].RenderPage((PartialView)parentView, receivedFormID);
+         }
+         else
+         {
+            return _renderers[_activeRenderer].RenderPage((PageView)parentView, receivedFormID);
+         }
       }
 
       /// <summary>
@@ -243,7 +212,7 @@ namespace Cosmo.UI
       /// <summary>
       /// Obtiene el menú lateral a partir de un proveedor determinado.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="id">Identificador del menú a obtener.</param>
       /// <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
       /// <returns>Una instancia de <see cref="SidebarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
@@ -276,7 +245,7 @@ namespace Cosmo.UI
       /// <summary>
       /// Obtiene la barra de navegación a partir de un proveedor determinado.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="id">Identificador del menú a obtener.</param>
       /// <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
       /// <returns>Una instancia de <see cref="NavbarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>

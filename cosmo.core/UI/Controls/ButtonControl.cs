@@ -49,7 +49,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public ButtonControl(View parentView) 
          : base(parentView)
       {
@@ -59,7 +59,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="type">Tipo de botón a representar.</param>
@@ -75,7 +75,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>
@@ -93,7 +93,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
@@ -111,7 +111,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="modal">Formulario modal que abrirá el botón.</param>
@@ -130,7 +130,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="href">Enlace dónde se redirige al hacer clic.</param>
@@ -149,7 +149,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption">Texto visible para el botón.</param>
       /// <param name="icon">Código del icono a mostrar.</param>

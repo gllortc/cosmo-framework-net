@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Cosmo.Web
 {
+   /// <summary>
+   /// Implements a page that allows admins to manage user accounts.
+   /// </summary>
    [AuthorizationRequired(Cosmo.Workspace.ROLE_ADMINISTRATOR)]
    public class AdminUserList : PageView
    {
@@ -128,16 +131,6 @@ namespace Cosmo.Web
             alert.Text = "El texto \"" + toFindText + "\" no ha devuelto ningun usuario.";
             MainContent.Add(alert);
          }
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // throw new NotImplementedException();
-      }
-
-      public override void LoadPage()
-      {
-         // throw new NotImplementedException();
       }
 
       #endregion

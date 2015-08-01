@@ -73,7 +73,7 @@ namespace Cosmo.Cms.Web
          // Genera el formulario para objetos del tipo User
          form = new FormControl(this);
          form.DomID = "frmMsgEdit";
-         form.Caption = forumThread == null ? "Nuevo tema" : forumThread.Title;
+         form.Text = forumThread == null ? "Nuevo tema" : forumThread.Title;
          form.Icon = forumThread == null ? "fa-comment-o" : "fa-comments-o";
 
          FormFieldHidden parentid = new FormFieldHidden(this, ForumsDAO.PARAM_THREAD_ID, parentMsgId.ToString());
@@ -177,15 +177,6 @@ namespace Cosmo.Cms.Web
 
          // Redirige al usuario a la página del thread creado o para el que se ha editado el mensaje
          Redirect(ForumThreadView.GetURL(message.ParentMessageID, message.ForumID, pageIdx));
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

@@ -2,7 +2,6 @@
 using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 namespace Cosmo.UI
@@ -25,6 +24,7 @@ namespace Cosmo.UI
       /// Gets a new instance of <see cref="PageView"/>.
       /// </summary>
       protected PageView()
+         : base(typeof(PageView).Name)
       {
          Initialize();
       }
@@ -131,57 +131,14 @@ namespace Cosmo.UI
 
       #endregion
 
-      #region Methods
+      #region View Implementation
 
       /// <summary>
-      /// Inicia el ciclo de vida de la vista.
+      /// Gets the control container used to store the view controls.
       /// </summary>
-      internal override void StartViewLifecycle()
+      public override IControlContainer ControlContainer
       {
-         string receivedFormID = string.Empty;
-         var watch = Stopwatch.StartNew();
-
-         try
-         {
-            // Initialze page load
-            InitPage();
-
-            // Process form data
-            foreach (FormControl form in _layout.GetControlsByType(typeof(FormControl)))
-            {
-               if (IsFormReceived && form.DomID.Equals(FormReceivedDomID))
-               {
-                  form.ProcessForm(Parameters);
-                  receivedFormID = form.DomID;
-
-                  // If data is valid, raise FormDataReceived() event
-                  if (form.IsValid == FormControl.ValidationStatus.ValidData)
-                  {
-                     FormDataReceived(form);
-                  }
-               }
-
-               // Lanza el evento FormDataLoad()
-               if (form.IsValid != FormControl.ValidationStatus.InvalidData)
-               {
-                  FormDataLoad(form.DomID);
-               }
-            }
-
-            // Finish page load
-            LoadPage();
-         }
-         catch (Exception ex)
-         {
-            ShowError(ex);
-         }
-
-         // Renderiza la página
-         Response.ContentType = "text/html";
-         Response.Write(Workspace.UIService.RenderPage(this, receivedFormID));
-
-         watch.Stop();
-         Response.Write("<!-- Page created in " + watch.ElapsedMilliseconds + "mS -->");
+         get { return _layout; }
       }
 
       /// <summary>
@@ -189,7 +146,7 @@ namespace Cosmo.UI
       /// </summary>
       /// <param name="title">Título del error.</param>
       /// <param name="description">Descripción del error.</param>
-      public void ShowError(string title, string description)
+      public override void ShowError(string title, string description)
       {
          StringBuilder xhtml = new StringBuilder();
 
@@ -211,7 +168,7 @@ namespace Cosmo.UI
       /// Muestra un mensaje de error.
       /// </summary>
       /// <param name="exception">Excepción a mostrar.</param>
-      public void ShowError(Exception exception)
+      public override void ShowError(Exception exception)
       {
          StringBuilder xhtml = new StringBuilder();
 

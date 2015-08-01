@@ -1,7 +1,5 @@
 ﻿using Cosmo.Cms.Model.Content;
 using Cosmo.UI.Controls;
-using Cosmo.Web;
-using System;
 
 namespace Cosmo.Cms.Web
 {
@@ -60,25 +58,6 @@ namespace Cosmo.Cms.Web
          mlist.Add(mitem);
 
          MainContent.Add(mlist);
-      }
-
-      public override void InitPage()
-      {
-         // Nothing to do
-      }
-
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

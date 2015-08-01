@@ -1,9 +1,7 @@
 ﻿using Cosmo.Cms.Model.Ads;
-using Cosmo.Cms.Model.Forum;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.UI.Scripting;
 
 namespace Cosmo.Cms.Web
 {
@@ -21,11 +19,9 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="AdsUnpublishModal"/>.
       /// </summary>
       public AdsUnpublishModal()
-         : base()
+         : base(AdsUnpublishModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = AdsUnpublishModal.DOM_ID;
       }
 
       /// <summary>
@@ -33,11 +29,10 @@ namespace Cosmo.Cms.Web
       /// </summary>
       /// <param name="adId">Ad identifier.</param>
       public AdsUnpublishModal(int adId)
-         : base()
+         : base(AdsUnpublishModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = AdsUnpublishModal.DOM_ID;
          this.AdID = adId;
       }
 
@@ -134,16 +129,6 @@ namespace Cosmo.Cms.Web
 
          ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
          Content.Add(cmdClose);
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

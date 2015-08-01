@@ -1,5 +1,4 @@
 ﻿using Cosmo.Net;
-using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +48,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public FormControl(View parentView)
          : base(parentView)
       {
@@ -63,7 +62,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="FormControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public FormControl(View parentView, string domId)
          : base(parentView, domId)
@@ -83,7 +82,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets or sets el título visible del formulario.
       /// </summary>
-      public string Caption { get; set; }
+      public string Text { get; set; }
 
       /// <summary>
       /// Gets or sets la URL dónde se mandarán los datos del formulario.
@@ -429,7 +428,7 @@ namespace Cosmo.UI.Controls
          this.IsMultipart = false;
          this.UsePanel = true;
          this.Icon = string.Empty;
-         this.Caption = string.Empty;
+         this.Text = string.Empty;
          this.Action = ParentView.Workspace.Context.Request.Path;
          this.Method = "post";
          this.Content = new ControlCollection();

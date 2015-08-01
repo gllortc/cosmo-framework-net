@@ -18,11 +18,9 @@ namespace Cosmo.Web
       /// Gets a new instance of <see cref="UploadFilesModal"/>.
       /// </summary>
       public UploadFilesModal()
-         : base()
+         : base(UploadFilesModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = UploadFilesModal.DOM_ID;
       }
 
       /// <summary>
@@ -30,11 +28,10 @@ namespace Cosmo.Web
       /// </summary>
       /// <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
       public UploadFilesModal(int objectId)
-         : base()
+         : base(UploadFilesModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = UploadFilesModal.DOM_ID;
          this.ObjectID = objectId;
       }
 
@@ -121,16 +118,6 @@ namespace Cosmo.Web
 
             Content.Add(callout);
          }
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

@@ -15,7 +15,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Gets a new instance of <see cref="AjaxRestSimpleCallScript"/>.
       /// </summary>
-      /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="viewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       public AjaxRestSimpleCallScript(View viewport)
          : base(viewport)
       {

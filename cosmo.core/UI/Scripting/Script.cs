@@ -34,7 +34,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       protected Script(View parentView)
       {
          Initialize();
@@ -45,7 +45,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
-      /// <param name="viewport">Página o contenedor dónde se representará el control.</param>
+      /// <param name="viewport">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="source"´>Una cadena que contiene código JavaScript.</param>
       protected Script(View parentView, string source)
       {
@@ -58,7 +58,7 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Gets a new instance of <see cref="Script"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="source">Una instancia de <see cref="StringBuilder"/> que contiene código JavaScript.</param>
       protected Script(View parentView, StringBuilder source)
       {
@@ -79,7 +79,7 @@ namespace Cosmo.UI.Scripting
       public ScriptExecutionMethod ExecutionType { get; set; }
 
       /// <summary>
-      /// Devuelve la pPágina o contenedor dónde se representará el control.
+      /// Devuelve la pParent <see cref="View"/> which acts as a container of the control.
       /// </summary>
       public View ParentView { get; internal set; }
 

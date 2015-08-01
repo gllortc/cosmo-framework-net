@@ -4,6 +4,10 @@
    margin-top: 40px;
 }
 
+.fa, .glyphicon {
+   line-height: inherit;
+}
+
 /* FORMS */
 
 .form-control-image {

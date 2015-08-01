@@ -19,20 +19,20 @@ namespace Cosmo.Cms.Web
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="ClassifiedContactModal"/>.
+      /// Gets a new instance of <see cref="AdsContactModal"/>.
       /// </summary>
       public AdsContactModal()
-         : base()
+         : base(AdsContactModal.DOM_ID)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Gets a new instance of <see cref="ClassifiedContactModal"/>.
+      /// Gets a new instance of <see cref="AdsContactModal"/>.
       /// </summary>
       /// <param name="classifiedAdID">Identificador del anuncio clasificado.</param>
       public AdsContactModal(int classifiedAdID)
-         : base()
+         : base(AdsContactModal.DOM_ID)
       {
          Initialize();
 
@@ -72,7 +72,7 @@ namespace Cosmo.Cms.Web
 
          // Genera el formulario para objetos del tipo User
          FormControl form = new FormControl(this, "frmAdContact");
-         form.Caption = "Contacto para anuncio clasificado";
+         form.Text = "Contacto para anuncio clasificado";
          form.Icon = IconControl.ICON_ENVELOPE;
          form.UsePanel = false;
          form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
@@ -148,23 +148,6 @@ namespace Cosmo.Cms.Web
          {
             ShowError(ex);
          }
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      /// <summary>
-      /// Método invocado durante la carga de la página.
-      /// </summary>
-      public override void LoadPage()
-      {
-         // Nothing to do here
       }
 
       #endregion

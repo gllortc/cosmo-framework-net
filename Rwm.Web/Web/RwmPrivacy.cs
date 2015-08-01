@@ -105,21 +105,6 @@ namespace Rwm.Web
          MainContent.Add(html);
       }
 
-      public override void FormDataReceived(Cosmo.UI.Controls.FormControl receivedForm)
-      {
-         // Nothing to do
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
-      }
-
       #endregion
 
       #region Static Members

@@ -3,7 +3,6 @@ using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
-using System;
 using System.Collections.Generic;
 
 namespace Cosmo.Cms.Web
@@ -24,10 +23,8 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="AdsManageListPartialView"/>.
       /// </summary>
       public AdsManageListPartialView()
-         : base()
-      {
-         this.DomID = AdsManageListPartialView.DOM_ID;
-      }
+         : base(AdsManageListPartialView.DOM_ID)
+      { }
 
       #endregion
 
@@ -169,25 +166,6 @@ namespace Cosmo.Cms.Web
          }
 
          Content.Add(panel);
-      }
-
-      public override void InitPage()
-      {
-         // Nothing to do
-      }
-
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         throw new NotImplementedException();
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
       }
 
       #endregion

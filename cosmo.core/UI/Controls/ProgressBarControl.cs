@@ -11,7 +11,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public ProgressBarControl(View parentView)
          : base(parentView)
       {
@@ -21,7 +21,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="percentage"></param>
       /// <param name="color"></param>
       public ProgressBarControl(View parentView, int percentage, ComponentColorScheme color)
@@ -36,7 +36,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="PopoverControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="percentage"></param>
       /// <param name="color"></param>
       /// <param name="description"></param>

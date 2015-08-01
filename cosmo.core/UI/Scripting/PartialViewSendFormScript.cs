@@ -14,9 +14,9 @@ namespace Cosmo.UI.Scripting
       /// <summary>
       /// Gets a new instance of <see cref="ModalViewSendFormScript"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-      public PartialViewSendFormScript(ModalView parentView, FormControl form) 
+      public PartialViewSendFormScript(PartialView parentView, FormControl form) 
          : base(parentView) 
       {
          Initialize();

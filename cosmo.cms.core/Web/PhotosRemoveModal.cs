@@ -17,11 +17,9 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="PhotosRemoveModal"/>.
       /// </summary>
       public PhotosRemoveModal()
-         : base()
+         : base(PhotosRemoveModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = PhotosRemoveModal.DOM_ID;
       }
 
       /// <summary>
@@ -29,11 +27,10 @@ namespace Cosmo.Cms.Web
       /// </summary>
       /// <param name="photoId">Photo unique identifier.</param>
       public PhotosRemoveModal(int photoId) 
-         : base()
+         : base(PhotosRemoveModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = PhotosRemoveModal.DOM_ID;
          this.PhotoID = photoId;
       }
 
@@ -113,16 +110,6 @@ namespace Cosmo.Cms.Web
 
          ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
          Content.Add(cmdClose);
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

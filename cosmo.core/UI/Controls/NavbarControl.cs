@@ -13,7 +13,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="NavbarControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public NavbarControl(View parentView)
          : base(parentView)
       {
@@ -23,7 +23,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="NavbarControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="fixedTop">Indica si la barra debe permanecer fija en la parte superior de la pantalla.</param>
       public NavbarControl(View parentView, bool fixedTop)
          : base(parentView)

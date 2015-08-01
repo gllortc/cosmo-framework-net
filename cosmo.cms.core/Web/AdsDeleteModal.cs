@@ -21,11 +21,9 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="AdsDeleteModal"/>.
       /// </summary>
       public AdsDeleteModal()
-         : base()
+         : base(AdsDeleteModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = AdsDeleteModal.DOM_ID;
       }
 
       /// <summary>
@@ -33,11 +31,10 @@ namespace Cosmo.Cms.Web
       /// </summary>
       /// <param name="adId">Ad identifier.</param>
       public AdsDeleteModal(int adId)
-         : base()
+         : base(AdsDeleteModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = AdsDeleteModal.DOM_ID;
          this.AdID = adId;
       }
 
@@ -141,16 +138,6 @@ namespace Cosmo.Cms.Web
 
          ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
          Content.Add(cmdClose);
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

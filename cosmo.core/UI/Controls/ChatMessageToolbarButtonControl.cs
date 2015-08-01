@@ -11,7 +11,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public ChatMessageToolbarButtonControl(View parentView)
          : base(parentView)
       {
@@ -21,7 +21,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
       public ChatMessageToolbarButtonControl(View parentView, string caption, string href)
@@ -36,7 +36,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="ChatMessageToolbarButtonControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="caption"></param>
       /// <param name="href"></param>
       /// <param name="icon"></param>

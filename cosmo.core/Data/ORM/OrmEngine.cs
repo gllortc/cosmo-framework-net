@@ -219,7 +219,7 @@ namespace Cosmo.Data.ORM
 
          if (!string.IsNullOrWhiteSpace(objInfo.Caption))
          {
-            form.Caption = objInfo.Caption;
+            form.Text = objInfo.Caption;
          }
 
          if (!string.IsNullOrWhiteSpace(objInfo.CaptionIcon))

@@ -22,19 +22,18 @@ namespace Cosmo.Cms.Web
       /// <summary>
       /// Gets an instance of <see cref="ForumThreadMoveModal"/>.
       /// </summary>
-      public ForumThreadMoveModal() : base() 
-      {
-         this.DomID = ForumThreadMoveModal.DOM_ID;
-      }
+      public ForumThreadMoveModal() 
+         : base(ForumThreadMoveModal.DOM_ID) 
+      { }
 
       /// <summary>
       /// Gets an instance of <see cref="ForumThreadMoveModal"/>.
       /// </summary>
       /// <param name="threadId">Thread identifier.</param>
       /// <param name="channelId">Current thread channel identifier.</param>
-      public ForumThreadMoveModal(int threadId, int channelId) : base() 
+      public ForumThreadMoveModal(int threadId, int channelId) 
+         : base(ForumThreadMoveModal.DOM_ID) 
       {
-         this.DomID = ForumThreadMoveModal.DOM_ID;
          this.ChannelID = channelId;
          this.ThreadID = threadId;
       }
@@ -114,16 +113,6 @@ namespace Cosmo.Cms.Web
 
          ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
          Content.Add(cmdClose);
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

@@ -1,6 +1,4 @@
-﻿using Cosmo.Utils;
-
-namespace Cosmo.UI.Controls
+﻿namespace Cosmo.UI.Controls
 {
    /// <summary>
    /// Implementa una pestaña que puede contener controles.
@@ -13,7 +11,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="TabbedContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       public TabItemControl(View parentView)
          : base(parentView)
       {
@@ -23,7 +21,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="TabbedContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       /// <param name="caption"></param>
       public TabItemControl(View parentView, string domId, string caption)

@@ -12,7 +12,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="NavigateBehavior"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
       public UpdateHtmlBehavior(View parentView, string domId)
          : base(parentView)

@@ -15,7 +15,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="PartialViewContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Control unique identifier in view (HTML DOM).</param>
       public PartialViewContainerControl(View parentView, string domId)
          : base(parentView, domId)
@@ -26,7 +26,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="PartialViewContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="view">An instance of partial view which will be shown in this control.</param>
       public PartialViewContainerControl(View parentView, PartialView view)
          : base(parentView, view.DomID)
@@ -37,7 +37,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Gets a new instance of <see cref="PartialViewContainerControl"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="view">An instance of partial view which will be shown in this control.</param>
       /// <param name="executionType">Type of script execution.</param>
       /// <param name="parameters">Partial view parameters.</param>

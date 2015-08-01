@@ -43,7 +43,7 @@ namespace Cosmo.Web
          MainContent.Add(header);
 
          FormControl pwdform = new FormControl(this, "pwdform");
-         pwdform.Caption = "Recuperar datos de conexión";
+         pwdform.Text = "Recuperar datos de conexión";
 
          HtmlContentControl hDesc = new HtmlContentControl(this);
          hDesc.AppendParagraph("Por favor proporciona la dirección de correo que usaste al registrar tu cuenta. Te enviaremos un correo que te permitirá reinicializar tu contraseña.");
@@ -136,15 +136,6 @@ namespace Cosmo.Web
 
             showForm = false;
          }
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing todo
       }
 
       public override void LoadPage()

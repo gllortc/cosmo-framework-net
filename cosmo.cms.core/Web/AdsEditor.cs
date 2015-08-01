@@ -78,7 +78,7 @@ namespace Cosmo.Cms.Web
          // Formulario
          FormControl form = new FormControl(this, "frmCAd");
          form.Icon = "fa-edit";
-         form.Caption = "Editar artículo";
+         form.Text = "Editar artículo";
          form.Action = GetType().Name;
 
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ad.ID);
@@ -186,20 +186,6 @@ namespace Cosmo.Cms.Web
 
          // Redirige a la página del artículo
          Redirect(AdsView.GetURL(clsAd.ID));
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion

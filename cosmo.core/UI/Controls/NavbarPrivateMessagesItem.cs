@@ -12,7 +12,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="NavbarPrivateMessagesItem"/>.
       /// </summary>
-      /// <param name="parentView">Página o contenedor dónde se representará el control.</param>
+      /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
       public NavbarPrivateMessagesItem(View parentView)
          : base(parentView)

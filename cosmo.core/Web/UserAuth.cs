@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace Cosmo.Web
 {
+   /// <summary>
+   /// Page that allows the user authenticate (login).
+   /// </summary>
    public class UserAuth : PageView
    {
 
@@ -21,26 +24,6 @@ namespace Cosmo.Web
          frmLogin.RedirectionUrl = Parameters.GetString(Cosmo.Workspace.PARAM_LOGIN_REDIRECT);
          
          MainContent.Add(frmLogin);
-      }
-
-      public override void InitPage()
-      {
-
-      }
-
-      /// <param name="receivedForm">Una instancia de <see cref="FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
-      public override void FormDataReceived(FormControl receivedForm)
-      {
-         // Nothing todo
-      }
-
-      /// <summary>
-      /// Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-      /// </summary>
-      /// <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing todo
       }
 
       #endregion

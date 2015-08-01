@@ -100,6 +100,8 @@
     <Compile Include="FileSystem\Impl\CosmoFileSystemImpl.cs" />
     <Compile Include="Net\Mail.cs" />
     <Compile Include="Net\REST\RestHandler.cs" />
+    <Compile Include="UI\Controls\IControlContainer.cs" />
+    <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
     <Compile Include="Web\Handlers\CommunicationsRestHandler.cs" />
     <Compile Include="Net\REST\RestMethod.cs" />
     <Compile Include="Net\REST\RestMethodParameter.cs" />
@@ -174,7 +176,7 @@
     <Compile Include="UI\Menu\Impl\StaticMenuProvider.cs" />
     <Compile Include="Utils\BooleanUtils.cs" />
     <Compile Include="Utils\Collections.cs" />
-    <Compile Include="Utils\ControlCollection.cs" />
+    <Compile Include="UI\Controls\ControlCollection.cs" />
     <Compile Include="Utils\PluginCollection.cs" />
     <Compile Include="Utils\XmlUtilities.cs" />
     <Compile Include="Web\AdminUserList.cs" />

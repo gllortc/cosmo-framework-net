@@ -17,11 +17,9 @@ namespace Cosmo.Cms.Web
       /// Gets an instance of <see cref="ForumThreadToggleStatusModal"/>.
       /// </summary>
       public ForumThreadToggleStatusModal()
-         : base()
+         : base(ForumThreadToggleStatusModal.DOM_ID)
       {
          Initialize();
-
-         this.DomID = ForumThreadToggleStatusModal.DOM_ID;
       }
 
       /// <summary>
@@ -29,11 +27,10 @@ namespace Cosmo.Cms.Web
       /// </summary>
       /// <param name="threadId">Thread identifier.</param>
       public ForumThreadToggleStatusModal(int threadId)
-         : base()
+         : base(ForumThreadToggleStatusModal.DOM_ID)
       {
          Initialize();
 
-         this.DomID = ForumThreadToggleStatusModal.DOM_ID;
          this.ThreadID = threadId;
       }
 
@@ -113,16 +110,6 @@ namespace Cosmo.Cms.Web
 
          ButtonControl cmdClose = new ButtonControl(this, "cmdClose", "Cerrar", ButtonControl.ButtonTypes.CloseModalForm);
          Content.Add(cmdClose);
-      }
-
-      public override void FormDataLoad(string formDomID)
-      {
-         // Nothing to do
-      }
-
-      public override void LoadPage()
-      {
-         // Nothing to do
       }
 
       #endregion
