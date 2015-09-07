@@ -166,9 +166,9 @@ namespace Cosmo.UI.Scripting
       #region Abstract Members
 
       /// <summary>
-      /// Genera el código fuente (JavaScript).
+      /// Make the JavaScript source code of script.
       /// </summary>
-      /// <returns>Una cadena de texto que contiene el código JavaScript generado.</returns>
+      /// <returns>A string containing the requestes source code of script.</returns>
       public abstract string GetSource();
 
       #endregion

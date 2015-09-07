@@ -1,5 +1,4 @@
 ﻿using Cosmo.UI.Controls;
-using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +6,14 @@ using System.Text;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implementa una página de Cosmo que se genera si usar la capa System.Web.UI.
+   /// Implements a view that generates a complete HTML page.
    /// </summary>
    public abstract class PageView : View
    {
       /// <summary>Nombre del enlace interno de inicio de página</summary>
       public const string LINK_TOP_PAGE = "page-top";
 
-      // Declaracción de variables internas
+      // Internal data declarations
       private LayoutContainerControl _layout;
       private List<ModalView> _modals;
 

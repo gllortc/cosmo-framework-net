@@ -13,7 +13,7 @@
       /// Gets a new instance of <see cref="NavbarPrivateMessagesItem"/>.
       /// </summary>
       /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public NavbarPrivateMessagesItem(View parentView)
          : base(parentView)
       {

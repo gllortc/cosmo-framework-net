@@ -34,8 +34,8 @@
       /// <summary>
       /// Gets a new instance of <see cref="ViewResource"/>.
       /// </summary>
-      /// <param name="type">Tipo de recurso.</param>
-      /// <param name="filePath">Ruta al recurso.</param>
+      /// <param name="type">Resource type.</param>
+      /// <param name="filePath">Path to resource file.</param>
       public ViewResource(ResourceType type, string filePath)
       {
          Initialize();

@@ -36,7 +36,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Communications.CommunicationsService"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Communications.CommunicationsService.Send(System.Object)">
             <summary>
@@ -210,7 +210,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Communications.PrivateMessages.PrivateMessagesService"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Communications.PrivateMessages.PrivateMessagesService.CountUnreadMessages">
             <summary>
@@ -273,7 +273,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Data.Lists.IDataList"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.Data.Lists.IDataList.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene los datos del módulo y su configuración.</param>
         </member>
         <member name="M:Cosmo.Data.Lists.IDataList.GetValueByKey(System.String)">
@@ -315,7 +315,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Data.Lists.Impl.SqlDataListImpl"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene los datos del módulo y su configuración.</param>
         </member>
         <member name="M:Cosmo.Data.Lists.Impl.SqlDataListImpl.GetValueByKey(System.String)">
@@ -362,7 +362,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Data.Lists.Impl.StaticDataListImpl"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene los datos del módulo y su configuración.</param>
         </member>
         <member name="M:Cosmo.Data.Lists.Impl.StaticDataListImpl.GetValueByKey(System.String)">
@@ -1197,9 +1197,9 @@
         </member>
         <member name="M:Cosmo.UI.Scripting.Script.GetSource">
             <summary>
-            Genera el código fuente (JavaScript).
+            Make the JavaScript source code of script.
             </summary>
-            <returns>Una cadena de texto que contiene el código JavaScript generado.</returns>
+            <returns>A string containing the requestes source code of script.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.Script.GetFieldValue(System.String)">
             <summary>
@@ -1320,6 +1320,41 @@
             <summary>
             Gets or sets a boolean value indicating if the form is multipart.
             </summary>
+        </member>
+        <member name="T:Cosmo.UI.Scripting.AutocompleteFormFieldScript">
+            <summary>
+            Implements a script that allow a control acts as a autocomplete control.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.AutocompleteFormFieldScript.#ctor(Cosmo.UI.Controls.FormFieldAutocomplete)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.AutocompleteFormFieldScript"/>.
+            </summary>
+            <param name="formField">The field which acts as a autocomplete control.</param>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.AutocompleteFormFieldScript.GetSource">
+            <summary>
+            Make the JavaScript source code of script.
+            </summary>
+            <returns>A string containing the requestes source code of script.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.AutocompleteFormFieldScript.Initialize">
+            <summary>
+            Initializes the instance data.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AutocompleteFormFieldScript.FormField">
+            <summary>
+            Gets or sets the control which acts as a autocomplete.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AutocompleteFormFieldScript.QueryWildcard">
+            <summary>
+            Gets or sets the string that indicates where is located the query text in URL.
+            </summary>
+            <remarks>
+            Example: The url for query will be: '../data/films/queries/%QUERY'
+            </remarks>
         </member>
         <member name="T:Cosmo.Web.Handlers.CommunicationsRestHandler">
             <summary>
@@ -2448,7 +2483,7 @@
         </member>
         <member name="T:Cosmo.UI.ModalView">
             <summary>
-            Implementa una vista que permite generarse sin estar dentro de una página.
+            Implementas a view that can be shown in a modal form.
             </summary>
         </member>
         <member name="T:Cosmo.UI.View">
@@ -2704,7 +2739,7 @@
         </member>
         <member name="T:Cosmo.UI.PartialView">
             <summary>
-            Implementa una vista que permite generarse sin estar dentro de una página.
+            Implements a view that generates a partial page, that can be included into other views.
             </summary>
         </member>
         <member name="M:Cosmo.UI.PartialView.#ctor(System.String)">
@@ -5191,7 +5226,7 @@
         </member>
         <member name="T:Cosmo.UI.PageView">
             <summary>
-            Implementa una página de Cosmo que se genera si usar la capa System.Web.UI.
+            Implements a view that generates a complete HTML page.
             </summary>
         </member>
         <member name="F:Cosmo.UI.PageView.LINK_TOP_PAGE">
@@ -5300,8 +5335,8 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.UI.ViewResource"/>.
             </summary>
-            <param name="type">Tipo de recurso.</param>
-            <param name="filePath">Ruta al recurso.</param>
+            <param name="type">Resource type.</param>
+            <param name="filePath">Path to resource file.</param>
         </member>
         <member name="M:Cosmo.UI.ViewResource.Initialize">
             <summary>
@@ -5909,7 +5944,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Data.DataService"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Data.DataService.GetDataSource">
             <summary>
@@ -6599,7 +6634,7 @@
         </member>
         <member name="T:Cosmo.UI.Controls.FormFieldAutocomplete">
             <summary>
-            Implementa un control Typeahead para campos de autocompletado.
+            Implements an autocomplete field using the Typeahead boostrap/jQuery pluguin.
             </summary>
             <remarks>
             https://github.com/twitter/typeahead.js
@@ -7547,7 +7582,7 @@
             Gets a new instance of <see cref="T:Cosmo.UI.Controls.NavbarPrivateMessagesItem"/>.
             </summary>
             <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="T:Cosmo.UI.Controls.NavbarLoginItem">
             <summary>
@@ -7833,7 +7868,7 @@
             <summary>
             Gets an instance of <see cref="T:Cosmo.Services.CountryDAO"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Services.CountryDAO.GetCountryList">
             <summary>
@@ -7968,7 +8003,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.UI.Menu.MenuDAO"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.UI.Menu.MenuDAO.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.UI.Menu.MenuDAO.GetSectionsMenu">
             <summary>
@@ -8069,17 +8104,17 @@
         </member>
         <member name="M:Cosmo.UI.Render.RenderModule.GetCssClassFromControlColor(Cosmo.UI.Controls.ComponentColorScheme)">
             <summary>
-            Convierte un color de control en una clase CSS.
+            Convert a control color into a CSS class name.
             </summary>
-            <param name="bgColor">Color para el que se desea obtener la clase CSS.</param>
-            <returns>Una cadena que representa la clase CSS a aplicar al elemento.</returns>
+            <param name="color">Standarized color to convert.</param>
+            <returns>A string containing the CSS class to apply the converted color to a control.</returns>
         </member>
         <member name="M:Cosmo.UI.Render.RenderModule.GetCssClassFromBackgroundColor(Cosmo.UI.Controls.ComponentBackgroundColor)">
             <summary>
-            Convierte un color de fondo para controles en una clase CSS.
+            Convert a background color into a CSS class name.
             </summary>
-            <param name="bgColor">Color para el que se desea obtener la clase CSS.</param>
-            <returns>Una cadena que representa la clase CSS a aplicar al elemento.</returns>
+            <param name="bgColor">Standarized color to convert.</param>
+            <returns>A string containing the CSS class to apply the converted color to a background.</returns>
         </member>
         <member name="M:Cosmo.UI.Render.RenderModule.RenderPage(Cosmo.UI.PageView)">
             <summary>
@@ -8154,33 +8189,39 @@
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.ID">
             <summary>
-            Devuelve el nombre (ID) del módulo de renderizado.
+            Gets the unique ID of the render module.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.Workspace">
             <summary>
-            Devuelve el workspace actual.
+            Gets the instance of current Cosmo workspace.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.JavascriptResources">
             <summary>
-            Devuelve una lista de recursos JavaScript necesarios para representar el contenido renderizado.
+            Gets a list of JavaScript resources used by a renderer to represent the views in client browsers.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.CssResources">
             <summary>
-            Devuelve una lista de recursos CSS necesarios para representar el contenido renderizado.
+            Gets a list of CSS resources used by a renderer to represent the views in client browsers.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.XIcon">
             <summary>
-            Devuelve la referencia al icono de tipo <c>X-Icon</c> que debe decorar la pestaña/página actual.
+            Gets a reference URL to <c>X-Icon</c> used to decorate the browser tabs and/or browser url input box.
             </summary>
+            <remarks>
+            Some renderes may not use this setting.
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.Skin">
             <summary>
-            Devuelve el nombre (identificador) del skin a aplicar.
+            Gets the name of skin to apply.
             </summary>
+            <remarks>
+            Some renderes may not use this setting.
+            </remarks>
         </member>
         <member name="P:Cosmo.UI.Render.RenderModule.TemplatePath">
             <summary>
@@ -8388,6 +8429,11 @@
             Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldBoolean"/>.
             </summary>
         </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderFormFieldAutocomplete(Cosmo.UI.Controls.FormFieldAutocomplete,System.String)">
+            <summary>
+            Renderizes a control of type <see cref="T:Cosmo.UI.Controls.FormFieldAutocomplete"/>.
+            </summary>
+        </member>
         <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderHtmlContent(Cosmo.UI.Controls.HtmlContentControl)">
             <summary>
             Renderizes a control of type <see cref="T:Cosmo.UI.Controls.HtmlContentControl"/>.
@@ -8563,14 +8609,14 @@
         </member>
         <member name="T:Cosmo.UI.UIService">
             <summary>
-            Implementa el servicio de renderizadio (UI).
+            Implementation of the UI Service.
             </summary>
         </member>
         <member name="M:Cosmo.UI.UIService.#ctor(Cosmo.Workspace,System.Web.HttpContext)">
             <summary>
             Gets a new instance of <see cref="T:Cosmo.UI.UIService"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="context">Una instancia del contexto actual que permite acceder al tipo de navegador y elegir el módulo de renderizado.</param>
         </member>
         <member name="M:Cosmo.UI.UIService.Render(Cosmo.UI.Controls.Control)">
@@ -8675,7 +8721,7 @@
         </member>
         <member name="P:Cosmo.UI.UIService.ActiveRenderModuleId">
             <summary>
-            Devuelve el nombre (ID) del módulo de renderizado activo.
+            Gets the active render module name (ID).
             </summary>
         </member>
         <member name="P:Cosmo.UI.UIService.JavascriptResources">
@@ -8690,7 +8736,7 @@
         </member>
         <member name="P:Cosmo.UI.UIService.XIcon">
             <summary>
-            Devuelve la referencia al icono de tipo <c>X-Icon</c> que debe decorar la pestaña/página actual.
+            Gets the path to <c>X-Icon</c> used to decorate the application icon in browser pages.
             </summary>
         </member>
         <member name="P:Cosmo.UI.UIService.TemplatePath">
@@ -11311,7 +11357,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Security.Auth.SecurityService"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityService.IsValidIPAddress(System.String)">
             <summary>
@@ -11575,7 +11621,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Security.Auth.SecurityModule"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.Security.Auth.SecurityModule.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityModule.IsValidIPAddress(System.String)">
@@ -11846,7 +11892,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Security.Auth.Impl.LdapSecurityModule"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que permite obtener los parámetros de configuración.</param>
         </member>
         <member name="M:Cosmo.Security.Auth.Impl.LdapSecurityModule.GetUsersList(Cosmo.Security.User.UserStatus)">
@@ -12273,7 +12319,7 @@
             <summary>
             Gets a new instance of MWNetUserMessages
             </summary>
-            <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Communications.PrivateMessages.PrivateMessageDAO.SendMessage(Cosmo.Communications.PrivateMessages.PrivateMessage)">
             <summary>
@@ -12938,7 +12984,7 @@
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Security.UserSession"/>. 
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.Security.UserSession.Workspace"/> que representa el espacio de trabajo actual.</param>
+            <param name="workspace">An instance of current Cosmo workspace</param>
         </member>
         <member name="M:Cosmo.Security.UserSession.CheckAuthorization(System.String)">
             <summary>

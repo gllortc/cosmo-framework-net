@@ -226,6 +226,10 @@ namespace Cosmo.UI.Render.Impl
          {
             return RenderFormFieldCaptcha((FormFieldCaptcha)control, receivedFormID);
          }
+         else if (control.GetType() == typeof(FormFieldAutocomplete))
+         {
+            return RenderFormFieldAutocomplete((FormFieldAutocomplete)control, receivedFormID);
+         }
          else if (control.GetType() == typeof(LoginFormControl))
          {
             return RenderLoginForm((LoginFormControl)control);
@@ -278,7 +282,7 @@ namespace Cosmo.UI.Render.Impl
          StringBuilder xhtml = new StringBuilder();
          xhtml.AppendLine("<div class=\"alert alert-warning alert-dismissable\">");
          xhtml.AppendLine("  <i class=\"fa fa-warning\"></i>");
-         xhtml.AppendLine("  <b>Render Error</b>: No ha sido posible renderizar el control de tipo <code>" + control.GetType().FullName + "</code>.");
+         xhtml.AppendLine("  <b>Render Error</b>: The control <code>" + control.GetType().FullName + "</code> can't be renderized: not supported control.");
          xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
@@ -759,7 +763,7 @@ namespace Cosmo.UI.Render.Impl
          int count;
          StringBuilder xhtml = new StringBuilder();
 
-         xhtml.AppendLine("");
+         xhtml.AppendLine(string.Empty);
 
          // Obtiene la altura máxima del control
          int height = 338;
@@ -1435,10 +1439,17 @@ namespace Cosmo.UI.Render.Impl
       {
          StringBuilder xhtml = new StringBuilder();
 
+         // Generates the HTML source
          xhtml.AppendLine("<div class=\"form-group\">");
          xhtml.AppendLine("  <label for=\"" + control.DomID + "\">" + HttpUtility.HtmlDecode(control.Label) + "</label>");
-         xhtml.AppendLine("  <input type=\"text\" " + control.GetIdParameter() + control.GetNameParameter() + "/>");
+         xhtml.AppendLine("  <input type=\"text\" " + control.GetIdParameter() + control.GetNameParameter() + " class=\"typeahead\" />");
          xhtml.AppendLine("</div>");
+
+         // Adds the required resources to present the control
+         control.ParentView.Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, Url.Combine(this.TemplatePath, "js/plugins/typeahead/typeahead.bundle.min.js")));
+
+         // Adds required scripts to run the control in view
+         control.ParentView.Scripts.Add(new AutocompleteFormFieldScript(control));
 
          return xhtml.ToString();
       }

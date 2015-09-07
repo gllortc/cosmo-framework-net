@@ -18,7 +18,7 @@ namespace Cosmo.Data.Lists
       /// <summary>
       /// Gets a new instance of <see cref="IDataList"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene los datos del módulo y su configuración.</param>
       protected IDataList(Workspace workspace, Plugin plugin)
       {

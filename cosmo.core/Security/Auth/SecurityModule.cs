@@ -61,7 +61,7 @@ namespace Cosmo.Security.Auth
       /// <summary>
       /// Gets a new instance of <see cref="SecurityModule"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
       protected SecurityModule(Workspace workspace, Plugin plugin)
       {

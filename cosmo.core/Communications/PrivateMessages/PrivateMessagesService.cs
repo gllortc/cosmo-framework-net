@@ -13,7 +13,7 @@
       /// <summary>
       /// Gets a new instance of <see cref="PrivateMessagesService"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public PrivateMessagesService(Workspace workspace)
       {
          _ws = workspace;

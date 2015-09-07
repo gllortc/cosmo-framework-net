@@ -8,7 +8,7 @@ using System.Text;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implementa una vista que permite generarse sin estar dentro de una página.
+   /// Implements a view that generates a partial page, that can be included into other views.
    /// </summary>
    public abstract class PartialView : View 
    {

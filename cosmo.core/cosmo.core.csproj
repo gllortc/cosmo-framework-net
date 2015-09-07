@@ -102,6 +102,7 @@
     <Compile Include="Net\REST\RestHandler.cs" />
     <Compile Include="UI\Controls\IControlContainer.cs" />
     <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
+    <Compile Include="UI\Scripting\AutocompleteFormFieldScript.cs" />
     <Compile Include="Web\Handlers\CommunicationsRestHandler.cs" />
     <Compile Include="Net\REST\RestMethod.cs" />
     <Compile Include="Net\REST\RestMethodParameter.cs" />

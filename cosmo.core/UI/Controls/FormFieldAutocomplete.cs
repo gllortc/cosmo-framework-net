@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Cosmo.UI.Controls
 {
    /// <summary>
-   /// Implementa un control Typeahead para campos de autocompletado.
+   /// Implements an autocomplete field using the Typeahead boostrap/jQuery pluguin.
    /// </summary>
    /// <remarks>
    /// https://github.com/twitter/typeahead.js
@@ -14,7 +14,7 @@ namespace Cosmo.UI.Controls
       /// <summary>
       /// Toquen para indicar dónde se sitúa el texto de consulta en la URL de consulta del componente.
       /// </summary>
-      public const string TOKEN_QUERY = "%QUERY";
+      public const string TOKEN_QUERY = "_QUERY_";
 
       #region Constructors
 
@@ -126,7 +126,6 @@ namespace Cosmo.UI.Controls
       /// </summary>
       private void Initialize()
       {
-         this.DomID = string.Empty;
          this.Name = "autocomplete";
          this.Label = string.Empty;
          this.SearchUrl = string.Empty;

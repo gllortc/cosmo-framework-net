@@ -7,7 +7,7 @@ using System.Text;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implementa una vista que permite generarse sin estar dentro de una página.
+   /// Implementas a view that can be shown in a modal form.
    /// </summary>
    public abstract class ModalView : View
    {

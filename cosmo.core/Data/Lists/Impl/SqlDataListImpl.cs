@@ -25,7 +25,7 @@ namespace Cosmo.Data.Lists.Impl
       /// <summary>
       /// Gets a new instance of <see cref="SqlDataListImpl"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene los datos del módulo y su configuración.</param>
       public SqlDataListImpl(Workspace workspace, Plugin plugin) 
          : base(workspace, plugin)

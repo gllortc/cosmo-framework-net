@@ -19,7 +19,7 @@ namespace Cosmo.UI.Menu
       /// <summary>
       /// Gets a new instance of <see cref="MenuDAO"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public MenuDAO(Workspace workspace)
       {
          this.Workspace = workspace;

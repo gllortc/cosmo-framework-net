@@ -58,7 +58,7 @@ namespace Cosmo.UI.Render
       #region Properties
 
       /// <summary>
-      /// Devuelve el nombre (ID) del módulo de renderizado.
+      /// Gets the unique ID of the render module.
       /// </summary>
       public string ID
       {
@@ -66,7 +66,7 @@ namespace Cosmo.UI.Render
       }
 
       /// <summary>
-      /// Devuelve el workspace actual.
+      /// Gets the instance of current Cosmo workspace.
       /// </summary>
       public Workspace Workspace
       {
@@ -74,7 +74,7 @@ namespace Cosmo.UI.Render
       }
 
       /// <summary>
-      /// Devuelve una lista de recursos JavaScript necesarios para representar el contenido renderizado.
+      /// Gets a list of JavaScript resources used by a renderer to represent the views in client browsers.
       /// </summary>
       public List<string> JavascriptResources
       {
@@ -82,7 +82,7 @@ namespace Cosmo.UI.Render
       }
 
       /// <summary>
-      /// Devuelve una lista de recursos CSS necesarios para representar el contenido renderizado.
+      /// Gets a list of CSS resources used by a renderer to represent the views in client browsers.
       /// </summary>
       public List<string> CssResources
       {
@@ -90,16 +90,22 @@ namespace Cosmo.UI.Render
       }
 
       /// <summary>
-      /// Devuelve la referencia al icono de tipo <c>X-Icon</c> que debe decorar la pestaña/página actual.
+      /// Gets a reference URL to <c>X-Icon</c> used to decorate the browser tabs and/or browser url input box.
       /// </summary>
+      /// <remarks>
+      /// Some renderes may not use this setting.
+      /// </remarks>
       public string XIcon
       {
-         get { return _xIcon; }
+         get { return _plugin.GetString("x-icon"); }
       }
 
       /// <summary>
-      /// Devuelve el nombre (identificador) del skin a aplicar.
+      /// Gets the name of skin to apply.
       /// </summary>
+      /// <remarks>
+      /// Some renderes may not use this setting.
+      /// </remarks>
       public string Skin
       {
          get { return _plugin.GetString("skin"); }
@@ -150,17 +156,17 @@ namespace Cosmo.UI.Render
       #region Abstract Members
 
       /// <summary>
-      /// Convierte un color de control en una clase CSS.
+      /// Convert a control color into a CSS class name.
       /// </summary>
-      /// <param name="bgColor">Color para el que se desea obtener la clase CSS.</param>
-      /// <returns>Una cadena que representa la clase CSS a aplicar al elemento.</returns>
-      public abstract string GetCssClassFromControlColor(ComponentColorScheme bgColor);
+      /// <param name="color">Standarized color to convert.</param>
+      /// <returns>A string containing the CSS class to apply the converted color to a control.</returns>
+      public abstract string GetCssClassFromControlColor(ComponentColorScheme color);
 
       /// <summary>
-      /// Convierte un color de fondo para controles en una clase CSS.
+      /// Convert a background color into a CSS class name.
       /// </summary>
-      /// <param name="bgColor">Color para el que se desea obtener la clase CSS.</param>
-      /// <returns>Una cadena que representa la clase CSS a aplicar al elemento.</returns>
+      /// <param name="bgColor">Standarized color to convert.</param>
+      /// <returns>A string containing the CSS class to apply the converted color to a background.</returns>
       public abstract string GetCssClassFromBackgroundColor(ComponentBackgroundColor bgColor);
 
       /// <summary>

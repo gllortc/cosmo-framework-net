@@ -23,7 +23,7 @@ namespace Cosmo.Services
       /// <summary>
       /// Gets an instance of <see cref="CountryDAO"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public CountryDAO(Workspace workspace)
       {
          Initialize();

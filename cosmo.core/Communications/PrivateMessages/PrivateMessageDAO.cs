@@ -52,7 +52,7 @@ namespace Cosmo.Communications.PrivateMessages
       /// <summary>
       /// Gets a new instance of MWNetUserMessages
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public PrivateMessageDAO(Workspace workspace)
       {
          _ws = workspace;

@@ -11,7 +11,7 @@ using System.Web;
 namespace Cosmo.UI
 {
    /// <summary>
-   /// Implementa el servicio de renderizadio (UI).
+   /// Implementation of the UI Service.
    /// </summary>
    public class UIService
    {
@@ -28,7 +28,7 @@ namespace Cosmo.UI
       /// <summary>
       /// Gets a new instance of <see cref="UIService"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       /// <param name="context">Una instancia del contexto actual que permite acceder al tipo de navegador y elegir el módulo de renderizado.</param>
       public UIService(Workspace workspace, HttpContext context)
       {
@@ -49,7 +49,7 @@ namespace Cosmo.UI
       #region Properties
 
       /// <summary>
-      /// Devuelve el nombre (ID) del módulo de renderizado activo.
+      /// Gets the active render module name (ID).
       /// </summary>
       public string ActiveRenderModuleId
       {
@@ -73,7 +73,7 @@ namespace Cosmo.UI
       }
 
       /// <summary>
-      /// Devuelve la referencia al icono de tipo <c>X-Icon</c> que debe decorar la pestaña/página actual.
+      /// Gets the path to <c>X-Icon</c> used to decorate the application icon in browser pages.
       /// </summary>
       public string XIcon
       {

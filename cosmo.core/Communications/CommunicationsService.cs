@@ -20,7 +20,7 @@ namespace Cosmo.Communications
       /// <summary>
       /// Gets a new instance of <see cref="CommunicationsService"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Workspace"/> que representa el espacio de trabajo actual.</param>
+      /// <param name="workspace">An instance of current Cosmo workspace</param>
       public CommunicationsService(Workspace workspace)
       {
          Initialize();
