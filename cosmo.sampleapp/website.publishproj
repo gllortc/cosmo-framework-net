@@ -16,11 +16,11 @@ Copyright (C) Microsoft Corporation. Todos los derechos reservados.
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.30319</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{d073110e-c294-4fe2-b966-81e87eb769b5}</ProjectGuid>
+    <ProjectGuid>{a560ca56-9b5b-415b-ad74-33c18162c34b}</ProjectGuid>
     <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
-    <SourceWebVirtualPath>/cosmo.cms.3.0</SourceWebVirtualPath>
+    <SourceWebVirtualPath>/cosmo.sampleapp</SourceWebVirtualPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SourceWebProject>D:\Gerard\Dropbox\MobileWhere\Cosmo.CMS.3.5\cosmo.cms.3.0</SourceWebProject>
+    <SourceWebProject>D:\Gerard\develop\Cosmo Framework\cosmo.sampleapp</SourceWebProject>
     <SourceWebMetabasePath>/IISExpress/7.5/LM/W3SVC/2/ROOT</SourceWebMetabasePath>
   </PropertyGroup>
   <PropertyGroup>
@@ -42,13 +42,17 @@ Copyright (C) Microsoft Corporation. Todos los derechos reservados.
     </AssemblyAttributes>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cosmo.cms.core.3.0\Cosmo.Cms.Core.csproj">
+    <ProjectReference Include="..\cosmo.cms.core\Cosmo.Cms.Core.csproj">
       <Project>{29240063-A68C-4E45-9400-DD7FF915744B}</Project>
       <Name>Cosmo.Cms.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\cosmo.core.3.0\Cosmo.Core.csproj">
+    <ProjectReference Include="..\cosmo.core\Cosmo.Core.csproj">
       <Project>{C7E97076-48DE-4C11-A296-BE5B4116FC25}</Project>
       <Name>Cosmo.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rwm.Web\Rwm.WebApp.csproj">
+      <Project>{6A9DBA48-D69A-4716-B88B-4569A179A2AC}</Project>
+      <Name>Rwm.WebApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />

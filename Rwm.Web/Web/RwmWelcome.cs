@@ -34,33 +34,60 @@ namespace Rwm.Web
 
          JumbotronControl jumbotron = new JumbotronControl(this);
          jumbotron.Title = "Railwaymania.com";
-         jumbotron.Description = "Estamos reformando completamente el portal. Volvemos en septiembre!";
+         jumbotron.Description = "<strong>Estamos reformando completamente el portal. Volvemos muy pronto!</strong>";
          jumbotron.BackgroundImage = "images/home_bg_003.jpg";
          jumbotron.ForeColor = "#eeeeee";
 
          MainContent.Add(jumbotron);
+
+         HtmlContentControl html = new HtmlContentControl(this);
+
 
          MediaItem mitem = null;
          MediaListControl mlist = new MediaListControl(this);
          mlist.Style = MediaListControl.MediaListStyle.Thumbnail;
 
          mitem = new MediaItem();
-         mitem.Title = "Foros";
-         mitem.Description = "Volveremos con el foro. Ahora moderado por un equipo externo de aficionados que garantizará su buen funcionamiento.";
+         mitem.Title = "Hola!";
+         mitem.Description = @"El Junio del 2001 nació Railwaymania, fruto de una necesidad de cubrir algunos huecos
+                               que tenia la red respecto a nuestra afición favorita: los trenes!<br/><br/>
+                               Después de todos estos
+                               años la posibilidad de mantener Railwaymania ha ido decreciendo en la misma forma que las
+                               obligaciones profesionales y sobretodo familiares han ido creciendo, llegando al punto de 
+                               tomar la decisión de parar maquinas en Junio de 2015.<br/><br/>
+                               Junto a un grupo de aficionados (y amigos)
+                               hemos decidido crear un nuevo portal, que será mantenido por varias personas, tanto en
+                               lo que respecta al foro como en lo que respecta a los contenidos. Lo hacemos con ilusión
+                               y sobretodo con la única pretensión de fomentar nuestra afición.<br /><br />
+                               Un abrazo y hasta muy pronto!";
          mitem.Icon = IconControl.ICON_COMMENT;
          mitem.Image = "images/banner_section_001.png";
          mlist.Add(mitem);
 
          mitem = new MediaItem();
-         mitem.Title = "Fotos";
-         mitem.Description = "Con la sección de fotos completamente reformada. Ahora mucho más fácil subir fotos y gestionar las fotos de cada autor.";
+         mitem.Title = "Secciones";
+         mitem.Description = @"Internet ha cambiado mucho desde 2001 y esto nos ha hecho reflexionar sobre las
+                               secciones existentes hasta el momento del cierre.<br/><br/>
+                               Por ello, algunas de las secciones han desaparecido por quedar totalmente
+                               obsoletas. Hemos eliminado las secciones de <em>enlaces</em>, <em>comercios</em>, 
+                               <em>libros</em> o <em>noticias (RSS)</em> entre otras puesto que existen actualmente
+                               servicios que pueden dar la información mucho más actualizada y completa.<br/><br/>
+                               En cambio, en el nuevo portal se mantienen las secciones de <em>contenidos</em> (ahora
+                               <em>Artículos</em>), <em>foros</em>, <em>fotos</em> y <em>clasificados</em> que serán 
+                               el eje central del portal.";
          mitem.Icon = IconControl.ICON_CAMERA;
          mitem.Image = "images/banner_section_002.png";
          mlist.Add(mitem);
 
          mitem = new MediaItem();
-         mitem.Title = "Compra/Venta";
-         mitem.Description = "Un mercadillo más sencillo e intuitivo, con más facilidad para contactar con los autores de los anuncios. Y una gestión de anuncios más potente y simplificada.";
+         mitem.Title = "Encuentro Railwaymania 2015";
+         mitem.Description = @"Como cada año, ya está en marcha el <strong>V Encuentro Railwaymania</strong> de 
+                               amigos y aficionados al ferrocarril, que este año se realiza en 
+                               <strong>Barcelona</strong> los días 10, 11 y 12 de Octubre.<br /><br />
+                               Si te interesa acudir a pasar unos días fenomenales acompañado de otros aficionados 
+                               y amigos (o simplemente te apuntas a alguna de las actividades, comidas o cenas) visita 
+                               nuestra página en Facebook:<br/><br/>
+                               <a href=""https://www.facebook.com/railwaymania.portal"" target=""_blank"">Página Railwaymania en Facebook</a>";
          mitem.Icon = IconControl.ICON_GIFT;
          mitem.Image = "images/banner_section_003.png";
          mlist.Add(mitem);
