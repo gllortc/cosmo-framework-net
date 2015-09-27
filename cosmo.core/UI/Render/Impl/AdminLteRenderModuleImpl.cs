@@ -337,6 +337,11 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <meta http-equiv=\"keywords\" content=\"" + (string.IsNullOrEmpty(view.Keywords) ? Workspace.PageKeywords : view.Keywords) + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"device-type\" content=\"" + view.DeviceType.ToString() + "\" />");
 
+         if (!string.IsNullOrWhiteSpace(this.XIcon))
+         {
+            xhtml.AppendLine("  <link rel=\"shortcut icon\" href=\"" + Url.Combine(Workspace.Url, this.XIcon) + "\" />");
+         }
+
          foreach (string css in this.CssResources)
          {
             xhtml.AppendLine("  <link href=\"" + css + "\" rel=\"stylesheet\" type=\"text/css\" />");
@@ -910,7 +915,7 @@ namespace Cosmo.UI.Render.Impl
          SimpleScript script = new SimpleScript(control.ParentView);
          script.ExecutionType = Script.ScriptExecutionMethod.Standalone;
          script.AppendSourceLine("function acceptCookies() {");
-         script.AppendSourceLine("  $.cookie('" + COOKIESADVISORCTRL_COOKIE_NAME + "', 'accept');");
+         script.AppendSourceLine("  $.cookie('" + COOKIESADVISORCTRL_COOKIE_NAME + "', 'accept', { expires: 365, path: '/' });");
          script.AppendSourceLine("  $('#" + control.DomID + "').hide();");
          script.AppendSourceLine("}");
          control.ParentView.Scripts.Add(script);

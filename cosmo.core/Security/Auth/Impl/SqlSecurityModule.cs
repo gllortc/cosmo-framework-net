@@ -138,7 +138,13 @@ namespace Cosmo.Security.Auth.Impl
                }
             }
 
-            // Obtiene las relaciones con otros usuarios
+            // If user not found, return null
+            if (user == null)
+            {
+               return null;
+            }
+
+            // Get relations with other users Obtiene las relaciones con otros usuarios
             sql = @"SELECT userid, touserid, status, created, updated 
                     FROM   sysusersrel 
                     WHERE  userid = @userid Or 
