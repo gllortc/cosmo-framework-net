@@ -101,25 +101,25 @@ namespace Cosmo.Cms.Web
          // Obtiene el documento y la carpeta
          folder = docs.GetFolder(doc.FolderId, false);
 
-         //-------------------------------
-         // Habilita formularios modales
-         //-------------------------------
-         Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(doc.ID);
-         Modals.Add(frmUpload);
+         ////-------------------------------
+         //// Habilita formularios modales
+         ////-------------------------------
+         //Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(doc.ID);
+         //Modals.Add(frmUpload);
 
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
 
-         HtmlContentControl filesContent = new HtmlContentControl(this);
-         filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
-         Content.Add(filesContent);
+         //HtmlContentControl filesContent = new HtmlContentControl(this);
+         //filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
+         //Content.Add(filesContent);
 
-         ButtonGroupControl btnFiles = new ButtonGroupControl(this);
-         btnFiles.Size = ButtonControl.ButtonSizes.Small;
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", frmUpload));
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
-         Content.Add(btnFiles);
+         //ButtonGroupControl btnFiles = new ButtonGroupControl(this);
+         //btnFiles.Size = ButtonControl.ButtonSizes.Small;
+         //btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", string.Empty, frmUpload.GetInvokeFunctionWithParameters(new object[] { doc.ID })));
+         //btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
+         //Content.Add(btnFiles);
 
          TableControl tableFiles = new TableControl(this);
          tableFiles.Bordered = false;
@@ -157,7 +157,7 @@ namespace Cosmo.Cms.Web
       /// <param name="command">Comando de la llamada.</param>
       /// <param name="objectId">Identificador único del objeto.</param>
       /// <returns>Una cadena que contiene la URL de llamada de la plantilla.</returns>
-      public static string GetTemplateUrl(string command, string objectId)
+      public static string GetUrl(string command, string objectId)
       {
          Url url = new Url("ContentEditFileList");
          url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, command);

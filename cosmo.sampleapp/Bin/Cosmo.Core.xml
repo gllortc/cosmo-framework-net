@@ -816,13 +816,21 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String)">
+            <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>A string containing the requested path.</returns>
+        </member>
         <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String,System.String)">
             <summary>
-            Obtiene la ruta física a un archivo asociado a un objeto.
+            Gets the path (with filename) to a object related file.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
-            <param name="filename">Nombre del archivo (sin ruta).</param>
-            <returns>La ruta al archivo solicitado.</returns>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">Filename without path.</param>
+            <returns>A string containing the requested filename and path.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(System.String,System.String)">
             <summary>
@@ -948,9 +956,17 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(System.String)">
+            <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="objectId">Identificador del objeto.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>La ruta al archivo solicitado.</returns>
+        </member>
         <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(System.String,System.String)">
             <summary>
-            Obtiene la ruta física a un archivo asociado a un objeto.
+            Gets the path (with filename) to a object related file.
             </summary>
             <param name="objectId">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
@@ -3343,7 +3359,12 @@
         </member>
         <member name="P:Cosmo.UI.Controls.FormControl.IsValid">
             <summary>
-            Return or set the validation status of this control.
+            Gets or sets the validation status of this control.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Controls.FormControl.UploadedFiles">
+            <summary>
+            Gets the number of files uploaded in the form.
             </summary>
         </member>
         <member name="T:Cosmo.UI.Controls.FormControl.FormSendDataMethod">
@@ -3496,6 +3517,11 @@
         <member name="M:Cosmo.UI.Controls.FormFieldFile.Initialize">
             <summary>
             Initializes the instance data.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Controls.FormFieldFile.GetFileName(System.String)">
+            <summary>
+            Gets the filename form a path.
             </summary>
         </member>
         <member name="M:Cosmo.UI.Controls.FormFieldFile.CreateImageThumbnail(System.String)">
@@ -5812,7 +5838,7 @@
         </member>
         <member name="P:Cosmo.Web.UploadFilesModal.ObjectID">
             <summary>
-            Gets or sets el identificador del objeto al que va asociado el contenido subido.
+            Gets or sets the object identifier for which the files will be uploaded.
             </summary>
         </member>
         <member name="T:Cosmo.Web.UserAuth">
@@ -8583,6 +8609,17 @@
             <summary>
             Render modal forms.
             </summary>
+            <remarks>
+            This method render all modals in the view and all its related views (embedded partial views or
+            modal views).
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl.RenderModalView(Cosmo.UI.ModalView)">
+            <summary>
+            Render a XHTML container to 
+            </summary>
+            <param name="modal"></param>
+            <returns></returns>
         </member>
         <member name="T:Cosmo.UI.Render.ControlNotSuportedException">
             <summary>
@@ -11126,13 +11163,21 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(System.String)">
+            <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>A string containing the requested path.</returns>
+        </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(System.String,System.String)">
             <summary>
-            Obtiene la ruta física a un archivo asociado a un objeto.
+            Gets the path (with filename) to a object related file.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
-            <param name="filename">Nombre del archivo (sin ruta).</param>
-            <returns>La ruta al archivo solicitado.</returns>
+            <param name="objectId">Object unique identifier.</param>
+            <param name="filename">Filename without path.</param>
+            <returns>A string containing the requested filename and path.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(System.String,System.String)">
             <summary>

@@ -120,9 +120,14 @@ namespace Cosmo.UI.Controls
       public FormSendDataMethod SendDataMethod { get; set; }
 
       /// <summary>
-      /// Return or set the validation status of this control.
+      /// Gets or sets the validation status of this control.
       /// </summary>
       public ValidationStatus IsValid { get; internal set; }
+
+      /// <summary>
+      /// Gets the number of files uploaded in the form.
+      /// </summary>
+      public int UploadedFiles { get; internal set; }
 
       #endregion
 
@@ -337,7 +342,7 @@ namespace Cosmo.UI.Controls
          try
          {
             FormField field = (FormField)Content.Get(domId);
-            if (field == null) 
+            if (field == null)
                return defaultValue;
 
             if (field.Value.GetType() == typeof(DateTime))
@@ -406,6 +411,13 @@ namespace Cosmo.UI.Controls
                if (field.FieldType == FormField.FieldTypes.Upload)
                {
                   isValidForm = isValidForm && field.LoadValueFromRequest();
+
+                  // Compute the number of uploaded files
+                  if (field.Value is FileInfo && ((FileInfo)field.Value).Exists)
+                  {
+                     this.UploadedFiles++;
+                  }
+
                }
             }
          }
@@ -435,6 +447,7 @@ namespace Cosmo.UI.Controls
          this.FormButtons = new List<ButtonControl>();
          this.SendDataMethod = FormSendDataMethod.ButtonSubmit;
          this.IsValid = ValidationStatus.NotValidated;
+         this.UploadedFiles = 0;
       }
 
       #endregion

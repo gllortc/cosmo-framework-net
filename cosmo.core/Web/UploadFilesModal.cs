@@ -1,4 +1,5 @@
-﻿using Cosmo.UI;
+﻿using Cosmo.Security;
+using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System;
 
@@ -7,6 +8,9 @@ namespace Cosmo.Web
    /// <summary>
    /// Implementa un formulario modal para subir archivos al servidor.
    /// </summary>
+   [AuthenticationRequired]
+   [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID,
+                  PropertyName = "ObjectID")]
    public class UploadFilesModal : ModalView
    {
       // Modal element unique identifier
@@ -40,7 +44,7 @@ namespace Cosmo.Web
       #region Properties
 
       /// <summary>
-      /// Gets or sets el identificador del objeto al que va asociado el contenido subido.
+      /// Gets or sets the object identifier for which the files will be uploaded.
       /// </summary>
       public int ObjectID { get; set; }
       
@@ -50,18 +54,36 @@ namespace Cosmo.Web
 
       public override void InitPage()
       {
+         FormFieldFile fileField;
+
          Title = "Adjuntar archivos al contenido";
          Closeable = true;
          Icon = IconControl.ICON_FOLDER_OPEN;
 
          FormControl form = new FormControl(this, "frmUploadFiles");
+         form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
          form.IsMultipart = true;
+         form.Action = GetType().Name;
          form.Method = "post";
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ObjectID);
-         form.Content.Add(new FormFieldFile(this, "file1", "Archivo 1"));
-         form.Content.Add(new FormFieldFile(this, "file2", "Archivo 2"));
-         form.Content.Add(new FormFieldFile(this, "file3", "Archivo 3"));
-         form.Content.Add(new FormFieldFile(this, "file4", "Archivo 4"));
+
+         fileField = new FormFieldFile(this, "file1", "Archivo 1");
+         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         form.Content.Add(fileField);
+
+         fileField = new FormFieldFile(this, "file2", "Archivo 2");
+         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         form.Content.Add(fileField);
+
+         fileField = new FormFieldFile(this, "file3", "Archivo 3");
+         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         form.Content.Add(fileField);
+
+         fileField = new FormFieldFile(this, "file4", "Archivo 4");
+         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         form.Content.Add(fileField);
+
+
          form.FormButtons.Add(new ButtonControl(this, "cmdAccept", "Enviar", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdClose", "Cancelar", ButtonControl.ButtonTypes.CloseModalForm));
 
@@ -70,38 +92,14 @@ namespace Cosmo.Web
 
       public override void FormDataReceived(FormControl receivedForm)
       {
-         // Obtiene los parámetros de la llamada.
-         int objId = receivedForm.GetIntFieldValue(Cosmo.Workspace.PARAM_OBJECT_ID);
-
-         // Inicializaciones
-         int savedFiles = 0;
-         string file;
-
-         string[] keys = Request.Files.AllKeys;
-
-         foreach (string fileKey in keys)
-         {
-            try
-            {
-               file = Workspace.FileSystemService.GetFilePath(objId.ToString(), Request.Files[fileKey].FileName);
-               Request.Files[fileKey].SaveAs(file);
-
-               savedFiles++;
-            }
-            catch (Exception ex)
-            {
-               file = ex.Message;
-            }
-         }
-
-         if (savedFiles > 0)
+         if (receivedForm.UploadedFiles > 0)
          {
             Content.Clear();
 
             CalloutControl callout = new CalloutControl(this);
             callout.Title = "Operación completada con éxito";
             callout.Icon = IconControl.ICON_CHECK;
-            callout.Text = "Se han subido correctament " + savedFiles + " archivo(s) al servidor.";
+            callout.Text = "Se han subido correctament " + receivedForm.UploadedFiles + " archivo(s) al servidor.";
             callout.Type = ComponentColorScheme.Success;
 
             Content.Add(callout);

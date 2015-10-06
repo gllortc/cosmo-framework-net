@@ -61,8 +61,11 @@ namespace Cosmo.UI.Scripting
       /// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
       public override string GetSource()
       {
-         // Declara el evento Submit
+         // Program a custom submit function for the form
          Source.AppendLine("$('#" + Form.DomID + "').submit(function(e) {");
+
+         // Disable the default form submission
+         Source.AppendLine("  event.preventDefault();");
 
          // Recoge los datos del formulario
          if (!Form.IsMultipart)
@@ -72,7 +75,13 @@ namespace Cosmo.UI.Scripting
          else
          {
             Source.AppendLine("  var fData = new FormData(this);");
+            //foreach (FormFieldFile fileField in Form.Content.GetControlsByType(typeof(FormFieldFile)))
+            //{
+            //   Source.AppendLine("  fData.append('" + fileField.DomID + "', $('#" + fileField.DomID + "')[0].files[0]);");
+            //}
          }
+
+         Source.AppendLine("  alert(fData);");
 
          Source.AppendLine("  $.ajax({");
          Source.AppendLine("    url: '" + Form.Action + "',");
@@ -82,6 +91,7 @@ namespace Cosmo.UI.Scripting
          {
             Source.AppendLine("    mimeType: 'multipart/form-data',");
             Source.AppendLine("    cache: false,");
+            Source.AppendLine("    contentType: false,");
             Source.AppendLine("    processData: false,");
          }
          Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
@@ -91,7 +101,8 @@ namespace Cosmo.UI.Scripting
          Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
          Source.AppendLine("    }");
          Source.AppendLine("  });");
-         Source.AppendLine("  e.preventDefault();");
+
+         Source.AppendLine("  return false;");
          Source.AppendLine("});");
 
          return Source.ToString();

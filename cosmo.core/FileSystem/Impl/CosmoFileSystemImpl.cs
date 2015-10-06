@@ -179,7 +179,18 @@ namespace Cosmo.FileSystem.Impl
       }
 
       /// <summary>
-      /// Obtiene la ruta física a un archivo asociado a un objeto.
+      /// Gets the path (without filename) to a object folder.
+      /// </summary>
+      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="filename">Nombre del archivo (sin ruta).</param>
+      /// <returns>La ruta al archivo solicitado.</returns>
+      public override string GetFilePath(string objectId)
+      {
+         return Path.Combine(RootPath, objectId);
+      }
+
+      /// <summary>
+      /// Gets the path (with filename) to a object related file.
       /// </summary>
       /// <param name="objectId">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo (sin ruta).</param>

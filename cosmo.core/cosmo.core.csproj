@@ -184,7 +184,7 @@
     <Compile Include="Web\AdminUserData.cs" />
     <Compile Include="Web\PrivateMessagesPartialView.cs" />
     <Compile Include="Web\PrivateMessages.cs" />
-    <Compile Include="Web\ModalFormUpload.cs" />
+    <Compile Include="Web\UploadFilesModal.cs" />
     <Compile Include="Web\UserAuth.cs" />
     <Compile Include="Web\UserData.cs" />
     <Compile Include="Web\UserDataModal.cs" />

@@ -415,7 +415,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine(Render(view.Content, receivedFormID));
 
          // Render modal views
-         xhtml.AppendLine(RenderModalViews(view, view.Modals));
+         // xhtml.AppendLine(RenderModalViews(view, view.Modals));
 
          // Render view scripts
          xhtml.AppendLine(RenderScripts(view));
@@ -2713,21 +2713,54 @@ namespace Cosmo.UI.Render.Impl
       /// <summary>
       /// Render modal forms.
       /// </summary>
+      /// <remarks>
+      /// This method render all modals in the view and all its related views (embedded partial views or
+      /// modal views).
+      /// </remarks>
       private string RenderModalViews(View parentView, List<ModalView> modalList)
       {
          StringBuilder xhtml = new StringBuilder();
 
-         // Renderiza las ventanas modales
+         // Render modal views for the main view
          foreach (ModalView modal in modalList)
          {
-            // Genera la cabecera de la ventana modal
-            xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
-            xhtml.AppendLine("<div id=\"" + modal.DomID + "\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
-            xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
-            xhtml.AppendLine("</div>");
+            // Generate the HTML container to load modal form with AJAX
+            xhtml.AppendLine(RenderModalView(modal));
 
+            // Generate the open form JS script and append it to the main view
             parentView.Scripts.Add(modal.GetOpenModalScript());
          }
+
+         // Render modal views for all partial views contained in main view
+         //foreach (Control partialView in parentView.ControlContainer.GetControlsByType(typeof(PartialViewContainerControl)))
+         //{
+         //   foreach (ModalView modal in ((PartialViewContainerControl)partialView).View.Modals)
+         //   {
+         //      // Generate the HTML container to load modal form with AJAX
+         //      xhtml.AppendLine(RenderModalView(modal));
+
+         //      // Generate the open form JS script and append it to the main view
+         //      parentView.Scripts.Add(modal.GetOpenModalScript());
+         //   }
+         //}
+
+         return xhtml.ToString();
+      }
+
+      /// <summary>
+      /// Render a XHTML container to 
+      /// </summary>
+      /// <param name="modal"></param>
+      /// <returns></returns>
+      private string RenderModalView(ModalView modal)
+      {
+         StringBuilder xhtml = new StringBuilder();
+
+         // Genera la cabecera de la ventana modal
+         xhtml.AppendLine("<!-- Modal view: " + modal.DomID + " -->");
+         xhtml.AppendLine("<div id=\"" + modal.DomID + "\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"" + modal.DomID + "-label\" aria-hidden=\"true\">");
+         xhtml.AppendLine("  <div class=\"modal-dialog\"></div>");
+         xhtml.AppendLine("</div>");
 
          return xhtml.ToString();
       }

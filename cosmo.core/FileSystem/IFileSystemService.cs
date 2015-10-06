@@ -104,11 +104,19 @@ namespace Cosmo.FileSystem
       public abstract string GetServicePath(string serviceFolderName);
 
       /// <summary>
-      /// Obtiene la ruta física a un archivo asociado a un objeto.
+      /// Gets the path (without filename) to a object folder.
       /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="objectId">Object unique identifier.</param>
       /// <param name="filename">Nombre del archivo (sin ruta).</param>
-      /// <returns>La ruta al archivo solicitado.</returns>
+      /// <returns>A string containing the requested path.</returns>
+      public abstract string GetFilePath(string objectId);
+
+      /// <summary>
+      /// Gets the path (with filename) to a object related file.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="filename">Filename without path.</param>
+      /// <returns>A string containing the requested filename and path.</returns>
       public abstract string GetFilePath(string objectId, string filename);
 
       /// <summary>

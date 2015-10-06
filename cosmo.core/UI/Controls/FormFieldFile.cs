@@ -201,23 +201,25 @@ namespace Cosmo.UI.Controls
 
             if (valid)
             {
-               // Obtiene el archivo
+               // Get reveived file via HTTP
                HttpPostedFile file = ParentView.Workspace.Context.Request.Files[this.DomID];
-
-               // Genera el nombre del archivo
-               string filePath = string.IsNullOrWhiteSpace(this.FileName) ? file.FileName : this.FileName;
-               filePath = PathInfo.Combine(this.DowloadPath, filePath);
-
-               // Guarda el archivo
-               file.SaveAs(filePath);
-
-               // Guarda como valor una instancia de FileInfo que permite el acceso al archivo
-               _value = new FileInfo(filePath);
-
-               // Ejecuta las acciones
-               if (this.CreateThumbnail)
+               if (!string.IsNullOrWhiteSpace(file.FileName))
                {
-                  _thumbnail = CreateImageThumbnail(_value.FullName);
+                  // Generate the filename and path
+                  string filePath = string.IsNullOrWhiteSpace(this.FileName) ? GetFileName(file.FileName) : this.FileName;
+                  filePath = PathInfo.Combine(this.DowloadPath, filePath);
+
+                  // Save the file to filesystem
+                  file.SaveAs(filePath);
+
+                  // Store the FileInfo instance as a field value to use later
+                  _value = new FileInfo(filePath);
+
+                  // Run additional field actions
+                  if (this.CreateThumbnail)
+                  {
+                     _thumbnail = CreateImageThumbnail(_value.FullName);
+                  }
                }
             }
 
@@ -300,6 +302,15 @@ namespace Cosmo.UI.Controls
          this.ThumbnailMaxWith = 0;
 
          _thumbnail = null;
+      }
+
+      /// <summary>
+      /// Gets the filename form a path.
+      /// </summary>
+      private string GetFileName(string path)
+      {
+         FileInfo file = new FileInfo(path);
+         return file.Name;
       }
 
       /// <summary>
@@ -405,5 +416,6 @@ namespace Cosmo.UI.Controls
       }
 
       #endregion
+
    }
 }

@@ -251,13 +251,11 @@ namespace Cosmo.UI.Controls
             {
                controls.Add(control);
             }
-
-            if (control is IControlSingleContainer)
+            else if (control is IControlSingleContainer)
             {
                controls.AddRange(((IControlSingleContainer)control).Content.GetControlsByType(controlType));
             }
-
-            if (control is IControlCollectionContainer)
+            else if (control is IControlCollectionContainer)
             {
                foreach (IControlSingleContainer container in ((IControlCollectionContainer)control).NestedContainers)
                {

@@ -19,7 +19,7 @@ namespace Rwm.Web
          ActiveMenuId = "home";
 
          // Cabecera
-         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar"));
+         HeaderContent.Add(Workspace.UIService.GetNavbarMenu(this, "navbar-welcome"));
 
          //------------------------------------------------
          // Contenido de la página

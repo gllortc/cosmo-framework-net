@@ -73,7 +73,7 @@ namespace Cosmo.Cms.Web
          folder = docs.GetFolder(doc.FolderId, false);
 
          //-------------------------------
-         // Configuración de la vista
+         // Habilita formularios modales
          //-------------------------------
          Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(doc.ID);
          Modals.Add(frmUpload);
@@ -121,10 +121,20 @@ namespace Cosmo.Cms.Web
 
          TabItemControl tabFiles = new TabItemControl(this, "tabFiles", "Archivos adjuntos");
 
+         HtmlContentControl filesContent = new HtmlContentControl(this);
+         filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
+         tabFiles.Content.Add(filesContent);
+
+         ButtonGroupControl btnFiles = new ButtonGroupControl(this);
+         btnFiles.Size = ButtonControl.ButtonSizes.Small;
+         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", string.Empty, frmUpload.GetInvokeFunctionWithParameters(new object[] { doc.ID })));
+         btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
+         tabFiles.Content.Add(btnFiles);
+
          ContentEditFileList fileList = new ContentEditFileList(doc.ID, cmd);
          PartialViewContainerControl fileListView = new PartialViewContainerControl(this, fileList);
          tabFiles.Content.Add(fileListView);
-         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, doc.ID, cmd));
+         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, cmd, doc.ID));
 
          tabs.TabItems.Add(tabFiles);
 

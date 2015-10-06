@@ -198,6 +198,8 @@ namespace Cosmo.UI
       /// <param name="context">Contexto del servidor en el momento de la llamada.</param>
       public void ProcessRequest(HttpContext context)
       {
+         context.Response.ContentType = "text/plain";
+
          // Almacena el contexto para sus diversos usos durante el ciclo de vida de la vista
          _context = context;
          _cache = new ControlCache(Workspace, _context.Cache);
