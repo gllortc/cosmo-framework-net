@@ -161,25 +161,24 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Obtiene todos los campos de formulario de la colección.
+      /// Gets all form fields of type <see cref="FormField"/> from the current collection.
       /// </summary>
-      /// <param name="controlType">Tipo de control a obtener.</param>
-      /// <returns>La lista de controles solicitada.</returns>
+      /// <returns>A list filled with all requested control contained in the current collection.</returns>
       public List<FormField> GetFormFields()
       {
          List<FormField> keys = new List<FormField>();
 
-         foreach (Control control in this)
+         foreach (Control control in this.GetControlsByType(typeof(FormField)))
          {
             if (control.GetType().BaseType == typeof(FormField)) 
             {
                keys.Add((FormField) control);
             }
 
-            if (control.GetType().IsAssignableFrom(typeof(IControlSingleContainer)))
-            {
-               keys.AddRange(((IControlSingleContainer)control).Content.GetFormFields());
-            }
+            //if (control.GetType().IsAssignableFrom(typeof(IControlSingleContainer)))
+            //{
+            //   keys.AddRange(((IControlSingleContainer)control).Content.GetFormFields());
+            //}
          }
 
          return keys;

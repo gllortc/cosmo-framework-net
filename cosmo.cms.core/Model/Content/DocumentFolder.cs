@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Cosmo.Cms.Common;
+using Cosmo.Security.Auth;
+using System;
 using System.Collections.Generic;
 
 namespace Cosmo.Cms.Model.Content
 {
    /// <summary>
-   /// Implementa una carpeta contenedora de documentos.
+   /// Implements a content folder.
    /// </summary>
-   public class DocumentFolder
+   public class DocumentFolder : Cosmo.Cms.Common.IPublishable
    {
 
       #region Constructors
@@ -79,9 +81,64 @@ namespace Cosmo.Cms.Model.Content
       public List<DocumentFolder> Subfolders { get; set; }
 
       /// <summary>
-      /// Gets or sets el menú que se debe mostrar activo cuando se accede a la carpeta o algun documento que contenga.
+      /// Gets or sets the ID of associated <see cref="MenuItem"/> (declared in <c>cosmo.config.xml</c>) that should 
+      /// appear as a selected when the user is placed in this folder.
       /// </summary>
       public string MenuId { get; set; }
+
+      /// <summary>
+      /// Gets or sets the publish status of the document.
+      /// </summary>
+      public CmsPublishStatus.PublishStatus Status
+      {
+         get { return (this.Enabled ? CmsPublishStatus.PublishStatus.Published : CmsPublishStatus.PublishStatus.Unpublished); }
+         set { this.Enabled = (value == CmsPublishStatus.PublishStatus.Published); }
+      }
+
+      /// <summary>
+      /// Gets the datetime of the document last change.
+      /// </summary>
+      public DateTime Updated { get; internal set; }
+
+      /// <summary>
+      /// Gets the object owner's login.
+      /// </summary>
+      public string Owner
+      {
+         get { return SecurityService.ACCOUNT_SUPER; }
+         set { }
+      }
+
+      #endregion
+
+      #region Methods
+
+      /// <summary>
+      /// Save current document to a XML file (serialize).
+      /// </summary>
+      /// <param name="filename">Filename and path of the file.</param>
+      public void Save(string filename)
+      {
+         throw new NotImplementedException();
+      }
+
+      /// <summary>
+      /// Load a document stored in a XML file (unserialize).
+      /// </summary>
+      /// <param name="filename">Filename and path of the file.</param>
+      public void Load(string filename)
+      {
+         throw new NotImplementedException();
+      }
+
+      /// <summary>
+      /// Check if the folder is valid and can be stored in database.
+      /// </summary>
+      /// <returns><c>true</c> if the object can be stored in database or <c>false</c> in all other cases.</returns>
+      public bool Validate()
+      {
+         return !string.IsNullOrWhiteSpace(this.Name) & (this.ParentID >= 0);
+      }
 
       #endregion
 

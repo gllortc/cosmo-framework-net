@@ -1,43 +1,45 @@
-﻿using Cosmo.Cms.Model.Content;
+﻿using Cosmo.Cms.Common;
+using Cosmo.Cms.Model.Content;
 using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
+using Cosmo.UI.Menu;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
+using Cosmo.Web;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Cosmo.Cms.Web
 {
    [AuthorizationRequired(DocumentDAO.ROLE_CONTENT_EDITOR)]
-   public class ContentEdit : PageView
+   public class ContentFolderEdit : PageView
    {
-      // Declaración de nombres de parámetros
+      // Field name declarations
+      private const string FIELD_PARENTID = "opi";
       private const string FIELD_TITLE = "tit";
-      private const string FIELD_DESCRIPTION = "des";
       private const string FIELD_CONTENT = "con";
-      private const string FIELD_THUMBNAIL = "thb";
-      private const string FIELD_ATTACHMENT = "att";
       private const string FIELD_STATUS = "sta";
-      private const string FIELD_HIGHLIGHT = "hgl";
+      private const string FIELD_MENUITEM = "mi";
+      private const string FIELD_ORDER = "or";
 
       #region PageView Implementation
 
       public override void InitPage()
       {
          string cmd;
-         Document doc = null;
-         DocumentFolder folder;
+         DocumentFolder folder = null;
 
-         // Agrega los recursos necesarios para representar la página actual
+         // Add needed resources
          Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
 
          //-------------------------------
-         // Obtención de parámetros
+         // Parameters
          //-------------------------------
 
-         // Obtiene los parámetros de llamada
-         int docId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+         // Get call parameters
+         int folderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
 
          //-------------------------------
          // Obtención de datos
@@ -50,12 +52,12 @@ namespace Cosmo.Cms.Web
          switch (cmd)
          {
             case Cosmo.Workspace.COMMAND_EDIT:
-               doc = docs.Item(docId);
+               folder = docs.GetFolder(folderId, true);
                break;
 
             case Cosmo.Workspace.COMMAND_ADD:
-               doc = new Document();
-               doc.FolderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
+               folder = new DocumentFolder();
+               folder.ParentID = folderId;
                break;
 
             default:
@@ -64,20 +66,17 @@ namespace Cosmo.Cms.Web
                break;
          }
 
-         // Obtiene el documento y la carpeta
-         folder = docs.GetFolder(doc.FolderId, false);
-
          //-------------------------------
          // Habilita formularios modales
          //-------------------------------
-         Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(doc.ID, false);
+         Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(folder.ID, true);
          Modals.Add(frmUpload);
 
          //-------------------------------
          // Configuración de la vista
          //-------------------------------
 
-         Title = doc.Title + " | " + DocumentDAO.SERVICE_NAME;
+         Title = folder.Name + " | " + DocumentDAO.SERVICE_NAME;
          ActiveMenuId = folder.MenuId;
 
          // Cabecera
@@ -97,21 +96,21 @@ namespace Cosmo.Cms.Web
          // Content form tab
 
          TabItemControl frmData = new TabItemControl(this, "tabData", "Contenido");
-         frmData.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, doc.Title));
-         frmData.Content.Add(new FormFieldEditor(this, FIELD_DESCRIPTION, "Descripción", FormFieldEditor.FieldEditorType.Simple, doc.Description));
-         frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Contenido", FormFieldEditor.FieldEditorType.HTML, doc.Content));
+         frmData.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, folder.Name));
+         frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Contenido", FormFieldEditor.FieldEditorType.HTML, folder.Description));
+         frmData.Content.Add(new FormFieldText(this, FIELD_ORDER, "Orden", FormFieldText.FieldDataType.Number, folder.Order.ToString()));
 
-         FormFieldImage thumb = new FormFieldImage(this, FIELD_THUMBNAIL, "Imagen miniatura", doc.Thumbnail);
-         thumb.Description = "Si deja este campo en blanco no se guardará la imagen y se mantendrá la actual.";
-         thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
-         frmData.Content.Add(thumb);
-
-         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Published ? "1" : "0"));
-         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
-         lstStatus.Values.Add(new KeyValue("Publicado", "1"));
+         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, ((int)folder.Status).ToString());
+         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", ((int)Common.CmsPublishStatus.PublishStatus.Unpublished).ToString()));
+         lstStatus.Values.Add(new KeyValue("Publicado", ((int)Common.CmsPublishStatus.PublishStatus.Published).ToString()));
          frmData.Content.Add(lstStatus);
 
-         frmData.Content.Add(new FormFieldBoolean(this, FIELD_HIGHLIGHT, "Artículo destacado en portada", doc.Hightlight));
+         FormFieldList lstMenu = new FormFieldList(this, FIELD_MENUITEM, "Menú", FormFieldList.ListType.Single, folder.MenuId);
+         foreach (MenuItem menuItem in Workspace.UIService.GetMenu("sidebar").MenuItems)
+         {
+            lstMenu.Values.Add(new KeyValue(menuItem.Name, menuItem.ID));
+         }
+         frmData.Content.Add(lstMenu);
 
          tabs.TabItems.Add(frmData);
 
@@ -125,17 +124,21 @@ namespace Cosmo.Cms.Web
 
          ButtonGroupControl btnFiles = new ButtonGroupControl(this);
          btnFiles.Size = ButtonControl.ButtonSizes.Small;
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", string.Empty, frmUpload.GetInvokeFunctionWithParameters(new object[] { doc.ID, false })));
+         btnFiles.Buttons.Add(new ButtonControl(this, 
+                                                "cmdAddFiles", 
+                                                "Agregar archivos", 
+                                                string.Empty, 
+                                                frmUpload.GetInvokeFunctionWithParameters(new Dictionary<string, object>() {{ Cosmo.Workspace.PARAM_OBJECT_ID, folder.ID }, { UploadFilesModal.PARAM_ISCONTAINER, true }} )));
          btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
          tabFiles.Content.Add(btnFiles);
 
-         ContentMediaFileList fileList = new ContentMediaFileList(doc.ID, cmd);
+         ContentMediaFileList fileList = new ContentMediaFileList(folder.ID, cmd);
          PartialViewContainerControl fileListView = new PartialViewContainerControl(this, fileList);
          tabFiles.Content.Add(fileListView);
-         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, cmd, doc.ID));
+         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, cmd, folder.ID));
 
          btnFiles.Buttons[1].Href = string.Empty;
-         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeFunctionWithParameters(cmd, doc.ID);
+         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeFunctionWithParameters(cmd, folder.ID);
 
          tabs.TabItems.Add(tabFiles);
 
@@ -148,13 +151,11 @@ namespace Cosmo.Cms.Web
          tableInfo.Bordered = false;
          tableInfo.Condensed = true;
          tableInfo.Header = new TableRow(string.Empty, "Propiedad", "Valor");
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Fecha de creación", doc.Created.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Última actualización", doc.Updated.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Propietario", doc.Owner));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Estado actual", doc.Published ? "Publicado" : "Despublicado (Borrador)"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Destacado", doc.Hightlight ? "Sí" : "No"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Nodo actual", "<a href=\"" + ContentByFolder.GetURL(folder.ID) + "\">" + folder.Name + "</a> (#" + folder.ID + ")"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Visitas", doc.Shows));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Fecha de creación", folder.Created.ToString("dd/MM/yyyy hh:mm")));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Última actualización", folder.Updated.ToString("dd/MM/yyyy hh:mm")));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Propietario", folder.Owner));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Estado actual", folder.Status == Common.CmsPublishStatus.PublishStatus.Published ? "Publicado" : "Despublicado (Borrador)"));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Visitas", "No disponible"));
 
          TabItemControl frmInfo = new TabItemControl(this, "tabInfo", "Información");
          frmInfo.Content.Add(infoContent);
@@ -169,11 +170,11 @@ namespace Cosmo.Cms.Web
          form.Text = "Editar artículo";
          form.Action = GetType().Name;
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
-         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, doc.ID);
-         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderId);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, folder.ID);
+         form.AddFormSetting(FIELD_PARENTID, folder.ParentID);
          form.Content.Add(tabs);
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
-         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ContentView.GetURL(doc.ID), string.Empty));
+         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ContentByFolder.GetURL(folder.ID), string.Empty));
 
          form.FormButtons[0].Color = ComponentColorScheme.Success;
          form.FormButtons[0].Icon = "fa-check";
@@ -181,51 +182,40 @@ namespace Cosmo.Cms.Web
          MainContent.Add(form);
       }
 
-      public override void LoadPage()
-      {
-         
-      }
-
       /// <summary>
       /// Trata los datos recibidos de un formulario.
       /// </summary>
       public override void FormDataReceived(FormControl receivedForm)
       {
-         Document doc = new Document();
+         DocumentFolder folder = new DocumentFolder();
 
          // Obtiene los datos del formulario
-         doc.ID = receivedForm.GetIntFieldValue(Cosmo.Workspace.PARAM_OBJECT_ID);
-         doc.FolderId = receivedForm.GetIntFieldValue(Cosmo.Workspace.PARAM_FOLDER_ID);
-         doc.Title = receivedForm.GetStringFieldValue(FIELD_TITLE);
-         doc.Description = receivedForm.GetStringFieldValue(FIELD_DESCRIPTION);
-         doc.Content = receivedForm.GetStringFieldValue(FIELD_CONTENT);
-         doc.Published = receivedForm.GetBoolFieldValue(FIELD_STATUS);
-         doc.Hightlight = receivedForm.GetBoolFieldValue(FIELD_HIGHLIGHT);
-
-         if (receivedForm.GetFileFieldValue(FIELD_THUMBNAIL) != null) doc.Thumbnail = receivedForm.GetFileFieldValue(FIELD_THUMBNAIL).Name;
-         if (receivedForm.GetFileFieldValue(FIELD_ATTACHMENT) != null) doc.Attachment = receivedForm.GetFileFieldValue(FIELD_ATTACHMENT).Name;
+         folder.ID = receivedForm.GetIntFieldValue(Cosmo.Workspace.PARAM_FOLDER_ID);
+         folder.ParentID = receivedForm.GetIntFieldValue(FIELD_PARENTID);
+         folder.Name = receivedForm.GetStringFieldValue(FIELD_TITLE);
+         folder.Description = receivedForm.GetStringFieldValue(FIELD_CONTENT);
+         folder.Order = receivedForm.GetIntFieldValue(FIELD_ORDER);
+         folder.MenuId = receivedForm.GetStringFieldValue(FIELD_MENUITEM);
+         folder.Status = CmsPublishStatus.ToPublishStatus(receivedForm.GetIntFieldValue(FIELD_STATUS));
 
          // Realiza las operaciones de persistencia
          DocumentDAO docs = new DocumentDAO(Workspace);
          switch (Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND))
          {
             case Cosmo.Workspace.COMMAND_EDIT:
-               docs.Update(doc);
+               docs.UpdateFolder(folder);
                break;
 
             case Cosmo.Workspace.COMMAND_ADD:
-               docs.Add(doc);
+               docs.AddFolder(folder);
                break;
 
             default: 
                break;
          }
 
-         // Remove content highlights to force to refresh
-         Cache.Remove(Home.CACHE_CONTENT_HIGHLIGHTED);
-
          // Redirige a la página del artículo
-         Redirect(ContentView.GetURL(doc.ID));
+         Redirect(ContentByFolder.GetURL(folder.ID));
       }
 
       #endregion
@@ -233,28 +223,28 @@ namespace Cosmo.Cms.Web
       #region Static Members
 
       /// <summary>
-      /// Devuelve la URL que permite agregar un contenido a una determinada carpeta.
+      /// Gets the URL for editing a content folder.
       /// </summary>
-      /// <param name="folderId">Identificador del contenido.</param>
-      public static string GetURL(int folderId)
+      /// <param name="folderId">Content folder unique identifier (DB).</param>
+      public static string GetEditURL(int folderId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
          url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
-         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);
 
          return url.ToString();
       }
 
       /// <summary>
-      /// Devuelve la URL que permite editar un determinado contenido.
+      /// Gets the URL for creating a content folder.
       /// </summary>
-      /// <param name="folderId">Identificador del contenido.</param>
-      public static string GetURL(int folderId, int documentId)
+      /// <param name="parentId">Parent content folder unique identifier (DB). If you want to create a top level
+      /// folder, this parameter must set to 0.</param>
+      public static string GetAddURL(int parentId)
       {
          Url url = new Url(MethodBase.GetCurrentMethod().DeclaringType.Name);
-         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, folderId);
-         url.AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, documentId);
-         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_EDIT);
+         url.AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, parentId);
+         url.AddParameter(Cosmo.Workspace.PARAM_COMMAND, Cosmo.Workspace.COMMAND_ADD);
 
          return url.ToString();
       }

@@ -147,7 +147,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve la URL de acceso al workspace.
+      /// Gets the main workspace URL.
       /// </summary>
       public string Url
       {
@@ -155,7 +155,7 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve el mail de contacto con el responsable del workspace.
+      /// Gets the main mail account for workspace.
       /// </summary>
       public string Mail
       {
@@ -354,6 +354,14 @@ namespace Cosmo
       public string CurrentUrl
       {
          get { return Context.Request.Url.PathAndQuery; }
+      }
+
+      /// <summary>
+      /// Gets the current absolute URL and query string.
+      /// </summary>
+      public string CurrentAbsoluteUrl
+      {
+         get { return Cosmo.Net.Url.Combine(this.Url, Context.Request.Url.PathAndQuery); }
       }
 
       #endregion

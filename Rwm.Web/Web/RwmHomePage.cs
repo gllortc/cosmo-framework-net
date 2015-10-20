@@ -11,8 +11,6 @@ namespace Rwm.Web
    public class RwmHomePage : Cosmo.UI.PageView
    {
 
-      private const string CACHE_CONTENT_HIGHLIGHTED = "rwm.webapp.content.highlighted.medialist";
-
       #region PageView Implementation
 
       public override void LoadPage()
@@ -47,37 +45,71 @@ namespace Rwm.Web
          jumbotron.Description = "El portal del ferrocarril europeo en español.";
          jumbotron.BackgroundImage = "images/home_bg_005.jpg";
          jumbotron.ForeColor = "#eeeeee";
-         jumbotron.ButtonText = "Suscribete";
-         jumbotron.ButtonHref = Cosmo.Web.UserJoin.GetURL();
+         //jumbotron.ButtonText = "Suscribete";
+         //jumbotron.ButtonHref = Cosmo.Web.UserJoin.GetURL();
 
          MainContent.Add(jumbotron);
 
-         MediaItem mitem = null;
-         MediaListControl mlist = new MediaListControl(this);
-         mlist.Style = MediaListControl.MediaListStyle.Thumbnail;
+         PanelControl panel;
+         HtmlContentControl content;
 
-         mitem = new MediaItem();
-         mitem.Title = "Foros";
-         mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
-         mitem.Icon = IconControl.ICON_COMMENT;
-         mitem.Image = "images/banner_section_001.png";
-         mlist.Add(mitem);
+         panel = new PanelControl(this);
+         panel.Text = "Hola!";
+         content = new HtmlContentControl(this);
+         content.AppendParagraph(@"El Junio del 2001 nació Railwaymania, fruto de una necesidad de cubrir algunos huecos
+                                   que tenia la red respecto a nuestra afición favorita: los trenes!");
+         content.AppendParagraph(@"Después de todos estos años la posibilidad de mantener Railwaymania ha ido decreciendo 
+                                   en la misma forma que las obligaciones profesionales y sobretodo familiares han ido 
+                                   creciendo, llegando al punto de tomar la decisión de parar maquinas en Junio de 2015.");
+         content.AppendParagraph(@"Junto a un grupo de aficionados (y amigos) hemos decidido crear un nuevo portal, que será 
+                                   mantenido por varias personas, tanto en lo que respecta al foro como en lo que respecta a 
+                                   los contenidos. Lo hacemos con ilusión y sobretodo con la única pretensión de fomentar 
+                                   nuestra afición.");
+         content.AppendParagraph(HtmlContentControl.BoldText(@"Un abrazo y hasta muy pronto!"));
+         panel.Content.Add(content);
+         MainContent.Add(panel);
 
-         mitem = new MediaItem();
-         mitem.Title = "Fotos";
-         mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
-         mitem.Icon = IconControl.ICON_CAMERA;
-         mitem.Image = "images/banner_section_002.png";
-         mlist.Add(mitem);
+         panel = new PanelControl(this);
+         panel.Text = "Secciones";
+         content = new HtmlContentControl(this);
+         content.AppendParagraph(@"Internet ha cambiado mucho desde 2001 y esto nos ha hecho reflexionar sobre las
+                                   secciones existentes hasta el momento del cierre.<br/><br/>
+                                   Por ello, algunas de las secciones han desaparecido por quedar totalmente
+                                   obsoletas. Hemos eliminado las secciones de <em>enlaces</em>, <em>comercios</em>, 
+                                   <em>libros</em> o <em>noticias (RSS)</em> entre otras puesto que existen actualmente
+                                   servicios que pueden dar la información mucho más actualizada y completa.<br/><br/>
+                                   En cambio, en el nuevo portal se mantienen las secciones de <em>contenidos</em> (ahora
+                                   <em>Artículos</em>), <em>foros</em>, <em>fotos</em> y <em>clasificados</em> que serán 
+                                   el eje central del portal.");
+         panel.Content.Add(content);
+         MainContent.Add(panel);
 
-         mitem = new MediaItem();
-         mitem.Title = "Compra/Venta";
-         mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
-         mitem.Icon = IconControl.ICON_GIFT;
-         mitem.Image = "images/banner_section_003.png";
-         mlist.Add(mitem);
+         //MediaItem mitem = null;
+         //MediaListControl mlist = new MediaListControl(this);
+         //mlist.Style = MediaListControl.MediaListStyle.Thumbnail;
 
-         MainContent.Add(mlist);
+         //mitem = new MediaItem();
+         //mitem.Title = "Foros";
+         //mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
+         //mitem.Icon = IconControl.ICON_COMMENT;
+         //mitem.Image = "images/banner_section_001.png";
+         //mlist.Add(mitem);
+
+         //mitem = new MediaItem();
+         //mitem.Title = "Fotos";
+         //mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
+         //mitem.Icon = IconControl.ICON_CAMERA;
+         //mitem.Image = "images/banner_section_002.png";
+         //mlist.Add(mitem);
+
+         //mitem = new MediaItem();
+         //mitem.Title = "Compra/Venta";
+         //mitem.Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.";
+         //mitem.Icon = IconControl.ICON_GIFT;
+         //mitem.Image = "images/banner_section_003.png";
+         //mlist.Add(mitem);
+
+         //MainContent.Add(mlist);
       }
 
       #endregion
@@ -102,9 +134,9 @@ namespace Rwm.Web
       {
          MediaItem item = null;
 
-         if (Cache.Exist(CACHE_CONTENT_HIGHLIGHTED))
+         if (Cache.Exist(Cosmo.Cms.Web.Home.CACHE_CONTENT_HIGHLIGHTED))
          {
-            return (MediaListControl)Cache.Get(CACHE_CONTENT_HIGHLIGHTED);
+            return (MediaListControl)Cache.Get(Cosmo.Cms.Web.Home.CACHE_CONTENT_HIGHLIGHTED);
          }
          else
          {
@@ -125,7 +157,7 @@ namespace Rwm.Web
                list.Add(item);
             }
 
-            Cache.Add(CACHE_CONTENT_HIGHLIGHTED, list, 60, System.Web.Caching.CacheItemPriority.High);
+            Cache.Add(Cosmo.Cms.Web.Home.CACHE_CONTENT_HIGHLIGHTED, list, 60, System.Web.Caching.CacheItemPriority.High);
 
             return list;
          }

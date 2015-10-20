@@ -74,9 +74,9 @@ namespace Cosmo.UI
 
             return "load" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
          }
-         catch
+         catch (Exception ex)
          {
-            return string.Empty;
+            throw new ArgumentException("ERROR generating JavaScript invocation call in partial view " + GetType().Name, ex);
          }
       }
 

@@ -64,6 +64,7 @@
     <Compile Include="Web\AdsRepublishModal.cs" />
     <Compile Include="Web\AdsDeleteModal.cs" />
     <Compile Include="Web\AdsManageListPartialView.cs" />
+    <Compile Include="Web\ContentFolderEdit.cs" />
     <Compile Include="Web\Handlers\CmsApi.cs" />
     <Compile Include="Web\AdsContactModal.cs" />
     <Compile Include="Web\ForumMessageEdit.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Web\ContentView.cs" />
     <Compile Include="Web\AdsEditor.cs" />
     <Compile Include="Web\ContentEdit.cs" />
-    <Compile Include="Web\ContentEditFileList.cs" />
+    <Compile Include="Web\ContentMediaFileList.cs" />
     <Compile Include="Web\PhotosBrowse.cs" />
     <Compile Include="Web\PhotosByFolder.cs" />
     <Compile Include="Web\ContentByFolder.cs" />

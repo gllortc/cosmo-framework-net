@@ -12,14 +12,41 @@ namespace Cosmo.Utils
          return ToBoolean(value, false);
       }
 
+      /// <summary>
+      /// Convert a string value to boolean.
+      /// </summary>
+      /// <param name="value">String to convert.</param>
+      /// <param name="defaultValue">The default valur to return in case that teh convert process fail.</param>
+      /// <returns>A boolean value.</returns>
       public static bool ToBoolean(string value, bool defaultValue)
       {
-         if (value == null) return defaultValue;
+         if (string.IsNullOrWhiteSpace(value))
+         {
+            return defaultValue;
+         }
 
-         if (value.Trim().ToLower().Equals("false") || value.Trim().Equals("0")) return false;
-         if (value.Trim().ToLower().Equals("true") || value.Trim().Equals("1")) return true;
+         try
+         {
+            switch (value.Trim().ToLower())
+            {
+               case "0":
+               case "false":
+               case "f":
+                  return false;
 
-         return defaultValue;
+               case "1":
+               case "true":
+               case "t":
+                  return true;
+
+               default:
+                  return bool.Parse(value);
+            }
+         }
+         catch
+         {
+            return defaultValue;
+         }
       }
 
       /// <summary>

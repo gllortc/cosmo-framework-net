@@ -8,7 +8,9 @@ namespace Cosmo.Cms.Web
    /// </summary>
    public class Home : Cosmo.UI.PageView
    {
-      private const string CACHE_CONTENT_HIGHLIGHTED = "cosmo.cms.content.highlighted.medialist";
+
+      /// <summary>Cache key for highlighted content in home page.</summary>
+      public const string CACHE_CONTENT_HIGHLIGHTED = "cosmo.cms.content.highlighted.medialist";
 
       #region PageView Implementation
 

@@ -1,4 +1,5 @@
 ﻿using Cosmo.Net;
+using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -266,20 +267,13 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Obtiene el valor de un campo como booleano.
+      /// Gets the value from a form field as a boolean value.
       /// </summary>
       /// <param name="domId">Identificador (DOM) del campo solicitado.</param>
       /// <returns>Devuelve el valor booleano o <c>false</c> si se produce cualquier error de transformación.</returns>
       public bool GetBoolFieldValue(string domId)
       {
-         try
-         {
-            return (bool)((FormField)Content.Get(domId)).Value;
-         }
-         catch
-         {
-            return false;
-         }
+         return BooleanUtils.ToBoolean(((FormField)Content.Get(domId)).Value.ToString(), false);
       }
 
       /// <summary>
@@ -300,25 +294,7 @@ namespace Cosmo.UI.Controls
       /// <returns>Devuelve el número entero solicitado o <c>defaultValue</c> si se produce cualquier error de transformación.</returns>
       public int GetIntFieldValue(string domId, int defaultValue)
       {
-         try
-         {
-            int value = 0;
-            FormField field = (FormField)Content.Get(domId);
-            if (field == null) return defaultValue;
-
-            if (int.TryParse(field.Value.ToString(), out value))
-            {
-               return value;
-            }
-            else
-            {
-               return defaultValue;
-            }
-         }
-         catch
-         {
-            return defaultValue;
-         }
+         return Number.ToInteger(((FormField)Content.Get(domId)).Value.ToString(), defaultValue);
       }
 
       /// <summary>
@@ -343,10 +319,14 @@ namespace Cosmo.UI.Controls
          {
             FormField field = (FormField)Content.Get(domId);
             if (field == null)
+            {
                return defaultValue;
+            }
 
             if (field.Value.GetType() == typeof(DateTime))
+            {
                return (DateTime)field.Value;
+            }
 
             return defaultValue;
          }
@@ -367,7 +347,9 @@ namespace Cosmo.UI.Controls
          {
             FormField field = (FormField)Content.Get(domId);
             if (field == null)
+            {
                return null;
+            }
 
             return (FileInfo)field.Value;
          }
@@ -378,7 +360,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Procesa los datos recibidos .
+      /// Procesa los datos recibidos.
       /// </summary>
       /// <param name="parameters">Una instancia de <see cref="Url"/> que contiene los datos recibidos al formulario.</param>
       /// <returns><c>true</c> si el contenido del formulario es correcto o <c>false</c> en cualquier otro caso.</returns>

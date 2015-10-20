@@ -62,14 +62,17 @@ namespace Cosmo.Cms.Model.Content
          Document reldoc = null;
          Document doc = null;
 
-         _ws.DataSource.Connect();
-
          try
          {
+            // Ensure that the private folder for a object is created.
+            EnsureObjectFolderExists(docID, false);
+
+            _ws.DataSource.Connect();
+
             // Obtiene el documento
-            sql = "SELECT  " + SQL_DOC_SELECT + " " +
-                  "FROM    " + SQL_TABLE_OBJECTS + " " +
-                  "WHERE   docid = @docid";
+            sql = @"SELECT  " + SQL_DOC_SELECT + @" 
+                    FROM    " + SQL_TABLE_OBJECTS + @" 
+                    WHERE   docid = @docid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docid", docID));
@@ -87,13 +90,10 @@ namespace Cosmo.Cms.Model.Content
             }
 
             // Obtiene los documentos relacionados
-
-            sql = "SELECT " + 
-                     SQL_DOC_SELECT + " " +
-                  "FROM " + 
-                     SQL_TABLE_RELOBJOBJ + " INNER JOIN " + SQL_TABLE_OBJECTS + " ON (" + SQL_TABLE_RELOBJOBJ + ".docdestid=" + SQL_TABLE_OBJECTS + ".docid) " +
-                  "WHERE " +
-                     "docsourceid=@docsourceid";
+            sql = @"SELECT " + SQL_DOC_SELECT + @" 
+                    FROM   " + SQL_TABLE_RELOBJOBJ + @" 
+                           INNER JOIN " + SQL_TABLE_OBJECTS + @" ON (" + SQL_TABLE_RELOBJOBJ + @".docdestid=" + SQL_TABLE_OBJECTS + @".docid) 
+                    WHERE  docsourceid = @docsourceid";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docsourceid", doc.ID));
@@ -111,10 +111,11 @@ namespace Cosmo.Cms.Model.Content
             }
 
             // Obtiene las imágenes relacionadas
-            sql = "SELECT imgid,imfolder,imgtemplate,imgfile,imgwidth,imgheight,imgthumb,imgthwidth,imgthheigth,imgdesc,imgauthory,imgdate,imgshows " +
-                  "FROM " + SQL_TABLE_RELOBJPIC + " INNER JOIN images ON (" + SQL_TABLE_RELOBJPIC + ".idimgid=images.imgid) " +
-                  "WHERE iddocid=@iddocid " +
-                  "ORDER BY idorder Asc,idimgid Desc";
+            sql = @"SELECT    imgid, imfolder, imgtemplate, imgfile, imgwidth, imgheight, imgthumb, imgthwidth, imgthheigth, imgdesc, imgauthory, imgdate, imgshows 
+                    FROM      " + SQL_TABLE_RELOBJPIC + @" 
+                              INNER JOIN images ON (" + SQL_TABLE_RELOBJPIC + @".idimgid = images.imgid) 
+                    WHERE     iddocid = @iddocid 
+                    ORDER BY  idorder Asc, idimgid Desc";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@iddocid", doc.ID));
@@ -222,9 +223,8 @@ namespace Cosmo.Cms.Model.Content
                cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
                document.ID = (int)cmd.ExecuteScalar();
 
-               // Genera la carpeta particular del documento
-               DirectoryInfo folder = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(document.ID.ToString()));
-               folder.Create();
+               // Ensure that the private folder for a object is created.
+               EnsureObjectFolderExists(document.ID, false);
 
                // Copia los archivos (thumbnail y adjunto) a la carpeta del documento
                if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
@@ -261,7 +261,10 @@ namespace Cosmo.Cms.Model.Content
 
          try
          {
-            // Copia/actualiza la imagen miniatura
+            // Ensure that the private folder for a object is created.
+            EnsureObjectFolderExists(document.ID, false);
+
+            // Copy or update the thumbnail
             if (!String.IsNullOrEmpty(document.Thumbnail))
             {
                picfile = new FileInfo(document.Thumbnail);
@@ -274,7 +277,7 @@ namespace Cosmo.Cms.Model.Content
                picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
             }
 
-            // Copia/actualiza el archivo adjunto
+            // Copy or update the attached file
             if (!String.IsNullOrEmpty(document.Attachment))
             {
                attfile = new FileInfo(document.Attachment);
@@ -289,31 +292,54 @@ namespace Cosmo.Cms.Model.Content
 
             _ws.DataSource.Connect();
 
-            // Inserta el registro en la BBDD
-            sql = "UPDATE " + SQL_TABLE_OBJECTS + "kk " +
-                  "SET docfolder=@docfolder," +
-                      "doctitle=@doctitle," +
-                      "docdesc=@docdesc," +
-                      "dochtml=@dochtml," +
-                      (!String.IsNullOrEmpty(document.Thumbnail) ? "docpic=@docpic," : string.Empty) +
-                      (!String.IsNullOrEmpty(document.Attachment) ? "docfile=@docfile," : string.Empty) +
-                      "docviewer=@docviewer," +
-                      "docenabled=@docenabled," +
-                      "dochighlight=@dochighlight, " +
-                      "docupdated=getdate() " +
-                  "WHERE docid=@docid";
+            // Update the database record
+            sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
+                    SET    docfolder = @docfolder, 
+                           doctitle = @doctitle, 
+                           docdesc = @docdesc, 
+                           dochtml = @dochtml, 
+                           docviewer = @docviewer, 
+                           docenabled = @docenabled, 
+                           dochighlight = @dochighlight, 
+                           docupdated = getdate() 
+                    WHERE  docid = @docid";
+
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
             cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
             cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
             cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-            if (!String.IsNullOrEmpty(document.Thumbnail)) cmd.Parameters.Add(new SqlParameter("@docpic", picfile.Name));
-            if (!String.IsNullOrEmpty(document.Attachment)) cmd.Parameters.Add(new SqlParameter("@docfile", attfile.Name));
             cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-            cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
+            cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == Common.CmsPublishStatus.PublishStatus.Published ? true : false));
             cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
             cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
             cmd.ExecuteNonQuery();
+
+            // Add content thumbnail if provided
+            if (!String.IsNullOrEmpty(document.Thumbnail))
+            {
+               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
+                       SET    docpic = @docpic 
+                       WHERE  docid = @docid";
+
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+               cmd.Parameters.Add(new SqlParameter("@docpic", picfile.Name));
+               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
+               cmd.ExecuteNonQuery();
+            }
+
+            // Add content attachment if provided
+            if (!String.IsNullOrEmpty(document.Attachment))
+            {
+               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
+                       SET    docfile = @docfile 
+                       WHERE  docid = @docid";
+
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+               cmd.Parameters.Add(new SqlParameter("@docfile", attfile.Name));
+               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
@@ -390,10 +416,126 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Obtiene los documentos de una carpeta.
+      /// Adds a new content folder.
       /// </summary>
-      /// <param name="parentId">Identificador de la carpeta.</param>
-      /// <returns>Un array de objetos <see cref="DocumentFolder"/>.</returns>
+      /// <param name="folder">The instance of the new folder.</param>
+      public void AddFolder(DocumentFolder folder)
+      {
+         string sql = string.Empty;
+         SqlCommand cmd = null;
+
+         try
+         {
+            _ws.DataSource.Connect();
+
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
+            {
+               // Insert the data into database
+               sql = @"INSERT INTO " + SQL_TABLE_FOLDERS + @" (folderparentid, foldername, folderdesc, foldershowtitle, folderorder, foldercreated, folderenabled, updated, foldermenu) 
+                       VALUES (@folderparentid, @foldername, @folderdesc, @foldershowtitle, @folderorder, getdate(), @folderenabled, getdate(), @foldermenu)";
+
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
+               cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
+               cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
+               cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
+               cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
+               cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+               cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
+               cmd.ExecuteNonQuery();
+
+               // Get the new unique identifier
+               sql = @"SELECT Top 1 Max(folderid) 
+                       FROM " + SQL_TABLE_FOLDERS;
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               folder.ID = (int)cmd.ExecuteScalar();
+
+               // Ensure that the private folder for a object is created.
+               EnsureObjectFolderExists(folder.ID, true);
+
+               trans.Commit();
+            }
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Add(new LogEntry(Cms.ProductName,
+                                        GetType().Name + ".AddFolder()",
+                                        ex.Message,
+                                        LogEntry.LogEntryType.EV_ERROR));
+            throw ex;
+         }
+         finally
+         {
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Update the data of a content folder.
+      /// </summary>
+      /// <param name="folder">Content folder instance with the data updated.</param>
+      public void UpdateFolder(DocumentFolder folder)
+      {
+         string sql = string.Empty;
+         SqlCommand cmd = null;
+
+         try
+         {
+            // Ensure that the private folder for a object is created.
+            EnsureObjectFolderExists(folder.ID, true);
+
+            _ws.DataSource.Connect();
+
+            using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
+            {
+               // Inserta el registro en la BBDD
+               sql = @"UPDATE " + SQL_TABLE_FOLDERS + @" 
+                       SET    folderparentid = @folderparentid, 
+                              foldername = @foldername, 
+                              folderdesc = @folderdesc, 
+                              foldershowtitle = @foldershowtitle, 
+                              folderorder = @folderorder, 
+                              folderenabled = @folderenabled, 
+                              updated = getdate(), 
+                              foldermenu = @foldermenu 
+                       WHERE  folderid = @folderid";
+
+               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
+               cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
+               cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
+               cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
+               cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
+               cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
+               cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+               cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
+               cmd.Parameters.Add(new SqlParameter("@folderid", folder.ID));
+               cmd.ExecuteNonQuery();
+
+               trans.Commit();
+            }
+
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Add(new LogEntry(Cms.ProductName,
+                                        GetType().Name + ".UpdateFolder()",
+                                        ex.Message,
+                                        LogEntry.LogEntryType.EV_ERROR));
+            throw ex;
+         }
+         finally
+         {
+            IDataModule.CloseAndDispose(cmd);
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Get all content folders contained in a folder.
+      /// </summary>
+      /// <param name="parentId">Parent folder unique identifier (DB).</param>
+      /// <returns>A list of <see cref="DocumentFolder"/> instances corresponding to a subfolders of the specified folder.</returns>
       public List<DocumentFolder> GetSubfolders(int parentId)
       {
          string sql = string.Empty;
@@ -405,15 +547,16 @@ namespace Cosmo.Cms.Model.Content
 
          try
          {
-            sql = "SELECT " + 
-                     SQL_FOLDER_SELECT + "," +
-                     "(SELECT Count(*) FROM " + SQL_TABLE_OBJECTS + " WHERE " + SQL_TABLE_OBJECTS + ".docfolder=" + SQL_TABLE_FOLDERS + ".folderid) As items,foldershowtitle " +
-                  "FROM " + 
-                     SQL_TABLE_FOLDERS + " " +
-                  "WHERE " +
-                     "folderparentid=@folderparentid AND folderenabled=1 " +
-                  "ORDER BY " +
-                     "folderorder, foldername ASC";
+            sql = @"SELECT    " + SQL_FOLDER_SELECT + @", 
+                              (SELECT  Count(*) 
+                               FROM    " + SQL_TABLE_OBJECTS + @" 
+                               WHERE   " + SQL_TABLE_OBJECTS + @".docfolder=" + SQL_TABLE_FOLDERS + @".folderid) As items,
+                              foldershowtitle 
+                    FROM      " + SQL_TABLE_FOLDERS + @" 
+                    WHERE     folderparentid = @folderparentid AND 
+                              folderenabled = 1 
+                    ORDER BY  folderorder Asc, 
+                              foldername Asc";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderparentid", parentId));
@@ -444,6 +587,10 @@ namespace Cosmo.Cms.Model.Content
          }
       }
 
+      /// <summary>
+      /// Get all content folders of top level.
+      /// </summary>
+      /// <returns>A list of <see cref="DocumentFolder"/> instances corresponding to a folder of top level.</returns>
       public List<DocumentFolder> GetSubfolders()
       {
          return GetSubfolders(0);
@@ -467,17 +614,23 @@ namespace Cosmo.Cms.Model.Content
             return null;
          }
 
-         _ws.DataSource.Connect();
+
 
          try
          {
-            sql = "SELECT " + 
-                     SQL_FOLDER_SELECT + ", " +
-                     "(SELECT Count(*) FROM " + SQL_TABLE_OBJECTS + " WHERE " + SQL_TABLE_OBJECTS + ".docfolder=" + SQL_TABLE_FOLDERS + ".folderid) As items " +
-                  "FROM " + 
-                     SQL_TABLE_FOLDERS + " " +
-                  "WHERE " +
-                     "folderid=@folderid";
+            // Ensure that the private folder for a object is created.
+            EnsureObjectFolderExists(folderId, true);
+
+            _ws.DataSource.Connect();
+
+            sql = @"SELECT    " + SQL_FOLDER_SELECT + @", 
+                              (SELECT  Count(*) 
+                               FROM    " + SQL_TABLE_OBJECTS + @" 
+                               WHERE   " + SQL_TABLE_OBJECTS + @".docfolder = " + SQL_TABLE_FOLDERS + @".folderid) As items 
+                    FROM      " + SQL_TABLE_FOLDERS + @" 
+                    WHERE     folderid = @folderid 
+                    ORDER BY  folderorder Asc, 
+                              foldername Asc";
 
             cmd = new SqlCommand(sql, _ws.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@folderid", folderId));
@@ -756,6 +909,7 @@ namespace Cosmo.Cms.Model.Content
          doc.Template = reader.IsDBNull(6) ? string.Empty : reader.GetString(6).Trim();
          doc.Hightlight = reader.GetBoolean(7);
          doc.Published = reader.GetBoolean(8);
+         doc.Status = doc.Published ? Common.CmsPublishStatus.PublishStatus.Published : Common.CmsPublishStatus.PublishStatus.Unpublished;
          doc.Created = reader.GetDateTime(9);
          doc.Updated = reader.GetDateTime(10);
          doc.Shows = reader.IsDBNull(11) ? 0 : reader.GetInt32(11);
@@ -804,6 +958,22 @@ namespace Cosmo.Cms.Model.Content
          }
 
          return folder;
+      }
+
+      /// <summary>
+      /// Ensure that the private folder for a object is created.
+      /// </summary>
+      private void EnsureObjectFolderExists(int objectId, bool isContainer)
+      {
+         // Generate a valid ID for the file system service
+         string fsObjectID = _ws.FileSystemService.GenerateValidObjectID(objectId, true);
+
+         // Create the private file system folder for store related media
+         DirectoryInfo dirInfo = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(fsObjectID));
+         if (!dirInfo.Exists)
+         {
+            dirInfo.Create();
+         }
       }
 
       #endregion

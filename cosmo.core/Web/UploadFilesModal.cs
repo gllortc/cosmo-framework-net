@@ -11,10 +11,14 @@ namespace Cosmo.Web
    [AuthenticationRequired]
    [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID,
                   PropertyName = "ObjectID")]
+   [ViewParameter(ParameterName = UploadFilesModal.PARAM_ISCONTAINER,
+                  PropertyName = "IsContainerObject")]
    public class UploadFilesModal : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "fs-upload-modal";
+
+      public const string PARAM_ISCONTAINER = "ic";
 
       #region Constructors
 
@@ -31,12 +35,13 @@ namespace Cosmo.Web
       /// Gets a new instance of <see cref="UploadFilesModal"/>.
       /// </summary>
       /// <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
-      public UploadFilesModal(int objectId)
+      public UploadFilesModal(int objectId, bool isContainer)
          : base(UploadFilesModal.DOM_ID)
       {
          Initialize();
 
          this.ObjectID = objectId;
+         this.IsContainerObject = isContainer;
       }
 
       #endregion
@@ -47,6 +52,11 @@ namespace Cosmo.Web
       /// Gets or sets the object identifier for which the files will be uploaded.
       /// </summary>
       public int ObjectID { get; set; }
+
+      /// <summary>
+      /// Gets or sets a boolean value indicating if the object can contains other objects.
+      /// </summary>
+      public bool IsContainerObject { get; set; }
       
       #endregion
 
@@ -54,11 +64,15 @@ namespace Cosmo.Web
 
       public override void InitPage()
       {
+         string path = string.Empty;
          FormFieldFile fileField;
-
+         
          Title = "Adjuntar archivos al contenido";
          Closeable = true;
          Icon = IconControl.ICON_FOLDER_OPEN;
+
+         // this.ObjectID = Parameters.GetInteger(Workspace.PARAM_OBJECT_ID, this.ObjectID);
+         // this.IsContainerObject = Parameters.GetBoolean(UploadFilesModal.PARAM_ISCONTAINER, this.IsContainerObject);
 
          FormControl form = new FormControl(this, "frmUploadFiles");
          form.SendDataMethod = FormControl.FormSendDataMethod.JSSubmit;
@@ -66,23 +80,26 @@ namespace Cosmo.Web
          form.Action = GetType().Name;
          form.Method = "post";
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ObjectID);
+         form.AddFormSetting(UploadFilesModal.PARAM_ISCONTAINER, IsContainerObject);
+
+         // Get the current object ID
+         path = Workspace.FileSystemService.GetFilePath(Workspace.FileSystemService.GenerateValidObjectID(this.ObjectID, true));
 
          fileField = new FormFieldFile(this, "file1", "Archivo 1");
-         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         fileField.DowloadPath = path;
          form.Content.Add(fileField);
 
          fileField = new FormFieldFile(this, "file2", "Archivo 2");
-         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         fileField.DowloadPath = path;
          form.Content.Add(fileField);
 
          fileField = new FormFieldFile(this, "file3", "Archivo 3");
-         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         fileField.DowloadPath = path;
          form.Content.Add(fileField);
 
          fileField = new FormFieldFile(this, "file4", "Archivo 4");
-         fileField.DowloadPath = Workspace.FileSystemService.GetFilePath(this.ObjectID.ToString());
+         fileField.DowloadPath = path;
          form.Content.Add(fileField);
-
 
          form.FormButtons.Add(new ButtonControl(this, "cmdAccept", "Enviar", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "cmdClose", "Cancelar", ButtonControl.ButtonTypes.CloseModalForm));

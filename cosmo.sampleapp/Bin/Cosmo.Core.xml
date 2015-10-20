@@ -2685,6 +2685,15 @@
             This method allows to get invoke call without initialize modal properties.
             </remarks>
         </member>
+        <member name="M:Cosmo.UI.ModalView.GetInvokeFunctionWithParameters(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Generate JS call for modal using data passed as method parameters. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize modal properties.
+            </remarks>
+        </member>
         <member name="M:Cosmo.UI.ModalView.GetInvokeFunction">
             <summary>
             Generate JS call from modal. 
@@ -3258,7 +3267,7 @@
         </member>
         <member name="M:Cosmo.UI.Controls.FormControl.GetBoolFieldValue(System.String)">
             <summary>
-            Obtiene el valor de un campo como booleano.
+            Gets the value from a form field as a boolean value.
             </summary>
             <param name="domId">Identificador (DOM) del campo solicitado.</param>
             <returns>Devuelve el valor booleano o <c>false</c> si se produce cualquier error de transformación.</returns>
@@ -3302,7 +3311,7 @@
         </member>
         <member name="M:Cosmo.UI.Controls.FormControl.ProcessForm(Cosmo.Net.Url)">
             <summary>
-            Procesa los datos recibidos .
+            Procesa los datos recibidos.
             </summary>
             <param name="parameters">Una instancia de <see cref="T:Cosmo.Net.Url"/> que contiene los datos recibidos al formulario.</param>
             <returns><c>true</c> si el contenido del formulario es correcto o <c>false</c> en cualquier otro caso.</returns>
@@ -5515,6 +5524,14 @@
             Carga el menú a partir de la información XML contenida dentro de la definición de Plugin.
             </summary>
         </member>
+        <member name="M:Cosmo.Utils.BooleanUtils.ToBoolean(System.String,System.Boolean)">
+            <summary>
+            Convert a string value to boolean.
+            </summary>
+            <param name="value">String to convert.</param>
+            <param name="defaultValue">The default valur to return in case that teh convert process fail.</param>
+            <returns>A boolean value.</returns>
+        </member>
         <member name="M:Cosmo.Utils.BooleanUtils.IsBooleanType(System.Type)">
             <summary>
             Check if an instance is boolean.
@@ -5586,10 +5603,9 @@
         </member>
         <member name="M:Cosmo.UI.Controls.ControlCollection.GetFormFields">
             <summary>
-            Obtiene todos los campos de formulario de la colección.
+            Gets all form fields of type <see cref="T:Cosmo.UI.Controls.FormField"/> from the current collection.
             </summary>
-            <param name="controlType">Tipo de control a obtener.</param>
-            <returns>La lista de controles solicitada.</returns>
+            <returns>A list filled with all requested control contained in the current collection.</returns>
         </member>
         <member name="M:Cosmo.UI.Controls.ControlCollection.Add(Cosmo.UI.Controls.Control)">
             <summary>
@@ -5825,7 +5841,7 @@
             Gets a new instance of <see cref="T:Cosmo.Web.UploadFilesModal"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.Web.UploadFilesModal.#ctor(System.Int32)">
+        <member name="M:Cosmo.Web.UploadFilesModal.#ctor(System.Int32,System.Boolean)">
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Web.UploadFilesModal"/>.
             </summary>
@@ -5839,6 +5855,11 @@
         <member name="P:Cosmo.Web.UploadFilesModal.ObjectID">
             <summary>
             Gets or sets the object identifier for which the files will be uploaded.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Web.UploadFilesModal.IsContainerObject">
+            <summary>
+            Gets or sets a boolean value indicating if the object can contains other objects.
             </summary>
         </member>
         <member name="T:Cosmo.Web.UserAuth">
@@ -8724,6 +8745,13 @@
             <param name="activeId">Identificador del elemento de menú que debe marcarse como activo.</param>
             <returns>Una instancia de <see cref="T:Cosmo.UI.Controls.SidebarControl"/> configurada convenientemente con los elementos especificados en la configuración.</returns>
         </member>
+        <member name="M:Cosmo.UI.UIService.GetMenu(System.String)">
+            <summary>
+            Gets a registered menu by its ID.
+            </summary>
+            <param name="id">ID of the desired menu.</param>
+            <returns>A <see cref="T:Cosmo.UI.Menu.MenuProvider"/> instance corresponding to requested menu or <c>null</c> if the ID doesn't exist.</returns>
+        </member>
         <member name="M:Cosmo.UI.UIService.GetNavbarMenu(Cosmo.UI.PageView,System.String)">
             <summary>
             Gets a navbar using the default provider.
@@ -11094,7 +11122,14 @@
             <param name="number">Cadena a comprobar.</param>
             <returns>True/False dependiendo del tipo de cadena.</returns>
         </member>
-        <member name="M:Cosmo.Utils.Number.StrToInt(System.String)">
+        <member name="M:Cosmo.Utils.Number.ToInteger(System.String)">
+            <summary>
+            Convierte una cadéna de texto numérica en un valor entero.
+            </summary>
+            <param name="number">Cadena a convertir.</param>
+            <returns>Un valor entero o -1 si falla la conversion.</returns>
+        </member>
+        <member name="M:Cosmo.Utils.Number.ToInteger(System.String,System.Int32)">
             <summary>
             Convierte una cadéna de texto numérica en un valor entero.
             </summary>
@@ -11217,6 +11252,22 @@
             <param name="objectId">Object unique identifier.</param>
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GenerateValidObjectID(System.Int32,System.Boolean)">
+            <summary>
+            Generates a valid object identifier for the FileSystem service.
+            </summary>
+            <param name="objectId">Object unique identifier (DB).</param>
+            <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
+            <returns>A string corresponding to the requested object identifier.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GenerateValidObjectID(System.String,System.Boolean)">
+            <summary>
+            Generates a valid object identifier for the FileSystem service.
+            </summary>
+            <param name="objectId">Object unique identifier (DB).</param>
+            <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
+            <returns>A string corresponding to the requested object identifier.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.LoadController">
             <summary>
@@ -13219,12 +13270,12 @@
         </member>
         <member name="P:Cosmo.Workspace.Url">
             <summary>
-            Devuelve la URL de acceso al workspace.
+            Gets the main workspace URL.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.Mail">
             <summary>
-            Devuelve el mail de contacto con el responsable del workspace.
+            Gets the main mail account for workspace.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.HtmlCharset">
@@ -13321,6 +13372,11 @@
         <member name="P:Cosmo.Workspace.CurrentUrl">
             <summary>
             Gets the current relative URL and query string.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Workspace.CurrentAbsoluteUrl">
+            <summary>
+            Gets the current absolute URL and query string.
             </summary>
         </member>
         <member name="T:Cosmo.Properties.Resources">

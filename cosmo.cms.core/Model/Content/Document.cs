@@ -26,7 +26,7 @@ namespace Cosmo.Cms.Model.Content
    #endregion
 
    /// <summary>
-   /// Representa un documento de contenido XHTML.
+   /// Implements a content document.
    /// </summary>
    public class Document : IPublishable
    {
@@ -102,7 +102,7 @@ namespace Cosmo.Cms.Model.Content
       public bool Published { get; set; }
 
       /// <summary>
-      /// Indica si está publicado (visible públicamente) o no.
+      /// Gets or sets the publish status of the document.
       /// </summary>
       public CmsPublishStatus.PublishStatus Status
       {
@@ -111,32 +111,32 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Fecha de creación del documento.
+      /// Gets the creation datetime.
       /// </summary>
-      public DateTime Created { get; set; }
+      public DateTime Created { get; internal set; }
 
       /// <summary>
-      /// Fecha de la última actualización.
+      /// Gets the datetime of the document last change.
       /// </summary>
-      public DateTime Updated { get; set; }
+      public DateTime Updated { get; internal set; }
 
       /// <summary>
-      /// Número de veces que se ha mostrado el documento.
+      /// Gets the number of shows.
       /// </summary>
-      public int Shows { get; set; }
+      public int Shows { get; internal set; }
 
       /// <summary>
-      /// Una lista de los documentos relacionados.
+      /// Gets or sets a list of document related content.
       /// </summary>
       public List<Document> RelatedDocuments { get; set; }
 
       /// <summary>
-      /// Una lista de los imágenes relacionados.
+      /// Gets or sets a list of document related pictures.
       /// </summary>
       public List<Photo> RelatedPictures { get; set; }
 
       /// <summary>
-      /// Gets or sets el login del propietario del objeto.
+      /// Gets or sets the object owner's login.
       /// </summary>
       public string Owner
       {
@@ -169,68 +169,10 @@ namespace Cosmo.Cms.Model.Content
 
       #region Methods
 
-      /*
       /// <summary>
-      /// Convierte un documento a código XHTML para presentar en un navegador
+      /// Save current document to a XML file (serialize).
       /// </summary>
-      /// <param name="type">Tipo de transformación a efectuar</param>
-      /// <returns>Una cadena el formato XHTML</returns>
-      public string ToXhtml(TransformType type)
-      {
-         string xhtml = string.Empty;
-
-         if (type == TransformType.Summary)
-         {
-            string url = this.Template + "?" + Cosmo.Workspace.PARAM_OBJECT_ID + "=" + this.Id;
-
-            xhtml += "<div class=\"doc-entry\">\n";
-            xhtml += "<div class=\"thumnail\"><a href=\"" + url + "\"><img src=\"" + this.Thumbnail + "\" alt=\"" + HttpUtility.HtmlDecode(this.Title) + "\" /></a></div>\n";
-            xhtml += "<p><span class=\"title\"><a href=\"" + url + "\">" + HttpUtility.HtmlDecode(this.Title) + "</a></span><br />" + HttpUtility.HtmlDecode(this.Description) + "</p>\n";
-            xhtml += "<p class=\"info\">Publicado: <span class=\"alt\">" + this.Created.ToString("dd/MM/yyyy") + "</span></p>\n";
-            xhtml += "</div>\n";
-         }
-         else
-         {
-            // COntenido del documento
-            xhtml += "<h1>" + HttpUtility.HtmlDecode(this.Title) + "</h1>\n";
-            xhtml += "<div class=\"text\">\n";
-            xhtml += this.Content;
-            xhtml += "</div>\n";
-
-            // Imágenes relacionadas
-            if (this.RelatedPictures.Count > 0)
-            {
-               xhtml += "<h2>Imágenes</h2>\n";
-               foreach (Picture picture in this.RelatedPictures)
-                  xhtml += picture.ToXhtml();
-            }
-
-            // Documentos relacionadas
-            if (this.RelatedDocuments.Count > 0)
-            {
-               xhtml += "<h2>Documentos relacionados</h2>\n";
-               foreach (Document document in this.RelatedDocuments)
-                  xhtml += document.ToXhtml(TransformType.Summary);
-            }
-         }
-
-         return xhtml;
-      }
-
-      /// <summary>
-      /// Convierte un documento a código XHTML para presentar en un navegador
-      /// </summary>
-      /// <returns>Una cadena el formato XHTML</returns>
-      public string ToXhtml()
-      {
-         return ToXhtml(TransformType.Full);
-      }
-      */
-
-      /// <summary>
-      /// Serializa el objeto a un archivo XML.
-      /// </summary>
-      /// <param name="filename">Archivo de salida.</param>
+      /// <param name="filename">Filename and path of the file.</param>
       public void Save(string filename)
       {
          // Comprueba que exista el archivo
@@ -247,9 +189,9 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Desserializa un objeto serializado en un archivo XML y carga los datos en la instancia actual.
+      /// Load a document stored in a XML file (unserialize).
       /// </summary>
-      /// <param name="filename">Archivo a cargar.</param>
+      /// <param name="filename">Filename and path of the file.</param>
       public void Load(string filename)
       {
          // Comprueba que exista el archivo
@@ -261,23 +203,13 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Valida los datos del objeto.
+      /// Check if the folder is valid and can be stored in database.
       /// </summary>
+      /// <returns><c>true</c> if the object can be stored in database or <c>false</c> in all other cases.</returns>
       public bool Validate()
       {
          throw new NotImplementedException();
       }
-
-      /*
-      /// <summary>
-      /// Genera una URL (relativa) para el acceso a un determinado documento.
-      /// </summary>
-      /// <param name="folderId">Identificador único del documento.</param>
-      public static string GetUrl(int documentId)
-      {
-         return DocumentDAO.URL_CONTENT_VIEW + "?" + Cosmo.Workspace.PARAM_OBJECT_ID + "=" + documentId;
-      }
-      */
 
       #endregion
 
@@ -308,5 +240,6 @@ namespace Cosmo.Cms.Model.Content
       }
 
       #endregion
+
    }
 }

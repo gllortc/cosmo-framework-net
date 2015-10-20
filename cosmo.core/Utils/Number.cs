@@ -32,15 +32,38 @@ namespace Cosmo.Utils
       /// </summary>
       /// <param name="number">Cadena a convertir.</param>
       /// <returns>Un valor entero o -1 si falla la conversion.</returns>
-      public static int StrToInt(string number)
+      public static int ToInteger(string number)
+      {
+         return ToInteger(number, -1);
+      }
+
+      /// <summary>
+      /// Convierte una cadéna de texto numérica en un valor entero.
+      /// </summary>
+      /// <param name="number">Cadena a convertir.</param>
+      /// <returns>Un valor entero o -1 si falla la conversion.</returns>
+      public static int ToInteger(string number, int defaultValue)
       {
          try
          {
-            return Int32.Parse(number);
+            if (string.IsNullOrWhiteSpace(number))
+            {
+               return defaultValue;
+            }
+
+            int value = 0;
+            if (int.TryParse(number, out value))
+            {
+               return value;
+            }
+            else
+            {
+               return defaultValue;
+            }
          }
          catch
          {
-            return -1;
+            return defaultValue;
          }
       }
 
@@ -51,7 +74,7 @@ namespace Cosmo.Utils
       /// <returns>Un valor entero.</returns>
       public static int Val(string text)
       {
-         return StrToInt(Regex.Match(text, @"\d+").Value);
+         return ToInteger(Regex.Match(text, @"\d+").Value);
       }
 
       /// <summary>

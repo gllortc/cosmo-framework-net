@@ -59,12 +59,54 @@ namespace Cosmo.Cms.Web
          header.Title = folder.Name;
          header.Icon = "glyphicon-folder-open";
          header.Breadcrumb = DocumentUI.ConvertToBreadcrumb(this, folders);
-
          MainContent.Add(header);
 
          //-------------------------------------------------------------------
          // Lista de carpetas / Columna lateral derecha
          //-------------------------------------------------------------------
+
+         // Publisher's toolbar
+         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
+         {
+            ButtonControl btnTool;
+
+            PanelControl adminPanel = new PanelControl(this);
+            adminPanel.Text = "Administrar";
+
+            btnTool = new ButtonControl(this);
+            btnTool.Icon = IconControl.ICON_EDIT;
+            btnTool.Text = "Editar";
+            btnTool.Color = ComponentColorScheme.Success;
+            btnTool.IsBlock = true;
+            btnTool.Href = ContentFolderEdit.GetEditURL(folder.ID);
+            adminPanel.Content.Add(btnTool);
+
+            btnTool = new ButtonControl(this);
+            btnTool.Icon = IconControl.ICON_DELETE;
+            btnTool.Text = "Eliminar";
+            btnTool.Color = ComponentColorScheme.Success;
+            btnTool.IsBlock = true;
+            btnTool.Href = ContentFolderEdit.GetEditURL(folder.ID);
+            adminPanel.Content.Add(btnTool);
+
+            btnTool = new ButtonControl(this);
+            btnTool.Icon = IconControl.ICON_PLUS;
+            btnTool.Text = "Nuevo contenido";
+            btnTool.Color = ComponentColorScheme.Success;
+            btnTool.IsBlock = true;
+            btnTool.Href = ContentEdit.GetURL(folder.ID);
+            adminPanel.Content.Add(btnTool);
+
+            btnTool = new ButtonControl(this);
+            btnTool.Icon = IconControl.ICON_PLUS;
+            btnTool.Text = "Nueva subcarpeta";
+            btnTool.Color = ComponentColorScheme.Success;
+            btnTool.IsBlock = true;
+            btnTool.Href = ContentFolderEdit.GetAddURL(folder.ID);
+            adminPanel.Content.Add(btnTool);
+
+            RightContent.Add(adminPanel);
+         }
 
          PanelControl panelFolders = new PanelControl(this);
          panelFolders.Text = "Navegación por carpetas";
@@ -75,6 +117,15 @@ namespace Cosmo.Cms.Web
          //-------------------------------------------------------------------
          // Lista de documentos
          //-------------------------------------------------------------------
+
+         // Content
+         if (!string.IsNullOrWhiteSpace(folder.Description))
+         {
+            HtmlContentControl html = new HtmlContentControl(this, folder.Description);
+            PanelControl docPanel = new PanelControl(this);
+            docPanel.Content.Add(html);
+            MainContent.Add(docPanel);
+         }
 
          PanelControl panelDocs = new PanelControl(this);
          panelDocs.Text = folder.Name;
@@ -99,27 +150,6 @@ namespace Cosmo.Cms.Web
          }
 
          MainContent.Add(panelDocs);
-
-         // Panel de herramientas administrativas
-
-         if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
-         {
-            ButtonControl btnTool;
-
-            PanelControl adminPanel = new PanelControl(this);
-            adminPanel.Text = "Administrar";
-
-            btnTool = new ButtonControl(this);
-            btnTool.Icon = IconControl.ICON_PLUS;
-            btnTool.Text = "Nuevo artículo";
-            btnTool.Color = ComponentColorScheme.Success;
-            btnTool.IsBlock = true;
-            btnTool.Href = ContentEdit.GetURL(folder.ID);
-
-            adminPanel.Content.Add(btnTool);
-
-            RightContent.Add(adminPanel);
-         }
       }
 
       #endregion

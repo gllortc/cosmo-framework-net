@@ -143,6 +143,28 @@ namespace Cosmo.FileSystem
          _controller.DeleteFile(objectId, filename, throwError);
       }
 
+      /// <summary>
+      /// Generates a valid object identifier for the FileSystem service.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier (DB).</param>
+      /// <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
+      /// <returns>A string corresponding to the requested object identifier.</returns>
+      public string GenerateValidObjectID(int objectId, bool isObjectContainer)
+      {
+         return (isObjectContainer ? "_" : string.Empty) + objectId.ToString();
+      }
+
+      /// <summary>
+      /// Generates a valid object identifier for the FileSystem service.
+      /// </summary>
+      /// <param name="objectId">Object unique identifier (DB).</param>
+      /// <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
+      /// <returns>A string corresponding to the requested object identifier.</returns>
+      public string GenerateValidObjectID(string objectId, bool isObjectContainer)
+      {
+         return (isObjectContainer ? "_" : string.Empty) + objectId;
+      }
+
       #endregion
 
       #region Private Members

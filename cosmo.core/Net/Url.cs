@@ -230,7 +230,7 @@ namespace Cosmo.Net
       /// <returns>El valor booleano del parámetro</returns>
       public bool GetBoolean(string name, bool defaultvalue)
       {
-         return BooleanUtils.ToBoolean(name, defaultvalue);
+         return BooleanUtils.ToBoolean(_params[name], defaultvalue);
       }
 
       /// <summary>
@@ -241,7 +241,7 @@ namespace Cosmo.Net
       /// <remarks>En caso de no existir el parámetro, devuelve una valor false</remarks>
       public bool GetBoolean(string name)
       {
-         return BooleanUtils.ToBoolean(name);
+         return GetBoolean(name, false);
       }
 
       /// <summary>

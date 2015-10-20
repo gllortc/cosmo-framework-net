@@ -42,7 +42,6 @@ namespace Rwm.Web
 
          HtmlContentControl html = new HtmlContentControl(this);
 
-
          MediaItem mitem = null;
          MediaListControl mlist = new MediaListControl(this);
          mlist.Style = MediaListControl.MediaListStyle.Thumbnail;
@@ -77,19 +76,6 @@ namespace Rwm.Web
                                el eje central del portal.";
          mitem.Icon = IconControl.ICON_CAMERA;
          mitem.Image = "images/banner_section_002.png";
-         mlist.Add(mitem);
-
-         mitem = new MediaItem();
-         mitem.Title = "Encuentro Railwaymania 2015";
-         mitem.Description = @"Como cada año, ya está en marcha el <strong>V Encuentro Railwaymania</strong> de 
-                               amigos y aficionados al ferrocarril, que este año se realiza en 
-                               <strong>Barcelona</strong> los días 10, 11 y 12 de Octubre.<br /><br />
-                               Si te interesa acudir a pasar unos días fenomenales acompañado de otros aficionados 
-                               y amigos (o simplemente te apuntas a alguna de las actividades, comidas o cenas) visita 
-                               nuestra página en Facebook:<br/><br/>
-                               <a href=""https://www.facebook.com/railwaymania.portal"" target=""_blank"">Página Railwaymania en Facebook</a>";
-         mitem.Icon = IconControl.ICON_GIFT;
-         mitem.Image = "images/banner_section_003.png";
          mlist.Add(mitem);
 
          MainContent.Add(mlist);

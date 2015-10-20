@@ -84,7 +84,7 @@ namespace Cosmo.Cms.Web
 
          MainContent.Add(docPanel);
 
-         // Documentos relacionados
+         // Related content
          if (doc.RelatedDocuments.Count > 0)
          {
             MediaListControl relatedDocs = DocumentUI.ConvertToMediaList(this, doc.RelatedDocuments);
@@ -123,11 +123,11 @@ namespace Cosmo.Cms.Web
             RightContent.Add(authPanel);
          }
 
-         // Archivos adjuntos
+         // Attachments
          if (doc.HasAttachments)
          {
             ButtonControl btnAttach = new ButtonControl(this);
-            btnAttach.Href = doc.Attachment;
+            btnAttach.Href = Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(doc.ID.ToString(), doc.Attachment).ToString();
             btnAttach.IsBlock = true;
             btnAttach.Text = "Descargar archivo";
             btnAttach.Icon = IconControl.ICON_DOWNLOAD;
@@ -140,7 +140,7 @@ namespace Cosmo.Cms.Web
             RightContent.Add(attachPanel);
          }
 
-         // Panel de herramientas administrativas
+         // Publisher's toolbar
          if (Workspace.CurrentUser.CheckAuthorization(DocumentDAO.ROLE_CONTENT_EDITOR))
          {
             ButtonControl btnTool;
@@ -160,13 +160,13 @@ namespace Cosmo.Cms.Web
             RightContent.Add(adminPanel);
          }
 
-         // Compartir
+         // Share tools
          PanelControl sharePanel = new PanelControl(this);
          sharePanel.Text = "Compartir";
 
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
-         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\" href=\"https://twitter.com/intent/tweet?text=" + HttpUtility.UrlEncode(doc.Title) + "&url=" + HttpUtility.UrlEncode(Request.Url.ToString()) + "\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Workspace.CurrentAbsoluteUrl) + "\" target=\"_blank\"><i class=\"fa fa-facebook\"></i> Facebook</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-google-plus\" href=\"https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Workspace.CurrentAbsoluteUrl) + "\" target=\"_blank\"><i class=\"fa fa-google-plus\"></i> Google+</a>"));
+         sharePanel.Content.Add(new HtmlContentControl(this, "<a class=\"btn btn-block btn-social btn-twitter\" href=\"https://twitter.com/intent/tweet?text=" + HttpUtility.UrlEncode(doc.Title) + "&url=" + HttpUtility.UrlEncode(Workspace.CurrentAbsoluteUrl) + "\"><i class=\"fa fa-twitter\"></i> Twitter</a>"));
 
          RightContent.Add(sharePanel);
       }

@@ -232,6 +232,23 @@ namespace Cosmo.UI
       }
 
       /// <summary>
+      /// Gets a registered menu by its ID.
+      /// </summary>
+      /// <param name="id">ID of the desired menu.</param>
+      /// <returns>A <see cref="MenuProvider"/> instance corresponding to requested menu or <c>null</c> if the ID doesn't exist.</returns>
+      public MenuProvider GetMenu(string id)
+      {
+         if (_menus.ContainsKey(id))
+         {
+            return (MenuProvider)_menus[id];
+         }
+         else
+         {
+            return null;
+         }
+      }
+
+      /// <summary>
       /// Gets a navbar using the default provider.
       /// </summary>
       /// <param name="parentView">Page view that contains the navbar menu.</param>

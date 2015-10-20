@@ -3,19 +3,17 @@
 namespace Cosmo.Cms.Common
 {
    /// <summary>
-   /// Interface para los objetos estándars que maneja Cosmo.
+   /// Interface to implement persistable Cosmo.CMS objects.
    /// </summary>
    public interface IPublishable
    {
+
+      #region Properties
+
       /// <summary>
       /// Gets or sets el identificador del objeto.
       /// </summary>
       int ID { get; set; }
-
-      /// <summary>
-      /// Gets or sets el identificador de la rama del repositorio Cosmo al que pertenece.
-      /// </summary>
-      int FolderId { get; set; }
 
       /// <summary>
       /// Gets or sets el estado de publicación del objeto.
@@ -25,12 +23,12 @@ namespace Cosmo.Cms.Common
       /// <summary>
       /// Gets or sets la fecha de creación del objeto.
       /// </summary>
-      DateTime Created { get; set; }
+      DateTime Created { get; }
 
       /// <summary>
       /// Gets or sets la fecha de la última modificación del objeto.
       /// </summary>
-      DateTime Updated { get; set; }
+      DateTime Updated { get; }
 
       /// <summary>
       /// Gets or sets el login del propietario del objeto.
@@ -38,7 +36,11 @@ namespace Cosmo.Cms.Common
       /// <remarks>
       /// Por defecto, el propietario del objeto es el usuario creador del mismo.
       /// </remarks>
-      string Owner { get; set; }
+      string Owner { get; }
+
+      #endregion
+
+      #region Methods
 
       /// <summary>
       /// Serializa el objeto a un archivo XML.
@@ -57,5 +59,8 @@ namespace Cosmo.Cms.Common
       /// </summary>
       /// <returns><c>true</c> si los datos son correctos o <c>false</c> en cualquier otro caso.</returns>
       bool Validate();
+
+      #endregion
+
    }
 }

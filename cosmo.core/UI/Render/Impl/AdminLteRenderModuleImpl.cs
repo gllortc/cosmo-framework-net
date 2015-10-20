@@ -995,8 +995,8 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("  </div>");
          }
          xhtml.AppendLine("  <form " + control.GetIdParameter() + " role=\"form\" method=\"" + control.Method + "\"" + (string.IsNullOrWhiteSpace(control.Action) ? string.Empty : " action=\"" + control.Action + "\"") + (control.IsMultipart ? " enctype=\"multipart/form-data\"" : string.Empty) + ">");
-         xhtml.AppendLine("    <input type=\"hidden\" name=\"" + Cosmo.Workspace.PARAM_ACTION + "\" value=\"" + FormControl.FORM_ACTION_SEND + "\" />");
-         xhtml.AppendLine("    <input type=\"hidden\" name=\"" + FormControl.FORM_ID + "\" value=\"" + control.DomID + "\" />");
+         xhtml.AppendLine("    <input type=\"hidden\" id=\"" + Cosmo.Workspace.PARAM_ACTION + "\" name=\"" + Cosmo.Workspace.PARAM_ACTION + "\" value=\"" + FormControl.FORM_ACTION_SEND + "\" />");
+         xhtml.AppendLine("    <input type=\"hidden\" id=\"" + FormControl.FORM_ID + "\" name=\"" + FormControl.FORM_ID + "\" value=\"" + control.DomID + "\" />");
          xhtml.AppendLine("    <div class=\"box-body\">");
 
          foreach (Control field in control.Content)
@@ -1867,7 +1867,10 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <nav class=\"navbar navbar-static-top\" role=\"navigation\">");
 
          xhtml.AppendLine("    <a href=\"#\" class=\"navbar-btn sidebar-toggle\" data-toggle=\"offcanvas\" role=\"button\">");
-         xhtml.AppendLine("      <span class=\"sr-only\">" + HttpUtility.HtmlDecode(control.Header.ToggleNavigationText) + "</span>");
+         if (control.Header != null)
+         {
+            xhtml.AppendLine("      <span class=\"sr-only\">" + HttpUtility.HtmlDecode(control.Header.ToggleNavigationText) + "</span>");
+         }
          xhtml.AppendLine("      <span class=\"icon-bar\"></span>");
          xhtml.AppendLine("      <span class=\"icon-bar\"></span>");
          xhtml.AppendLine("      <span class=\"icon-bar\"></span>");
