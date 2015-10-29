@@ -127,7 +127,7 @@ namespace Cosmo.Cms.Web
          if (doc.HasAttachments)
          {
             ButtonControl btnAttach = new ButtonControl(this);
-            btnAttach.Href = Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(doc.ID.ToString(), doc.Attachment).ToString();
+            btnAttach.Href = Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(new DocumentFSID(doc.ID), doc.Attachment).ToString();
             btnAttach.IsBlock = true;
             btnAttach.Text = "Descargar archivo";
             btnAttach.Icon = IconControl.ICON_DOWNLOAD;

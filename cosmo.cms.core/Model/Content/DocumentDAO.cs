@@ -128,10 +128,10 @@ namespace Cosmo.Cms.Model.Content
                   picture.ID = reader.GetInt32(0);
                   picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
                   picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-                  picture.PictureFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
+                  picture.PictureFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
                   picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
                   picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
-                  picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(PhotoDAO.SERVICE_FOLDER, (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
+                  picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
                   picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                   picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
                   picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
@@ -227,8 +227,8 @@ namespace Cosmo.Cms.Model.Content
                EnsureObjectFolderExists(document.ID, false);
 
                // Copia los archivos (thumbnail y adjunto) a la carpeta del documento
-               if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
-               if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), attfile.Name));
+               if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
+               if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
 
                trans.Commit();
             }
@@ -274,7 +274,7 @@ namespace Cosmo.Cms.Model.Content
                }
 
                // Si existe un archivo con el mismo nombre lo sobreescribe
-               picfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), picfile.Name));
+               picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
             }
 
             // Copy or update the attached file
@@ -287,7 +287,7 @@ namespace Cosmo.Cms.Model.Content
                }
 
                // Si existe un archivo con el mismo nombre lo sobreescribe
-               attfile.CopyTo(_ws.FileSystemService.GetFilePath(document.ID.ToString(), attfile.Name));
+               attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
             }
 
             _ws.DataSource.Connect();
@@ -965,11 +965,8 @@ namespace Cosmo.Cms.Model.Content
       /// </summary>
       private void EnsureObjectFolderExists(int objectId, bool isContainer)
       {
-         // Generate a valid ID for the file system service
-         string fsObjectID = _ws.FileSystemService.GenerateValidObjectID(objectId, true);
-
          // Create the private file system folder for store related media
-         DirectoryInfo dirInfo = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(fsObjectID));
+         DirectoryInfo dirInfo = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(new DocumentFSID(objectId, isContainer)));
          if (!dirInfo.Exists)
          {
             dirInfo.Create();

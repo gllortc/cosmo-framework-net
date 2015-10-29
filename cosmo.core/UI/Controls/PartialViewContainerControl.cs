@@ -47,7 +47,7 @@ namespace Cosmo.UI.Controls
          this.View = view;
 
          // Adds the script to view to avoid load partial view on view load
-         this.ParentView.Scripts.Add(view.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, parameters));
+         this.ParentView.Scripts.Add(view.GetInvokeScript(Script.ScriptExecutionMethod.OnDocumentReady, parameters));
       }
 
       #endregion

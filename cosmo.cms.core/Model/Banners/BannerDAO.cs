@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Cosmo.Cms.Utils.Banners
+namespace Cosmo.Cms.Model.Banners
 {
 
    #region Enumeraciones
@@ -27,8 +27,6 @@ namespace Cosmo.Cms.Utils.Banners
    {
       // Internal data declarations
       private Workspace _ws;
-
-      private const string SERVICE_FOLDER = "ads";
 
       private const int BANNER_ACTION_SHOW = 0;
       private const int BANNER_ACTION_CLIC = 1;
@@ -100,8 +98,8 @@ namespace Cosmo.Cms.Utils.Banners
                   // Agrega el banner
                   banners.Add(new Banner((Int32)reader["banid"],
                                            (string)reader["banclient"],
-                                           _ws.FileSystemService.GetFilePath(BannerDAO.SERVICE_FOLDER + "\\" + ((Int32)reader["banid"]).ToString(), (string)reader["banimage"]),
-                                           _ws.FileSystemService.GetFileURL(BannerDAO.SERVICE_FOLDER + "/" + ((Int32)reader["banid"]).ToString(), (string)reader["banimage"]),
+                                           _ws.FileSystemService.GetFilePath(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
+                                           _ws.FileSystemService.GetFileURL(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
                                            (int)reader["banwidth"],
                                            (int)reader["banheight"]));
                }

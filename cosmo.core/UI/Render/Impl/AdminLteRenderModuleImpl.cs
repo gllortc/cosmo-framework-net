@@ -2667,7 +2667,7 @@ namespace Cosmo.UI.Render.Impl
 
          if (control.ParentView.Workspace.CurrentUser.IsAuthenticated)
          {
-            xhtml.Append("<a href=\"javascript:" + control.ModalView.GetInvokeFunctionWithParameters(new object[] { control.UserID }) + "\" title=\"Detalles del usuario\">" + control.UserDisplayName + "</a>");
+            xhtml.Append("<a href=\"javascript:" + control.ModalView.GetInvokeCall(new object[] { control.UserID }) + "\" title=\"Detalles del usuario\">" + control.UserDisplayName + "</a>");
          }
          else
          {

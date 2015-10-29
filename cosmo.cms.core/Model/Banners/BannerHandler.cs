@@ -2,7 +2,7 @@
 using System;
 using System.Web;
 
-namespace Cosmo.Cms.Utils.Banners
+namespace Cosmo.Cms.Model.Banners
 {
    /// <summary>
    /// Summary description for CSBannersHandler

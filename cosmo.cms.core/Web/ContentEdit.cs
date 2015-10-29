@@ -5,6 +5,8 @@ using Cosmo.UI;
 using Cosmo.UI.Controls;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
+using Cosmo.Web;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Cosmo.Cms.Web
@@ -28,6 +30,7 @@ namespace Cosmo.Cms.Web
          string cmd;
          Document doc = null;
          DocumentFolder folder;
+         Dictionary<string, object> jsViewParams;
 
          // Agrega los recursos necesarios para representar la página actual
          Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
@@ -38,6 +41,7 @@ namespace Cosmo.Cms.Web
 
          // Obtiene los parámetros de llamada
          int docId = Parameters.GetInteger(Cosmo.Workspace.PARAM_OBJECT_ID);
+         DocumentFSID fsId = new DocumentFSID(docId);
 
          //-------------------------------
          // Obtención de datos
@@ -70,7 +74,7 @@ namespace Cosmo.Cms.Web
          //-------------------------------
          // Habilita formularios modales
          //-------------------------------
-         Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(doc.ID, false);
+         Cosmo.Web.MediaUpload frmUpload = new Cosmo.Web.MediaUpload(new DocumentFSID(doc.ID));
          Modals.Add(frmUpload);
 
          //-------------------------------
@@ -103,7 +107,7 @@ namespace Cosmo.Cms.Web
 
          FormFieldImage thumb = new FormFieldImage(this, FIELD_THUMBNAIL, "Imagen miniatura", doc.Thumbnail);
          thumb.Description = "Si deja este campo en blanco no se guardará la imagen y se mantendrá la actual.";
-         thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
+         thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(new DocumentFSID(doc.ID), doc.Thumbnail);
          frmData.Content.Add(thumb);
 
          FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Published ? "1" : "0"));
@@ -123,19 +127,22 @@ namespace Cosmo.Cms.Web
          filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
          tabFiles.Content.Add(filesContent);
 
+         jsViewParams = new Dictionary<string, object>();
+         jsViewParams.Add(Cosmo.Workspace.PARAM_FOLDER_ID, fsId.ToFolderName());
+
          ButtonGroupControl btnFiles = new ButtonGroupControl(this);
          btnFiles.Size = ButtonControl.ButtonSizes.Small;
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", string.Empty, frmUpload.GetInvokeFunctionWithParameters(new object[] { doc.ID, false })));
+         btnFiles.Buttons.Add(new ButtonControl(this, "cmdAddFiles", "Agregar archivos", string.Empty, frmUpload.GetInvokeCall(jsViewParams)));
          btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
          tabFiles.Content.Add(btnFiles);
 
-         ContentMediaFileList fileList = new ContentMediaFileList(doc.ID, cmd);
+         MediaFileList fileList = new MediaFileList(new DocumentFSID(doc.ID));
          PartialViewContainerControl fileListView = new PartialViewContainerControl(this, fileList);
          tabFiles.Content.Add(fileListView);
-         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, cmd, doc.ID));
+         Scripts.Add(fileList.GetInvokeScript(Script.ScriptExecutionMethod.OnDocumentReady, cmd, doc.ID));
 
          btnFiles.Buttons[1].Href = string.Empty;
-         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeFunctionWithParameters(cmd, doc.ID);
+         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeCall(jsViewParams);
 
          tabs.TabItems.Add(tabFiles);
 
@@ -233,7 +240,7 @@ namespace Cosmo.Cms.Web
       #region Static Members
 
       /// <summary>
-      /// Devuelve la URL que permite agregar un contenido a una determinada carpeta.
+      /// Gets the URL for editing a new content.
       /// </summary>
       /// <param name="folderId">Identificador del contenido.</param>
       public static string GetURL(int folderId)
@@ -246,7 +253,7 @@ namespace Cosmo.Cms.Web
       }
 
       /// <summary>
-      /// Devuelve la URL que permite editar un determinado contenido.
+      /// Gets the URL for editing an existing content.
       /// </summary>
       /// <param name="folderId">Identificador del contenido.</param>
       public static string GetURL(int folderId, int documentId)

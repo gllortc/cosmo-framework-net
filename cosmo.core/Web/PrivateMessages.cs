@@ -69,7 +69,7 @@ namespace Cosmo.Web
                litem = new ListItem();
                litem.Text = thread.RemoteUser.GetDisplayName();
                litem.Icon = IconControl.ICON_USER;
-               litem.Href = "javascript:" + pmPartial.GetInvokeFunctionWithParameters(thread.RemoteUserId);
+               litem.Href = "javascript:" + pmPartial.GetInvokeCall(thread.RemoteUserId);
                litem.IsActive = (userId == thread.RemoteUserId);
 
                list.ListItems.Add(litem);

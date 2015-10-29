@@ -105,7 +105,7 @@
          Text = caption;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
-         JavaScriptAction = modal.GetInvokeFunction();
+         JavaScriptAction = modal.GetInvokeCall();
       }
 
       /// <summary>
@@ -124,7 +124,7 @@
          Icon = icon;
          ModalDomId = modal.DomID;
          Type = ButtonTypes.OpenModalView;
-         JavaScriptAction = modal.GetInvokeFunction();
+         JavaScriptAction = modal.GetInvokeCall();
       }
 
       /// <summary>

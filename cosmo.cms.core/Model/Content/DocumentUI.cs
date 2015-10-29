@@ -1,4 +1,5 @@
-﻿using Cosmo.UI;
+﻿using Cosmo.FileSystem;
+using Cosmo.UI;
 using Cosmo.UI.Controls;
 using System.Collections.Generic;
 
@@ -73,7 +74,7 @@ namespace Cosmo.Cms.Model.Content
             item = new MediaItem();
             item.Title = document.Title;
             item.Description = document.Description;
-            item.Image = parentViewport.Workspace.FileSystemService.GetFileURL(document.ID.ToString(), document.Thumbnail);
+            item.Image = parentViewport.Workspace.FileSystemService.GetFileURL(new DocumentFSID(document.ID), document.Thumbnail);
             item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
             item.LinkHref = Cosmo.Cms.Web.ContentView.GetURL(document.ID);
 

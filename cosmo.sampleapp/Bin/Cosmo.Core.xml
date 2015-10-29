@@ -737,6 +737,17 @@
             Comparador que permite ordenar alfabéticamente los grupos de controles.
             </summary>
         </member>
+        <member name="T:Cosmo.FileSystem.IFileSystemID">
+            <summary>
+            Implements a file system service unique ID for all types of content.
+            </summary>
+        </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemID.ToFolderName">
+            <summary>
+            Converts the instance data into a unique ID in string format.
+            </summary>
+            <returns>A unique string corresponding to a folder name.</returns>
+        </member>
         <member name="T:Cosmo.FileSystem.WorkspaceFolders">
             <summary>
             Carpetas de un workspace
@@ -816,58 +827,89 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String,System.String)">
             <summary>
             Gets the path (without filename) to a object folder.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="folder">Relative folder to the file.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>A string containing the requested path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="uid">Object unique identifier.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>A string containing the requested path.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Gets the path (with filename) to a object related file.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">Filename without path.</param>
             <returns>A string containing the requested filename and path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
-            Obtiene la URL a un archivo asociado a un objeto.
+            Gets the URL to access a file related to a content object.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <param name="relativeUrl">Indica si se desea obtener una URL relativa.</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFolder(System.String)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(System.String,System.String,System.Boolean)">
+            <summary>
+            Gets the URL to access a file stored in workspace file system.
+            </summary>
+            <param name="relativePath">The relative path to file.</param>
+            <param name="filename">The filename without path.</param>
+            <param name="relativeUrl">Indicate if the URL must be relative to the current workspace URL.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFolder(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene la ruta física a la carpeta contenedora de un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <returns>La ruta al directorio privado de un objeto.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFiles(System.String)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFolder(System.String)">
+            <summary>
+            Gets the absolute path from a relative path.
+            </summary>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A string containing the requested absolute path.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFiles(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene una lista con los archivos asociados a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.DeleteFile(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFiles(System.String)">
+            <summary>
+            Gets a list of files contained in a folder on workstation file system.
+            </summary>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A list of <see cref="T:System.IO.FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.IFileSystemService.DeleteFile(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Delete a file associated to an object.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
@@ -956,58 +998,89 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(System.String)">
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(System.String,System.String)">
             <summary>
             Gets the path (without filename) to a object folder.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="folder">Relative folder to the file.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>A string containing the requested path.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La ruta al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFilePath(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Gets the path (with filename) to a object related file.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La ruta al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFileURL(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFileURL(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <param name="relativeUrl">Indica si se desea obtener una URL relativa.</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetFileURL(System.String,System.String,System.Boolean)">
+            <summary>
+            Gets the URL to access a file stored in workspace file system.
+            </summary>
+            <param name="relativePath">The relative path to file.</param>
+            <param name="filename">The filename without path.</param>
+            <param name="relativeUrl">Indicate if the URL must be relative to the current workspace URL.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
         <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetObjectFolder(System.String)">
+            <summary>
+            Gets the absolute path from a relative path.
+            </summary>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A string containing the requested absolute path.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetObjectFolder(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene la ruta física a la carpeta contenedora de un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <returns>La ruta al directorio privado de un objeto.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetObjectFiles(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Gets a list of files attached to a file system object.
+            </summary>
+            <param name="uid">The file system object identifier.</param>
+            <returns>A list of <see cref="T:System.IO.FileInfo"/> instances corresponding to the list of files contained in the specified object.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.GetObjectFiles(System.String)">
             <summary>
-            Obtiene una lista con los archivos asociados a un objeto.
+            Gets a list of files contained in a folder on workstation file system.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
-            <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A list of <see cref="T:System.IO.FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.DeleteFile(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.DeleteFile(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Delete a file associated to an object.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
@@ -1372,6 +1445,301 @@
             Example: The url for query will be: '../data/films/queries/%QUERY'
             </remarks>
         </member>
+        <member name="T:Cosmo.Web.MediaFileList">
+            <summary>
+            Representa la lista de archivos adjuntos de un documento.
+            </summary>
+        </member>
+        <member name="T:Cosmo.UI.PartialView">
+            <summary>
+            Implements a view that generates a partial page, that can be included into other views.
+            </summary>
+        </member>
+        <member name="T:Cosmo.UI.View">
+            <summary>
+            Implements a container that represents a web page.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.#ctor(System.String)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.View"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.Redirect(System.String)">
+            <summary>
+            Redirige al cliente hacia otra URL.
+            </summary>
+            <param name="destinationUrl">La URL de destino.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.AddControlToCache(Cosmo.UI.Controls.Control)">
+            <summary>
+            Add a control to cache.
+            </summary>
+            <param name="control">Control to add to cache.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.ProcessRequest(System.Web.HttpContext)">
+            <summary>
+            Evento que se lanza al recibir una petición.
+            Equivale al ciclo de vida de la página.
+            </summary>
+            <param name="context">Contexto del servidor en el momento de la llamada.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.ShowError(System.String,System.String)">
+            <summary>
+            Show a error message.
+            </summary>
+            <param name="title">Error title.</param>
+            <param name="description">Error description.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.ShowError(System.Exception)">
+            <summary>
+            Show a error message.
+            </summary>
+            <param name="exception">Exception to be shown.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.InitPage">
+            <summary>
+            Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.FormDataReceived(Cosmo.UI.Controls.FormControl)">
+            <summary>
+            Método invocado al recibir datos de un formulario.
+            </summary>
+            <param name="receivedForm">Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.FormDataLoad(System.String)">
+            <summary>
+            Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
+            </summary>
+            <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
+        </member>
+        <member name="M:Cosmo.UI.View.LoadPage">
+            <summary>
+            Método invocado durante la carga de la página.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.Initialize">
+            <summary>
+            Initializes the instance data.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.StartViewLifecycle(Cosmo.UI.Controls.IControlContainer)">
+            <summary>
+            Execute the view lifecycle.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.ReadParameters">
+            <summary>
+            Lee los parámetros de llamada defenidos mediante <see cref="T:Cosmo.UI.ViewParameter"/> i los coloca
+            ens las correspondientes propiedades.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.View.CheckSecurityConstrains">
+            <summary>
+            Check the security rules for the current user to access to current view.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Workspace">
+            <summary>
+            Gets or sets the current workspace.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.DomID">
+            <summary>
+            Gets or sets the DOM unique identifier.
+            </summary>
+            <remarks>
+            This property have a protected <c>setter</c> because every modal view must have a 
+            constant DOM unique identifier. You can set this property only in a implementations
+            of the abstract class <see cref="T:Cosmo.UI.ModalView"/>.
+            </remarks>
+        </member>
+        <member name="P:Cosmo.UI.View.Cache">
+            <summary>
+            Return an instance of <see cref="T:Cosmo.UI.ControlCache"/> that allow to store and retrieve controls in cache.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Request">
+            <summary>
+            Gets a new instance of <see cref="T:System.Web.HttpRequest"/> que representa el contexto de llamada a la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Response">
+            <summary>
+            Gets a new instance of <see cref="T:System.Web.HttpResponse"/> que representa la respuesta del servidor.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Parameters">
+            <summary>
+            Devuelve la colección de parámetros de llamada (o de un formulario) que ha recibido la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.IsAuthenticated">
+            <summary>
+            Indica si existe un usuario autenticado.
+            </summary>
+            <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
+        </member>
+        <member name="P:Cosmo.UI.View.IsFormReceived">
+            <summary>
+            Gets <c>true</c> if request is a form sending or <c>false</c> in all other cases.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.FormReceivedDomID">
+            <summary>
+            Gets the DOM identifier of the form taht is being received.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.DeviceType">
+            <summary>
+            Gets the device type used to reques the view.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Scripts">
+            <summary>
+            Gets or sets the list of scripts used to construct the view.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.Resources">
+            <summary>
+            Gets or sets the list of web resources used to create the view.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.IsReusable">
+            <summary>
+            Indica al servidor web si la instancia es rehusable.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.ControlContainer">
+            <summary>
+            Gets the control container used to store the view controls.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.View.ViewName">
+            <summary>
+            Gets the name of view.
+            </summary>
+            <remarks>
+            This name is useful to use in URL creation.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.#ctor(System.String)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.PartialView"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeCall(System.Object[])">
+            <summary>
+            Generate JS call for partial view using data passed as method parameters. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize partial view properties.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeCall(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Generate JS call for partial view using data passed as method parameters. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize partial view properties.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeCall">
+            <summary>
+            Generate JS call from partial view. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            Partial view must have initialized properties.
+            </remarks>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeScript(Cosmo.UI.Scripting.Script.ScriptExecutionMethod,System.Object[])">
+            <summary>
+            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
+            </summary>
+            <param name="executionType">Type of script execution.</param>
+            <param name="parameters">Partial view parameters.</param>
+            <returns>The requestes script instance.</returns>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetInvokeScript(Cosmo.UI.Scripting.Script.ScriptExecutionMethod)">
+            <summary>
+            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
+            </summary>
+            <param name="executionType">Type of script execution.</param>
+            <returns>The requestes script instance.</returns>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetLoadPartialViewScript">
+            <summary>
+            Generates the script that allow load and show partial view.
+            </summary>
+            <returns>A <see cref="T:Cosmo.UI.Scripting.Script"/> instance containing the requestes script.</returns>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.ShowError(System.String,System.String)">
+            <summary>
+            Muestra un mensaje de error.
+            </summary>
+            <param name="title">Título del error.</param>
+            <param name="description">Descripción del error.</param>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.ShowError(System.Exception)">
+            <summary>
+            Muestra un mensaje de error.
+            </summary>
+            <param name="exception">Excepción a mostrar.</param>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.Initialize">
+            <summary>
+            Initializes the instance data.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.PartialView.GetProcessedForm">
+            <summary>
+            Devuelve la instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
+            es correcta o <c>null</c> en cualquier otro caso.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PartialView.Content">
+            <summary>
+            Gets or sets el contenido de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PartialView.Modals">
+            <summary>
+            Gets a modal views used by this view.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PartialView.ControlContainer">
+            <summary>
+            Gets the control container used to store the view controls.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.MediaFileList.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.MediaFileList"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.MediaFileList.#ctor(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.MediaFileList"/>.
+            </summary>
+            <param name="objectId">File system object identifier.</param>
+        </member>
+        <member name="M:Cosmo.Web.MediaFileList.GetUrl(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Gets the URL for calling the view.
+            </summary>
+            <param name="objectId">Object unique identifier (DB).</param>
+            <param name="isContainer">Indicate if the object can contains other objects.</param>
+            <returns>A string representing the requested URL.</returns>
+        </member>
+        <member name="P:Cosmo.Web.MediaFileList.FolderPath">
+            <summary>
+            Gets or sets the relative folder which is being listed in tle files list.
+            </summary>
+        </member>
         <member name="T:Cosmo.Web.Handlers.CommunicationsRestHandler">
             <summary>
             Handler que implementa los servicios REST correspondientes al servicio UI de Cosmo.
@@ -1519,14 +1887,19 @@
         <member name="F:Cosmo.Web.Handlers.FileSystemRestHandler.COMMAND_DELETE">
             <summary>Comando para eliminar un fichero asociado a un objeto.</summary>
         </member>
-        <member name="F:Cosmo.Web.Handlers.FileSystemRestHandler.COMMAND_UPLOAD">
-            <summary>Agrega un archivo a un objeto.</summary>
-        </member>
         <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.ServiceRequest(System.String)">
             <summary>
             Método invocado al recibir una petición.
             </summary>
             <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(Cosmo.FileSystem.IFileSystemID,System.String)">
+            <summary>
+            Genera una URL válida para descargar un archivo asociado a un objeto.
+            </summary>
+            <param name="objectId">Identificador del objeto.</param>
+            <param name="filename">Nombre del archivo (sin path o ruta).</param>
+            <returns>Una cadena que representa la URL solicitada.</returns>
         </member>
         <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(System.String,System.String)">
             <summary>
@@ -1537,7 +1910,7 @@
             <returns>Una cadena que representa la URL solicitada.</returns>
         </member>
         <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.Web.Handlers.FileSystemRestHandler.DownloadFile(System.String,System.String)" -->
-        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetDeleteFileUrl(System.String,System.String)">
+        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetDeleteFileUrl(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Genera una URL válida para eliminar un archivo asociado a un objeto.
             </summary>
@@ -1546,18 +1919,6 @@
             <returns>Una cadena que representa la URL solicitada.</returns>
         </member>
         <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.Web.Handlers.FileSystemRestHandler.DeleteFile(System.String,System.String)" -->
-        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetUploadFilesUrl(System.String)">
-            <summary>
-            Genera una URL válida para eliminar un archivo asociado a un objeto.
-            </summary>
-            <returns>Una cadena que representa la URL solicitada.</returns>
-        </member>
-        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.UploadFiles(System.String)">
-            <summary>
-            Recibe uno o más archivos y los guarda asociados a un determinado objeto.
-            </summary>
-            <param name="objectId">Identificador del objeto.</param>
-        </member>
         <member name="P:Cosmo.Web.Handlers.FileSystemRestHandler.ServiceUrl">
             <summary>
             Devuelve la URL a la que se debe atacar para realizar operaciones REST sobre el servicio.
@@ -2502,181 +2863,12 @@
             Implementas a view that can be shown in a modal form.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.View">
-            <summary>
-            Implements a container that represents a web page.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.#ctor(System.String)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.View"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.Redirect(System.String)">
-            <summary>
-            Redirige al cliente hacia otra URL.
-            </summary>
-            <param name="destinationUrl">La URL de destino.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.AddControlToCache(Cosmo.UI.Controls.Control)">
-            <summary>
-            Add a control to cache.
-            </summary>
-            <param name="control">Control to add to cache.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.ProcessRequest(System.Web.HttpContext)">
-            <summary>
-            Evento que se lanza al recibir una petición.
-            Equivale al ciclo de vida de la página.
-            </summary>
-            <param name="context">Contexto del servidor en el momento de la llamada.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.ShowError(System.String,System.String)">
-            <summary>
-            Show a error message.
-            </summary>
-            <param name="title">Error title.</param>
-            <param name="description">Error description.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.ShowError(System.Exception)">
-            <summary>
-            Show a error message.
-            </summary>
-            <param name="exception">Exception to be shown.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.InitPage">
-            <summary>
-            Método invocado al iniciar la carga de la página, antes de procesar los datos recibidos.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.FormDataReceived(Cosmo.UI.Controls.FormControl)">
-            <summary>
-            Método invocado al recibir datos de un formulario.
-            </summary>
-            <param name="receivedForm">Una instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> que representa el formulario recibido. El formulario está actualizado con los datos recibidos.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.FormDataLoad(System.String)">
-            <summary>
-            Método invocado antes de renderizar todo forumario (excepto cuando se reciben datos invalidos).
-            </summary>
-            <param name="formDomID">Identificador (DOM) del formulario a renderizar.</param>
-        </member>
-        <member name="M:Cosmo.UI.View.LoadPage">
-            <summary>
-            Método invocado durante la carga de la página.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.Initialize">
-            <summary>
-            Initializes the instance data.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.StartViewLifecycle(Cosmo.UI.Controls.IControlContainer)">
-            <summary>
-            Execute the view lifecycle.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.ReadParameters">
-            <summary>
-            Lee los parámetros de llamada defenidos mediante <see cref="T:Cosmo.UI.ViewParameter"/> i los coloca
-            ens las correspondientes propiedades.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.View.CheckSecurityConstrains">
-            <summary>
-            Check the security rules for the current user to access to current view.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Workspace">
-            <summary>
-            Gets or sets the current workspace.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.DomID">
-            <summary>
-            Gets or sets the DOM unique identifier.
-            </summary>
-            <remarks>
-            This property have a protected <c>setter</c> because every modal view must have a 
-            constant DOM unique identifier. You can set this property only in a implementations
-            of the abstract class <see cref="T:Cosmo.UI.ModalView"/>.
-            </remarks>
-        </member>
-        <member name="P:Cosmo.UI.View.Cache">
-            <summary>
-            Return an instance of <see cref="T:Cosmo.UI.ControlCache"/> that allow to store and retrieve controls in cache.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Request">
-            <summary>
-            Gets a new instance of <see cref="T:System.Web.HttpRequest"/> que representa el contexto de llamada a la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Response">
-            <summary>
-            Gets a new instance of <see cref="T:System.Web.HttpResponse"/> que representa la respuesta del servidor.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Parameters">
-            <summary>
-            Devuelve la colección de parámetros de llamada (o de un formulario) que ha recibido la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.IsAuthenticated">
-            <summary>
-            Indica si existe un usuario autenticado.
-            </summary>
-            <returns><c>true</c> si existe una sesión autenticada o <c>false</c> en cualquier otro caso.</returns>
-        </member>
-        <member name="P:Cosmo.UI.View.IsFormReceived">
-            <summary>
-            Gets <c>true</c> if request is a form sending or <c>false</c> in all other cases.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.FormReceivedDomID">
-            <summary>
-            Gets the DOM identifier of the form taht is being received.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.DeviceType">
-            <summary>
-            Gets the device type used to reques the view.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Scripts">
-            <summary>
-            Gets or sets the list of scripts used to construct the view.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.Resources">
-            <summary>
-            Gets or sets the list of web resources used to create the view.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.IsReusable">
-            <summary>
-            Indica al servidor web si la instancia es rehusable.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.ControlContainer">
-            <summary>
-            Gets the control container used to store the view controls.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.View.ViewName">
-            <summary>
-            Gets the name of view.
-            </summary>
-            <remarks>
-            This name is useful to use in URL creation.
-            </remarks>
-        </member>
         <member name="M:Cosmo.UI.ModalView.#ctor(System.String)">
             <summary>
             Gets an instance of <see cref="T:Cosmo.UI.ModalView"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.UI.ModalView.GetInvokeFunctionWithParameters(System.Object[])">
+        <member name="M:Cosmo.UI.ModalView.GetInvokeCall(System.Object[])">
             <summary>
             Generate JS call for modal using data passed as method parameters. 
             </summary>
@@ -2685,7 +2877,7 @@
             This method allows to get invoke call without initialize modal properties.
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.ModalView.GetInvokeFunctionWithParameters(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Cosmo.UI.ModalView.GetInvokeCall(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             Generate JS call for modal using data passed as method parameters. 
             </summary>
@@ -2694,7 +2886,7 @@
             This method allows to get invoke call without initialize modal properties.
             </remarks>
         </member>
-        <member name="M:Cosmo.UI.ModalView.GetInvokeFunction">
+        <member name="M:Cosmo.UI.ModalView.GetInvokeCall">
             <summary>
             Generate JS call from modal. 
             </summary>
@@ -2758,94 +2950,6 @@
             </summary>
         </member>
         <member name="P:Cosmo.UI.ModalView.ControlContainer">
-            <summary>
-            Gets the control container used to store the view controls.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.PartialView">
-            <summary>
-            Implements a view that generates a partial page, that can be included into other views.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.#ctor(System.String)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.PartialView"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetInvokeFunctionWithParameters(System.Object[])">
-            <summary>
-            Generate JS call for partial view using data passed as method parameters. 
-            </summary>
-            <returns></returns>
-            <remarks>
-            This method allows to get invoke call without initialize partial view properties.
-            </remarks>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetInvokeFunction">
-            <summary>
-            Generate JS call from partial view. 
-            </summary>
-            <returns></returns>
-            <remarks>
-            Partial view must have initialized properties.
-            </remarks>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetInvokeScriptWithParameters(Cosmo.UI.Scripting.Script.ScriptExecutionMethod,System.Object[])">
-            <summary>
-            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
-            </summary>
-            <param name="executionType">Type of script execution.</param>
-            <param name="parameters">Partial view parameters.</param>
-            <returns>The requestes script instance.</returns>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetInvokeScript(Cosmo.UI.Scripting.Script.ScriptExecutionMethod)">
-            <summary>
-            Generates a script that load the partial view into a <see cref="T:Cosmo.UI.Controls.PartialViewContainerControl"/> control.
-            </summary>
-            <param name="executionType">Type of script execution.</param>
-            <returns>The requestes script instance.</returns>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetLoadPartialViewScript">
-            <summary>
-            Generates the script that allow load and show partial view.
-            </summary>
-            <returns>A <see cref="T:Cosmo.UI.Scripting.Script"/> instance containing the requestes script.</returns>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.ShowError(System.String,System.String)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="title">Título del error.</param>
-            <param name="description">Descripción del error.</param>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.ShowError(System.Exception)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="exception">Excepción a mostrar.</param>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.Initialize">
-            <summary>
-            Initializes the instance data.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.PartialView.GetProcessedForm">
-            <summary>
-            Devuelve la instancia de <see cref="T:Cosmo.UI.Controls.FormControl"/> correspondiente al formulario recibido (con los datos actualizados) si la validación 
-            es correcta o <c>null</c> en cualquier otro caso.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PartialView.Content">
-            <summary>
-            Gets or sets el contenido de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PartialView.Modals">
-            <summary>
-            Gets a modal views used by this view.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PartialView.ControlContainer">
             <summary>
             Gets the control container used to store the view controls.
             </summary>
@@ -5831,35 +5935,30 @@
             <param name="userId">User identifier.</param>
             <returns>A string containing the requested URL.</returns>
         </member>
-        <member name="T:Cosmo.Web.UploadFilesModal">
+        <member name="T:Cosmo.Web.MediaUpload">
             <summary>
             Implementa un formulario modal para subir archivos al servidor.
             </summary>
         </member>
-        <member name="M:Cosmo.Web.UploadFilesModal.#ctor">
+        <member name="M:Cosmo.Web.MediaUpload.#ctor">
             <summary>
-            Gets a new instance of <see cref="T:Cosmo.Web.UploadFilesModal"/>.
+            Gets a new instance of <see cref="T:Cosmo.Web.MediaUpload"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.Web.UploadFilesModal.#ctor(System.Int32,System.Boolean)">
+        <member name="M:Cosmo.Web.MediaUpload.#ctor(Cosmo.FileSystem.IFileSystemID)">
             <summary>
-            Gets a new instance of <see cref="T:Cosmo.Web.UploadFilesModal"/>.
+            Gets a new instance of <see cref="T:Cosmo.Web.MediaUpload"/>.
             </summary>
             <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
         </member>
-        <member name="M:Cosmo.Web.UploadFilesModal.Initialize">
+        <member name="M:Cosmo.Web.MediaUpload.Initialize">
             <summary>
             Initializes the instance data.
             </summary>
         </member>
-        <member name="P:Cosmo.Web.UploadFilesModal.ObjectID">
+        <member name="P:Cosmo.Web.MediaUpload.FolderPath">
             <summary>
-            Gets or sets the object identifier for which the files will be uploaded.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Web.UploadFilesModal.IsContainerObject">
-            <summary>
-            Gets or sets a boolean value indicating if the object can contains other objects.
+            Gets or sets the relative folder where the files will be uploaded.
             </summary>
         </member>
         <member name="T:Cosmo.Web.UserAuth">
@@ -11198,76 +11297,91 @@
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Gets the path (without filename) to a object folder.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>A string containing the requested path.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(System.String,System.String)">
             <summary>
+            Gets the path (without filename) to a object folder.
+            </summary>
+            <param name="folder">Relative folder to the file.</param>
+            <param name="filename">Nombre del archivo (sin ruta).</param>
+            <returns>A string containing the requested path.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID,System.String)">
+            <summary>
             Gets the path (with filename) to a object related file.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">Filename without path.</param>
             <returns>A string containing the requested filename and path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <param name="relativeUrl">Indica si se desea obtener una URL relativa.</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GetObjectFolder(System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetFileURL(System.String,System.String,System.Boolean)">
+            <summary>
+            Gets the URL to access a file stored in workspace file system.
+            </summary>
+            <param name="relativePath">The relative path to file.</param>
+            <param name="filename">The filename without path.</param>
+            <param name="relativeUrl">Indicate if the URL must be relative to the current workspace URL.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetObjectFolder(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene la ruta física a la carpeta contenedora de un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <returns>La ruta al directorio privado de un objeto.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetObjectFolder(System.String)">
+            <summary>
+            Gets the absolute path from a relative path.
+            </summary>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A string containing the requested absolute path.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.GetObjectFiles(System.String)">
             <summary>
+            Gets a list of files contained in a folder on workstation file system.
+            </summary>
+            <param name="relativePath">A string containing the relative path.</param>
+            <returns>A list of <see cref="T:System.IO.FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
+        </member>
+        <member name="M:Cosmo.FileSystem.FileSystemService.GetObjectFiles(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
             Obtiene una lista con los archivos asociados a un objeto.
             </summary>
-            <param name="objectId">Identificador del objeto.</param>
+            <param name="uid">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.DeleteFile(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.DeleteFile(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Delete a file associated to an object.
             </summary>
-            <param name="objectId">Object unique identifier.</param>
+            <param name="uid">Object unique identifier.</param>
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
-        </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GenerateValidObjectID(System.Int32,System.Boolean)">
-            <summary>
-            Generates a valid object identifier for the FileSystem service.
-            </summary>
-            <param name="objectId">Object unique identifier (DB).</param>
-            <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
-            <returns>A string corresponding to the requested object identifier.</returns>
-        </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.GenerateValidObjectID(System.String,System.Boolean)">
-            <summary>
-            Generates a valid object identifier for the FileSystem service.
-            </summary>
-            <param name="objectId">Object unique identifier (DB).</param>
-            <param name="isObjectContainer">Boolean value indicating id the object can contain other objects.</param>
-            <returns>A string corresponding to the requested object identifier.</returns>
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.LoadController">
             <summary>

@@ -555,20 +555,20 @@ namespace Cosmo.Cms.Model.Photos
                }
 
                // Averigua si existen los archivos en el destino
-               FileInfo picfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, picfile.Name));
+               FileInfo picfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), picfile.Name));
                if (!picfile.Exists)
                {
                   throw new Exception("Ya existe una imagen que usa el mismo nombre de archivo (" + picfile.Exists + ").");
                }
-               FileInfo thfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, thfile.Name));
+               FileInfo thfiledest = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), thfile.Name));
                if (!thfiledest.Exists)
                {
                   throw new Exception("Ya existe una imagen miniatura que usa el mismo nombre de archivo (" + thfiledest.Exists + ").");
                }
 
                // Copia los archivos
-               picfile.CopyTo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, picfile.Name));
-               thfile.CopyTo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, thfile.Name));
+               picfile.CopyTo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), picfile.Name));
+               thfile.CopyTo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), thfile.Name));
 
                picture.PictureFile = picfile.Name;
                picture.ThumbnailFile = thfile.Name;
@@ -658,8 +658,8 @@ namespace Cosmo.Cms.Model.Photos
                // Elimina los archivos relacionados
                if (deleteFiles)
                {
-                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.PictureFile, false);
-                  _ws.FileSystemService.DeleteFile(PhotoDAO.SERVICE_FOLDER, picture.ThumbnailFile, false);
+                  _ws.FileSystemService.DeleteFile(new PhotosFSID(), picture.PictureFile, false);
+                  _ws.FileSystemService.DeleteFile(new PhotosFSID(), picture.ThumbnailFile, false);
                }
 
                trans.Commit();
@@ -988,11 +988,11 @@ namespace Cosmo.Cms.Model.Photos
                      return originalFileName;
                   }
 
-                  FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
+                  FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
                   while (file.Exists)
                   {
                      row++;
-                     file = new FileInfo(_ws.FileSystemService.GetFilePath(PhotoDAO.SERVICE_FOLDER, name.Replace(tag, row.ToString()) + extension));
+                     file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
                   }
 
                   return file.Name;
@@ -1053,10 +1053,10 @@ namespace Cosmo.Cms.Model.Photos
          picture.ID = reader.GetInt32(0);
          picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
          picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-         picture.PictureFile = _ws.FileSystemService.GetFileURL(SERVICE_FOLDER, (reader.IsDBNull(3) ? "cs_img_unknown.jpg" : reader.GetString(3)));
+         picture.PictureFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(3) ? "cs_img_unknown.jpg" : reader.GetString(3)));
          picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
          picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
-         picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(SERVICE_FOLDER, (reader.IsDBNull(6) ? "cs_img_unknown.jpg" : reader.GetString(6)));
+         picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? "cs_img_unknown.jpg" : reader.GetString(6)));
          picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
          picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
          picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);

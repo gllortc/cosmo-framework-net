@@ -1,7 +1,7 @@
-﻿using Cosmo.Security;
+﻿using Cosmo.FileSystem;
+using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using System;
 
 namespace Cosmo.Web
 {
@@ -9,39 +9,34 @@ namespace Cosmo.Web
    /// Implementa un formulario modal para subir archivos al servidor.
    /// </summary>
    [AuthenticationRequired]
-   [ViewParameter(ParameterName = Workspace.PARAM_OBJECT_ID,
-                  PropertyName = "ObjectID")]
-   [ViewParameter(ParameterName = UploadFilesModal.PARAM_ISCONTAINER,
-                  PropertyName = "IsContainerObject")]
-   public class UploadFilesModal : ModalView
+   [ViewParameter(ParameterName = Workspace.PARAM_FOLDER_ID,
+                  PropertyName = "FolderPath")]
+   public class MediaUpload : ModalView
    {
       // Modal element unique identifier
       private const string DOM_ID = "fs-upload-modal";
 
-      public const string PARAM_ISCONTAINER = "ic";
-
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="UploadFilesModal"/>.
+      /// Gets a new instance of <see cref="MediaUpload"/>.
       /// </summary>
-      public UploadFilesModal()
-         : base(UploadFilesModal.DOM_ID)
+      public MediaUpload()
+         : base(MediaUpload.DOM_ID)
       {
          Initialize();
       }
 
       /// <summary>
-      /// Gets a new instance of <see cref="UploadFilesModal"/>.
+      /// Gets a new instance of <see cref="MediaUpload"/>.
       /// </summary>
       /// <param name="objectId">Identificador del objeto al que va asociado el contenido subido.</param>
-      public UploadFilesModal(int objectId, bool isContainer)
-         : base(UploadFilesModal.DOM_ID)
+      public MediaUpload(IFileSystemID objectId)
+         : base(MediaUpload.DOM_ID)
       {
          Initialize();
 
-         this.ObjectID = objectId;
-         this.IsContainerObject = isContainer;
+         this.FolderPath = objectId.ToFolderName();
       }
 
       #endregion
@@ -49,14 +44,9 @@ namespace Cosmo.Web
       #region Properties
 
       /// <summary>
-      /// Gets or sets the object identifier for which the files will be uploaded.
+      /// Gets or sets the relative folder where the files will be uploaded.
       /// </summary>
-      public int ObjectID { get; set; }
-
-      /// <summary>
-      /// Gets or sets a boolean value indicating if the object can contains other objects.
-      /// </summary>
-      public bool IsContainerObject { get; set; }
+      public string FolderPath { get; set; }
       
       #endregion
 
@@ -79,11 +69,10 @@ namespace Cosmo.Web
          form.IsMultipart = true;
          form.Action = GetType().Name;
          form.Method = "post";
-         form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, ObjectID);
-         form.AddFormSetting(UploadFilesModal.PARAM_ISCONTAINER, IsContainerObject);
+         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, this.FolderPath);
 
          // Get the current object ID
-         path = Workspace.FileSystemService.GetFilePath(Workspace.FileSystemService.GenerateValidObjectID(this.ObjectID, true));
+         path = Workspace.FileSystemService.GetObjectFolder(FolderPath);
 
          fileField = new FormFieldFile(this, "file1", "Archivo 1");
          fileField.DowloadPath = path;
@@ -144,7 +133,7 @@ namespace Cosmo.Web
       /// </summary>
       private void Initialize()
       {
-         this.ObjectID = 0;
+         this.FolderPath = string.Empty;
       }
 
       #endregion

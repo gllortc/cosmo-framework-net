@@ -86,7 +86,7 @@ namespace Cosmo.Cms.Web
                item = new MediaItem();
                item.Title = doc.Title;
                item.Description = doc.Description;
-               item.Image = Workspace.FileSystemService.GetFileURL(doc.ID.ToString(), doc.Thumbnail);
+               item.Image = Workspace.FileSystemService.GetFileURL(new DocumentFSID(doc.ID), doc.Thumbnail);
                item.ImageWidth = 70; // TODO: Hacer esta medida dinámica
                item.LinkHref = ContentView.GetURL(doc.ID);
 

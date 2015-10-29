@@ -30,6 +30,7 @@ namespace Cosmo.Cms.Web
       {
          string cmd;
          DocumentFolder folder = null;
+         Dictionary<string, object> jsViewParams;
 
          // Add needed resources
          Resources.Add(new ViewResource(ViewResource.ResourceType.JavaScript, "include/ContentEdit.js"));
@@ -40,6 +41,7 @@ namespace Cosmo.Cms.Web
 
          // Get call parameters
          int folderId = Parameters.GetInteger(Cosmo.Workspace.PARAM_FOLDER_ID);
+         DocumentFSID fsId = new DocumentFSID(folderId, true);
 
          //-------------------------------
          // Obtención de datos
@@ -69,7 +71,7 @@ namespace Cosmo.Cms.Web
          //-------------------------------
          // Habilita formularios modales
          //-------------------------------
-         Cosmo.Web.UploadFilesModal frmUpload = new Cosmo.Web.UploadFilesModal(folder.ID, true);
+         MediaUpload frmUpload = new MediaUpload(new DocumentFSID(folder.ID, true));
          Modals.Add(frmUpload);
 
          //-------------------------------
@@ -122,23 +124,26 @@ namespace Cosmo.Cms.Web
          filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
          tabFiles.Content.Add(filesContent);
 
+         jsViewParams = new Dictionary<string, object>();
+         jsViewParams.Add(Cosmo.Workspace.PARAM_FOLDER_ID, fsId.ToFolderName());
+
          ButtonGroupControl btnFiles = new ButtonGroupControl(this);
          btnFiles.Size = ButtonControl.ButtonSizes.Small;
          btnFiles.Buttons.Add(new ButtonControl(this, 
                                                 "cmdAddFiles", 
                                                 "Agregar archivos", 
-                                                string.Empty, 
-                                                frmUpload.GetInvokeFunctionWithParameters(new Dictionary<string, object>() {{ Cosmo.Workspace.PARAM_OBJECT_ID, folder.ID }, { UploadFilesModal.PARAM_ISCONTAINER, true }} )));
+                                                string.Empty,
+                                                frmUpload.GetInvokeCall(jsViewParams)));
          btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
          tabFiles.Content.Add(btnFiles);
 
-         ContentMediaFileList fileList = new ContentMediaFileList(folder.ID, cmd);
+         MediaFileList fileList = new MediaFileList(new DocumentFSID(folder.ID, true));
          PartialViewContainerControl fileListView = new PartialViewContainerControl(this, fileList);
          tabFiles.Content.Add(fileListView);
-         Scripts.Add(fileList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady, cmd, folder.ID));
+         Scripts.Add(fileList.GetInvokeScript(Script.ScriptExecutionMethod.OnDocumentReady, cmd, folder.ID));
 
          btnFiles.Buttons[1].Href = string.Empty;
-         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeFunctionWithParameters(cmd, folder.ID);
+         btnFiles.Buttons[1].JavaScriptAction = fileList.GetInvokeCall(jsViewParams);
 
          tabs.TabItems.Add(tabFiles);
 

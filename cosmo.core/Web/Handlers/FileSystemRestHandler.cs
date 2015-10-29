@@ -1,4 +1,5 @@
-﻿using Cosmo.Net;
+﻿using Cosmo.FileSystem;
+using Cosmo.Net;
 using Cosmo.Net.REST;
 using System;
 using System.IO;
@@ -26,17 +27,13 @@ namespace Cosmo.Web.Handlers
          switch (command)
          {
             case COMMAND_DOWNLOAD:
-               DownloadFile(Parameters.GetString(Cosmo.Workspace.PARAM_OBJECT_ID), 
-                            Parameters.GetString(PARAM_FILENAME));
+               DownloadFile(Parameters.GetString(Cosmo.Workspace.PARAM_FOLDER_ID),
+                            Parameters.GetString(FileSystemRestHandler.PARAM_FILENAME));
                break;
 
             case COMMAND_DELETE:
-               DeleteFile(Parameters.GetString(Cosmo.Workspace.PARAM_OBJECT_ID), 
-                          Parameters.GetString(PARAM_FILENAME));
-               break;
-
-            case COMMAND_UPLOAD:
-               UploadFiles(Parameters.GetString(Cosmo.Workspace.PARAM_OBJECT_ID));
+               DeleteFile(Parameters.GetString(Cosmo.Workspace.PARAM_FOLDER_ID),
+                          Parameters.GetString(FileSystemRestHandler.PARAM_FILENAME));
                break;
 
             default:
@@ -57,26 +54,41 @@ namespace Cosmo.Web.Handlers
       /// <param name="objectId">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo (sin path o ruta).</param>
       /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static Url GetDownloadFileUrl(string objectId, string filename)
+      public static Url GetDownloadFileUrl(IFileSystemID objectId, string filename)
       {
          return new Url(FileSystemRestHandler.ServiceUrl)
             .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_DOWNLOAD)
-            .AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, objectId)
-            .AddParameter(PARAM_FILENAME, filename);
+            .AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, objectId.ToFolderName())
+            .AddParameter(FileSystemRestHandler.PARAM_FILENAME, filename);
+      }
+
+      /// <summary>
+      /// Genera una URL válida para descargar un archivo asociado a un objeto.
+      /// </summary>
+      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="filename">Nombre del archivo (sin path o ruta).</param>
+      /// <returns>Una cadena que representa la URL solicitada.</returns>
+      public static Url GetDownloadFileUrl(string relativePath, string filename)
+      {
+         return new Url(FileSystemRestHandler.ServiceUrl)
+            .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_DOWNLOAD)
+            .AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, relativePath)
+            .AddParameter(FileSystemRestHandler.PARAM_FILENAME, filename);
       }
 
       /// <summary>
       /// Descarga archivo asociado a un objeto.
-      /// 
-      /// Ejemplo de llamada:
-      /// www.company.com/APIFileSystem?_cmd_=_download_&oid=0001&_fn_=filename.txt
       /// </summary>
       /// <param name="objectId">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo a descargar.</param>
-      private void DownloadFile(string objectId, string filename)
+      /// <remarks>
+      /// Ejemplo de llamada:<br />
+      /// <c>www.company.com/APIFileSystem?_cmd_=_download_&oid=0001&_fn_=filename.txt</c>
+      /// </remarks>
+      private void DownloadFile(string relativePath, string filename)
       {
          // Verifica la existencia del archivo
-         FileInfo file = new FileInfo(Workspace.FileSystemService.GetFilePath(objectId, filename));
+         FileInfo file = new FileInfo(Workspace.FileSystemService.GetFilePath(relativePath, filename));
 
          if (file.Exists)
          {
@@ -112,11 +124,11 @@ namespace Cosmo.Web.Handlers
       /// <param name="objectId">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo (sin path o ruta).</param>
       /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static Url GetDeleteFileUrl(string objectId, string filename)
+      public static Url GetDeleteFileUrl(IFileSystemID objectId, string filename)
       {
          return new Url(FileSystemRestHandler.ServiceUrl)
             .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_DELETE)
-            .AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, objectId)
+            .AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, objectId.ToFolderName())
             .AddParameter(PARAM_FILENAME, filename);
       }
 
@@ -128,13 +140,13 @@ namespace Cosmo.Web.Handlers
       /// </summary>
       /// <param name="objectId">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo a eliminar.</param>
-      private void DeleteFile(string objectId, string filename)
+      private void DeleteFile(string folder, string filename)
       {
          // Inicializaciones
          JavaScriptSerializer json = new JavaScriptSerializer();
 
          // Verifica la existencia del archivo
-         FileInfo file = new FileInfo(Workspace.FileSystemService.GetFilePath(objectId, filename));
+         FileInfo file = new FileInfo(Workspace.FileSystemService.GetFilePath(folder, filename));
 
          try
          {
@@ -161,78 +173,6 @@ namespace Cosmo.Web.Handlers
                response = "error",
                code = "-1",
                message = ex.Message
-            }));
-         }
-      }
-
-      #endregion
-
-      #region Command: Upload Files
-
-      /// <summary>Agrega un archivo a un objeto.</summary>
-      public const string COMMAND_UPLOAD = "_upl_";
-
-      /// <summary>
-      /// Genera una URL válida para eliminar un archivo asociado a un objeto.
-      /// </summary>
-      /// <returns>Una cadena que representa la URL solicitada.</returns>
-      public static Url GetUploadFilesUrl(string objectId)
-      {
-         return new Url(FileSystemRestHandler.ServiceUrl)
-            .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_UPLOAD)
-            .AddParameter(Cosmo.Workspace.PARAM_OBJECT_ID, objectId);
-      }
-
-      /// <summary>
-      /// Recibe uno o más archivos y los guarda asociados a un determinado objeto.
-      /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
-      private void UploadFiles(string objectId)
-      {
-         // Inicializaciones
-         int savedFiles = 0;
-         string file;
-         JavaScriptSerializer json = new JavaScriptSerializer();
-
-         string[] keys = Request.Files.AllKeys;
-
-         foreach (string fileKey in keys)
-         {
-            try
-            {
-               file = Workspace.FileSystemService.GetFilePath(objectId, Request.Files[fileKey].FileName);
-               Request.Files[fileKey].SaveAs(file);
-
-               savedFiles++;
-            }
-            catch (Exception ex)
-            {
-               file = ex.Message;
-            }
-         }
-
-         if (savedFiles > 0)
-         {
-            // Envia confirmación al cliente
-            Response.ContentType = "application/json";
-            Response.Charset = "UTF-8";
-            Response.Write(json.Serialize(new
-            {
-               response = "ok",
-               code = "1",
-               message = "Se han subido " + savedFiles + " archivo(s) al servidor."
-            }));
-         }
-         else
-         {
-            // Envia un código de error 
-            Response.ContentType = "application/json";
-            Response.Charset = "UTF-8";
-            Response.Write(json.Serialize(new
-            {
-               response = "error",
-               code = "-1",
-               message = "No se ha subido ningún archivo al servidor"
             }));
          }
       }

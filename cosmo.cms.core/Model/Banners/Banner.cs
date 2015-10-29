@@ -1,4 +1,4 @@
-﻿namespace Cosmo.Cms.Utils.Banners
+﻿namespace Cosmo.Cms.Model.Banners
 {
    /// <summary>
    /// Represents a banner.

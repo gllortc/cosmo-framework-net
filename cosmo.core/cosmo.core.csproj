@@ -96,6 +96,7 @@
     <Compile Include="Data\ORM\MappingObject.cs" />
     <Compile Include="Data\ORM\OrmEngine.cs" />
     <Compile Include="Data\Validation\IValidator.cs" />
+    <Compile Include="FileSystem\IFileSystemID.cs" />
     <Compile Include="FileSystem\IFileSystemService.cs" />
     <Compile Include="FileSystem\Impl\CosmoFileSystemImpl.cs" />
     <Compile Include="Net\Mail.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="UI\Controls\IControlContainer.cs" />
     <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
     <Compile Include="UI\Scripting\AutocompleteFormFieldScript.cs" />
+    <Compile Include="Web\MediaFileList.cs" />
     <Compile Include="Web\Handlers\CommunicationsRestHandler.cs" />
     <Compile Include="Net\REST\RestMethod.cs" />
     <Compile Include="Net\REST\RestMethodParameter.cs" />
@@ -184,7 +186,7 @@
     <Compile Include="Web\AdminUserData.cs" />
     <Compile Include="Web\PrivateMessagesPartialView.cs" />
     <Compile Include="Web\PrivateMessages.cs" />
-    <Compile Include="Web\UploadFilesModal.cs" />
+    <Compile Include="Web\MediaUpload.cs" />
     <Compile Include="Web\UserAuth.cs" />
     <Compile Include="Web\UserData.cs" />
     <Compile Include="Web\UserDataModal.cs" />

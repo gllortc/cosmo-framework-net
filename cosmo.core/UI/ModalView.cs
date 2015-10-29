@@ -64,7 +64,7 @@ namespace Cosmo.UI
       /// This method allows to get invoke call without initialize modal properties.
       /// </remarks>
       [Obsolete]
-      public string GetInvokeFunctionWithParameters(params object[] parameters)
+      public string GetInvokeCall(params object[] parameters)
       {
          try
          {
@@ -95,14 +95,14 @@ namespace Cosmo.UI
       /// <remarks>
       /// This method allows to get invoke call without initialize modal properties.
       /// </remarks>
-      public string GetInvokeFunctionWithParameters(Dictionary<string, object> parameters)
+      public string GetInvokeCall(Dictionary<string, object> parameters)
       {
+         int index = 0;
+         string js = string.Empty;
+         string value = string.Empty;
+
          try
          {
-            int index = 0;
-            string js = string.Empty;
-            string value = string.Empty;
-
             foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
             {
                if (parameters.ContainsKey(param.ParameterName))
@@ -119,7 +119,7 @@ namespace Cosmo.UI
                   }
                   else
                   {
-                     value = "'" + (int)parameters[param.ParameterName] + "'";
+                     value = "'" + parameters[param.ParameterName].ToString() + "'";
                   }
 
                   js += (string.IsNullOrEmpty(js) ? string.Empty : ",") + value;
@@ -142,7 +142,7 @@ namespace Cosmo.UI
       /// <remarks>
       /// Modal must have initialized properties.
       /// </remarks>
-      public string GetInvokeFunction()
+      public string GetInvokeCall()
       {
          try
          {

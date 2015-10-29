@@ -59,7 +59,8 @@ namespace Cosmo.UI
       /// <remarks>
       /// This method allows to get invoke call without initialize partial view properties.
       /// </remarks>
-      public string GetInvokeFunctionWithParameters(params object[] parameters)
+      [Obsolete]
+      public string GetInvokeCall(params object[] parameters)
       {
          try
          {
@@ -81,13 +82,60 @@ namespace Cosmo.UI
       }
 
       /// <summary>
+      /// Generate JS call for partial view using data passed as method parameters. 
+      /// </summary>
+      /// <returns></returns>
+      /// <remarks>
+      /// This method allows to get invoke call without initialize partial view properties.
+      /// </remarks>
+      public string GetInvokeCall(Dictionary<string, object> parameters)
+      {
+         int index = 0;
+         string js = string.Empty;
+         string value = string.Empty;
+
+         try
+         {
+            foreach (ViewParameter param in this.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+            {
+               if (parameters.ContainsKey(param.ParameterName))
+               {
+                  if (parameters[param.ParameterName] is bool)
+                  {
+                     value = ((bool)parameters[param.ParameterName] ? "true" : "false");
+                  }
+                  else if (parameters[param.ParameterName] is Int16 ||
+                           parameters[param.ParameterName] is Int32 ||
+                           parameters[param.ParameterName] is Int64)
+                  {
+                     value = string.Empty + (int)parameters[param.ParameterName];
+                  }
+                  else
+                  {
+                     value = "'" + parameters[param.ParameterName].ToString() + "'";
+                  }
+
+                  js += (string.IsNullOrEmpty(js) ? string.Empty : ",") + value;
+                  index++;
+               }
+            }
+
+            return "load" + Script.ConvertToFunctionName(this.DomID) + "(" + js + ");";
+         }
+         catch (Exception ex)
+         {
+            throw new ArgumentException("ERROR generating JavaScript invocation call in partial view " + GetType().Name, ex);
+         }
+      }
+
+      /// <summary>
       /// Generate JS call from partial view. 
       /// </summary>
       /// <returns></returns>
       /// <remarks>
       /// Partial view must have initialized properties.
       /// </remarks>
-      public string GetInvokeFunction()
+      public string GetInvokeCall()
       {
          try
          {
@@ -113,11 +161,11 @@ namespace Cosmo.UI
       /// <param name="executionType">Type of script execution.</param>
       /// <param name="parameters">Partial view parameters.</param>
       /// <returns>The requestes script instance.</returns>
-      public Script GetInvokeScriptWithParameters(Script.ScriptExecutionMethod executionType, params object[] parameters)
+      public Script GetInvokeScript(Script.ScriptExecutionMethod executionType, params object[] parameters)
       {
          Script script = new SimpleScript(this);
          script.ExecutionType = executionType;
-         script.AppendSourceLine(GetInvokeFunctionWithParameters(parameters));
+         script.AppendSourceLine(GetInvokeCall(parameters));
 
          return script;
       }
@@ -131,7 +179,7 @@ namespace Cosmo.UI
       {
          Script script = new SimpleScript(this);
          script.ExecutionType = executionType;
-         script.AppendSourceLine(GetInvokeFunction());
+         script.AppendSourceLine(GetInvokeCall());
 
          return script;
       }

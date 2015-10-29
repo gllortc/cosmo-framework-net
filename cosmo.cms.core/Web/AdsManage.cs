@@ -42,7 +42,7 @@ namespace Cosmo.Cms.Web
          PartialViewContainerControl adsListView = new PartialViewContainerControl(this, adsList);
          MainContent.Add(adsListView);
 
-         Scripts.Add(adsList.GetInvokeScriptWithParameters(Script.ScriptExecutionMethod.OnDocumentReady));
+         Scripts.Add(adsList.GetInvokeScript(Script.ScriptExecutionMethod.OnDocumentReady));
       }
 
       #endregion

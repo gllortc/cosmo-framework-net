@@ -41,7 +41,7 @@ namespace Cosmo.Cms.Web
 
          // Generate script to refresh partial view on delete modal close
          SimpleScript deleteReload = new SimpleScript(this);
-         deleteReload.AppendSourceLine(this.GetInvokeFunction());
+         deleteReload.AppendSourceLine(this.GetInvokeCall());
          deleteReload.ExecutionType = Script.ScriptExecutionMethod.OnEvent;
          deleteReload.AttachToEvent(deleteModal.DomID, Script.Events.EVENT_ON_MODAL_CLOSE);
          
@@ -57,7 +57,7 @@ namespace Cosmo.Cms.Web
 
          // Generate script to refresh partial view on republish modal close
          SimpleScript repReload = new SimpleScript(this);
-         repReload.AppendSourceLine(this.GetInvokeFunction());
+         repReload.AppendSourceLine(this.GetInvokeCall());
          repReload.ExecutionType = Script.ScriptExecutionMethod.OnEvent;
          repReload.AttachToEvent(republishModal.DomID, Script.Events.EVENT_ON_MODAL_CLOSE);
 
@@ -73,7 +73,7 @@ namespace Cosmo.Cms.Web
 
          // Generate script to refresh partial view on republish modal close
          SimpleScript unpReload = new SimpleScript(this);
-         unpReload.AppendSourceLine(this.GetInvokeFunction());
+         unpReload.AppendSourceLine(this.GetInvokeCall());
          unpReload.ExecutionType = Script.ScriptExecutionMethod.OnEvent;
          unpReload.AttachToEvent(unpublishModal.DomID, Script.Events.EVENT_ON_MODAL_CLOSE);
 

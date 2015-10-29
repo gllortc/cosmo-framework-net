@@ -106,57 +106,88 @@ namespace Cosmo.FileSystem
       /// <summary>
       /// Gets the path (without filename) to a object folder.
       /// </summary>
-      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="folder">Relative folder to the file.</param>
       /// <param name="filename">Nombre del archivo (sin ruta).</param>
       /// <returns>A string containing the requested path.</returns>
-      public abstract string GetFilePath(string objectId);
+      internal abstract string GetFilePath(string folder, string filename);
+
+      /// <summary>
+      /// Gets the path (without filename) to a object folder.
+      /// </summary>
+      /// <param name="uid">Object unique identifier.</param>
+      /// <param name="filename">Nombre del archivo (sin ruta).</param>
+      /// <returns>A string containing the requested path.</returns>
+      public abstract string GetFilePath(IFileSystemID uid);
 
       /// <summary>
       /// Gets the path (with filename) to a object related file.
       /// </summary>
-      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="uid">Object unique identifier.</param>
       /// <param name="filename">Filename without path.</param>
       /// <returns>A string containing the requested filename and path.</returns>
-      public abstract string GetFilePath(string objectId, string filename);
+      public abstract string GetFilePath(IFileSystemID uid, string filename);
 
       /// <summary>
-      /// Obtiene la URL a un archivo asociado a un objeto.
+      /// Gets the URL to access a file related to a content object.
       /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="uid">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo (sin ruta).</param>
       /// <returns>La URL al archivo solicitado.</returns>
-      public abstract string GetFileURL(string objectId, string filename);
+      public abstract string GetFileURL(IFileSystemID uid, string filename);
 
       /// <summary>
       /// Obtiene la URL a un archivo asociado a un objeto.
       /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="uid">Identificador del objeto.</param>
       /// <param name="filename">Nombre del archivo (sin ruta).</param>
       /// <param name="relativeUrl">Indica si se desea obtener una URL relativa.</param>
       /// <returns>La URL al archivo solicitado.</returns>
-      public abstract string GetFileURL(string objectId, string filename, bool relativeUrl);
+      public abstract string GetFileURL(IFileSystemID uid, string filename, bool relativeUrl);
+
+      /// <summary>
+      /// Gets the URL to access a file stored in workspace file system.
+      /// </summary>
+      /// <param name="relativePath">The relative path to file.</param>
+      /// <param name="filename">The filename without path.</param>
+      /// <param name="relativeUrl">Indicate if the URL must be relative to the current workspace URL.</param>
+      /// <returns>A string containing the requested URL.</returns>
+      internal abstract string GetFileURL(string relativePath, string filename, bool relativeUrl);
 
       /// <summary>
       /// Obtiene la ruta física a la carpeta contenedora de un objeto.
       /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="uid">Identificador del objeto.</param>
       /// <returns>La ruta al directorio privado de un objeto.</returns>
-      public abstract string GetObjectFolder(string objectId);
+      public abstract string GetObjectFolder(IFileSystemID uid);
+
+      /// <summary>
+      /// Gets the absolute path from a relative path.
+      /// </summary>
+      /// <param name="relativePath">A string containing the relative path.</param>
+      /// <returns>A string containing the requested absolute path.</returns>
+      internal abstract string GetObjectFolder(string relativePath);
 
       /// <summary>
       /// Obtiene una lista con los archivos asociados a un objeto.
       /// </summary>
-      /// <param name="objectId">Identificador del objeto.</param>
+      /// <param name="uid">Identificador del objeto.</param>
       /// <returns>Una lista de instancias de <see cref="FileInfo"/> que representan los archivos asociados al objeto.</returns>
-      public abstract List<FileInfo> GetObjectFiles(string objectId);
+      public abstract List<FileInfo> GetObjectFiles(IFileSystemID uid);
+
+      /// <summary>
+      /// Gets a list of files contained in a folder on workstation file system.
+      /// </summary>
+      /// <param name="relativePath">A string containing the relative path.</param>
+      /// <returns>A list of <see cref="FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
+      internal abstract List<FileInfo> GetObjectFiles(string relativePath);
 
       /// <summary>
       /// Delete a file associated to an object.
       /// </summary>
-      /// <param name="objectId">Object unique identifier.</param>
+      /// <param name="uid">Object unique identifier.</param>
       /// <param name="filename">File name without path.</param>
       /// <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
-      public abstract void DeleteFile(string objectId, string filename, bool throwError);
+      public abstract void DeleteFile(IFileSystemID uid, string filename, bool throwError);
 
       #endregion
 
