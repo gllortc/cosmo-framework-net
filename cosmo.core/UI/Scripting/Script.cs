@@ -1,4 +1,6 @@
 ﻿using Cosmo.UI.Controls;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -73,6 +75,11 @@ namespace Cosmo.UI.Scripting
       #region Properties
 
       /// <summary>
+      /// Gets or sets a value indicating if the script must be invoked on page complete load.
+      /// </summary>
+      public bool InvokeOnLoad { get; set; }
+
+      /// <summary>
       /// Indica si el script se debe ejecutar en el evento <c>$( document ).ready()</c> 
       /// de <em>jQuery</em>.
       /// </summary>
@@ -82,6 +89,11 @@ namespace Cosmo.UI.Scripting
       /// Devuelve la pParent <see cref="View"/> which acts as a container of the control.
       /// </summary>
       public View ParentView { get; internal set; }
+
+      /// <summary>
+      /// Gets or sets the function name to use with encapsulate the script into a function.
+      /// </summary>
+      public string FunctionName { get; set; }
 
       /// <summary>
       /// Gets or sets el código fuente del script.
@@ -165,11 +177,112 @@ namespace Cosmo.UI.Scripting
 
       #region Abstract Members
 
+      // <summary>
+      /// Make the JavaScript source code of script.
+      /// </summary>
+      /// <returns>A string containing the requestes source code of script.</returns>
+      public abstract void BuildSource();
+
       /// <summary>
       /// Make the JavaScript source code of script.
       /// </summary>
       /// <returns>A string containing the requestes source code of script.</returns>
-      public abstract string GetSource();
+      public virtual string GetSource()
+      {
+         // Build JavaScript source using the instance data
+         BuildSource();
+
+         if (this.ExecutionType == ScriptExecutionMethod.OnDocumentReady || this.ExecutionType == ScriptExecutionMethod.Standalone)
+         {
+            return this.Source.ToString();
+         }
+         else if (this.ExecutionType == ScriptExecutionMethod.OnFunctionCall)
+         {
+            if (string.IsNullOrWhiteSpace(this.FunctionName))
+            {
+               throw new ArgumentException("Can't generatoe JS function: function name is missing.");
+            }
+
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("function " + Script.ConvertToFunctionName(this.FunctionName) + "() {");
+            js.AppendLine(Source.ToString());
+            js.AppendLine("}");
+
+            return js.ToString();
+         }
+         else if (this.ExecutionType == ScriptExecutionMethod.OnEvent)
+         {
+            if (string.IsNullOrWhiteSpace(this.EventDomID) || string.IsNullOrWhiteSpace(this.EventName))
+            {
+               throw new ArgumentException("Can't attach JS script to event: DOM element or event name is missing.");
+            }
+
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("$('#" + this.EventDomID + "').on('" + this.EventName + "', function () {");
+            js.AppendLine(Source.ToString());
+            js.AppendLine("});");
+
+            return js.ToString();
+         }
+
+         throw new ArgumentException("Script execution type not supported.");
+      }
+
+      /// <summary>
+      /// Generate a simple JavaScript call without parameters. 
+      /// </summary>
+      /// <returns></returns>
+      public string GetInvokeCall()
+      {
+         return Script.ConvertToFunctionName(this.FunctionName) + "();";
+      }
+
+      /// <summary>
+      /// Generate JS call for modal using data passed as method parameters. 
+      /// </summary>
+      /// <returns></returns>
+      /// <remarks>
+      /// This method allows to get invoke call without initialize modal properties.
+      /// </remarks>
+      public string GetInvokeCall(View parentView, Dictionary<string, object> parameters)
+      {
+         int index = 0;
+         string js = string.Empty;
+         string value = string.Empty;
+
+         try
+         {
+            foreach (ViewParameter param in parentView.GetType().GetCustomAttributes(typeof(ViewParameter), false))
+            {
+               if (parameters.ContainsKey(param.ParameterName))
+               {
+                  if (parameters[param.ParameterName] is bool)
+                  {
+                     value = ((bool)parameters[param.ParameterName] ? "true" : "false");
+                  }
+                  else if (parameters[param.ParameterName] is Int16 ||
+                           parameters[param.ParameterName] is Int32 ||
+                           parameters[param.ParameterName] is Int64)
+                  {
+                     value = string.Empty + (int)parameters[param.ParameterName];
+                  }
+                  else
+                  {
+                     value = "'" + parameters[param.ParameterName].ToString() + "'";
+                  }
+
+                  js += (string.IsNullOrEmpty(js) ? string.Empty : ",") + value;
+                  index++;
+               }
+            }
+
+            return Script.ConvertToFunctionName(this.FunctionName) + "(" + js + ");";
+         }
+         catch (Exception ex)
+         {
+            throw new ArgumentException("ERROR generating JavaScript invocation call in " + parentView.GetType().Name, ex);
+         }
+      }
 
       #endregion
 
@@ -222,21 +335,26 @@ namespace Cosmo.UI.Scripting
       /// </summary>
       private void Initialize()
       {
+         this.InvokeOnLoad = false;
          this.ExecutionType = ScriptExecutionMethod.Standalone;
          this.ParentView = null;
          this.Source = new StringBuilder();
       }
-
+      
       #endregion
+
+      #region Child classes
 
       /// <summary>
       /// Static class that contains the event constants.
       /// </summary>
       public static class Events
       {
-         /// <summary>Bootstrap/jQuery event: On Modal Hide/// </summary>
+         /// <summary>Bootstrap/jQuery event: On Modal Hide</summary>
          public const string EVENT_ON_MODAL_CLOSE = "hidden.bs.modal";
       }
+
+      #endregion
 
    }
 }

@@ -40,23 +40,30 @@ namespace Cosmo.UI.Scripting
 
       #region IScript Implementation
 
-      /// <summary>
-      /// Devuelve el código JavaScript que se debe incorporar en la página.
-      /// </summary>
-      /// <returns>Una cadena que contiene código JavaScript.</returns>
-      public override string GetSource()
+      public override void BuildSource()
       {
-         // Evaluate if execution is attached on an event
-         if (ExecutionType == ScriptExecutionMethod.OnEvent)
-         {
-            Source.Insert(0, "$('#" + this.EventDomID + "').on('" + this.EventName + "', function () {");
-            Source.Append("});");
-         }
-
-         return Source.ToString();
+         // Nothing to do here
       }
+
+      ///// <summary>
+      ///// Devuelve el código JavaScript que se debe incorporar en la página.
+      ///// </summary>
+      ///// <returns>Una cadena que contiene código JavaScript.</returns>
+      //public override string GetSource()
+      //{
+      //   // Evaluate if execution is attached on an event
+      //   if (ExecutionType == ScriptExecutionMethod.OnEvent)
+      //   {
+      //      Source.Insert(0, "$('#" + this.EventDomID + "').on('" + this.EventName + "', function () {");
+      //      Source.Append("});");
+      //   }
+
+      //   return Source.ToString();
+      //}
 
       #endregion
 
+
+      
    }
 }

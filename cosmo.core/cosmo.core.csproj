@@ -103,7 +103,9 @@
     <Compile Include="Net\REST\RestHandler.cs" />
     <Compile Include="UI\Controls\IControlContainer.cs" />
     <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
+    <Compile Include="UI\Scripting\AjaxUpdateListScript.cs" />
     <Compile Include="UI\Scripting\AutocompleteFormFieldScript.cs" />
+    <Compile Include="Web\Handlers\DataRestHandler.cs" />
     <Compile Include="Web\MediaFileList.cs" />
     <Compile Include="Web\Handlers\CommunicationsRestHandler.cs" />
     <Compile Include="Net\REST\RestMethod.cs" />
@@ -125,7 +127,6 @@
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Controls\UserLinkControl.cs" />
     <Compile Include="UI\Formatter.cs" />
-    <Compile Include="UI\Scripting\Behaviors\ShowAjaxResponseBehavior.cs" />
     <Compile Include="UI\Scripting\ModalViewSendFormScript.cs" />
     <Compile Include="UI\Scripting\PartialViewLoadScript.cs" />
     <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
@@ -133,7 +134,6 @@
     <Compile Include="UI\ModalView.cs" />
     <Compile Include="UI\PartialView.cs" />
     <Compile Include="Net\REST\AjaxResponse.cs" />
-    <Compile Include="UI\Scripting\AjaxRestSimpleCallScript.cs" />
     <Compile Include="UI\Scripting\PartialViewSendFormScript.cs" />
     <Compile Include="UI\Scripting\AjaxUpdateHtmlScript.cs" />
     <Compile Include="UI\Controls\BadgeControl.cs" />
@@ -156,9 +156,6 @@
     <Compile Include="UI\Controls\FormField.cs" />
     <Compile Include="UI\Controls\PaginationControl.cs" />
     <Compile Include="UI\Controls\ProgressBarControl.cs" />
-    <Compile Include="UI\Scripting\Behaviors\DisableElementBehavior.cs" />
-    <Compile Include="UI\Scripting\Behaviors\NavigateBehavior.cs" />
-    <Compile Include="UI\Scripting\Behaviors\UpdateHtmlBehavior.cs" />
     <Compile Include="UI\Scripting\Script.cs" />
     <Compile Include="UI\Scripting\SimpleScript.cs" />
     <Compile Include="UI\Controls\LayoutContainerControl.cs" />

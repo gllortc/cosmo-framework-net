@@ -1,4 +1,5 @@
 ﻿using Cosmo.Net;
+using Cosmo.UI.Scripting;
 using Cosmo.Utils;
 using System.Collections.Generic;
 
@@ -133,6 +134,15 @@ namespace Cosmo.UI.Controls
       {
          Values = ParentView.Workspace.DataService.GetDataList(dataListID).Values;
          Value = ParentView.Workspace.DataService.GetDataList(dataListID).DefaultValue;
+      }
+
+      /// <summary>
+      /// Carga los valores de un <c>DataList</c> como valores de la lista.
+      /// </summary>
+      /// <param name="dataListID">Identificador del <c>DataList</c>.</param>
+      public void LoadValuesFromAjax(AjaxUpdateListScript loaderScript)
+      {
+         
       }
 
       /// <summary>

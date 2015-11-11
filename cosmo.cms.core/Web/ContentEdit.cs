@@ -30,6 +30,7 @@ namespace Cosmo.Cms.Web
          string cmd;
          Document doc = null;
          DocumentFolder folder;
+         AjaxUpdateListScript loaderScript;
          Dictionary<string, object> jsViewParams;
 
          // Agrega los recursos necesarios para representar la página actual
@@ -105,10 +106,38 @@ namespace Cosmo.Cms.Web
          frmData.Content.Add(new FormFieldEditor(this, FIELD_DESCRIPTION, "Descripción", FormFieldEditor.FieldEditorType.Simple, doc.Description));
          frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Contenido", FormFieldEditor.FieldEditorType.HTML, doc.Content));
 
-         FormFieldImage thumb = new FormFieldImage(this, FIELD_THUMBNAIL, "Imagen miniatura", doc.Thumbnail);
-         thumb.Description = "Si deja este campo en blanco no se guardará la imagen y se mantendrá la actual.";
-         thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(new DocumentFSID(doc.ID), doc.Thumbnail);
-         frmData.Content.Add(thumb);
+         //FormFieldImage thumb = new FormFieldImage(this, FIELD_THUMBNAIL, "Imagen miniatura", doc.Thumbnail);
+         //thumb.Description = "Si deja este campo en blanco no se guardará la imagen y se mantendrá la actual.";
+         //thumb.PreviewUrl = Workspace.FileSystemService.GetFileURL(new DocumentFSID(doc.ID), doc.Thumbnail);
+         //frmData.Content.Add(thumb);
+
+         loaderScript = new AjaxUpdateListScript(this);
+         loaderScript.InvokeOnLoad = true;
+         loaderScript.ExecutionType = Script.ScriptExecutionMethod.OnFunctionCall;
+         loaderScript.FunctionName = "loadThumbList";
+         loaderScript.ListControlName = FIELD_THUMBNAIL;
+         loaderScript.Url = Cosmo.Web.Handlers.FileSystemRestHandler.GetFolderFileListUrl(new DocumentFSID(doc.ID));
+         loaderScript.ListItems.Add(new KeyValue("Sin miniatura", string.Empty));
+         loaderScript.DefaultValue = doc.Thumbnail;
+         Scripts.Add(loaderScript);
+
+         FormFieldList lstThumbnail = new FormFieldList(this, FIELD_THUMBNAIL, "Imagen miniatura", FormFieldList.ListType.Single, doc.Thumbnail);
+         lstThumbnail.LoadValuesFromAjax(loaderScript);
+         frmData.Content.Add(lstThumbnail);
+
+         loaderScript = new AjaxUpdateListScript(this);
+         loaderScript.InvokeOnLoad = true;
+         loaderScript.ExecutionType = Script.ScriptExecutionMethod.OnFunctionCall;
+         loaderScript.FunctionName = "loadAttachList";
+         loaderScript.ListControlName = FIELD_ATTACHMENT;
+         loaderScript.Url = Cosmo.Web.Handlers.FileSystemRestHandler.GetFolderFileListUrl(new DocumentFSID(doc.ID));
+         loaderScript.ListItems.Add(new KeyValue("Sin archivo adjunto", string.Empty));
+         loaderScript.DefaultValue = doc.Attachment;
+         Scripts.Add(loaderScript);
+
+         FormFieldList lstAttachment = new FormFieldList(this, FIELD_ATTACHMENT, "Archivo adjunto", FormFieldList.ListType.Single, doc.Attachment);
+         lstAttachment.LoadValuesFromAjax(loaderScript);
+         frmData.Content.Add(lstAttachment);
 
          FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Published ? "1" : "0"));
          lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
@@ -188,11 +217,6 @@ namespace Cosmo.Cms.Web
          MainContent.Add(form);
       }
 
-      public override void LoadPage()
-      {
-         
-      }
-
       /// <summary>
       /// Trata los datos recibidos de un formulario.
       /// </summary>
@@ -208,9 +232,11 @@ namespace Cosmo.Cms.Web
          doc.Content = receivedForm.GetStringFieldValue(FIELD_CONTENT);
          doc.Published = receivedForm.GetBoolFieldValue(FIELD_STATUS);
          doc.Hightlight = receivedForm.GetBoolFieldValue(FIELD_HIGHLIGHT);
+         doc.Thumbnail = receivedForm.GetStringFieldValue(FIELD_THUMBNAIL);
+         doc.Attachment = receivedForm.GetStringFieldValue(FIELD_ATTACHMENT);
 
          if (receivedForm.GetFileFieldValue(FIELD_THUMBNAIL) != null) doc.Thumbnail = receivedForm.GetFileFieldValue(FIELD_THUMBNAIL).Name;
-         if (receivedForm.GetFileFieldValue(FIELD_ATTACHMENT) != null) doc.Attachment = receivedForm.GetFileFieldValue(FIELD_ATTACHMENT).Name;
+         // if (receivedForm.GetFileFieldValue(FIELD_ATTACHMENT) != null) doc.Attachment = receivedForm.GetFileFieldValue(FIELD_ATTACHMENT).Name;
 
          // Realiza las operaciones de persistencia
          DocumentDAO docs = new DocumentDAO(Workspace);

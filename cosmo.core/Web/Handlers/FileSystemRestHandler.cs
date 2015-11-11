@@ -36,6 +36,10 @@ namespace Cosmo.Web.Handlers
                           Parameters.GetString(FileSystemRestHandler.PARAM_FILENAME));
                break;
 
+            case COMMAND_LIST_FILES:
+               FolderFileList(Parameters.GetString(Cosmo.Workspace.PARAM_FOLDER_ID));
+               break;
+
             default:
                break;
          }
@@ -174,6 +178,73 @@ namespace Cosmo.Web.Handlers
                code = "-1",
                message = ex.Message
             }));
+         }
+      }
+
+      #endregion
+
+      #region Command: List Folder
+
+      /// <summary>Comando para descargar un fichero asociado a un objeto.</summary>
+      public const string COMMAND_LIST_FILES = "_lstf_";
+
+      /// <summary>
+      /// Genera una URL válida para descargar un archivo asociado a un objeto.
+      /// </summary>
+      /// <param name="objectId">Identificador del objeto.</param>
+      /// <returns>Una cadena que representa la URL solicitada.</returns>
+      public static Url GetFolderFileListUrl(IFileSystemID objectId)
+      {
+         return new Url(FileSystemRestHandler.ServiceUrl)
+            .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_LIST_FILES)
+            .AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, objectId.ToFolderName());
+      }
+
+      /// <summary>
+      /// Genera una URL válida para descargar un archivo asociado a un objeto.
+      /// </summary>
+      /// <param name="relativePath">Identificador del objeto.</param>
+      /// <returns>Una cadena que representa la URL solicitada.</returns>
+      public static Url GetFolderFileListUrl(string relativePath)
+      {
+         return new Url(FileSystemRestHandler.ServiceUrl)
+            .AddParameter(Cosmo.Workspace.PARAM_COMMAND, COMMAND_LIST_FILES)
+            .AddParameter(Cosmo.Workspace.PARAM_FOLDER_ID, relativePath);
+      }
+
+      /// <summary>
+      /// Descarga archivo asociado a un objeto.
+      /// </summary>
+      /// <param name="objectId">Identificador del objeto.</param>
+      private void FolderFileList(string relativePath)
+      {
+         string path = Workspace.FileSystemService.GetObjectFolder(relativePath);
+         string[] files;
+
+         // Check directory
+         if (Directory.Exists(path))
+         {
+            // Get filenames list without path
+            files = Directory.GetFiles(path);
+            for (int idx = 0; idx < files.Length; idx++)
+            {
+               files[idx] = Path.GetFileName(files[idx]);
+            }
+
+            // Generate client response
+            AjaxResponse response = new AjaxResponse(files);
+            response.Result = AjaxResponse.JsonResponse.Successful;
+
+            SendResponse(response);
+         }
+         else
+         {
+            // Generate client response
+            AjaxResponse response = new AjaxResponse(AjaxResponse.ERRCODE_OBJECT_NOT_FOUND);
+            response.Result = AjaxResponse.JsonResponse.Fail;
+
+            // Send error
+            SendResponse(response);
          }
       }
 

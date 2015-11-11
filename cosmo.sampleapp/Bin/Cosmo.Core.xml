@@ -1284,11 +1284,27 @@
             <param name="domId">DOM element ID.</param>
             <param name="eventName">Event name.</param>
         </member>
+        <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.Script.BuildSource" -->
         <member name="M:Cosmo.UI.Scripting.Script.GetSource">
             <summary>
             Make the JavaScript source code of script.
             </summary>
             <returns>A string containing the requestes source code of script.</returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.Script.GetInvokeCall">
+            <summary>
+            Generate a simple JavaScript call without parameters. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.Script.GetInvokeCall(Cosmo.UI.View,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Generate JS call for modal using data passed as method parameters. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            This method allows to get invoke call without initialize modal properties.
+            </remarks>
         </member>
         <member name="M:Cosmo.UI.Scripting.Script.GetFieldValue(System.String)">
             <summary>
@@ -1317,6 +1333,11 @@
             Initializes the instance data.
             </summary>
         </member>
+        <member name="P:Cosmo.UI.Scripting.Script.InvokeOnLoad">
+            <summary>
+            Gets or sets a value indicating if the script must be invoked on page complete load.
+            </summary>
+        </member>
         <member name="P:Cosmo.UI.Scripting.Script.ExecutionType">
             <summary>
             Indica si el script se debe ejecutar en el evento <c>$( document ).ready()</c> 
@@ -1326,6 +1347,11 @@
         <member name="P:Cosmo.UI.Scripting.Script.ParentView">
             <summary>
             Devuelve la pParent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.Script.FunctionName">
+            <summary>
+            Gets or sets the function name to use with encapsulate the script into a function.
             </summary>
         </member>
         <member name="P:Cosmo.UI.Scripting.Script.Source">
@@ -1366,7 +1392,7 @@
             </summary>
         </member>
         <member name="F:Cosmo.UI.Scripting.Script.Events.EVENT_ON_MODAL_CLOSE">
-            <summary>Bootstrap/jQuery event: On Modal Hide/// </summary>
+            <summary>Bootstrap/jQuery event: On Modal Hide</summary>
         </member>
         <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.#ctor(Cosmo.UI.View,Cosmo.UI.Controls.FormControl)">
             <summary>
@@ -1383,12 +1409,6 @@
             <param name="formDomID">DOM ID of the form to send.</param>
             <param name="formAction">Action of the form to send.</param>
             <param name="formMultipart">Multipart indication of the form to send.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.GetSource">
-            <summary>
-            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-            </summary>
-            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.AjaxSendFormScript.Initialize">
             <summary>
@@ -1410,6 +1430,51 @@
             Gets or sets a boolean value indicating if the form is multipart.
             </summary>
         </member>
+        <member name="T:Cosmo.UI.Scripting.AjaxUpdateListScript">
+            <summary>
+            Implementa un script que permite actualizar un elemento del DOM con el contenido devuelto por una llamada AJAX.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.AjaxUpdateListScript.#ctor(Cosmo.UI.View)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.AjaxUpdateListScript"/>.
+            </summary>
+            <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
+        </member>
+        <member name="M:Cosmo.UI.Scripting.AjaxUpdateListScript.Initialize">
+            <summary>
+            Initializes the instance data.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AjaxUpdateListScript.Id">
+            <summary>
+            Gets or sets una cadena única para cada script.
+            </summary>
+            <remarks>
+            Est acadena permite crear variables y funciones con un nombre distinto para cada 
+            script y evitar duplicidad.
+            </remarks>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AjaxUpdateListScript.ListControlName">
+            <summary>
+            Gets or sets the control name (DOM ID) that must be updated with the contents of the list.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AjaxUpdateListScript.Url">
+            <summary>
+            Gets or sets the URL that provide the list items.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AjaxUpdateListScript.ListItems">
+            <summary>
+            Gets or sets the URL that provide the list items.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.Scripting.AjaxUpdateListScript.DefaultValue">
+            <summary>
+            Gets or sets the URL that provide the list items.
+            </summary>
+        </member>
         <member name="T:Cosmo.UI.Scripting.AutocompleteFormFieldScript">
             <summary>
             Implements a script that allow a control acts as a autocomplete control.
@@ -1420,12 +1485,6 @@
             Gets a new instance of <see cref="T:Cosmo.UI.Scripting.AutocompleteFormFieldScript"/>.
             </summary>
             <param name="formField">The field which acts as a autocomplete control.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AutocompleteFormFieldScript.GetSource">
-            <summary>
-            Make the JavaScript source code of script.
-            </summary>
-            <returns>A string containing the requestes source code of script.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.AutocompleteFormFieldScript.Initialize">
             <summary>
@@ -1444,6 +1503,40 @@
             <remarks>
             Example: The url for query will be: '../data/films/queries/%QUERY'
             </remarks>
+        </member>
+        <member name="T:Cosmo.Web.Handlers.DataRestHandler">
+            <summary>
+            Cosmo Data Services REST handler.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Web.Handlers.DataRestHandler.PARAM_FILENAME">
+            <summary>parámetro de llamada: Nombre de archivo.</summary>
+        </member>
+        <member name="F:Cosmo.Web.Handlers.DataRestHandler.COMMAND_LIST">
+            <summary>Comando para descargar un fichero asociado a un objeto.</summary>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.ServiceRequest(System.String)">
+            <summary>
+            Método invocado al recibir una petición.
+            </summary>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.GetDataList(System.String)">
+            <summary>
+            Gets an URL to invoke <c>DataList</c> REST handler method.
+            </summary>
+            <param name="dataListId">DataList unique identifier.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.DataList(System.String)">
+            <summary>
+            Get a DataList and send it to client.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Web.Handlers.DataRestHandler.ServiceUrl">
+            <summary>
+            Devuelve la URL a la que se debe atacar para realizar operaciones REST sobre el servicio.
+            </summary>
         </member>
         <member name="T:Cosmo.Web.MediaFileList">
             <summary>
@@ -1887,6 +1980,9 @@
         <member name="F:Cosmo.Web.Handlers.FileSystemRestHandler.COMMAND_DELETE">
             <summary>Comando para eliminar un fichero asociado a un objeto.</summary>
         </member>
+        <member name="F:Cosmo.Web.Handlers.FileSystemRestHandler.COMMAND_LIST_FILES">
+            <summary>Comando para descargar un fichero asociado a un objeto.</summary>
+        </member>
         <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.ServiceRequest(System.String)">
             <summary>
             Método invocado al recibir una petición.
@@ -1919,6 +2015,26 @@
             <returns>Una cadena que representa la URL solicitada.</returns>
         </member>
         <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.Web.Handlers.FileSystemRestHandler.DeleteFile(System.String,System.String)" -->
+        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetFolderFileListUrl(Cosmo.FileSystem.IFileSystemID)">
+            <summary>
+            Genera una URL válida para descargar un archivo asociado a un objeto.
+            </summary>
+            <param name="objectId">Identificador del objeto.</param>
+            <returns>Una cadena que representa la URL solicitada.</returns>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetFolderFileListUrl(System.String)">
+            <summary>
+            Genera una URL válida para descargar un archivo asociado a un objeto.
+            </summary>
+            <param name="relativePath">Identificador del objeto.</param>
+            <returns>Una cadena que representa la URL solicitada.</returns>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.FolderFileList(System.String)">
+            <summary>
+            Descarga archivo asociado a un objeto.
+            </summary>
+            <param name="objectId">Identificador del objeto.</param>
+        </member>
         <member name="P:Cosmo.Web.Handlers.FileSystemRestHandler.ServiceUrl">
             <summary>
             Devuelve la URL a la que se debe atacar para realizar operaciones REST sobre el servicio.
@@ -2714,31 +2830,6 @@
         <member name="F:Cosmo.UI.Formatter.FORMAT_SHORTDATE">
             <summary>Formato para mostrar mes/año.</summary>
         </member>
-        <member name="T:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior">
-            <summary>
-            JavaScript Behavior:
-            Muestra la información devuelta en una instancia de <see cref="T:Cosmo.Net.REST.AjaxResponse"/> por una llamada 
-            a un <see cref="T:Cosmo.Net.REST.RestHandler"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.#ctor(Cosmo.UI.View,System.String)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
-            </summary>
-            <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-            <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.GetSource">
-            <summary>
-            Devuelve el código de la senténcia JavaScript.
-            </summary>
-            <returns>Una cadena que contiene el código JavaScript solicitado.</returns>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.Behaviors.ShowAjaxResponseBehavior.DomID">
-            <summary>
-            Gets or sets el identificador del elemento a actualizar.
-            </summary>
-        </member>
         <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
             <summary>
             Generates a script that sends form data via AJAX.
@@ -2750,12 +2841,6 @@
             </summary>
             <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
             <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.GetSource">
-            <summary>
-            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-            </summary>
-            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.ModalViewSendFormScript.Initialize">
             <summary>
@@ -2795,12 +2880,6 @@
             </summary>
             <param name="partialView">Una instancia del formulario que se desea enviar via AJAX.</param>
         </member>
-        <member name="M:Cosmo.UI.Scripting.PartialViewLoadScript.GetSource">
-            <summary>
-            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-            </summary>
-            <returns>A string containing the JavaScript requested code.</returns>
-        </member>
         <member name="M:Cosmo.UI.Scripting.PartialViewLoadScript.Initialize">
             <summary>
             Initializes the instance data.
@@ -2821,12 +2900,6 @@
             Gets a new instance of <see cref="T:Cosmo.UI.Scripting.ModalViewSendFormScript"/>.
             </summary>
             <param name="modalView">Una instancia del formulario que se desea enviar via AJAX.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.GetSource">
-            <summary>
-            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-            </summary>
-            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.ModalViewOpenScript.Initialize">
             <summary>
@@ -2959,6 +3032,9 @@
             Implementa una respuesta estandarizada para cualquier llamada AJAX.
             </summary>
         </member>
+        <member name="F:Cosmo.Net.REST.AjaxResponse.ERRCODE_OBJECT_NOT_FOUND">
+            <summary>Object not found.</summary>
+        </member>
         <member name="M:Cosmo.Net.REST.AjaxResponse.#ctor">
             <summary>
             Gets a new instance of <see cref="T:Cosmo.Net.REST.AjaxResponse"/>.
@@ -3035,49 +3111,6 @@
         <member name="F:Cosmo.Net.REST.AjaxResponse.JsonResponse.Fail">
             <summary>Indica que la llamada a un método REST ha fallado.</summary>
         </member>
-        <member name="T:Cosmo.UI.Scripting.AjaxRestSimpleCallScript">
-            <summary>
-            Implementa un script que permite realizar una llamada a un método simple de la API REST
-            de Cosmo y que devuelve un token JSON. La llamada se realiza siempre por POST.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.#ctor(Cosmo.UI.View)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.AjaxRestSimpleCallScript"/>.
-            </summary>
-            <param name="viewport">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.GetSource">
-            <summary>
-            Genera el código fuente (JavaScript).
-            </summary>
-            <returns>Una cadena de texto que contiene el código JavaScript generado.</returns>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.Initialize">
-            <summary>
-            Initializes the instance data.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.FunctionName">
-            <summary>
-            Gets or sets el nombre (identificador) de la función.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.URL">
-            <summary>
-            Gets or sets el nombre del script a invocar.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.AjaxRestSimpleCallScript.Parameters">
-            <summary>
-            Colección de parámetros que se pasarán en la llamada al método REST.
-            </summary>
-            <remarks>
-            Dado que el valor de cada parámetro puede ser una variable, una constante o cualquier
-            llamada a otra función, se debe tener cuidado en como se especifican, sobretodo, las
-            cadenas (el valor se debe especificar entre comillas: "string").
-            </remarks>
-        </member>
         <member name="T:Cosmo.UI.Scripting.PartialViewSendFormScript">
             <summary>
             Generates a script that sends form data via AJAX.
@@ -3089,12 +3122,6 @@
             </summary>
             <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
             <param name="form">Una instancia del formulario que se desea enviar via AJAX.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.PartialViewSendFormScript.GetSource">
-            <summary>
-            Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-            </summary>
-            <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
         </member>
         <member name="M:Cosmo.UI.Scripting.PartialViewSendFormScript.Initialize">
             <summary>
@@ -3133,11 +3160,6 @@
             Gets a new instance of <see cref="T:Cosmo.UI.Scripting.AjaxUpdateHtmlScript"/>.
             </summary>
             <param name="viewport">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.AjaxUpdateHtmlScript.GetSource">
-            <summary>
-            Genera el código JavaScript.
-            </summary>
         </member>
         <member name="M:Cosmo.UI.Scripting.AjaxUpdateHtmlScript.Initialize">
             <summary>
@@ -3968,6 +3990,12 @@
             </summary>
             <param name="dataListID">Identificador del <c>DataList</c>.</param>
         </member>
+        <member name="M:Cosmo.UI.Controls.FormFieldList.LoadValuesFromAjax(Cosmo.UI.Scripting.AjaxUpdateListScript)">
+            <summary>
+            Carga los valores de un <c>DataList</c> como valores de la lista.
+            </summary>
+            <param name="dataListID">Identificador del <c>DataList</c>.</param>
+        </member>
         <member name="M:Cosmo.UI.Controls.FormFieldList.LoadValueFromRequest">
             <summary>
             Gets the field value from the request.
@@ -4774,84 +4802,6 @@
             Gets or sets el texto descriptivo que aparece junto a la barra del progreso.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior">
-            <summary>
-            JavaScript Behavior:
-            Habilita/deshabilita un determinado elemento del DOM.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.#ctor(Cosmo.UI.View,System.String,System.Boolean)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior"/>.
-            </summary>
-            <param name="viewport">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-            <param name="domId">Identificador del elemento.</param>
-            <param name="disabled"><c>true</c> para inhabilitar el elemento o <c>false</c> para habilitarlo.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.GetSource">
-            <summary>
-            Devuelve el código de la senténcia JavaScript.
-            </summary>
-            <returns>Una cadena que contiene el código JavaScript solicitado.</returns>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.DomId">
-            <summary>
-            Gets or sets el identificador del elemento a habilitar/deshabilitar.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.Behaviors.DisableElementBehavior.Disabled">
-            <summary>
-            Indica si el elemento seleccionado se debe habilitar o deshabilitar.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior">
-            <summary>
-            JavaScript Behavior:
-            Navega a una determinada URL.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.#ctor(Cosmo.UI.View,System.String)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
-            </summary>
-            <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-            <param name="url">Una cadena que contiene la URL dónde se debe navegar.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.GetSource">
-            <summary>
-            Devuelve el código de la senténcia JavaScript.
-            </summary>
-            <returns>Una cadena que contiene el código JavaScript solicitado.</returns>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.Behaviors.NavigateBehavior.URL">
-            <summary>
-            Gets or sets la URL dónde se desea navegar.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior">
-            <summary>
-            JavaScript Behavior:
-            Actualiza el contenido (XHTML) de un determinado elemento.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.#ctor(Cosmo.UI.View,System.String)">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.Scripting.Behaviors.NavigateBehavior"/>.
-            </summary>
-            <param name="parentView">Parent <see cref="T:Cosmo.UI.View"/> which acts as a container of the control.</param>
-            <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>
-        </member>
-        <member name="M:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.GetSource">
-            <summary>
-            Devuelve el código de la senténcia JavaScript.
-            </summary>
-            <returns>Una cadena que contiene el código JavaScript solicitado.</returns>
-        </member>
-        <member name="P:Cosmo.UI.Scripting.Behaviors.UpdateHtmlBehavior.DomID">
-            <summary>
-            Gets or sets el identificador del elemento a actualizar.
-            </summary>
-        </member>
         <member name="T:Cosmo.UI.Scripting.SimpleScript">
             <summary>
             Representa un script que debe ser adjuntado a una página (o control).
@@ -4871,12 +4821,6 @@
             <param name="source">Una cadena que contiene el código JavaScript.</param>
         </member>
         <!-- El comentario XML con formato incorrecto se omite para el miembro "M:Cosmo.UI.Scripting.SimpleScript.#ctor(Cosmo.UI.View,System.Text.StringBuilder)" -->
-        <member name="M:Cosmo.UI.Scripting.SimpleScript.GetSource">
-            <summary>
-            Devuelve el código JavaScript que se debe incorporar en la página.
-            </summary>
-            <returns>Una cadena que contiene código JavaScript.</returns>
-        </member>
         <member name="T:Cosmo.UI.Controls.LayoutContainerControl">
             <summary>
             Implements a page layout container.

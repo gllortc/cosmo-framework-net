@@ -13,7 +13,7 @@ namespace Cosmo.UI.Scripting.Behaviors
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="NavigateBehavior"/>.
+      /// Gets a new instance of <see cref="ShowAjaxResponseBehavior"/>.
       /// </summary>
       /// <param name="parentView">Parent <see cref="View"/> which acts as a container of the control.</param>
       /// <param name="domId">Una cadena que contiene la URL dónde se debe navegar.</param>

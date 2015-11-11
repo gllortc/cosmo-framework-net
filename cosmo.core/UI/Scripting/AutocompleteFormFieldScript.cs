@@ -1,8 +1,4 @@
 ﻿using Cosmo.UI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Cosmo.UI.Scripting
 {
@@ -48,11 +44,7 @@ namespace Cosmo.UI.Scripting
 
       #region Script Implementation
 
-      /// <summary>
-      /// Make the JavaScript source code of script.
-      /// </summary>
-      /// <returns>A string containing the requestes source code of script.</returns>
-      public override string GetSource()
+      public override void BuildSource()
       {
          string bhName = "bh" + this.FormField.DomID;
          string tahName = "tah" + this.FormField.DomID;
@@ -85,9 +77,48 @@ namespace Cosmo.UI.Scripting
          Source.AppendLine(@"            }");
          Source.AppendLine(@"  }");
          Source.AppendLine(@"});");
-
-         return Source.ToString();
       }
+
+      ///// <summary>
+      ///// Make the JavaScript source code of script.
+      ///// </summary>
+      ///// <returns>A string containing the requestes source code of script.</returns>
+      //public override string GetSource()
+      //{
+      //   string bhName = "bh" + this.FormField.DomID;
+      //   string tahName = "tah" + this.FormField.DomID;
+
+      //   //Source.AppendLine(@"var " + bhName + " = new Bloodhound({");
+      //   //Source.AppendLine(@"  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),");
+      //   //Source.AppendLine(@"  queryTokenizer: Bloodhound.tokenizers.whitespace,");
+      //   //Source.AppendLine(@"  identify: function(obj) { return obj.Data.Label; },");
+      //   //Source.AppendLine(@"  remote: {");
+      //   //Source.AppendLine(@"    url: '" + Web.Handlers.SecurityRestHandler.GetUserSearchUrl(this.QueryWildcard) + "',");
+      //   //Source.AppendLine(@"    filter: function (parsedResponse) {");
+      //   //Source.AppendLine(@"              console.log(parsedResponse);");
+      //   //Source.AppendLine(@"              return parsedResponse;");
+      //   //Source.AppendLine(@"    },");
+      //   //Source.AppendLine(@"    wildcard: '" + this.QueryWildcard + "'");
+      //   //Source.AppendLine(@"  }");
+      //   //Source.AppendLine(@"});");
+
+      //   Source.AppendLine(@"$('#" + this.FormField.DomID + "').typeahead(null, {");
+      //   Source.AppendLine(@"  name: '" + tahName + "',");
+      //   Source.AppendLine(@"  minLength: 4,");
+      //   Source.AppendLine(@"  display: 'Data.Label',");
+      //   // Source.AppendLine(@"  source: " + bhName);
+      //   Source.AppendLine(@"  remote: {");
+      //   Source.AppendLine(@"    url: '" + Web.Handlers.SecurityRestHandler.GetUserSearchUrl(this.QueryWildcard) + "',");
+      //   Source.AppendLine(@"    filter: function (parsedResponse) {");
+      //   Source.AppendLine(@"              var resultList = data.aaData.map(function (item) {");
+      //   Source.AppendLine(@"                return item.name;");
+      //   Source.AppendLine(@"              });");
+      //   Source.AppendLine(@"            }");
+      //   Source.AppendLine(@"  }");
+      //   Source.AppendLine(@"});");
+
+      //   return Source.ToString();
+      //}
 
       #endregion
 

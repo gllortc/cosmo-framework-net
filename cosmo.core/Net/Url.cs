@@ -41,6 +41,7 @@ namespace Cosmo.Net
       /// <param name="url">La dirección URL.</param>
       public Url(string url)
       {
+         _file = _file = Path.GetFileName(url);
          _url = url;
          _params = new NameValueCollection();
       }
@@ -52,6 +53,7 @@ namespace Cosmo.Net
       /// <param name="anchorName">Nombre del enlace interno.</param>
       public Url(string url, string anchorName)
       {
+         _file = _file = Path.GetFileName(url);
          _url = url;
          _params = new NameValueCollection();
          _anchorName = anchorName;

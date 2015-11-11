@@ -515,6 +515,10 @@ namespace Cosmo.UI.Render.Impl
             {
                js.AppendLine(scr.GetSource());
             }
+            else if (scr.InvokeOnLoad)
+            {
+               js.AppendLine(scr.GetInvokeCall());
+            }
          }
          js.AppendLine("  });");
 

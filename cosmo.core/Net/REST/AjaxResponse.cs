@@ -8,6 +8,9 @@ namespace Cosmo.Net.REST
    public class AjaxResponse
    {
 
+      /// <summary>Object not found.</summary>
+      public const int ERRCODE_OBJECT_NOT_FOUND = 1000;
+
       #region Enumerations
 
       /// <summary>

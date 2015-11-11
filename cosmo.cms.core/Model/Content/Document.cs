@@ -162,7 +162,7 @@ namespace Cosmo.Cms.Model.Content
       /// </summary>
       public bool HasAttachments
       {
-         get { return string.IsNullOrWhiteSpace(this.Attachment); }
+         get { return !string.IsNullOrWhiteSpace(this.Attachment); }
       }
 
       #endregion

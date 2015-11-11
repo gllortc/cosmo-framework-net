@@ -66,11 +66,7 @@ namespace Cosmo.UI.Scripting
 
       #region IScript Implementation
 
-      /// <summary>
-      /// Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-      /// </summary>
-      /// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
-      public override string GetSource()
+      public override void BuildSource()
       {
          // Declara el evento Submit
          Source.AppendLine("$('#" + this.FormDomID + "').submit(function(e) {");
@@ -104,9 +100,49 @@ namespace Cosmo.UI.Scripting
          Source.AppendLine("  });");
          Source.AppendLine("  e.preventDefault();");
          Source.AppendLine("});");
-
-         return Source.ToString();
       }
+
+      ///// <summary>
+      ///// Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
+      ///// </summary>
+      ///// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+      //public override string GetSource()
+      //{
+      //   // Declara el evento Submit
+      //   Source.AppendLine("$('#" + this.FormDomID + "').submit(function(e) {");
+
+      //   // Recoge los datos del formulario
+      //   if (!this.FormIsMultipart)
+      //   {
+      //      Source.AppendLine("  var fData = $(this).serializeArray();");
+      //   }
+      //   else
+      //   {
+      //      Source.AppendLine("  var fData = new FormData(this);");
+      //   }
+
+      //   Source.AppendLine("  $.ajax({");
+      //   Source.AppendLine("    url: '" + this.FormAction + "',");
+      //   Source.AppendLine("    type: 'POST',");
+      //   Source.AppendLine("    data: fData,");
+      //   if (this.FormIsMultipart)
+      //   {
+      //      Source.AppendLine("    mimeType: 'multipart/form-data',");
+      //      Source.AppendLine("    cache: false,");
+      //      Source.AppendLine("    processData: false,");
+      //   }
+      //   Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
+      //   Source.AppendLine("      $('#" + this.ParentView.DomID + "').html(data);");
+      //   Source.AppendLine("    },");
+      //   Source.AppendLine("    error: function(jqXHR, textStatus, errorThrown) {");
+      //   Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
+      //   Source.AppendLine("    }");
+      //   Source.AppendLine("  });");
+      //   Source.AppendLine("  e.preventDefault();");
+      //   Source.AppendLine("});");
+
+      //   return Source.ToString();
+      //}
 
       #endregion
 

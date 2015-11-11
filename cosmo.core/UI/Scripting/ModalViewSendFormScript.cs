@@ -55,11 +55,7 @@ namespace Cosmo.UI.Scripting
 
       #region IScript Implementation
 
-      /// <summary>
-      /// Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
-      /// </summary>
-      /// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
-      public override string GetSource()
+      public override void BuildSource()
       {
          // Program a custom submit function for the form
          Source.AppendLine("$('#" + Form.DomID + "').submit(function(e) {");
@@ -80,8 +76,6 @@ namespace Cosmo.UI.Scripting
             //   Source.AppendLine("  fData.append('" + fileField.DomID + "', $('#" + fileField.DomID + "')[0].files[0]);");
             //}
          }
-
-         Source.AppendLine("  alert(fData);");
 
          Source.AppendLine("  $.ajax({");
          Source.AppendLine("    url: '" + Form.Action + "',");
@@ -104,9 +98,60 @@ namespace Cosmo.UI.Scripting
 
          Source.AppendLine("  return false;");
          Source.AppendLine("});");
-
-         return Source.ToString();
       }
+
+      ///// <summary>
+      ///// Genera y devuelve una cadena con el código JavaScript a incorporar a la vista.
+      ///// </summary>
+      ///// <returns>Una cadena que contiene el código JavasScript solicitado.</returns>
+      //public override string GetSource()
+      //{
+      //   // Program a custom submit function for the form
+      //   Source.AppendLine("$('#" + Form.DomID + "').submit(function(e) {");
+
+      //   // Disable the default form submission
+      //   Source.AppendLine("  event.preventDefault();");
+
+      //   // Recoge los datos del formulario
+      //   if (!Form.IsMultipart)
+      //   {
+      //      Source.AppendLine("  var fData = $(this).serializeArray();");
+      //   }
+      //   else
+      //   {
+      //      Source.AppendLine("  var fData = new FormData(this);");
+      //      //foreach (FormFieldFile fileField in Form.Content.GetControlsByType(typeof(FormFieldFile)))
+      //      //{
+      //      //   Source.AppendLine("  fData.append('" + fileField.DomID + "', $('#" + fileField.DomID + "')[0].files[0]);");
+      //      //}
+      //   }
+
+      //   Source.AppendLine("  alert(fData);");
+
+      //   Source.AppendLine("  $.ajax({");
+      //   Source.AppendLine("    url: '" + Form.Action + "',");
+      //   Source.AppendLine("    type: 'POST',");
+      //   Source.AppendLine("    data: fData,");
+      //   if (Form.IsMultipart)
+      //   {
+      //      Source.AppendLine("    mimeType: 'multipart/form-data',");
+      //      Source.AppendLine("    cache: false,");
+      //      Source.AppendLine("    contentType: false,");
+      //      Source.AppendLine("    processData: false,");
+      //   }
+      //   Source.AppendLine("    success: function(data, textStatus, jqXHR) {");
+      //   Source.AppendLine("      $('#" + ((ModalView)Form.ParentView).DomID + " .modal-dialog').html(data);");
+      //   Source.AppendLine("    },");
+      //   Source.AppendLine("    error: function(jqXHR, textStatus, errorThrown) {");
+      //   Source.AppendLine("      bootbox.alert(\"Se ha producido un error y no ha sido posible enviar los datos al servidor.\");");
+      //   Source.AppendLine("    }");
+      //   Source.AppendLine("  });");
+
+      //   Source.AppendLine("  return false;");
+      //   Source.AppendLine("});");
+
+      //   return Source.ToString();
+      //}
 
       #endregion
 

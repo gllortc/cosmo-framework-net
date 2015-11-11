@@ -65,7 +65,7 @@ namespace Cosmo.Cms.Model.Content
          try
          {
             // Ensure that the private folder for a object is created.
-            EnsureObjectFolderExists(docID, false);
+            // EnsureObjectFolderExists(docID, false);
 
             _ws.DataSource.Connect();
 
@@ -131,7 +131,8 @@ namespace Cosmo.Cms.Model.Content
                   picture.PictureFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
                   picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
                   picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
-                  picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
+                  // picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
+                  picture.ThumbnailFile = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
                   picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                   picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
                   picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
@@ -171,26 +172,26 @@ namespace Cosmo.Cms.Model.Content
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         FileInfo picfile = null;
-         FileInfo attfile = null;
+         //FileInfo picfile = null;
+         //FileInfo attfile = null;
 
-         // Averigua si existen los archivos adjuntos al documento
-         if (!String.IsNullOrEmpty(document.Thumbnail))
-         {
-            picfile = new FileInfo(document.Thumbnail);
-            if (!picfile.Exists)
-            {
-               throw new Exception("No se encuentra el archivo correspondiente a la imagen miniatura.");
-            }
-         }
-         if (!String.IsNullOrEmpty(document.Attachment))
-         {
-            attfile = new FileInfo(document.Attachment);
-            if (!attfile.Exists)
-            {
-               throw new Exception("No se encuentra el archivo correspondiente al contenido adjunto.");
-            }
-         }
+         //// Averigua si existen los archivos adjuntos al documento
+         //if (!String.IsNullOrEmpty(document.Thumbnail))
+         //{
+         //   picfile = new FileInfo(document.Thumbnail);
+         //   if (!picfile.Exists)
+         //   {
+         //      throw new Exception("No se encuentra el archivo correspondiente a la imagen miniatura.");
+         //   }
+         //}
+         //if (!String.IsNullOrEmpty(document.Attachment))
+         //{
+         //   attfile = new FileInfo(document.Attachment);
+         //   if (!attfile.Exists)
+         //   {
+         //      throw new Exception("No se encuentra el archivo correspondiente al contenido adjunto.");
+         //   }
+         //}
 
          try
          {
@@ -209,11 +210,13 @@ namespace Cosmo.Cms.Model.Content
                cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
                cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
                cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-               cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
+               // cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
                cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
                cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
                cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
-               cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
+               // cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
+               cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
+               cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
                cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
                cmd.ExecuteNonQuery();
 
@@ -227,8 +230,8 @@ namespace Cosmo.Cms.Model.Content
                EnsureObjectFolderExists(document.ID, false);
 
                // Copia los archivos (thumbnail y adjunto) a la carpeta del documento
-               if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
-               if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
+               // if (picfile != null) picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
+               // if (attfile != null) attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
 
                trans.Commit();
             }
@@ -256,8 +259,8 @@ namespace Cosmo.Cms.Model.Content
       {
          string sql = string.Empty;
          SqlCommand cmd = null;
-         FileInfo attfile = null;
-         FileInfo picfile = null;
+         //FileInfo attfile = null;
+         //FileInfo picfile = null;
 
          try
          {
@@ -265,30 +268,30 @@ namespace Cosmo.Cms.Model.Content
             EnsureObjectFolderExists(document.ID, false);
 
             // Copy or update the thumbnail
-            if (!String.IsNullOrEmpty(document.Thumbnail))
-            {
-               picfile = new FileInfo(document.Thumbnail);
-               if (!picfile.Exists)
-               {
-                  throw new Exception("No se encuentra o no está accesible el archivo correspondiente a la imagen miniatura.");
-               }
+            //if (!String.IsNullOrEmpty(document.Thumbnail))
+            //{
+            //   picfile = new FileInfo(document.Thumbnail);
+            //   if (!picfile.Exists)
+            //   {
+            //      throw new Exception("No se encuentra o no está accesible el archivo correspondiente a la imagen miniatura.");
+            //   }
 
-               // Si existe un archivo con el mismo nombre lo sobreescribe
-               picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
-            }
+            //   // Si existe un archivo con el mismo nombre lo sobreescribe
+            //   picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
+            //}
 
             // Copy or update the attached file
-            if (!String.IsNullOrEmpty(document.Attachment))
-            {
-               attfile = new FileInfo(document.Attachment);
-               if (!attfile.Exists)
-               {
-                  throw new Exception("No se encuentra o no está accesible el archivo adjunto.");
-               }
+            //if (!String.IsNullOrEmpty(document.Attachment))
+            //{
+            //   attfile = new FileInfo(document.Attachment);
+            //   if (!attfile.Exists)
+            //   {
+            //      throw new Exception("No se encuentra o no está accesible el archivo adjunto.");
+            //   }
 
-               // Si existe un archivo con el mismo nombre lo sobreescribe
-               attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
-            }
+            //   // Si existe un archivo con el mismo nombre lo sobreescribe
+            //   attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
+            //}
 
             _ws.DataSource.Connect();
 
@@ -301,6 +304,8 @@ namespace Cosmo.Cms.Model.Content
                            docviewer = @docviewer, 
                            docenabled = @docenabled, 
                            dochighlight = @dochighlight, 
+                           docpic = @docpic,
+                           docfile = @docfile, 
                            docupdated = getdate() 
                     WHERE  docid = @docid";
 
@@ -312,34 +317,36 @@ namespace Cosmo.Cms.Model.Content
             cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
             cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == Common.CmsPublishStatus.PublishStatus.Published ? true : false));
             cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
+            cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
+            cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
             cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
             cmd.ExecuteNonQuery();
 
-            // Add content thumbnail if provided
-            if (!String.IsNullOrEmpty(document.Thumbnail))
-            {
-               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
-                       SET    docpic = @docpic 
-                       WHERE  docid = @docid";
+//            // Add content thumbnail if provided
+//            if (!String.IsNullOrEmpty(document.Thumbnail))
+//            {
+//               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
+//                       SET    docpic = @docpic 
+//                       WHERE  docid = @docid";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-               cmd.Parameters.Add(new SqlParameter("@docpic", picfile.Name));
-               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
-               cmd.ExecuteNonQuery();
-            }
+//               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+//               cmd.Parameters.Add(new SqlParameter("@docpic", picfile.Name));
+//               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
+//               cmd.ExecuteNonQuery();
+//            }
 
             // Add content attachment if provided
-            if (!String.IsNullOrEmpty(document.Attachment))
-            {
-               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
-                       SET    docfile = @docfile 
-                       WHERE  docid = @docid";
+//            if (!String.IsNullOrEmpty(document.Attachment))
+//            {
+//               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
+//                       SET    docfile = @docfile 
+//                       WHERE  docid = @docid";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-               cmd.Parameters.Add(new SqlParameter("@docfile", attfile.Name));
-               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
-               cmd.ExecuteNonQuery();
-            }
+//               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+//               cmd.Parameters.Add(new SqlParameter("@docfile", attfile.Name));
+//               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
+//               cmd.ExecuteNonQuery();
+//            }
          }
          catch (Exception ex)
          {
@@ -965,11 +972,11 @@ namespace Cosmo.Cms.Model.Content
       /// </summary>
       private void EnsureObjectFolderExists(int objectId, bool isContainer)
       {
-         // Create the private file system folder for store related media
-         DirectoryInfo dirInfo = new DirectoryInfo(_ws.FileSystemService.GetObjectFolder(new DocumentFSID(objectId, isContainer)));
-         if (!dirInfo.Exists)
+         string path = _ws.FileSystemService.GetObjectFolder(new DocumentFSID(objectId, isContainer));
+
+         if (!Directory.Exists(path))
          {
-            dirInfo.Create();
+            Directory.CreateDirectory(path);
          }
       }
 
