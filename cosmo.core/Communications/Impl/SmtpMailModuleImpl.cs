@@ -77,8 +77,7 @@ namespace Cosmo.Communications.Impl
          }
          catch (Exception ex)
          {
-            Workspace.Logger.Add(new LogEntry(GetType().FullName + ".Send()", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-
+            Workspace.Logger.Error(this, "Send", ex);
             throw new CommunicationsException(ex.Message, ex);
          }
       }

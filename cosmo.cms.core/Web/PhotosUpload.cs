@@ -131,7 +131,7 @@ namespace Cosmo.Cms.Web
          picture.UserID = Workspace.CurrentUser.User.ID;
          picture.Description = receivedForm.GetStringFieldValue("body") + "<br />" +
                                "<em>" + receivedForm.GetStringFieldValue("site") + ", " +
-                               receivedForm.GetDateFieldValue("date").ToString(Formatter.FORMAT_DATE) + "</em>";
+                               receivedForm.GetDateFieldValue("date").ToString(Cosmo.Utils.Calendar.FORMAT_DATE) + "</em>";
          picture.Author = receivedForm.GetStringFieldValue("author");
          picture.Created = DateTime.Now;
 

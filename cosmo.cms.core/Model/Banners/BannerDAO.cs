@@ -1,6 +1,4 @@
-﻿using Cosmo.Data.Connection;
-using Cosmo.Diagnostics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -68,7 +66,6 @@ namespace Cosmo.Cms.Model.Banners
       public List<Banner> GetBanners(BannerPositions Position)
       {
          int numBanners = 0;
-         SqlCommand cmd = null;
          SqlParameter param = null;
          List<Banner> banners = new List<Banner>();
 
@@ -86,57 +83,57 @@ namespace Cosmo.Cms.Model.Banners
          {
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand("cs_Banners_GetBannersByPos", _ws.DataSource.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@bannerType", (int)Position));
-            cmd.Parameters.Add(new SqlParameter("@numBanners", (int)numBanners));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand("cs_Banners_GetBannersByPos", _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.CommandType = CommandType.StoredProcedure;
+               cmd.Parameters.Add(new SqlParameter("@bannerType", (int)Position));
+               cmd.Parameters.Add(new SqlParameter("@numBanners", (int)numBanners));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  // Agrega el banner
-                  banners.Add(new Banner((Int32)reader["banid"],
-                                           (string)reader["banclient"],
-                                           _ws.FileSystemService.GetFilePath(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
-                                           _ws.FileSystemService.GetFileURL(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
-                                           (int)reader["banwidth"],
-                                           (int)reader["banheight"]));
+                  while (reader.Read())
+                  {
+                     // Agrega el banner
+                     banners.Add(new Banner((Int32)reader["banid"],
+                                              (string)reader["banclient"],
+                                              _ws.FileSystemService.GetFilePath(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
+                                              _ws.FileSystemService.GetFileURL(new BannerFSID((Int32)reader["banid"]), (string)reader["banimage"]),
+                                              (int)reader["banwidth"],
+                                              (int)reader["banheight"]));
+                  }
                }
             }
             
             // Contabiliza la visualización del banner
             foreach (Banner banner in banners)
             {
-               cmd = new SqlCommand("cs_Banners_DoCount", _ws.DataSource.Connection);
-               cmd.CommandType = CommandType.StoredProcedure;
-               // cmd.Parameters.Add(new SqlParameter("@banner_id", (int)banner.Id));
+               using (SqlCommand cmd = new SqlCommand("cs_Banners_DoCount", _ws.DataSource.Connection))
+               {
+                  cmd.CommandType = CommandType.StoredProcedure;
+                  // cmd.Parameters.Add(new SqlParameter("@banner_id", (int)banner.Id));
 
-               param = new SqlParameter("@banner_id", SqlDbType.Int);
-               param.Value = banner.ID;
-               cmd.Parameters.Add(param);
+                  param = new SqlParameter("@banner_id", SqlDbType.Int);
+                  param.Value = banner.ID;
+                  cmd.Parameters.Add(param);
 
-               param = new SqlParameter("@click", SqlDbType.Int);
-               param.Value = BANNER_ACTION_SHOW;
-               cmd.Parameters.Add(param);
+                  param = new SqlParameter("@click", SqlDbType.Int);
+                  param.Value = BANNER_ACTION_SHOW;
+                  cmd.Parameters.Add(param);
 
-               // cmd.Parameters.Add(new SqlParameter("@click", int.Parse(BANNER_ACTION_SHOW.ToString())));
-               cmd.ExecuteNonQuery();
+                  // cmd.Parameters.Add(new SqlParameter("@click", int.Parse(BANNER_ACTION_SHOW.ToString())));
+                  cmd.ExecuteNonQuery();
+               }
             }
 
             return banners;
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetBanners()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetBanners", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -149,30 +146,33 @@ namespace Cosmo.Cms.Model.Banners
       public string DoClick(int bannerId)
       {
          string url = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
             // Actualiza las estadísticas del banner
-            cmd = new SqlCommand("cs_Banners_DoCount", _ws.DataSource.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@banner_id", bannerId));
-            cmd.Parameters.Add(new SqlParameter("@click", 1));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand("cs_Banners_DoCount", _ws.DataSource.Connection))
+            {
+               cmd.CommandType = CommandType.StoredProcedure;
+               cmd.Parameters.Add(new SqlParameter("@banner_id", bannerId));
+               cmd.Parameters.Add(new SqlParameter("@click", 1));
+               cmd.ExecuteNonQuery();
+            }
 
             // Obtiene la dirección URL de destino
-            cmd = new SqlCommand("cs_Banners_Properties", _ws.DataSource.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@bannerId", bannerId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand("cs_Banners_Properties", _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.CommandType = CommandType.StoredProcedure;
+               cmd.Parameters.Add(new SqlParameter("@bannerId", bannerId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  url = (string)reader["bandirecturl"].ToString().Trim().ToLower();
-                  if (!url.StartsWith("http")) url = "http://" + url;
+                  if (reader.Read())
+                  {
+                     url = (string)reader["bandirecturl"].ToString().Trim().ToLower();
+                     if (!url.StartsWith("http")) url = "http://" + url;
+                  }
                }
             }
 
@@ -180,15 +180,11 @@ namespace Cosmo.Cms.Model.Banners
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".DoClick()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "DoClick()", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }

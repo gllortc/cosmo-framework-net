@@ -326,6 +326,21 @@ namespace Cosmo.UI.Scripting
          return domId.Trim().Replace("_", string.Empty).Replace(" ", string.Empty).Replace("-", string.Empty);
       }
 
+      /// <summary>
+      /// Convert a JavaScript method call to link.
+      /// </summary>
+      /// <param name="jsInvokeCall">The JavaScript method call to transform.</param>
+      /// <returns>A string containing the requested link.</returns>
+      public static string ConvertInvokeCallToLink(string jsInvokeCall)
+      {
+         if (string.IsNullOrWhiteSpace(jsInvokeCall))
+         {
+            return "#";
+         }
+
+         return "javascript:" + jsInvokeCall.Trim();
+      }
+
       #endregion
 
       #region Private Members

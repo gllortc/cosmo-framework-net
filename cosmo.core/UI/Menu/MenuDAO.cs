@@ -47,27 +47,25 @@ namespace Cosmo.UI.Menu
          string sql;
          MenuItem section = null;
          List<MenuItem> sections = new List<MenuItem>();
-         SqlCommand cmd = null;
 
-         sql = "SELECT " + SQL_SELECT_SECTION + " " +
-               "FROM " + SQL_TABLE_NAME + " " +
-               "WHERE " +
-               " SECTPUBLIC=1 " +
-               "ORDER BY " +
-               " SECTORDER ASC, " +
-               " SECTIONID ASC";
+         sql = @"SELECT    " + SQL_SELECT_SECTION + @" 
+                 FROM      " + SQL_TABLE_NAME + @" 
+                 WHERE     SECTPUBLIC = 1 
+                 ORDER BY  SECTORDER ASC, SECTIONID ASC";
 
          try
          {
             Workspace.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, Workspace.DataSource.Connection);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, Workspace.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  section = ReadSection(reader);
-                  if (section != null) sections.Add(section);
+                  while (reader.Read())
+                  {
+                     section = ReadSection(reader);
+                     if (section != null) sections.Add(section);
+                  }
                }
             }
 
@@ -75,14 +73,11 @@ namespace Cosmo.UI.Menu
          }
          catch (Exception ex)
          {
-            LoggerService.Add(Workspace, new LogEntry(this.GetType().Name + ".GetSectionsMenu()", 
-                                                      ex.Message, 
-                                                      LogEntry.LogEntryType.EV_ERROR));
+            Workspace.Logger.Error(this, "GetSectionsMenu", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             Workspace.DataSource.Disconnect();
          }
       }

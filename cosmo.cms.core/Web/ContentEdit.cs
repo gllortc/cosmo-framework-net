@@ -55,7 +55,7 @@ namespace Cosmo.Cms.Web
          switch (cmd)
          {
             case Cosmo.Workspace.COMMAND_EDIT:
-               doc = docs.Item(docId);
+               doc = docs.GetByID(docId);
                break;
 
             case Cosmo.Workspace.COMMAND_ADD:

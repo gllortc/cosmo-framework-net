@@ -1,5 +1,4 @@
-﻿using Cosmo.Diagnostics;
-using Cosmo.Net;
+﻿using Cosmo.Net;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
@@ -55,9 +54,8 @@ namespace Cosmo.Web
                // User user = auth.Verify(Request.QueryString);
                User user = Workspace.SecurityService.Verify(Request.QueryString);
 
-               Workspace.Logger.Add(new LogEntry("SecurityApi.UserMailVerification()",
-                                                 "Suscripción verificada de " + user.Login + " desde " + Request.ServerVariables["REMOTE_ADDR"],
-                                                 LogEntry.LogEntryType.EV_INFORMATION));
+               Workspace.Logger.Security("Suscripción verificada de " + user.Login + " desde " + 
+                                         Request.ServerVariables["REMOTE_ADDR"]);
 
                CalloutControl waitBox = new CalloutControl(this);
                waitBox.DomID = "result-box";

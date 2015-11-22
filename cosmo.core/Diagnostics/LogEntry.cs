@@ -1,4 +1,3 @@
-using Cosmo.Utils;
 using System;
 
 namespace Cosmo.Diagnostics
@@ -28,9 +27,6 @@ namespace Cosmo.Diagnostics
       }
 
       #endregion
-
-      /// <summary>Login correspondiente a una acción de sistema (no achacable a ningún usuario).</summary>
-      public const string LOGIN_SYSTEM = "[SYS]";
 
       #region Constructors
 
@@ -203,7 +199,7 @@ namespace Cosmo.Diagnostics
       {
          this.ID = 0;
          this.Date = System.DateTime.Now;
-         this.UserLogin = LogEntry.LOGIN_SYSTEM;
+         this.UserLogin = Security.Auth.SecurityService.ACCOUNT_SYSTEM;
          this.ApplicationName = Workspace.ProductName;
          this.Context = string.Empty;
          this.WorkspaceName = string.Empty;

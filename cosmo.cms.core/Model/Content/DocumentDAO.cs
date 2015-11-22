@@ -1,6 +1,4 @@
 ﻿using Cosmo.Cms.Model.Photos;
-using Cosmo.Data.Connection;
-using Cosmo.Diagnostics;
 using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
@@ -55,17 +53,16 @@ namespace Cosmo.Cms.Model.Content
       /// </summary>
       /// <param name="docID">Idetificador del documento.</param>
       /// <returns>Una instáncia de la clase <see cref="Document"/>.</returns>
-      public Document Item(int docID)
+      public Document GetByID(int docID)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          Document reldoc = null;
          Document doc = null;
 
          try
          {
             // Ensure that the private folder for a object is created.
-            // EnsureObjectFolderExists(docID, false);
+            EnsureObjectFolderExists(docID, false);
 
             _ws.DataSource.Connect();
 
@@ -74,18 +71,20 @@ namespace Cosmo.Cms.Model.Content
                     FROM    " + SQL_TABLE_OBJECTS + @" 
                     WHERE   docid = @docid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@docid", docID));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
-               {
-                  doc = ReadDocument(reader);
+               cmd.Parameters.Add(new SqlParameter("@docid", docID));
 
-                  // Reemplaza los smartTAGS del contenido HTML
-                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-                  doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  if (reader.Read())
+                  {
+                     doc = ReadDocument(reader);
+
+                     // Reemplaza los smartTAGS del contenido HTML
+                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
+                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+                  }
                }
             }
 
@@ -95,17 +94,19 @@ namespace Cosmo.Cms.Model.Content
                            INNER JOIN " + SQL_TABLE_OBJECTS + @" ON (" + SQL_TABLE_RELOBJOBJ + @".docdestid=" + SQL_TABLE_OBJECTS + @".docid) 
                     WHERE  docsourceid = @docsourceid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@docsourceid", doc.ID));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@docsourceid", doc.ID));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  reldoc = ReadDocument(reader);
-                  if (reldoc != null)
+                  while (reader.Read())
                   {
-                     doc.RelatedDocuments.Add(reldoc);
+                     reldoc = ReadDocument(reader);
+                     if (reldoc != null)
+                     {
+                        doc.RelatedDocuments.Add(reldoc);
+                     }
                   }
                }
             }
@@ -117,46 +118,44 @@ namespace Cosmo.Cms.Model.Content
                     WHERE     iddocid = @iddocid 
                     ORDER BY  idorder Asc, idimgid Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@iddocid", doc.ID));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
-               {
-                  Photo picture = new Photo();
-                  picture.ID = reader.GetInt32(0);
-                  picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-                  picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-                  picture.PictureFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
-                  picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
-                  picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
-                  // picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
-                  picture.ThumbnailFile = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
-                  picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
-                  picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
-                  picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
-                  picture.Author = reader.IsDBNull(10) ? string.Empty : reader.GetString(10);
-                  picture.Created = reader.GetDateTime(11);
-                  picture.Shows = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
+               cmd.Parameters.Add(new SqlParameter("@iddocid", doc.ID));
 
-                  doc.RelatedPictures.Add(picture);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     Photo picture = new Photo();
+                     picture.ID = reader.GetInt32(0);
+                     picture.FolderId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                     picture.Template = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
+                     picture.PictureFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(3) ? string.Empty : reader.GetString(3)));
+                     picture.PictureWidth = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
+                     picture.PictureHeight = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
+                     // picture.ThumbnailFile = _ws.FileSystemService.GetFileURL(new PhotosFSID(), (reader.IsDBNull(6) ? string.Empty : reader.GetString(6)));
+                     picture.ThumbnailFile = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
+                     picture.ThumbnailWidth = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
+                     picture.ThumbnailHeight = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
+                     picture.Description = reader.IsDBNull(9) ? string.Empty : reader.GetString(9);
+                     picture.Author = reader.IsDBNull(10) ? string.Empty : reader.GetString(10);
+                     picture.Created = reader.GetDateTime(11);
+                     picture.Shows = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
+
+                     doc.RelatedPictures.Add(picture);
+                  }
                }
             }
 
             return doc;
          }
-         catch (Exception err)
+         catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".Item()", 
-                                        err.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-            throw err;
+            _ws.Logger.Error(this, "Item", ex); 
+            throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -171,27 +170,6 @@ namespace Cosmo.Cms.Model.Content
       public void Add(Document document)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
-         //FileInfo picfile = null;
-         //FileInfo attfile = null;
-
-         //// Averigua si existen los archivos adjuntos al documento
-         //if (!String.IsNullOrEmpty(document.Thumbnail))
-         //{
-         //   picfile = new FileInfo(document.Thumbnail);
-         //   if (!picfile.Exists)
-         //   {
-         //      throw new Exception("No se encuentra el archivo correspondiente a la imagen miniatura.");
-         //   }
-         //}
-         //if (!String.IsNullOrEmpty(document.Attachment))
-         //{
-         //   attfile = new FileInfo(document.Attachment);
-         //   if (!attfile.Exists)
-         //   {
-         //      throw new Exception("No se encuentra el archivo correspondiente al contenido adjunto.");
-         //   }
-         //}
 
          try
          {
@@ -205,26 +183,31 @@ namespace Cosmo.Cms.Model.Content
                      "VALUES " +
                         "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
-               cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
-               cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
-               cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-               // cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
-               cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-               cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
-               cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
-               // cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
-               cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
-               cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
-               cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
-               cmd.ExecuteNonQuery();
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
+                  cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
+                  cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
+                  cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
+                  // cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
+                  cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
+                  cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
+                  cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
+                  // cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
+                  cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
+                  cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
+                  cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
+                  cmd.ExecuteNonQuery();
+               }
 
                // Obtiene el nuevo ID
                sql = "SELECT Top 1 Max(docid) " +
                      "FROM " + SQL_TABLE_OBJECTS;
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               document.ID = (int)cmd.ExecuteScalar();
+
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  document.ID = (int)cmd.ExecuteScalar();
+               }
 
                // Ensure that the private folder for a object is created.
                EnsureObjectFolderExists(document.ID, false);
@@ -238,15 +221,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Add()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Add", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -258,40 +237,11 @@ namespace Cosmo.Cms.Model.Content
       public void Update(Document document)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
-         //FileInfo attfile = null;
-         //FileInfo picfile = null;
 
          try
          {
             // Ensure that the private folder for a object is created.
             EnsureObjectFolderExists(document.ID, false);
-
-            // Copy or update the thumbnail
-            //if (!String.IsNullOrEmpty(document.Thumbnail))
-            //{
-            //   picfile = new FileInfo(document.Thumbnail);
-            //   if (!picfile.Exists)
-            //   {
-            //      throw new Exception("No se encuentra o no está accesible el archivo correspondiente a la imagen miniatura.");
-            //   }
-
-            //   // Si existe un archivo con el mismo nombre lo sobreescribe
-            //   picfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), picfile.Name));
-            //}
-
-            // Copy or update the attached file
-            //if (!String.IsNullOrEmpty(document.Attachment))
-            //{
-            //   attfile = new FileInfo(document.Attachment);
-            //   if (!attfile.Exists)
-            //   {
-            //      throw new Exception("No se encuentra o no está accesible el archivo adjunto.");
-            //   }
-
-            //   // Si existe un archivo con el mismo nombre lo sobreescribe
-            //   attfile.CopyTo(_ws.FileSystemService.GetFilePath(new DocumentFSID(document.ID), attfile.Name));
-            //}
 
             _ws.DataSource.Connect();
 
@@ -309,56 +259,28 @@ namespace Cosmo.Cms.Model.Content
                            docupdated = getdate() 
                     WHERE  docid = @docid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
-            cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
-            cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
-            cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-            cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-            cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == Common.CmsPublishStatus.PublishStatus.Published ? true : false));
-            cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
-            cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
-            cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
-            cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
-            cmd.ExecuteNonQuery();
-
-//            // Add content thumbnail if provided
-//            if (!String.IsNullOrEmpty(document.Thumbnail))
-//            {
-//               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
-//                       SET    docpic = @docpic 
-//                       WHERE  docid = @docid";
-
-//               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-//               cmd.Parameters.Add(new SqlParameter("@docpic", picfile.Name));
-//               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
-//               cmd.ExecuteNonQuery();
-//            }
-
-            // Add content attachment if provided
-//            if (!String.IsNullOrEmpty(document.Attachment))
-//            {
-//               sql = @"UPDATE " + SQL_TABLE_OBJECTS + @" 
-//                       SET    docfile = @docfile 
-//                       WHERE  docid = @docid";
-
-//               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-//               cmd.Parameters.Add(new SqlParameter("@docfile", attfile.Name));
-//               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
-//               cmd.ExecuteNonQuery();
-//            }
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@docfolder", document.FolderId));
+               cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
+               cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
+               cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
+               cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
+               cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == Common.CmsPublishStatus.PublishStatus.Published ? true : false));
+               cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
+               cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
+               cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
+               cmd.Parameters.Add(new SqlParameter("@docid", document.ID));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Update()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Update", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -375,7 +297,6 @@ namespace Cosmo.Cms.Model.Content
          string link = string.Empty;
          Document document = null;
          List<Document> list = new List<Document>();
-         SqlCommand cmd = null;
 
          _ws.DataSource.Connect();
 
@@ -393,15 +314,17 @@ namespace Cosmo.Cms.Model.Content
                      "CMS_DOCS.DOCSECTION, " +
                      "CMS_DOCS.DOCDATE DESC";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@folderId", folderid));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@folderId", folderid));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  document = ReadDocument(reader);
-                  if (document != null) list.Add(document);
+                  while (reader.Read())
+                  {
+                     document = ReadDocument(reader);
+                     if (document != null) list.Add(document);
+                  }
                }
             }
 
@@ -409,15 +332,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetHighlighted()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetHighlighted", ex); 
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -429,7 +348,6 @@ namespace Cosmo.Cms.Model.Content
       public void AddFolder(DocumentFolder folder)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -441,21 +359,26 @@ namespace Cosmo.Cms.Model.Content
                sql = @"INSERT INTO " + SQL_TABLE_FOLDERS + @" (folderparentid, foldername, folderdesc, foldershowtitle, folderorder, foldercreated, folderenabled, updated, foldermenu) 
                        VALUES (@folderparentid, @foldername, @folderdesc, @foldershowtitle, @folderorder, getdate(), @folderenabled, getdate(), @foldermenu)";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
-               cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
-               cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
-               cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
-               cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
-               cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
-               cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
-               cmd.ExecuteNonQuery();
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
+                  cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
+                  cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
+                  cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
+                  cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
+                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+                  cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
+                  cmd.ExecuteNonQuery();
+               }
 
                // Get the new unique identifier
                sql = @"SELECT Top 1 Max(folderid) 
                        FROM " + SQL_TABLE_FOLDERS;
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               folder.ID = (int)cmd.ExecuteScalar();
+
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  folder.ID = (int)cmd.ExecuteScalar();
+               }
 
                // Ensure that the private folder for a object is created.
                EnsureObjectFolderExists(folder.ID, true);
@@ -465,15 +388,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".AddFolder()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "AddFolder", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -485,7 +404,6 @@ namespace Cosmo.Cms.Model.Content
       public void UpdateFolder(DocumentFolder folder)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -508,16 +426,18 @@ namespace Cosmo.Cms.Model.Content
                               foldermenu = @foldermenu 
                        WHERE  folderid = @folderid";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
-               cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
-               cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
-               cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
-               cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
-               cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
-               cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
-               cmd.Parameters.Add(new SqlParameter("@folderid", folder.ID));
-               cmd.ExecuteNonQuery();
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@folderparentid", folder.ParentID));
+                  cmd.Parameters.Add(new SqlParameter("@foldername", folder.Name));
+                  cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
+                  cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
+                  cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
+                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+                  cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
+                  cmd.Parameters.Add(new SqlParameter("@folderid", folder.ID));
+                  cmd.ExecuteNonQuery();
+               }
 
                trans.Commit();
             }
@@ -525,15 +445,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".UpdateFolder()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "UpdateFolder", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -548,7 +464,6 @@ namespace Cosmo.Cms.Model.Content
          string sql = string.Empty;
          DocumentFolder folder = null;
          List<DocumentFolder> folders = new List<DocumentFolder>();
-         SqlCommand cmd = null;
 
          _ws.DataSource.Connect();
 
@@ -565,15 +480,17 @@ namespace Cosmo.Cms.Model.Content
                     ORDER BY  folderorder Asc, 
                               foldername Asc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@folderparentid", parentId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@folderparentid", parentId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadFolder(reader, true);
-                  folders.Add(folder);
+                  while (reader.Read())
+                  {
+                     folder = ReadFolder(reader, true);
+                     folders.Add(folder);
+                  }
                }
             }
 
@@ -581,15 +498,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetSubfolders(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetSubfolders", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -613,15 +526,12 @@ namespace Cosmo.Cms.Model.Content
       {
          string sql = string.Empty;
          DocumentFolder folder = null;
-         SqlCommand cmd = null;
 
          // Evita realizar consultas de objetos no existentes
          if (folderId <= 0)
          {
             return null;
          }
-
-
 
          try
          {
@@ -639,14 +549,16 @@ namespace Cosmo.Cms.Model.Content
                     ORDER BY  folderorder Asc, 
                               foldername Asc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@folderid", folderId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@folderid", folderId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadFolder(reader, true);
+                  if (reader.Read())
+                  {
+                     folder = ReadFolder(reader, true);
+                  }
                }
             }
 
@@ -662,7 +574,7 @@ namespace Cosmo.Cms.Model.Content
             }
             else
             {
-               folder.Documents = GetDocuments(folderId);
+               folder.Documents = GetAllByFolder(folderId);
                folder.Objects = folder.Documents.Count;
                folder.Subfolders = GetSubfolders(folderId);
             }
@@ -671,15 +583,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolder(int,bool)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolder", ex);
             throw ex; 
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -689,12 +597,11 @@ namespace Cosmo.Cms.Model.Content
       /// </summary>
       /// <param name="folderId">Identificador de la carpeta.</param>
       /// <returns>Un array de objetos <see cref="Document"/>.</returns>
-      public List<Document> GetDocuments(int folderId)
+      public List<Document> GetAllByFolder(int folderId)
       {
          string sql = string.Empty;
          Document doc = null;
          List<Document> docs = new List<Document>();
-         SqlCommand cmd = null;
 
          _ws.DataSource.Connect();
 
@@ -709,21 +616,23 @@ namespace Cosmo.Cms.Model.Content
                   "ORDER BY " +
                      "docupdated DESC";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
-               {
-                  doc = ReadDocument(reader);
-                  if (doc != null)
-                  {
-                     // Reemplaza los smartTAGS del contenido HTML
-                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+               cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
 
-                     docs.Add(doc);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     doc = ReadDocument(reader);
+                     if (doc != null)
+                     {
+                        // Reemplaza los smartTAGS del contenido HTML
+                        doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
+                        doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+
+                        docs.Add(doc);
+                     }
                   }
                }
             }
@@ -732,15 +641,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetDocuments(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetDocuments", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -755,7 +660,6 @@ namespace Cosmo.Cms.Model.Content
       {
          int actfolder = folderId;
          int parentid = 0;
-         SqlCommand cmd = null;
          DocumentFolder folder = null;
          List<DocumentFolder> items = new List<DocumentFolder>();
 
@@ -770,27 +674,29 @@ namespace Cosmo.Cms.Model.Content
                             "FROM " + SQL_TABLE_FOLDERS + " " +
                             "WHERE folderid=@folderid";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-               cmd.Parameters.Add(new SqlParameter("@folderid", actfolder));
-
-               using (SqlDataReader reader = cmd.ExecuteReader())
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
                {
-                  if (reader.Read())
+                  cmd.Parameters.Add(new SqlParameter("@folderid", actfolder));
+
+                  using (SqlDataReader reader = cmd.ExecuteReader())
                   {
-                     folder = ReadFolder(reader, false);
-
-                     if (actfolder == folderId)
+                     if (reader.Read())
                      {
-                        items.Add(folder);
-                        parentid = folder.ParentID;
-                     }
-                     else
-                     {
-                        // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
-                        items.Add(folder);
-                     }
+                        folder = ReadFolder(reader, false);
 
-                     actfolder = folder.ParentID;
+                        if (actfolder == folderId)
+                        {
+                           items.Add(folder);
+                           parentid = folder.ParentID;
+                        }
+                        else
+                        {
+                           // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
+                           items.Add(folder);
+                        }
+
+                        actfolder = folder.ParentID;
+                     }
                   }
                }
             }
@@ -817,15 +723,11 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolderRoute(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderRoute", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -850,7 +752,6 @@ namespace Cosmo.Cms.Model.Content
       private int GetFolderItems(int folderId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          _ws.DataSource.Connect();
 
@@ -863,22 +764,19 @@ namespace Cosmo.Cms.Model.Content
                   "WHERE " +
                      "docenabled=1 AND docfolder=@docfolder";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
-
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@docfolder", folderId));
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolderItems(int)",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderItems", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }

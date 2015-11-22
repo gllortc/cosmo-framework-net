@@ -737,6 +737,97 @@
             Comparador que permite ordenar alfabéticamente los grupos de controles.
             </summary>
         </member>
+        <member name="T:Cosmo.Diagnostics.Impl.FileLogger">
+            <summary>
+            Debugger class that allow applications to write log files.
+            </summary>
+            <remarks>
+            The current log file is located on:
+            [DLL or APP path]\LOGS\[YEAR]\[MONTH]\EMDEP_[Date in format yyyyMMdd].log
+            </remarks>
+        </member>
+        <member name="M:Cosmo.Diagnostics.ILogger.GetByID(System.Int32)">
+            <summary>
+            Gets a log entry by its unique identifier.
+            </summary>
+            <param name="id">Log entry unique identifier.</param>
+            <returns>An instance of <see cref="T:Cosmo.Diagnostics.LogEntry"/> or <c>null</c> if the identifier doesn't exist.</returns>
+        </member>
+        <member name="M:Cosmo.Diagnostics.ILogger.GetAll">
+            <summary>
+            Gets a list of all entries.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Diagnostics.Impl.FileLogger.FORMAT_DATETIME_LONG">
+            <summary>DateTime format to show timestamp on LOG entries</summary>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.FileLogger.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.Diagnostics.Impl.FileLogger"/>.
+            </summary>
+            <param name="workspace">Workspace actual</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.FileLogger.CheckForLogFile">
+            <summary>
+            Ensure that the log file is created and located in the correct folder.
+            </summary>
+            <remarks>
+            The current log file is located on:
+            [DLL or APP path]\LOGS\[YEAR]\[MONTH]\EMDEP_[Date in format yyyyMMdd].log
+            </remarks>
+        </member>
+        <member name="P:Cosmo.Diagnostics.Impl.FileLogger.CurrentLogFilename">
+            <summary>
+            Gets the current active log file (name and path).
+            </summary>
+        </member>
+        <member name="T:Cosmo.Diagnostics.Impl.SqlSrvLogger">
+            <summary>
+            Genera una clase de servicio para la gestión del registro de eventos.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+            <summary>
+            Gets a new instance of Logger
+            </summary>
+            <param name="workspace">Workspace actual</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.Add(Cosmo.Diagnostics.LogEntry)">
+            <summary>
+            Agrega una entrada en el registro de eventos.
+            </summary>
+            <param name="workspace">Workspace actual.</param>
+            <param name="logentry">Registro a agregar.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.Delete(System.Int32)">
+            <summary>
+            Remove an event from the Cosmo logs.
+            </summary>
+            <param name="id">Identificador de la entrada al registro</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.GetByID(System.Int32)">
+            <summary>
+            Gets a log entry by its unique identifier.
+            </summary>
+            <param name="id">Log entry unique identifier.</param>
+            <returns>An instance of <see cref="T:Cosmo.Diagnostics.LogEntry"/> or <c>null</c> if the identifier doesn't exist.</returns>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.GetAll">
+            <summary>
+            Gets a list of all entries.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.GetByType(Cosmo.Diagnostics.LogEntry.LogEntryType)">
+            <summary>
+            Genera una lista de los objetos contenidos en una carpeta.
+            </summary>
+            <param name="status">Identificador de la carpeta que contiene los objetos.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.ReadEntity(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Gets a log entry from reader.
+            </summary>
+        </member>
         <member name="T:Cosmo.FileSystem.IFileSystemID">
             <summary>
             Implements a file system service unique ID for all types of content.
@@ -809,25 +900,25 @@
             Carpeta indfefinida
             </summary>
         </member>
-        <member name="T:Cosmo.FileSystem.IFileSystemService">
+        <member name="T:Cosmo.FileSystem.FileSystemModule">
             <summary>
             Declaración de la clase que deben implementar todos los módulos del servicio FileSystem.
             </summary>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.#ctor(Cosmo.Workspace)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.#ctor(Cosmo.Workspace)">
             <summary>
-            Gets a new instance of <see cref="T:Cosmo.FileSystem.IFileSystemService"/>.
+            Gets a new instance of <see cref="T:Cosmo.FileSystem.FileSystemModule"/>.
             </summary>
-            <param name="workspace">Una instancia de <see cref="P:Cosmo.FileSystem.IFileSystemService.Workspace"/>.</param>
+            <param name="workspace">Una instancia de <see cref="P:Cosmo.FileSystem.FileSystemModule.Workspace"/>.</param>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetServicePath(System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetServicePath(System.String)">
             <summary>
             Obtiene la ruta física a la carpeta de un determinado servicio.
             </summary>
             <param name="serviceFolderName">Identificador del objeto.</param>
             <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(System.String,System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFilePath(System.String,System.String)">
             <summary>
             Gets the path (without filename) to a object folder.
             </summary>
@@ -835,7 +926,7 @@
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>A string containing the requested path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFilePath(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Gets the path (without filename) to a object folder.
             </summary>
@@ -843,7 +934,7 @@
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>A string containing the requested path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFilePath(Cosmo.FileSystem.IFileSystemID,System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFilePath(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Gets the path (with filename) to a object related file.
             </summary>
@@ -851,7 +942,7 @@
             <param name="filename">Filename without path.</param>
             <returns>A string containing the requested filename and path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
             Gets the URL to access a file related to a content object.
             </summary>
@@ -859,7 +950,7 @@
             <param name="filename">Nombre del archivo (sin ruta).</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFileURL(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Obtiene la URL a un archivo asociado a un objeto.
             </summary>
@@ -868,7 +959,7 @@
             <param name="relativeUrl">Indica si se desea obtener una URL relativa.</param>
             <returns>La URL al archivo solicitado.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFileURL(System.String,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFileURL(System.String,System.String,System.Boolean)">
             <summary>
             Gets the URL to access a file stored in workspace file system.
             </summary>
@@ -877,35 +968,35 @@
             <param name="relativeUrl">Indicate if the URL must be relative to the current workspace URL.</param>
             <returns>A string containing the requested URL.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFolder(Cosmo.FileSystem.IFileSystemID)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetObjectFolder(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene la ruta física a la carpeta contenedora de un objeto.
             </summary>
             <param name="uid">Identificador del objeto.</param>
             <returns>La ruta al directorio privado de un objeto.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFolder(System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetObjectFolder(System.String)">
             <summary>
             Gets the absolute path from a relative path.
             </summary>
             <param name="relativePath">A string containing the relative path.</param>
             <returns>A string containing the requested absolute path.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFiles(Cosmo.FileSystem.IFileSystemID)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetObjectFiles(Cosmo.FileSystem.IFileSystemID)">
             <summary>
             Obtiene una lista con los archivos asociados a un objeto.
             </summary>
             <param name="uid">Identificador del objeto.</param>
             <returns>Una lista de instancias de <see cref="T:System.IO.FileInfo"/> que representan los archivos asociados al objeto.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetObjectFiles(System.String)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetObjectFiles(System.String)">
             <summary>
             Gets a list of files contained in a folder on workstation file system.
             </summary>
             <param name="relativePath">A string containing the relative path.</param>
             <returns>A list of <see cref="T:System.IO.FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.DeleteFile(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.DeleteFile(Cosmo.FileSystem.IFileSystemID,System.String,System.Boolean)">
             <summary>
             Delete a file associated to an object.
             </summary>
@@ -913,19 +1004,19 @@
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
-        <member name="M:Cosmo.FileSystem.IFileSystemService.GetFolderName(Cosmo.FileSystem.WorkspaceFolders)">
+        <member name="M:Cosmo.FileSystem.FileSystemModule.GetFolderName(Cosmo.FileSystem.WorkspaceFolders)">
             <summary>
             Devuelve el nombre de una carpeta Cosmo
             </summary>
             <param name="folder">Identificador de la carpeta</param>
             <returns>Una cadena que representa el nombre de la carpeta</returns>
         </member>
-        <member name="P:Cosmo.FileSystem.IFileSystemService.Workspace">
+        <member name="P:Cosmo.FileSystem.FileSystemModule.Workspace">
             <summary>
-            Devuelve la instancia de <see cref="P:Cosmo.FileSystem.IFileSystemService.Workspace"/> usada en el módulo.
+            Devuelve la instancia de <see cref="P:Cosmo.FileSystem.FileSystemModule.Workspace"/> usada en el módulo.
             </summary>
         </member>
-        <member name="P:Cosmo.FileSystem.IFileSystemService.ApplicationPath">
+        <member name="P:Cosmo.FileSystem.FileSystemModule.ApplicationPath">
             <summary>
             Devuelve la ruta raíz de la aplicación.
             </summary>
@@ -1328,6 +1419,13 @@
             <param name="domId">DOM ID to be converted.</param>
             <returns>A string that can be used as a part of a JavaScript function name.</returns>
         </member>
+        <member name="M:Cosmo.UI.Scripting.Script.ConvertInvokeCallToLink(System.String)">
+            <summary>
+            Convert a JavaScript method call to link.
+            </summary>
+            <param name="jsInvokeCall">The JavaScript method call to transform.</param>
+            <returns>A string containing the requested link.</returns>
+        </member>
         <member name="M:Cosmo.UI.Scripting.Script.Initialize">
             <summary>
             Initializes the instance data.
@@ -1504,48 +1602,14 @@
             Example: The url for query will be: '../data/films/queries/%QUERY'
             </remarks>
         </member>
-        <member name="T:Cosmo.Web.Handlers.DataRestHandler">
+        <member name="T:Cosmo.Web.AdminLogs">
             <summary>
-            Cosmo Data Services REST handler.
+            Implements a page that allows admins to manage user accounts.
             </summary>
         </member>
-        <member name="F:Cosmo.Web.Handlers.DataRestHandler.PARAM_FILENAME">
-            <summary>parámetro de llamada: Nombre de archivo.</summary>
-        </member>
-        <member name="F:Cosmo.Web.Handlers.DataRestHandler.COMMAND_LIST">
-            <summary>Comando para descargar un fichero asociado a un objeto.</summary>
-        </member>
-        <member name="M:Cosmo.Web.Handlers.DataRestHandler.ServiceRequest(System.String)">
+        <member name="T:Cosmo.UI.PageView">
             <summary>
-            Método invocado al recibir una petición.
-            </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
-        </member>
-        <member name="M:Cosmo.Web.Handlers.DataRestHandler.GetDataList(System.String)">
-            <summary>
-            Gets an URL to invoke <c>DataList</c> REST handler method.
-            </summary>
-            <param name="dataListId">DataList unique identifier.</param>
-            <returns>A string containing the requested URL.</returns>
-        </member>
-        <member name="M:Cosmo.Web.Handlers.DataRestHandler.DataList(System.String)">
-            <summary>
-            Get a DataList and send it to client.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Web.Handlers.DataRestHandler.ServiceUrl">
-            <summary>
-            Devuelve la URL a la que se debe atacar para realizar operaciones REST sobre el servicio.
-            </summary>
-        </member>
-        <member name="T:Cosmo.Web.MediaFileList">
-            <summary>
-            Representa la lista de archivos adjuntos de un documento.
-            </summary>
-        </member>
-        <member name="T:Cosmo.UI.PartialView">
-            <summary>
-            Implements a view that generates a partial page, that can be included into other views.
+            Implements a view that generates a complete HTML page.
             </summary>
         </member>
         <member name="T:Cosmo.UI.View">
@@ -1716,6 +1780,148 @@
             <remarks>
             This name is useful to use in URL creation.
             </remarks>
+        </member>
+        <member name="F:Cosmo.UI.PageView.LINK_TOP_PAGE">
+            <summary>Nombre del enlace interno de inicio de página</summary>
+        </member>
+        <member name="M:Cosmo.UI.PageView.#ctor">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.UI.PageView"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.UI.PageView.ShowError(System.String,System.String)">
+            <summary>
+            Muestra un mensaje de error.
+            </summary>
+            <param name="title">Título del error.</param>
+            <param name="description">Descripción del error.</param>
+        </member>
+        <member name="M:Cosmo.UI.PageView.ShowError(System.Exception)">
+            <summary>
+            Muestra un mensaje de error.
+            </summary>
+            <param name="exception">Excepción a mostrar.</param>
+        </member>
+        <member name="M:Cosmo.UI.PageView.Initialize">
+            <summary>
+            Initializes the instance data.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.Layout">
+            <summary>
+            Devuelve la estructura de página (contenedor de controles).
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.Title">
+            <summary>
+            Gets or sets el título de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.Description">
+            <summary>
+            Gets or sets la descripción del contenido de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.Keywords">
+            <summary>
+            Gets or sets las palabras clave que definene el contenido de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.FadeBackground">
+            <summary>
+            Indica si se debe mostrar el fondo del <em>layout</em> descolorido (o en un color alternativo dependiendo de la plantilla y/o el renderizador).
+            Esto permite, por ejemplo, mostrar páginas con un solo control como <em>Login</em>, <em>Registro</em>, etc.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.HeaderContent">
+            <summary>
+            Gets or sets la lista de controles que contiene la cabecera.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.FooterContent">
+            <summary>
+            Gets or sets la lista de controles que contiene el pie.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.LeftContent">
+            <summary>
+            Gets or sets la lista de controles que contiene la columna izquierda.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.MainContent">
+            <summary>
+            Gets or sets la lista de controles que contiene la zona de contenidos de la página.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.RightContent">
+            <summary>
+            Gets or sets la lista de controles que contiene la columna derecha.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.ActiveMenuId">
+            <summary>
+            Gets or sets el identificador del elemento de menú que debe mostrarse activo.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.Modals">
+            <summary>
+            Lista de ventanas modales que se van a invocar desde la vista actual.
+            </summary>
+        </member>
+        <member name="P:Cosmo.UI.PageView.ControlContainer">
+            <summary>
+            Gets the control container used to store the view controls.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.AdminLogs.GetURL">
+            <summary>
+            Return the appropiate URL to call this view.
+            </summary>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="T:Cosmo.Web.Handlers.DataRestHandler">
+            <summary>
+            Cosmo Data Services REST handler.
+            </summary>
+        </member>
+        <member name="F:Cosmo.Web.Handlers.DataRestHandler.PARAM_FILENAME">
+            <summary>parámetro de llamada: Nombre de archivo.</summary>
+        </member>
+        <member name="F:Cosmo.Web.Handlers.DataRestHandler.COMMAND_LIST">
+            <summary>Comando para descargar un fichero asociado a un objeto.</summary>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.ServiceRequest(System.String)">
+            <summary>
+            Método invocado al recibir una petición.
+            </summary>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.GetDataList(System.String)">
+            <summary>
+            Gets an URL to invoke <c>DataList</c> REST handler method.
+            </summary>
+            <param name="dataListId">DataList unique identifier.</param>
+            <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="M:Cosmo.Web.Handlers.DataRestHandler.DataList(System.String)">
+            <summary>
+            Get a DataList and send it to client.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Web.Handlers.DataRestHandler.ServiceUrl">
+            <summary>
+            Devuelve la URL a la que se debe atacar para realizar operaciones REST sobre el servicio.
+            </summary>
+        </member>
+        <member name="T:Cosmo.Web.MediaFileList">
+            <summary>
+            Representa la lista de archivos adjuntos de un documento.
+            </summary>
+        </member>
+        <member name="T:Cosmo.UI.PartialView">
+            <summary>
+            Implements a view that generates a partial page, that can be included into other views.
+            </summary>
         </member>
         <member name="M:Cosmo.UI.PartialView.#ctor(System.String)">
             <summary>
@@ -2806,29 +3012,6 @@
             <summary>
             Gets or sets the modal view used to show the user data.
             </summary>
-        </member>
-        <member name="T:Cosmo.UI.Formatter">
-            <summary>
-            Declare different data formats as a default formats.
-            </summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_DATETIME">
-            <summary>Formatter para fecha/hora (24h).</summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_DATE">
-            <summary>Formatter para fecha corta.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_LONGDATE">
-            <summary>Formatter para fecha larga.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_SHORTTIME">
-            <summary>Formato para hora.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_DATE_MONTHYEAR">
-            <summary>Formato para mostrar mes/año.</summary>
-        </member>
-        <member name="F:Cosmo.UI.Formatter.FORMAT_SHORTDATE">
-            <summary>Formato para mostrar mes/año.</summary>
         </member>
         <member name="T:Cosmo.UI.Scripting.ModalViewSendFormScript">
             <summary>
@@ -5307,103 +5490,6 @@
             Gets or sets la lista de elementos hijo que penden de la rama principal del árbol.
             </summary>
         </member>
-        <member name="T:Cosmo.UI.PageView">
-            <summary>
-            Implements a view that generates a complete HTML page.
-            </summary>
-        </member>
-        <member name="F:Cosmo.UI.PageView.LINK_TOP_PAGE">
-            <summary>Nombre del enlace interno de inicio de página</summary>
-        </member>
-        <member name="M:Cosmo.UI.PageView.#ctor">
-            <summary>
-            Gets a new instance of <see cref="T:Cosmo.UI.PageView"/>.
-            </summary>
-        </member>
-        <member name="M:Cosmo.UI.PageView.ShowError(System.String,System.String)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="title">Título del error.</param>
-            <param name="description">Descripción del error.</param>
-        </member>
-        <member name="M:Cosmo.UI.PageView.ShowError(System.Exception)">
-            <summary>
-            Muestra un mensaje de error.
-            </summary>
-            <param name="exception">Excepción a mostrar.</param>
-        </member>
-        <member name="M:Cosmo.UI.PageView.Initialize">
-            <summary>
-            Initializes the instance data.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.Layout">
-            <summary>
-            Devuelve la estructura de página (contenedor de controles).
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.Title">
-            <summary>
-            Gets or sets el título de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.Description">
-            <summary>
-            Gets or sets la descripción del contenido de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.Keywords">
-            <summary>
-            Gets or sets las palabras clave que definene el contenido de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.FadeBackground">
-            <summary>
-            Indica si se debe mostrar el fondo del <em>layout</em> descolorido (o en un color alternativo dependiendo de la plantilla y/o el renderizador).
-            Esto permite, por ejemplo, mostrar páginas con un solo control como <em>Login</em>, <em>Registro</em>, etc.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.HeaderContent">
-            <summary>
-            Gets or sets la lista de controles que contiene la cabecera.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.FooterContent">
-            <summary>
-            Gets or sets la lista de controles que contiene el pie.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.LeftContent">
-            <summary>
-            Gets or sets la lista de controles que contiene la columna izquierda.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.MainContent">
-            <summary>
-            Gets or sets la lista de controles que contiene la zona de contenidos de la página.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.RightContent">
-            <summary>
-            Gets or sets la lista de controles que contiene la columna derecha.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.ActiveMenuId">
-            <summary>
-            Gets or sets el identificador del elemento de menú que debe mostrarse activo.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.Modals">
-            <summary>
-            Lista de ventanas modales que se van a invocar desde la vista actual.
-            </summary>
-        </member>
-        <member name="P:Cosmo.UI.PageView.ControlContainer">
-            <summary>
-            Gets the control container used to store the view controls.
-            </summary>
-        </member>
         <member name="T:Cosmo.UI.ViewResource">
             <summary>
             Representa un recurso necesario para representar una página XHTML de Cosmo.
@@ -5718,6 +5804,19 @@
             Gets a new instance of <see cref="T:Cosmo.Utils.PluginCollection"/>.
             </summary>
         </member>
+        <member name="M:Cosmo.Utils.PluginCollection.GetList">
+            <summary>
+            Gets the list of all modules.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmo.Utils.PluginCollection.ContainsPlugin(System.String)">
+            <summary>
+            Check if a plugin contains certain module.
+            </summary>
+            <param name="pluginId">Module unique identifier.</param>
+            <returns><c>true</c> if the module exists or <c>false</c> in all other cases.</returns>
+        </member>
         <member name="M:Cosmo.Utils.PluginCollection.AddPlugin(Cosmo.Utils.Plugin)">
             <summary>
             Agrega un nuevo plugin de forma segura a la colección evitando duplicados en los identificadores.
@@ -5765,32 +5864,25 @@
             </summary>
             <param name="xmlNode">Nodo que contiene la definición del <em>plugin</em>.</param>
         </member>
+        <member name="M:Cosmo.Utils.PluginCollection.ReadTagParameter(System.Xml.XmlDocument,System.String,System.String)">
+            <summary>
+            Obtiene el valor de un parámetro de un TAG determinado.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Utils.PluginCollection.ReplaceTags(System.String)">
+            <summary>
+            Replace ID tags from element plugin ID.
+            </summary>
+        </member>
         <member name="P:Cosmo.Utils.PluginCollection.DefaultPluginId">
             <summary>
             Gets or sets el identificador del plugin seleccionado por defecto.
             </summary>
         </member>
-        <member name="P:Cosmo.Utils.PluginCollection.Plugins">
+        <member name="P:Cosmo.Utils.PluginCollection.Count">
             <summary>
-            Contiene la lista 
+            Gets the number of plugin modules in the collection.
             </summary>
-        </member>
-        <member name="T:Cosmo.Utils.XmlUtilities">
-            <summary>
-            Clase <em>helper</em> con diversasutilidades para tratar documentos XML.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.XmlUtilities.ReadTagParameter(System.Xml.XmlDocument,System.String,System.String)">
-            <summary>
-            Obtiene el valor de un parámetro de un TAG determinado.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Utils.XmlUtilities.ReplaceTags(System.String)">
-            <summary>
-            Reemplaza los valores variables en un valor obtenido de un nodo o atributo XML.
-            </summary>
-            <param name="value">Valor original a analizar.</param>
-            <returns>Valor original con las variables transformadas.</returns>
         </member>
         <member name="T:Cosmo.Web.AdminUserList">
             <summary>
@@ -5945,6 +6037,27 @@
             </summary>
             <returns>A string containing the requested URL.</returns>
         </member>
+        <member name="T:Cosmo.Web.AdminLogDataModal">
+            <summary>
+            Implements a view to show log entry data.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.AdminLogDataModal.#ctor">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.AdminLogDataModal"/>.
+            </summary>
+        </member>
+        <member name="M:Cosmo.Web.AdminLogDataModal.#ctor(System.Int32)">
+            <summary>
+            Gets an instance of <see cref="T:Cosmo.Web.AdminLogDataModal"/>.
+            </summary>
+            <param name="entryId">User identifier.</param>
+        </member>
+        <member name="P:Cosmo.Web.AdminLogDataModal.LogEntryID">
+            <summary>
+            Gets or sets the log entry unique identifier.
+            </summary>
+        </member>
         <member name="T:Cosmo.Web.UserDataModal">
             <summary>
             Implements a view that show the user public data.
@@ -6001,6 +6114,39 @@
             Return the appropiate URL to call this view.
             </summary>
             <returns>A string containing the requested URL.</returns>
+        </member>
+        <member name="T:Cosmo.WorkspaceService`1">
+            <summary>
+            Base class to develop standard Cosmo service managers.
+            </summary>
+            <typeparam name="T">Generic type for the service modules.</typeparam>
+        </member>
+        <member name="M:Cosmo.WorkspaceService`1.#ctor(Cosmo.Workspace,Cosmo.Utils.PluginCollection)">
+            <summary>
+            Gets a new instance of <see cref="T:Cosmo.WorkspaceService`1"/>.
+            </summary>
+            <param name="workspace">Current workspace.</param>
+            <param name="modules">Collection of plugin modules available to service.</param>
+        </member>
+        <member name="M:Cosmo.WorkspaceService`1.CreateModuleInstances">
+            <summary>
+            Load all defined plugin modules.
+            </summary>
+        </member>
+        <member name="P:Cosmo.WorkspaceService`1.Workspace">
+            <summary>
+            Gets the plugin modules.
+            </summary>
+        </member>
+        <member name="P:Cosmo.WorkspaceService`1.Modules">
+            <summary>
+            Gets the plugin modules.
+            </summary>
+        </member>
+        <member name="P:Cosmo.WorkspaceService`1.DefaultModule">
+            <summary>
+            Gets the default module for the plugin.
+            </summary>
         </member>
         <member name="T:Cosmo.WorkspaceSettingsException">
             <summary>
@@ -9102,142 +9248,6 @@
             <param name="Message">message to be written</param>
             <param name="EntryType">the entry type to use to categorize the message like for exmaple error or information</param>
         </member>
-        <member name="T:Cosmo.Diagnostics.ExceptionHelper">
-            <summary>
-            Exception helper class.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsError(System.Exception,System.String)">
-            <summary>
-            Traces an error message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="message">Message of the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsError(System.Exception,System.String,System.Object[])">
-            <summary>
-            Traces an error message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="format">A format string that contains zero or more format items, which correspond to objects in the args array.</param>
-            <param name="args">An object array containing zero or more objects to format.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsWarning(System.Exception,System.String)">
-            <summary>
-            Traces a warning message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="message">Message of the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsWarning(System.Exception,System.String,System.Object[])">
-            <summary>
-            Traces a warning message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="format">A format string that contains zero or more format items, which correspond to objects in the args array.</param>
-            <param name="args">An object array containing zero or more objects to format.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsInformation(System.Exception,System.String)">
-            <summary>
-            Traces an information message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="message">Message of the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsInformation(System.Exception,System.String,System.Object[])">
-            <summary>
-            Traces an information message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="format">A format string that contains zero or more format items, which correspond to objects in the args array.</param>
-            <param name="args">An object array containing zero or more objects to format.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsVerbose(System.Exception,System.String)">
-            <summary>
-            Traces a verbose message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="message">Message of the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceExceptionAsVerbose(System.Exception,System.String,System.Object[])">
-            <summary>
-            Traces a verbose message with exception details.
-            </summary>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="format">A format string that contains zero or more format items, which correspond to objects in the args array.</param>
-            <param name="args">An object array containing zero or more objects to format.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceException(System.Diagnostics.TraceLevel,System.Exception,System.String)">
-            <summary>
-            Traces a message with exception details.
-            </summary>
-            <param name="level"><see cref="T:System.Diagnostics.TraceLevel"/> to write.</param>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="message">Message of the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.TraceException(System.Diagnostics.TraceLevel,System.Exception,System.String,System.Object[])">
-            <summary>
-            Traces a message with exception details.
-            </summary>
-            <param name="level"><see cref="T:System.Diagnostics.TraceLevel"/> to write.</param>
-            <param name="ex"><see cref="T:System.Exception"/> that contains the additional information.</param>
-            <param name="format">A format string that contains zero or more format items, which correspond to objects in the args array.</param>
-            <param name="args">An object array containing zero or more objects to format.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.ExceptionHelper.GetInnerException(System.Exception)">
-            <summary>
-            Gets the inner exception.
-            </summary>
-            <param name="ex">The ex.</param>
-        </member>
-        <member name="T:Cosmo.Diagnostics.TraceHelper">
-            <summary>
-            Trace helper class.
-            </summary>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.ConvertTraceEventTypeToTraceLevel(System.Diagnostics.TraceEventType)">
-            <summary>
-            Converts a <see cref="T:System.Diagnostics.TraceEventType"/> to a <see cref="T:System.Diagnostics.TraceLevel"/>.
-            </summary>
-            <param name="eventType"><see cref="T:System.Diagnostics.TraceEventType"/> to convert.</param>
-            <returns><see cref="T:System.Diagnostics.TraceLevel"/> that represents a <see cref="T:System.Diagnostics.TraceEventType"/>.</returns>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.TraceErrorWithDetails(System.String,System.String)">
-            <summary>
-            Traces an error message with details.
-            </summary>
-            <param name="message">Message of the trace.</param>
-            <param name="details">Additional details which will be listed later in the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.TraceWarningWithDetails(System.String,System.String)">
-            <summary>
-            Traces a warning message with details.
-            </summary>
-            <param name="message">Message of the trace.</param>
-            <param name="details">Additional details which will be listed later in the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.TraceInformationWithDetails(System.String,System.String)">
-            <summary>
-            Traces an information message with details.
-            </summary>
-            <param name="message">Message of the trace.</param>
-            <param name="details">Additional details which will be listed later in the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.TraceVerboseWithDetails(System.String,System.String)">
-            <summary>
-            Traces a verbose message with details.
-            </summary>
-            <param name="message">Message of the trace.</param>
-            <param name="details">Additional details which will be listed later in the trace.</param>
-        </member>
-        <member name="M:Cosmo.Diagnostics.TraceHelper.TraceWithDetails(System.Diagnostics.TraceLevel,System.String,System.String)">
-            <summary>
-            Traces a message with details.
-            </summary>
-            <param name="level"><see cref="T:System.Diagnostics.TraceLevel"/> to write.</param>
-            <param name="message">Message of the trace.</param>
-            <param name="details">Additional details which will be listed later in the trace.</param>
-        </member>
         <member name="T:Cosmo.Utils.Drawing.JpegBaseEncoder">
             <summary>
             Clase base que engloba el codificador JPEG.
@@ -10568,6 +10578,24 @@
             Summary description for CSUtils
             </summary>
         </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_DATETIME">
+            <summary>Formatter para fecha/hora (24h).</summary>
+        </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_DATE">
+            <summary>Formatter para fecha corta.</summary>
+        </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_LONGDATE">
+            <summary>Formatter para fecha larga.</summary>
+        </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_SHORTTIME">
+            <summary>Formato para hora.</summary>
+        </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_DATE_MONTHYEAR">
+            <summary>Formato para mostrar mes/año.</summary>
+        </member>
+        <member name="F:Cosmo.Utils.Calendar.FORMAT_SHORTDATE">
+            <summary>Formato para mostrar mes/año.</summary>
+        </member>
         <member name="M:Cosmo.Utils.Calendar.DateDiff(Cosmo.Utils.Calendar.DateInterval,System.DateTime,System.DateTime)">
             <summary>
             Permite quantificar la diferencia entre dos fechas/horas
@@ -10963,7 +10991,7 @@
         </member>
         <member name="T:Cosmo.WorkspaceSettings">
             <summary>
-            Clase que gestiona la lectura y el acceso a los parámetros de configuración del workspace.
+            Cosmo settings manager.
             </summary>
         </member>
         <member name="F:Cosmo.WorkspaceSettings.PROPERTIES_FILENAME">
@@ -11121,17 +11149,22 @@
         </member>
         <member name="P:Cosmo.WorkspaceSettings.RenderModules">
             <summary>
-            Devuelve la lista de módulos de renderizado del workspace.
+            Gets the list of all render modules defined in the workspace.
             </summary>
         </member>
         <member name="P:Cosmo.WorkspaceSettings.MenuModules">
             <summary>
-            Devuelve la lista de módulos proveedores de menú.
+            Gets the list of all menu providers defined in the workspace.
             </summary>
         </member>
         <member name="P:Cosmo.WorkspaceSettings.FileSystemControllers">
             <summary>
-            Devuelve la lista de controladores del sistema de archivos.
+            Gets the list of all file system controllers defined in the workspace.
+            </summary>
+        </member>
+        <member name="P:Cosmo.WorkspaceSettings.LogModules">
+            <summary>
+            Gets the list of LOG modules.
             </summary>
         </member>
         <member name="T:Cosmo.Utils.IO.Shell">
@@ -11228,7 +11261,7 @@
             Implementa una clase para la gestión del sistema de archivos del workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.#ctor(Cosmo.Workspace)">
+        <member name="M:Cosmo.FileSystem.FileSystemService.#ctor(Cosmo.Workspace,Cosmo.Utils.PluginCollection)">
             <summary>
             Gets a new instance of <see cref="P:Cosmo.Workspace.FileSystemService"/>.
             </summary>
@@ -11327,16 +11360,6 @@
             <param name="filename">File name without path.</param>
             <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
         </member>
-        <member name="M:Cosmo.FileSystem.FileSystemService.LoadController">
-            <summary>
-            Carga el módulo controlador del sistema de archivos configurado.
-            </summary>
-        </member>
-        <member name="P:Cosmo.FileSystem.FileSystemService.ActiveControllerId">
-            <summary>
-            Devuelve el nombre (ID) del módulo activo de gestion de archivos.
-            </summary>
-        </member>
         <member name="P:Cosmo.FileSystem.FileSystemService.ApplicationPath">
             <summary>
             Devuelve la ruta raíz de la aplicación.
@@ -11411,67 +11434,83 @@
             </summary>
             <param name="workspace">Workspace actual</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Add(Cosmo.Workspace,Cosmo.Diagnostics.LogEntry)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.GetByID(System.Int32)">
             <summary>
-            Agrega una entrada en el registro de eventos.
+            Gets a log entry by its unique identifier.
             </summary>
-            <param name="workspace">Workspace actual.</param>
-            <param name="logentry">Registro a agregar.</param>
+            <param name="entryId">Log entry unique identifier.</param>
+            <returns>An instance of <see cref="T:Cosmo.Diagnostics.LogEntry"/> or <c>null</c> if the identifier doesn't exist.</returns>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Add(Cosmo.Diagnostics.LogEntry)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.GetAll">
             <summary>
-            Registra una entrada en el archivo de LOG del Workspace.
+            Gets a list of all entries.
             </summary>
-            <param name="entry">Una entrada descrita por una instancia de LogEntry.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Add(System.String,System.String,Cosmo.Diagnostics.LogEntry.LogEntryType,System.String,System.Int32)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Info(System.String)">
             <summary>
-            Registra una entrada en el archivo de LOG del Workspace.
+            Log an info event using the default logger.
             </summary>
-            <param name="message">Descripción del evento.</param>
-            <param name="appName">Nombre de la aplicación.</param>
-            <param name="type">Tipo de evento.</param>
-            <param name="module">Módulo dónde se produce el evento.</param>
-            <param name="code">Código del evento.</param>
-            <returns>Un valor booleano indicando el resultado de la operación.</returns>
+            <param name="message">A string containing the entry message.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Add(System.String,System.String,Cosmo.Diagnostics.LogEntry.LogEntryType,System.String)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Info(System.Object,System.String,System.String)">
             <summary>
-            Registra una entrada en el archivo de LOG del Workspace.
+            Log an info event using the default logger.
             </summary>
-            <param name="message">Descripción del evento.</param>
-            <param name="appName">Nombre de la aplicación.</param>
-            <param name="type">Tipo de evento.</param>
-            <param name="module">Módulo dónde se produce el evento.</param>
-            <returns>Un valor booleano indicando el resultado de la operación.</returns>
+            <param name="message">A string containing the entry message.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Add(System.String,Cosmo.Diagnostics.LogEntry.LogEntryType,System.String)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Warning(System.String)">
             <summary>
-            Registra una entrada en el archivo de LOG del Workspace.
+            Log a warning event using the default logger.
             </summary>
-            <param name="message">Descripción del evento.</param>
-            <param name="type">Tipo de evento.</param>
-            <param name="module">Módulo dónde se produce el evento.</param>
-            <returns>Un valor booleano indicando el resultado de la operación.</returns>
+            <param name="message">A string containing the entry message.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.List(System.Int32)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Warning(System.String,System.String)">
             <summary>
-            Genera una lista de los objetos contenidos en una carpeta.
+            Log a warning event using the default logger.
             </summary>
-            <param name="status">Identificador de la carpeta que contiene los objetos.</param>
+            <param name="message">A string containing the entry message.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Item(System.Int32)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Security(System.String)">
             <summary>
-            Permite recuperar los datos de un evento.
+            Log a security event using the default logger.
             </summary>
-            <param name="id">Identificador de la entrada del registro.</param>
-            <returns>Una instáncia de <see cref="T:Cosmo.Diagnostics.LogEntry"/>.</returns>
+            <param name="message">A string containing the entry message.</param>
         </member>
-        <member name="M:Cosmo.Diagnostics.LoggerService.Delete(System.Int32)">
+        <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.String)">
             <summary>
-            Elimina un evento del workspace.
+            Log a security event using the default logger.
             </summary>
-            <param name="id">Identificador de la entrada al registro</param>
+            <param name="message">A string containing the entry message.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.Exception)">
+            <summary>
+            Log a security event using the default logger.
+            </summary>
+            <param name="message">A string containing the entry message.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.String,System.Exception)">
+            <summary>
+            Log a security event using the default logger.
+            </summary>
+            <param name="message">A string containing the entry message.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.Object,System.String,System.Exception)">
+            <summary>
+            Log a security event using the default logger.
+            </summary>
+            <param name="message">A string containing the entry message.</param>
+        </member>
+        <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.Object,System.String,System.String)">
+            <summary>
+            Log a security event using the default logger.
+            </summary>
+            <param name="message">A string containing the entry message.</param>
+        </member>
+        <member name="P:Cosmo.Diagnostics.LoggerService.CurrentUserLogin">
+            <summary>
+            Gets the current authenticated user's login.
+            </summary>
+            <remarks>If there are not any user authenticated, the <c>[SYS]</c> token is returned.</remarks>
         </member>
         <member name="T:Cosmo.Security.SecurityException">
             <summary>
@@ -11506,6 +11545,9 @@
         </member>
         <member name="F:Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER">
             <summary>Login del usuario super</summary>
+        </member>
+        <member name="F:Cosmo.Security.Auth.SecurityService.ACCOUNT_SYSTEM">
+            <summary>Login correspondiente a una acción de sistema (no achacable a ningún usuario).</summary>
         </member>
         <member name="M:Cosmo.Security.Auth.SecurityService.#ctor(Cosmo.Workspace)">
             <summary>
@@ -11980,7 +12022,7 @@
         </member>
         <member name="P:Cosmo.Security.Auth.SecurityModule.Workspace">
             <summary>
-            Devuelve el workspace para el que se está autenticando.
+            Gets the current workspace.
             </summary>
         </member>
         <member name="P:Cosmo.Security.Auth.SecurityModule.ID">
@@ -12586,9 +12628,6 @@
             <summary>
             Implementa una entrada del registro de eventos
             </summary>
-        </member>
-        <member name="F:Cosmo.Diagnostics.LogEntry.LOGIN_SYSTEM">
-            <summary>Login correspondiente a una acción de sistema (no achacable a ningún usuario).</summary>
         </member>
         <member name="M:Cosmo.Diagnostics.LogEntry.#ctor">
             <summary>
@@ -13362,6 +13401,11 @@
             Devuelve las palabras clave por defecto a insertar en las páginas.
             </summary>
         </member>
+        <member name="P:Cosmo.Workspace.RequestIP">
+            <summary>
+            Gets the IP from the client.
+            </summary>
+        </member>
         <member name="P:Cosmo.Workspace.DataService">
             <summary>
             Devuelve una instancia al servicio de datos del workspace.
@@ -13424,7 +13468,7 @@
         </member>
         <member name="P:Cosmo.Workspace.ProductName">
             <summary>
-            Devuelve el nombre del producto.
+            Gets the Cosmo Core product name.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.CurrentUrl">
@@ -13435,51 +13479,6 @@
         <member name="P:Cosmo.Workspace.CurrentAbsoluteUrl">
             <summary>
             Gets the current absolute URL and query string.
-            </summary>
-        </member>
-        <member name="T:Cosmo.Properties.Resources">
-            <summary>
-              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.ResourceManager">
-            <summary>
-              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.Culture">
-            <summary>
-              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
-              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.ErrorsFound">
-            <summary>
-              Busca una cadena traducida similar a {0} has the following errors:.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.SQL_SERVER_SCRIPT">
-             <summary>
-               Busca una cadena traducida similar a -------------------------------------------------------------------
-            -- MobileWhere Server Creation Script                            --
-            -------------------------------------------------------------------
-            -- Versión: 3.0                                                  --
-            -- Última revisión: 09/05/2008                                   --
-            -------------------------------------------------------------------
-            -- Copyright © 2008 Offshore Tech S.L.                           --
-            ----------------------------- [resto de la cadena truncado]&quot;;.
-             </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.TraceWithDetails">
-             <summary>
-               Busca una cadena traducida similar a {0}
-            Details:
-            {1}.
-             </summary>
-        </member>
-        <member name="P:Cosmo.Properties.Resources.WarningsFound">
-            <summary>
-              Busca una cadena traducida similar a {0} has the following warnings:.
             </summary>
         </member>
     </members>

@@ -102,10 +102,10 @@ namespace Cosmo.Web
          HtmlContentControl usrProperties = new HtmlContentControl(this);
          usrProperties.AppendParagraph("Creado" + 
                                        HtmlContentControl.HTML_NEW_LINE +
-                                       HtmlContentControl.BoldText(user.Created.ToString(Formatter.FORMAT_SHORTDATE)));
+                                       HtmlContentControl.BoldText(user.Created.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE)));
          usrProperties.AppendParagraph("Último acceso" +
                                        HtmlContentControl.HTML_NEW_LINE +
-                                       HtmlContentControl.BoldText(user.LastLogon.ToString(Formatter.FORMAT_SHORTDATE)));
+                                       HtmlContentControl.BoldText(user.LastLogon.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE)));
          usrProperties.AppendParagraph("Accesos" +
                                        HtmlContentControl.HTML_NEW_LINE +
                                        HtmlContentControl.BoldText(user.LogonCount));

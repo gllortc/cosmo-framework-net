@@ -93,7 +93,7 @@ namespace Cosmo.Communications
          Type type = null;
          ICommunicationsModule _module;
 
-         foreach (Plugin plugin in _ws.Settings.CommunicationModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.CommunicationModules.GetList())
          {
             Object[] args = new Object[2];
             args[0] = _ws;

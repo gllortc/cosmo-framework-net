@@ -126,9 +126,9 @@ namespace Cosmo.Cms.Web
          BBCodeTextParser formatter = new BBCodeTextParser();
          foreach (ForumMessage message in messages)
          {
-            if (!month.Equals(message.Date.ToString(Formatter.FORMAT_LONGDATE)) && !first)
+            if (!month.Equals(message.Date.ToString(Cosmo.Utils.Calendar.FORMAT_LONGDATE)) && !first)
             {
-               month = message.Date.ToString(Formatter.FORMAT_LONGDATE);
+               month = message.Date.ToString(Cosmo.Utils.Calendar.FORMAT_LONGDATE);
 
                item = new TimelineItem();
                item.Type = TimelineItem.TimelineItemType.Label;
@@ -143,7 +143,7 @@ namespace Cosmo.Cms.Web
             item.TitleControl = new UserLinkControl(this, message.UserID, message.Name, userData);
             item.Icon = message.ParentMessageID == 0 ? IconControl.ICON_ENVELOPE : IconControl.ICON_REPLY;
             item.Body = formatter.ParseText(message.Body);
-            item.Time = message.Date.ToString(Formatter.FORMAT_DATETIME);
+            item.Time = message.Date.ToString(Cosmo.Utils.Calendar.FORMAT_DATETIME);
 
             if (Workspace.CurrentUser.IsAuthenticated)
             {

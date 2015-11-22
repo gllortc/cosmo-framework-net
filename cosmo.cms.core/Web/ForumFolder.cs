@@ -80,7 +80,7 @@ namespace Cosmo.Cms.Web
                                   IconControl.GetIcon(this, IconControl.ICON_COMMENT, thread.Closed) + " " + HtmlContentControl.Link(ForumThreadView.GetURL(thread.ID, folder.ID, pageIdx), thread.Title, false),
                                   new UserLinkControl(this, thread.AuthorID, thread.AuthorName, userData),
                                   (thread.MessageCount - 1).ToString(),
-                                  thread.LastReply.ToString(Formatter.FORMAT_DATETIME));
+                                  thread.LastReply.ToString(Cosmo.Utils.Calendar.FORMAT_DATETIME));
 
                table.Rows.Add(row);
             }

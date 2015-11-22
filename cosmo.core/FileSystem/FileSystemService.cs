@@ -1,5 +1,4 @@
 ﻿using Cosmo.Utils;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,11 +7,10 @@ namespace Cosmo.FileSystem
    /// <summary>
    /// Implementa una clase para la gestión del sistema de archivos del workspace.
    /// </summary>
-   public class FileSystemService
+   public class FileSystemService : WorkspaceService<FileSystemModule>
    {
       // Internal data declarations
-      private Workspace _ws = null;
-      private IFileSystemService _controller = null;
+      // private IFileSystemService _controller = null;
 
       #region Constructors
 
@@ -20,17 +18,16 @@ namespace Cosmo.FileSystem
       /// Gets a new instance of <see cref="Cosmo.Workspace.FileSystemService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/>.</param>
-      public FileSystemService(Workspace workspace)
+      public FileSystemService(Workspace workspace, PluginCollection modules)
+         : base(workspace, modules)
       {
-         // Inicializaciones
-         _ws = workspace;
-         // _folderName = _ws.Settings.GetString(WorkspaceSettingsKeys.WorkspaceFSPath, "docs");
+         // Nothing to do here
 
          // Carga el controlador seleccionado
-         if (!string.IsNullOrWhiteSpace(_ws.Settings.FileSystemControllers.DefaultPluginId))
-         {
-            LoadController();
-         }
+         //if (!string.IsNullOrWhiteSpace(Workspace.Settings.FileSystemControllers.DefaultPluginId))
+         //{
+         //   LoadController();
+         //}
       }
 
       #endregion
@@ -40,17 +37,18 @@ namespace Cosmo.FileSystem
       /// <summary>
       /// Devuelve el nombre (ID) del módulo activo de gestion de archivos.
       /// </summary>
-      public string ActiveControllerId
-      {
-         get { return _ws.Settings.FileSystemControllers.DefaultPluginId; }
-      }
+      //public string ActiveControllerId
+      //{
+      //   get { return Workspace.Settings.FileSystemControllers.DefaultPluginId; }
+      //}
 
       /// <summary>
       /// Devuelve la ruta raíz de la aplicación.
       /// </summary>
       public string ApplicationPath
       {
-         get { return _controller.ApplicationPath; }
+         // get { return _controller.ApplicationPath; }
+         get { return this.DefaultModule.ApplicationPath; }
       }
 
       #endregion
@@ -64,7 +62,8 @@ namespace Cosmo.FileSystem
       /// <returns>La ruta física en el servidor web a la carpeta solicitada.</returns>
       public string GetServicePath(string serviceFolderName)
       {
-         return _controller.GetServicePath(serviceFolderName);
+         // return _controller.GetServicePath(serviceFolderName);
+         return this.DefaultModule.GetServicePath(serviceFolderName);
       }
 
       /// <summary>
@@ -75,7 +74,8 @@ namespace Cosmo.FileSystem
       /// <returns>A string containing the requested path.</returns>
       public string GetFilePath(IFileSystemID uid)
       {
-         return _controller.GetFilePath(uid);
+         // return _controller.GetFilePath(uid);
+         return this.DefaultModule.GetFilePath(uid);
       }
 
       /// <summary>
@@ -86,7 +86,8 @@ namespace Cosmo.FileSystem
       /// <returns>A string containing the requested path.</returns>
       internal string GetFilePath(string folder, string filename)
       {
-         return _controller.GetFilePath(folder, filename);
+         // return _controller.GetFilePath(folder, filename);
+         return this.DefaultModule.GetFilePath(folder, filename);
       }
 
       /// <summary>
@@ -97,7 +98,8 @@ namespace Cosmo.FileSystem
       /// <returns>A string containing the requested filename and path.</returns>
       public string GetFilePath(IFileSystemID uid, string filename)
       {
-         return _controller.GetFilePath(uid, filename);
+         // return _controller.GetFilePath(uid, filename);
+         return this.DefaultModule.GetFilePath(uid, filename);
       }
 
       /// <summary>
@@ -108,7 +110,8 @@ namespace Cosmo.FileSystem
       /// <returns>La URL al archivo solicitado.</returns>
       public string GetFileURL(IFileSystemID uid, string filename)
       {
-         return _controller.GetFileURL(uid, filename);
+         // return _controller.GetFileURL(uid, filename);
+         return this.DefaultModule.GetFileURL(uid, filename);
       }
 
       /// <summary>
@@ -120,7 +123,8 @@ namespace Cosmo.FileSystem
       /// <returns>La URL al archivo solicitado.</returns>
       public string GetFileURL(IFileSystemID uid, string filename, bool relativeUrl)
       {
-         return _controller.GetFileURL(uid, filename, relativeUrl);
+         // return _controller.GetFileURL(uid, filename, relativeUrl);
+         return this.DefaultModule.GetFileURL(uid, filename, relativeUrl);
       }
 
       /// <summary>
@@ -132,7 +136,8 @@ namespace Cosmo.FileSystem
       /// <returns>A string containing the requested URL.</returns>
       internal string GetFileURL(string relativePath, string filename, bool relativeUrl)
       {
-         return _controller.GetFileURL(relativePath, filename, relativeUrl);
+         // return _controller.GetFileURL(relativePath, filename, relativeUrl);
+         return this.DefaultModule.GetFileURL(relativePath, filename, relativeUrl);
       }
 
       /// <summary>
@@ -142,7 +147,8 @@ namespace Cosmo.FileSystem
       /// <returns>La ruta al directorio privado de un objeto.</returns>
       public string GetObjectFolder(IFileSystemID uid)
       {
-         return _controller.GetObjectFolder(uid);
+         // return _controller.GetObjectFolder(uid);
+         return this.DefaultModule.GetObjectFolder(uid);
       }
 
       /// <summary>
@@ -152,7 +158,8 @@ namespace Cosmo.FileSystem
       /// <returns>A string containing the requested absolute path.</returns>
       internal string GetObjectFolder(string relativePath)
       {
-         return _controller.GetObjectFolder(relativePath);
+         // return _controller.GetObjectFolder(relativePath);
+         return this.DefaultModule.GetObjectFolder(relativePath);
       }
 
       /// <summary>
@@ -162,7 +169,8 @@ namespace Cosmo.FileSystem
       /// <returns>A list of <see cref="FileInfo"/> instances corresponding to the list of files contained in the specified folder.</returns>
       internal List<FileInfo> GetObjectFiles(string relativePath)
       {
-         return _controller.GetObjectFiles(relativePath);
+         // return _controller.GetObjectFiles(relativePath);
+         return this.DefaultModule.GetObjectFiles(relativePath);
       }
 
       /// <summary>
@@ -172,7 +180,8 @@ namespace Cosmo.FileSystem
       /// <returns>Una lista de instancias de <see cref="FileInfo"/> que representan los archivos asociados al objeto.</returns>
       public List<FileInfo> GetObjectFiles(IFileSystemID uid)
       {
-         return _controller.GetObjectFiles(uid);
+         // return _controller.GetObjectFiles(uid);
+         return this.DefaultModule.GetObjectFiles(uid);
       }
 
       /// <summary>
@@ -183,31 +192,32 @@ namespace Cosmo.FileSystem
       /// <param name="throwError">Indicates if the method must thrown an error if the file don't exist or if it can be deleted.</param>
       public void DeleteFile(IFileSystemID uid, string filename, bool throwError)
       {
-         _controller.DeleteFile(uid, filename, throwError);
+         // _controller.DeleteFile(uid, filename, throwError);
+         this.DefaultModule.DeleteFile(uid, filename, throwError);
       }
 
       #endregion
 
       #region Private Members
 
-      /// <summary>
-      /// Carga el módulo controlador del sistema de archivos configurado.
-      /// </summary>
-      private void LoadController()
-      {
-         Type type = null;
-         Plugin plugin = _ws.Settings.FileSystemControllers.GetPlugin(_ws.Settings.FileSystemControllers.DefaultPluginId);
+      ///// <summary>
+      ///// Carga el módulo controlador del sistema de archivos configurado.
+      ///// </summary>
+      //private void LoadController()
+      //{
+      //   Type type = null;
+      //   Plugin plugin = Workspace.Settings.FileSystemControllers.GetPlugin(Workspace.Settings.FileSystemControllers.DefaultPluginId);
 
-         if (plugin != null)
-         {
-            Object[] args = new Object[2];
-            args[0] = _ws;
-            args[1] = plugin;
+      //   if (plugin != null)
+      //   {
+      //      Object[] args = new Object[2];
+      //      args[0] = Workspace;
+      //      args[1] = plugin;
 
-            type = Type.GetType(plugin.Class, true, true);
-            _controller = (IFileSystemService)Activator.CreateInstance(type, args);
-         }
-      }
+      //      type = Type.GetType(plugin.Class, true, true);
+      //      _controller = (IFileSystemService)Activator.CreateInstance(type, args);
+      //   }
+      //}
 
       #endregion
 

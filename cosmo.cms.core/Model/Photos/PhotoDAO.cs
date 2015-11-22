@@ -1,5 +1,3 @@
-using Cosmo.Data.Connection;
-using Cosmo.Diagnostics;
 using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
@@ -125,29 +123,31 @@ namespace Cosmo.Cms.Model.Photos
       {
          string sql = string.Empty;
          PhotoFolder folder = null;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + 
-                     SQL_SELECT_FOLDER + "," +
-                     "(SELECT Count(*) FROM " + SQL_TABLE_IMAGES + " WHERE imfolder=@ifid) As items " +
-                  "FROM " + SQL_TABLE_FOLDERS + " " +
-                  "WHERE ifid=@ifid";
+            sql = @"SELECT " + SQL_SELECT_FOLDER + @",
+                           (SELECT  Count(*) 
+                            FROM    " + SQL_TABLE_IMAGES + @" 
+                            WHERE   imfolder = @ifid) As items 
+                    FROM   " + SQL_TABLE_FOLDERS + @" 
+                    WHERE  ifid = @ifid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@ifid", folderId));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@ifid", folderId));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadFolder(reader, true);
+                  if (reader.Read())
+                  {
+                     folder = ReadFolder(reader, true);
+                  }
                }
             }
 
-            // Obtiene las subcarpetas
+            // Get subfolders
             if (getSubfolders && (folder != null))
             {
                folder.Subfolders = this.GetFolders(folder.ID);
@@ -157,16 +157,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolder()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolder", ex);
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -179,27 +174,28 @@ namespace Cosmo.Cms.Model.Photos
       public List<PhotoFolder> GetFolders(int parentId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<PhotoFolder> folders = new List<PhotoFolder>();
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT     " + SQL_SELECT_FOLDER + " " +
-                  "FROM       " + SQL_TABLE_FOLDERS + " " +
-                  "WHERE      ifenabled = 1 And " +
-                  "           ifparentid = @ifparentid " +
-                  "ORDER BY   iforder  Asc, " +
-                  "           ifname   Asc";
+            sql = @"SELECT    " + SQL_SELECT_FOLDER + @" 
+                    FROM      " + SQL_TABLE_FOLDERS + @" 
+                    WHERE     ifenabled = 1 And 
+                              ifparentid = @ifparentid 
+                    ORDER BY  iforder  Asc, 
+                              ifname   Asc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folders.Add(ReadFolder(reader, false));
+                  while (reader.Read())
+                  {
+                     folders.Add(ReadFolder(reader, false));
+                  }
                }
             }
 
@@ -213,16 +209,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolders()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolders", ex);
             return null;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -244,7 +235,6 @@ namespace Cosmo.Cms.Model.Photos
       public List<PhotoFolder> GetFoldersTree(int parentId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<PhotoFolder> folders = new List<PhotoFolder>();
 
          try
@@ -258,13 +248,15 @@ namespace Cosmo.Cms.Model.Photos
                   "ORDER BY   iforder  Asc, " +
                   "           ifname   Asc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@ifparentid", parentId));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folders.Add(ReadFolder(reader, false));
+                  while (reader.Read())
+                  {
+                     folders.Add(ReadFolder(reader, false));
+                  }
                }
             }
 
@@ -278,46 +270,53 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolders()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolders", ex);
             return null;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
 
       /// <summary>
-      /// Recupera una imágen
+      /// Get an image by its unique identifier.
       /// </summary>
-      /// <param name="pictureId">Identificador de la imagen</param>
-      /// <returns>Una instáncia de CSPicture</returns>
+      /// <param name="pictureId">Picture unique identifier (DB).</param>
+      /// <returns>The requested instance or <c>null</c> if picture doesn't exist.</returns>
+      [Obsolete("Use the normalized method GetByID() instead of this.")]
       public Photo GetPicture(int pictureId)
+      {
+         return GetByID(pictureId);
+      }
+
+      /// <summary>
+      /// Get an image by its unique identifier.
+      /// </summary>
+      /// <param name="pictureId">Picture unique identifier (DB).</param>
+      /// <returns>The requested instance or <c>null</c> if picture doesn't exist.</returns>
+      public Photo GetByID(int pictureId)
       {
          string sql = string.Empty;
          Photo picture = null;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT  " + SQL_SELECT_OBJECT + " " +
-                  "FROM    " + SQL_TABLE_IMAGES + " " +
-                  "WHERE   imgid = @imgid";
+            sql = @"SELECT " + SQL_SELECT_OBJECT + @" 
+                    FROM   " + SQL_TABLE_IMAGES + @" 
+                    WHERE  imgid = @imgid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@imgid", pictureId));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@imgid", pictureId));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  picture = ReadPicture(reader);
+                  while (reader.Read())
+                  {
+                     picture = ReadPicture(reader);
+                  }
                }
             }
 
@@ -325,47 +324,54 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetPicture(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetPicture", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
 
       /// <summary>
-      /// Obtiene las imágenes de una carpeta.
+      /// Get all pictures contained in a folder.
       /// </summary>
-      /// <param name="folderId">Identificador de la carpeta contenedora.</param>
-      /// <returns>Una lista de instáncias CSPicture.</returns>
+      /// <param name="folderId">Folder unique identifier (DB).
+      /// <returns>The requested list of pictures.</returns>
+      [Obsolete("Use the normalized method GetByFolderID() instead of this.")]
       public List<Photo> GetPictures(int folderId)
       {
+         return GetByFolderID(folderId);
+      }
+
+      /// <summary>
+      /// Get all pictures contained in a folder.
+      /// </summary>
+      /// <param name="folderId">Folder unique identifier (DB).
+      /// <returns>The requested list of pictures.</returns>
+      public List<Photo> GetByFolderID(int folderId)
+      {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<Photo> pictures = new List<Photo>();
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT     " + SQL_SELECT_OBJECT + " " +
-                  "FROM       " + SQL_TABLE_IMAGES + " " +
-                  "WHERE      imfolder = @imfolder " +
-                  "ORDER BY   imgdate Desc";
+            sql = @"SELECT    " + SQL_SELECT_OBJECT + @" 
+                    FROM      " + SQL_TABLE_IMAGES + @" 
+                    WHERE     imfolder = @imfolder 
+                    ORDER BY  imgdate Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@imfolder", folderId));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@imfolder", folderId));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  pictures.Add(ReadPicture(reader));
+                  while (reader.Read())
+                  {
+                     pictures.Add(ReadPicture(reader));
+                  }
                }
             }
 
@@ -373,16 +379,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetPictures()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetByFolderID", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -392,26 +393,27 @@ namespace Cosmo.Cms.Model.Photos
       /// </summary>
       /// <param name="number">Número máximo de fotografias a recuperar.</param>
       /// <returns>Una lista de instáncias CSPicture.</returns>
-      public List<Photo> GetLatestPictures(int number)
+      public List<Photo> GetLatest(int number)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<Photo> pictures = new List<Photo>();
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT TOP " + number + " " + SQL_SELECT_OBJECT + " " +
-                  "FROM " + SQL_TABLE_IMAGES + " " +
-                  "ORDER BY imgdate DESC";
+            sql = @"SELECT    TOP " + number + " " + SQL_SELECT_OBJECT + @" 
+                    FROM      " + SQL_TABLE_IMAGES + @" 
+                    ORDER BY  imgdate DESC";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  pictures.Add(ReadPicture(reader));
+                  while (reader.Read())
+                  {
+                     pictures.Add(ReadPicture(reader));
+                  }
                }
             }
 
@@ -419,16 +421,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetLatestPictures()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetLatest", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -438,28 +435,29 @@ namespace Cosmo.Cms.Model.Photos
       /// </summary>
       /// <param name="fromDate">Fecha a partir de la cual se recuperan las imágenes.</param>
       /// <returns>Una lista de instáncias CSPicture.</returns>
-      public List<Photo> GetPictures(DateTime fromDate)
+      public List<Photo> GetLatest(DateTime fromDate)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<Photo> pictures = new List<Photo>();
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT     " + SQL_SELECT_OBJECT + " " +
-                  "FROM       " + SQL_TABLE_IMAGES + " " +
-                  "WHERE      imgdate >= @creationDate " +
-                  "ORDER BY   imgdate Desc";
+            sql = @"SELECT    " + SQL_SELECT_OBJECT + @" 
+                    FROM      " + SQL_TABLE_IMAGES + @" 
+                    WHERE     imgdate >= @creationDate 
+                    ORDER BY  imgdate Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@creationDate", fromDate));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@creationDate", fromDate));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  pictures.Add(ReadPicture(reader));
+                  while (reader.Read())
+                  {
+                     pictures.Add(ReadPicture(reader));
+                  }
                }
             }
 
@@ -467,16 +465,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetPictures()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetLatest", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -486,28 +479,29 @@ namespace Cosmo.Cms.Model.Photos
       /// </summary>
       /// <param name="uid">Identificador del usuario autor de las imagenes</param>
       /// <returns>Una lista de instáncias CSPicture</returns>
-      public List<Photo> GetUserPictures(int uid)
+      public List<Photo> GetByUserID(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<Photo> pictures = new List<Photo>();
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT     " + SQL_SELECT_OBJECT + " " +
-                  "FROM       " + SQL_TABLE_IMAGES + " " +
-                  "WHERE      imguserid = @imguserid " +
-                  "ORDER BY   imgdate DESC";
+            sql = @"SELECT    " + SQL_SELECT_OBJECT + @" 
+                    FROM      " + SQL_TABLE_IMAGES + @" 
+                    WHERE     imguserid = @imguserid 
+                    ORDER BY  imgdate DESC";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@imguserid", uid));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@imguserid", uid));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  pictures.Add(ReadPicture(reader));
+                  while (reader.Read())
+                  {
+                     pictures.Add(ReadPicture(reader));
+                  }
                }
             }
 
@@ -515,16 +509,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetUserPictures()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetUserPictures", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -536,7 +525,6 @@ namespace Cosmo.Cms.Model.Photos
       public void Add(Photo picture, bool copyFiles)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -579,36 +567,39 @@ namespace Cosmo.Cms.Model.Photos
             // Inserta el registro en la BBDD
             sql = "INSERT INTO " + SQL_TABLE_IMAGES + " (imfolder,imgtemplate,imgfile,imgwidth,imgheight,imgthumb,imgthwidth,imgthheigth,imgdesc,imgauthory,imgdate,imgshows,imguserid) " +
                   "VALUES (@imfolder,@imgtemplate,@imgfile,@imgwidth,@imgheight,@imgthumb,@imgthwidth,@imgthheigth,@imgdesc,@imgauthory,GetDate(),0,@imguserid)";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@imfolder", picture.FolderId));
-            cmd.Parameters.Add(new SqlParameter("@imgtemplate", picture.Template));
-            cmd.Parameters.Add(new SqlParameter("@imgfile", picture.PictureFile));
-            cmd.Parameters.Add(new SqlParameter("@imgwidth", picture.PictureWidth));
-            cmd.Parameters.Add(new SqlParameter("@imgheight", picture.PictureHeight));
-            cmd.Parameters.Add(new SqlParameter("@imgthumb", picture.ThumbnailFile));
-            cmd.Parameters.Add(new SqlParameter("@imgthwidth", picture.ThumbnailWidth));
-            cmd.Parameters.Add(new SqlParameter("@imgthheigth", picture.ThumbnailHeight));
-            cmd.Parameters.Add(new SqlParameter("@imgdesc", picture.Description));
-            cmd.Parameters.Add(new SqlParameter("@imgauthory", picture.Author));
-            cmd.Parameters.Add(new SqlParameter("@imguserid", picture.UserID));
-            cmd.ExecuteNonQuery();
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@imfolder", picture.FolderId));
+               cmd.Parameters.Add(new SqlParameter("@imgtemplate", picture.Template));
+               cmd.Parameters.Add(new SqlParameter("@imgfile", picture.PictureFile));
+               cmd.Parameters.Add(new SqlParameter("@imgwidth", picture.PictureWidth));
+               cmd.Parameters.Add(new SqlParameter("@imgheight", picture.PictureHeight));
+               cmd.Parameters.Add(new SqlParameter("@imgthumb", picture.ThumbnailFile));
+               cmd.Parameters.Add(new SqlParameter("@imgthwidth", picture.ThumbnailWidth));
+               cmd.Parameters.Add(new SqlParameter("@imgthheigth", picture.ThumbnailHeight));
+               cmd.Parameters.Add(new SqlParameter("@imgdesc", picture.Description));
+               cmd.Parameters.Add(new SqlParameter("@imgauthory", picture.Author));
+               cmd.Parameters.Add(new SqlParameter("@imguserid", picture.UserID));
+               cmd.ExecuteNonQuery();
+            }
 
             // Obtiene el nuevo Id
-            sql = "SELECT Top 1 Max(imgid) FROM " + SQL_TABLE_IMAGES;
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            picture.ID = (int)cmd.ExecuteScalar();
+            sql = @"SELECT Top 1 Max(imgid) 
+                    FROM   " + SQL_TABLE_IMAGES;
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               picture.ID = (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".Add()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Add", ex); 
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -630,10 +621,9 @@ namespace Cosmo.Cms.Model.Photos
       public void Delete(int pictureId, bool deleteFiles)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          // Obtiene la imagen
-         Photo picture = GetPicture(pictureId);
+         Photo picture = GetByID(pictureId);
 
          try
          {
@@ -644,16 +634,26 @@ namespace Cosmo.Cms.Model.Photos
             using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
             {
                // Elimina el registro de la base de datos
-               sql = "DELETE FROM images WHERE imgid=@imgid";
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@imgid", picture.ID));
-               cmd.ExecuteNonQuery();
+               sql = @"DELETE 
+                       FROM   images 
+                       WHERE  imgid = @imgid";
+
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@imgid", picture.ID));
+                  cmd.ExecuteNonQuery();
+               }
 
                // Elimina las relaciones con documentos
-               sql = "DELETE FROM " + SQL_TABLE_DOCIMAGES + " WHERE idimgid=@idimgid";
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans);
-               cmd.Parameters.Add(new SqlParameter("@idimgid", picture.ID));
-               cmd.ExecuteNonQuery();
+               sql = @"DELETE 
+                       FROM   " + SQL_TABLE_DOCIMAGES + @" 
+                       WHERE  idimgid = @idimgid";
+
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@idimgid", picture.ID));
+                  cmd.ExecuteNonQuery();
+               }
 
                // Elimina los archivos relacionados
                if (deleteFiles)
@@ -667,15 +667,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Delete(int)",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Delete", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -688,32 +684,28 @@ namespace Cosmo.Cms.Model.Photos
       public int GetFolderItems(int folderId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT  Count(*) " +
-                  "FROM    " + SQL_TABLE_IMAGES + " " +
-                  "WHERE   imfolder = @imfolder";
+            sql = @"SELECT Count(*) 
+                    FROM   " + SQL_TABLE_IMAGES + @" 
+                    WHERE  imfolder = @imfolder";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@imfolder", folderId));
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@imfolder", folderId));
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolderItems()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderItems", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -725,7 +717,6 @@ namespace Cosmo.Cms.Model.Photos
       public int GetFolderItems()
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -733,21 +724,19 @@ namespace Cosmo.Cms.Model.Photos
 
             sql = "SELECT  Count(*) " + 
                   "FROM    " + SQL_TABLE_IMAGES;
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            return (int)cmd.ExecuteScalar();
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolderItems()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderItems", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -760,7 +749,6 @@ namespace Cosmo.Cms.Model.Photos
       public int GetFolderItems(DateTime fromDate)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -770,23 +758,19 @@ namespace Cosmo.Cms.Model.Photos
                   "FROM    " + SQL_TABLE_IMAGES + " " +
                   "WHERE   imgdate >= @creationDate";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@creationDate", fromDate));
-
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@creationDate", fromDate));
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFolderItems()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderItems", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -799,43 +783,45 @@ namespace Cosmo.Cms.Model.Photos
       /// <param name="showFoldersAtLateral">Indica si se deben mostrar las carpetas en el lateral</param>
       public List<PhotoFolder> GetFolderRoute(int folderId)
       {
+         string sql;
          int actfolder = folderId;
          int parentid = 0;
-         SqlCommand cmd = null;
          PhotoFolder folder = null;
          List<PhotoFolder> items = new List<PhotoFolder>();
 
-         _ws.DataSource.Connect();
-
          try
          {
+            _ws.DataSource.Connect();
+
             // Agrega las carpetas, de inferior a superior
             while (actfolder > 0)
             {
-               string sql = "SELECT " + SQL_SELECT_FOLDER + " " +
-                            "FROM   " + SQL_TABLE_FOLDERS + " " +
-                            "WHERE  ifid = @ifid";
+               sql = @"SELECT " + SQL_SELECT_FOLDER + @" 
+                       FROM   " + SQL_TABLE_FOLDERS + @" 
+                       WHERE  ifid = @ifid";
 
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-               cmd.Parameters.Add(new SqlParameter("@ifid", actfolder));
-               using (SqlDataReader reader = cmd.ExecuteReader())
+               using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
                {
-                  if (reader.Read())
+                  cmd.Parameters.Add(new SqlParameter("@ifid", actfolder));
+                  using (SqlDataReader reader = cmd.ExecuteReader())
                   {
-                     folder = ReadFolder(reader, false);
-
-                     if (actfolder == folderId)
+                     if (reader.Read())
                      {
-                        items.Add(folder);
-                        parentid = folder.ParentID;
-                     }
-                     else
-                     {
-                        // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
-                        items.Add(folder);
-                     }
+                        folder = ReadFolder(reader, false);
 
-                     actfolder = folder.ParentID;
+                        if (actfolder == folderId)
+                        {
+                           items.Add(folder);
+                           parentid = folder.ParentID;
+                        }
+                        else
+                        {
+                           // items.Add(new CSNavbarLinkItem(reader.GetString(1), DocumentDAO.URL_CONTENT_FOLDER_VIEW + "?" + DocumentDAO.PARAM_FOLDERID + "=" + reader.GetInt32(0) + (showFoldersAtLateral ? "&lat=1" : ""), NavbarItemPosition.Left, NavbarLinkDestination.InSameWindow));
+                           items.Add(folder);
+                        }
+
+                        actfolder = folder.ParentID;
+                     }
                   }
                }
             }
@@ -862,15 +848,11 @@ namespace Cosmo.Cms.Model.Photos
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolderRoute(int)",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderRoute", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -940,9 +922,9 @@ namespace Cosmo.Cms.Model.Photos
       /// <returns>Un nombre de archivo válido para una determinada carpeta</returns>
       public string GetFileName(int folderid, string originalFileName)
       {
+         string sql;
          string name = "image_%ROWS%";
          string extension = "jpg";
-         SqlCommand cmd = null;
 
          // Recupera la extensión del nombre del archivo
          originalFileName = originalFileName.Trim().ToLower();
@@ -952,69 +934,65 @@ namespace Cosmo.Cms.Model.Photos
          {
             _ws.DataSource.Connect();
 
-            string sql = "SELECT " +
-                         "   (SELECT Count(*) FROM " + SQL_TABLE_IMAGES + " WHERE imfolder=@ifid)+1 AS row, " +
-                         "   (SELECT Count(*) FROM " + SQL_TABLE_IMAGES + ")+1 AS rows, " +
-                         "   iffilepattern " +
-                         "FROM " + SQL_TABLE_FOLDERS + " " +
-                         "WHERE ifid=@ifid";
+            sql = @"SELECT (SELECT Count(*) FROM " + SQL_TABLE_IMAGES + @" WHERE imfolder=@ifid)+1 AS row, 
+                           (SELECT Count(*) FROM " + SQL_TABLE_IMAGES + @")+1 AS rows, 
+                           iffilepattern 
+                    FROM   " + SQL_TABLE_FOLDERS + @" 
+                    WHERE  ifid = @ifid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@ifid", folderid));
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@ifid", folderid));
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  // Obtiene el patrón del nombre
-                  name = reader.GetString(2).Trim();
-                  if (string.IsNullOrWhiteSpace(name)) return originalFileName;
-
-                  // Reemplaza los TAGs del patrón
-                  string tag = string.Empty;
-                  int row = 0;
-
-                  if (name.Contains("%ROW%"))
+                  if (reader.Read())
                   {
-                     tag = "%ROW%";
-                     row = reader.GetInt32(0);
-                  }
-                  else if (name.Contains("%ROWS%"))
-                  {
-                     tag = "%ROWS%";
-                     row = reader.GetInt32(1);
+                     // Obtiene el patrón del nombre
+                     name = reader.GetString(2).Trim();
+                     if (string.IsNullOrWhiteSpace(name)) return originalFileName;
+
+                     // Reemplaza los TAGs del patrón
+                     string tag = string.Empty;
+                     int row = 0;
+
+                     if (name.Contains("%ROW%"))
+                     {
+                        tag = "%ROW%";
+                        row = reader.GetInt32(0);
+                     }
+                     else if (name.Contains("%ROWS%"))
+                     {
+                        tag = "%ROWS%";
+                        row = reader.GetInt32(1);
+                     }
+                     else
+                     {
+                        return originalFileName;
+                     }
+
+                     FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
+                     while (file.Exists)
+                     {
+                        row++;
+                        file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
+                     }
+
+                     return file.Name;
                   }
                   else
                   {
-                     return originalFileName;
+                     throw new Exception("No se ha podido acceder a la carpeta solicitada.");
                   }
-
-                  FileInfo file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
-                  while (file.Exists)
-                  {
-                     row++;
-                     file = new FileInfo(_ws.FileSystemService.GetFilePath(new PhotosFSID(), name.Replace(tag, row.ToString()) + extension));
-                  }
-
-                  return file.Name;
-               }
-               else
-               {
-                  throw new Exception("No se ha podido acceder a la carpeta solicitada.");
                }
             }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName, 
-                                        GetType().Name + ".GetFileName()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFileName", ex); 
             throw ex;
          }
          finally
          {
-            // Cierra la conexión con la BBDD
-            IDataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }

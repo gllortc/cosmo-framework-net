@@ -34,7 +34,7 @@ namespace Cosmo.Cms.Web
          AdsDAO classifiedDao = new AdsDAO(Workspace);
 
          // Obtiene el documento y la carpeta
-         Ad classified = classifiedDao.Item(classifiedId);
+         Ad classified = classifiedDao.GetByID(classifiedId);
          AdsSection folder = classifiedDao.GetFolder(classified.FolderID);
 
          // Get the author
@@ -68,7 +68,7 @@ namespace Cosmo.Cms.Web
             contactData.Add(new KeyValue("Teléfono", IconControl.GetIcon(this, IconControl.ICON_PHONE) + HtmlContentControl.HTML_SPACE + classified.Phone));
          }
          contactData.Add(new KeyValue("Localización", IconControl.GetIcon(this, IconControl.ICON_MAP_MARKER) + HtmlContentControl.HTML_SPACE + user.City + HtmlContentControl.HTML_SPACE + "(" + Workspace.DataService.GetDataList("country").GetValueByKey(user.CountryID.ToString()) + ")"));
-         contactData.Add(new KeyValue("Fecha de publicación", classified.Updated.ToString(Formatter.FORMAT_DATE)));
+         contactData.Add(new KeyValue("Fecha de publicación", classified.Updated.ToString(Calendar.FORMAT_DATE)));
 
          PanelControl adPanel = new PanelControl(this);
          adPanel.Text = classified.Title;

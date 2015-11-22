@@ -1227,7 +1227,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("  <div class=\"input-group\">");
             xhtml.AppendLine("    <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>");
-            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Formatter.FORMAT_DATE)) + "\" />");
+            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Calendar.FORMAT_DATE)) + "\" />");
             xhtml.AppendLine("  </div>");
 
             jscalendar.AppendSourceLine("$('#" + control.DomID + "').daterangepicker({");
@@ -1240,7 +1240,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("  <div class=\"input-group\">");
             xhtml.AppendLine("    <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>");
-            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Formatter.FORMAT_DATETIME)) + "\" />");
+            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Calendar.FORMAT_DATETIME)) + "\" />");
             xhtml.AppendLine("  </div>");
 
             jscalendar.AppendSourceLine("$('#" + control.DomID + "').daterangepicker({");
@@ -1255,7 +1255,7 @@ namespace Cosmo.UI.Render.Impl
          {
             xhtml.AppendLine("  <div class=\"input-group\">");
             xhtml.AppendLine("    <span class=\"input-group-addon\"><i class=\"fa fa-clock-o\"></i></span>");
-            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Formatter.FORMAT_SHORTTIME)) + "\" />");
+            xhtml.AppendLine("    <input " + control.GetIdParameter() + control.GetNameParameter() + " class=\"form-control\" placeholder=\"" + HttpUtility.HtmlDecode(control.Placeholder) + "\" value=\"" + HttpUtility.HtmlDecode(((DateTime)control.Value).ToString(Calendar.FORMAT_SHORTTIME)) + "\" />");
             xhtml.AppendLine("  </div>");
 
             jscalendar.AppendSourceLine("$(\"#" + control.DomID + "\").timepicker({");
@@ -2468,6 +2468,7 @@ namespace Cosmo.UI.Render.Impl
       public string RenderTableRow(TableRow control)
       {
          string content;
+         TableCell cell;
          StringBuilder xhtml = new StringBuilder();
 
          if (control.Cells.Length > 0)
@@ -2475,8 +2476,11 @@ namespace Cosmo.UI.Render.Impl
             xhtml.AppendLine("  <tr " + control.GetIdParameter() + ">");
          }
 
-         foreach (TableCell cell in control.Cells)
+         foreach (TableCell tableCell in control.Cells)
          {
+            // To avoid null cells
+            cell = (tableCell != null ? tableCell : new TableCell(string.Empty)); 
+
             // Determina si debe renderizar el contenido de la celda
             if (typeof(Control).IsAssignableFrom(cell.Value.GetType()))
             {

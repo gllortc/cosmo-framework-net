@@ -212,6 +212,9 @@ namespace Cosmo.UI.Controls
                   // Save the file to filesystem
                   file.SaveAs(filePath);
 
+                  // Store event in LOG
+                  ParentView.Workspace.Logger.Info(this, "LoadValueFromRequest", "File uploaded " + filePath + " from " + ParentView.Workspace.RequestIP);
+
                   // Store the FileInfo instance as a field value to use later
                   _value = new FileInfo(filePath);
 
@@ -225,8 +228,10 @@ namespace Cosmo.UI.Controls
 
             return true;
          }
-         catch
+         catch (Exception ex)
          {
+            ParentView.Workspace.Logger.Error(this, "LoadValueFromRequest", ex);
+
             _value = null;
             return false;
          }

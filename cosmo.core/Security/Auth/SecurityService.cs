@@ -24,6 +24,8 @@ namespace Cosmo.Security.Auth
 
       /// <summary>Login del usuario super</summary>
       public const String ACCOUNT_SUPER = "SA";
+      /// <summary>Login correspondiente a una acción de sistema (no achacable a ningún usuario).</summary>
+      public const string ACCOUNT_SYSTEM = "[SYS]";
 
       #region Constructors
 
@@ -490,7 +492,7 @@ namespace Cosmo.Security.Auth
          Type type = null;
          SecurityModule _module;
 
-         foreach (Plugin plugin in _ws.Settings.AuthenticationModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.AuthenticationModules.GetList())
          {
             Object[] args = new Object[2];
             args[0] = _ws;

@@ -111,8 +111,8 @@ namespace Cosmo.Web
                row.Cells[0] = new TableCell(icon + " " + user.Login, AdminUserData.GetURL(user.ID));
                row.Cells[1] = new TableCell(user.GetDisplayName());
                row.Cells[2] = new TableCell(user.Mail);
-               row.Cells[3] = new TableCell(user.Created.ToString(Formatter.FORMAT_SHORTDATE));
-               row.Cells[4] = new TableCell(user.LastLogon.ToString(Formatter.FORMAT_SHORTDATE));
+               row.Cells[3] = new TableCell(user.Created.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE));
+               row.Cells[4] = new TableCell(user.LastLogon.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE));
                row.Cells[5] = new TableCell(user.LogonCount);
 
                table.Rows.Add(row);

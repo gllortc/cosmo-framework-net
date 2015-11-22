@@ -54,7 +54,7 @@ namespace Cosmo.Cms.Web
                Redirect(Workspace.SecurityService.GetLoginUrl(Workspace.CurrentUrl));
             }
 
-            pictures = phdao.GetUserPictures(Workspace.CurrentUser.User.ID);
+            pictures = phdao.GetByUserID(Workspace.CurrentUser.User.ID);
 
             Title = "Mis fotografias";
 
@@ -64,7 +64,7 @@ namespace Cosmo.Cms.Web
          }
          else if (folderid == FOLDER_RECENT)
          {
-            pictures = phdao.GetLatestPictures(20);
+            pictures = phdao.GetLatest(20);
 
             Title = "Fotografias recientes";
 

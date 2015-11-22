@@ -1,9 +1,7 @@
 ﻿using Cosmo.Cms.Model.Ads;
-using Cosmo.Cms.Model.Forum;
 using Cosmo.Security;
 using Cosmo.UI;
 using Cosmo.UI.Controls;
-using Cosmo.UI.Scripting;
 
 namespace Cosmo.Cms.Web
 {
@@ -95,7 +93,7 @@ namespace Cosmo.Cms.Web
             AdsDAO adao = new AdsDAO(Workspace);
 
             // Check the ad is from current user
-            Ad ad = adao.Item(adId);
+            Ad ad = adao.GetByID(adId);
 
             if (ad.UserID == Workspace.CurrentUser.User.ID)
             {
@@ -118,9 +116,7 @@ namespace Cosmo.Cms.Web
                callout.Type = ComponentColorScheme.Error;
 
                // Audit illegal delete request
-               Workspace.Logger.Add("User " + Workspace.CurrentUser.User.Login + " try to delete ad #" + adId + " without permission.",
-                                    Diagnostics.LogEntry.LogEntryType.EV_SECURITY,
-                                    GetType().Name);
+               Workspace.Logger.Security("User " + Workspace.CurrentUser.User.Login + " try to delete ad #" + adId + " without permission.");
             }
 
             Content.Add(callout);

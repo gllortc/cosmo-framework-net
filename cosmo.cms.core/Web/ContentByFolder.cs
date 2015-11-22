@@ -131,7 +131,7 @@ namespace Cosmo.Cms.Web
          panelDocs.Text = folder.Name;
 
          // Genera la lista de documentos de la carpeta
-         List<Document> documents = docs.GetDocuments(folderid);
+         List<Document> documents = docs.GetAllByFolder(folderid);
          if (documents.Count > 0)
          {
             MediaListControl thlist = DocumentUI.ConvertToMediaList(this, documents);

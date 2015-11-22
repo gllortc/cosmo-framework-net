@@ -10,7 +10,7 @@ namespace Cosmo.FileSystem.Impl
    /// <summary>
    /// Implementa una clase para la gestión del sistema de archivos del workspace.
    /// </summary>
-   public class CosmoFileSystemImpl : IFileSystemService
+   public class CosmoFileSystemImpl : FileSystemModule
    {
       // Internal data declarations
       private string _wsPath;

@@ -1,4 +1,3 @@
-using Cosmo.Diagnostics;
 using Cosmo.Security;
 using Cosmo.Security.Auth;
 using System;
@@ -103,7 +102,6 @@ namespace Cosmo.Cms.Model.Ads
       public void Add(Ad ad)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          SqlParameter param = null;
 
          // Comprueba que el usuario no tenga más anuncios de los permitidos
@@ -123,69 +121,67 @@ namespace Cosmo.Cms.Model.Ads
 
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               param = new SqlParameter("@annuserid", SqlDbType.Int);
+               param.Value = ad.UserID;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annuserid", SqlDbType.Int);
-            param.Value = ad.UserID;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annfolderid", SqlDbType.Int);
+               param.Value = ad.FolderID;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annfolderid", SqlDbType.Int);
-            param.Value = ad.FolderID;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@anntitle", SqlDbType.NVarChar, 64);
+               param.Value = ad.Title;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@anntitle", SqlDbType.NVarChar, 64);
-            param.Value = ad.Title;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annbody", SqlDbType.NText);
+               param.Value = ad.Body;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annbody", SqlDbType.NText);
-            param.Value = ad.Body;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annname", SqlDbType.NVarChar, 64);
+               param.Value = ad.UserLogin;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annname", SqlDbType.NVarChar, 64);
-            param.Value = ad.UserLogin;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annphone", SqlDbType.NVarChar, 12);
+               param.Value = ad.Phone;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annphone", SqlDbType.NVarChar, 12);
-            param.Value = ad.Phone;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annemail", SqlDbType.NVarChar, 255);
+               param.Value = ad.Mail;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annemail", SqlDbType.NVarChar, 255);
-            param.Value = ad.Mail;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annurl", SqlDbType.NVarChar, 1024);
+               param.Value = ad.URL;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annurl", SqlDbType.NVarChar, 1024);
-            param.Value = ad.URL;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annowner", SqlDbType.NVarChar, 64);
+               param.Value = string.IsNullOrWhiteSpace(ad.Owner) ? Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER : ad.Owner;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annowner", SqlDbType.NVarChar, 64);
-            param.Value = string.IsNullOrWhiteSpace(ad.Owner) ? Cosmo.Security.Auth.SecurityService.ACCOUNT_SUPER : ad.Owner;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annprice", SqlDbType.Money);
+               param.Value = ad.Price;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annprice", SqlDbType.Money);
-            param.Value = ad.Price;
-            cmd.Parameters.Add(param);
-
-            cmd.ExecuteNonQuery();
+               cmd.ExecuteNonQuery();
+            }
 
             // Gets the new database ID
             sql = @"SELECT Max(annid)
                     FROM   " + SQL_OBJ_TABLE_NAME;
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-
-            ad.ID = (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               ad.ID = (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Add()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Add", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -197,8 +193,7 @@ namespace Cosmo.Cms.Model.Ads
       /// <remarks>No permite asignar el anuncio a otro usuario.</remarks>
       public void Update(Ad ad)
       {
-         string sql = "";
-         SqlCommand cmd = null;
+         string sql = string.Empty;
 
          try
          {
@@ -216,30 +211,28 @@ namespace Cosmo.Cms.Model.Ads
 
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@anndate", ad.Created));
-            cmd.Parameters.Add(new SqlParameter("@annfolderid", ad.FolderID));
-            cmd.Parameters.Add(new SqlParameter("@anntitle", ad.Title));
-            cmd.Parameters.Add(new SqlParameter("@annbody", ad.Body));
-            cmd.Parameters.Add(new SqlParameter("@annprice", ad.Price));
-            cmd.Parameters.Add(new SqlParameter("@annphone", ad.Phone));
-            cmd.Parameters.Add(new SqlParameter("@annemail", ad.Mail));
-            cmd.Parameters.Add(new SqlParameter("@annurl", ad.URL));
-            cmd.Parameters.Add(new SqlParameter("@anndeleted", false));
-            cmd.Parameters.Add(new SqlParameter("@annid", ad.ID));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@anndate", ad.Created));
+               cmd.Parameters.Add(new SqlParameter("@annfolderid", ad.FolderID));
+               cmd.Parameters.Add(new SqlParameter("@anntitle", ad.Title));
+               cmd.Parameters.Add(new SqlParameter("@annbody", ad.Body));
+               cmd.Parameters.Add(new SqlParameter("@annprice", ad.Price));
+               cmd.Parameters.Add(new SqlParameter("@annphone", ad.Phone));
+               cmd.Parameters.Add(new SqlParameter("@annemail", ad.Mail));
+               cmd.Parameters.Add(new SqlParameter("@annurl", ad.URL));
+               cmd.Parameters.Add(new SqlParameter("@anndeleted", false));
+               cmd.Parameters.Add(new SqlParameter("@annid", ad.ID));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Update()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Update", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -253,7 +246,6 @@ namespace Cosmo.Cms.Model.Ads
       public void Delete(int adId, bool deleteRow)
       {
          string sql;
-         SqlCommand cmd = null;
 
          try
          {
@@ -271,21 +263,19 @@ namespace Cosmo.Cms.Model.Ads
             }
 
             _ws.DataSource.Connect();
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annid", adId));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annid", adId));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Delete()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Delete", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -298,12 +288,11 @@ namespace Cosmo.Cms.Model.Ads
       public void Delete(int adId)
       {
          string sql;
-         SqlCommand cmd = null;
 
          try
          {
             // Obtiene las propiedades del anuncio
-            Ad ad = this.Item(adId);
+            Ad ad = this.GetByID(adId);
 
             if (ad.Deleted)
             {
@@ -326,21 +315,19 @@ namespace Cosmo.Cms.Model.Ads
 
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annid", adId));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annid", adId));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Delete()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Delete", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -353,7 +340,6 @@ namespace Cosmo.Cms.Model.Ads
       public void DeleteAllByUser(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -363,21 +349,19 @@ namespace Cosmo.Cms.Model.Ads
                     FROM   " + SQL_OBJ_TABLE_NAME + @" 
                     WHERE  annuserid = @annuserid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annuserid", uid));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annuserid", uid));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".DeleteAll()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "DeleteAll", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -387,11 +371,10 @@ namespace Cosmo.Cms.Model.Ads
       /// </summary>
       /// <param name="adId">Identificador del anuncio.</param>
       /// <returns>Una instáncia de la clase CSAd.</returns>
-      public Ad Item(int adId)
+      public Ad GetByID(int adId)
       {
          string sql = string.Empty;
          Ad ad = null;
-         SqlCommand cmd = null;
 
          try
          {
@@ -402,14 +385,16 @@ namespace Cosmo.Cms.Model.Ads
                     WHERE  annid = @annid";
 
             // Obtiene las carpetas
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annid", adId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@annid", adId));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  ad = ReadObjectRecord(reader);
+                  if (reader.Read())
+                  {
+                     ad = ReadObjectRecord(reader);
+                  }
                }
             }
 
@@ -417,15 +402,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Item()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Item", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -437,7 +418,6 @@ namespace Cosmo.Cms.Model.Ads
       public int Count()
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -446,20 +426,18 @@ namespace Cosmo.Cms.Model.Ads
             sql = @"SELECT Count(*) As regs 
                     FROM   " + SQL_OBJ_TABLE_NAME;
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Count()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Count", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -469,11 +447,10 @@ namespace Cosmo.Cms.Model.Ads
       /// </summary>
       /// <param name="enabled">Indica si se recuperan sólo los activos (true) o todos (false).</param>
       /// <returns>Un array de instáncias CSAds.</returns>
-      public List<Ad> Items(bool enabled)
+      public List<Ad> GetByStatus(bool enabled)
       {
          string sql = string.Empty;
          List<Ad> ads = new List<Ad>();
-         SqlCommand cmd = null;
 
          try
          {
@@ -484,14 +461,19 @@ namespace Cosmo.Cms.Model.Ads
                   (enabled ? "WHERE anndeleted=0 AND DateDiff(mm, anndate, GetDate())<=@months" : string.Empty) +
                   "ORDER BY annid Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            if (enabled) cmd.Parameters.Add(new SqlParameter("@months", this.ValidityDays));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               if (enabled)
                {
-                  ads.Add(ReadObjectRecord(reader));
+                  cmd.Parameters.Add(new SqlParameter("@months", this.ValidityDays));
+               }
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     ads.Add(ReadObjectRecord(reader));
+                  }
                }
             }
 
@@ -499,15 +481,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Items()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetByStatus", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -518,11 +496,10 @@ namespace Cosmo.Cms.Model.Ads
       /// <param name="folderId">Identificador de la carpeta.</param>
       /// <param name="enabled">Indica si se recuperan sólo los activos (true) o todos (false).</param>
       /// <returns>Un array de instáncias CSAds.</returns>
-      public List<Ad> Items(int folderId, bool enabled)
+      public List<Ad> GetByFolder(int folderId, bool enabled)
       {
          string sql = string.Empty;
          List<Ad> ads = new List<Ad>();
-         SqlCommand cmd = null;
 
          try
          {
@@ -534,15 +511,17 @@ namespace Cosmo.Cms.Model.Ads
                   (enabled ? "(anndeleted=0 AND DateDiff(dd, anndate, GetDate())<=@days)" : "(anndeleted=1 Or DateDiff(dd, anndate, GetDate())>@days)") + " " +
                   "ORDER BY anndate Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
-            cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
+               cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  ads.Add(ReadObjectRecord(reader));
+                  while (reader.Read())
+                  {
+                     ads.Add(ReadObjectRecord(reader));
+                  }
                }
             }
 
@@ -550,15 +529,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Items()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Items", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -566,14 +541,13 @@ namespace Cosmo.Cms.Model.Ads
       /// <summary>
       /// Recupera los anuncios publicados por un usuario.
       /// </summary>
-      /// <param name="uid">Identificador de usuario del autor.</param>
+      /// <param name="userId">Identificador de usuario del autor.</param>
       /// <param name="enabled">Indica si se recuperan sólo los activos (true) o todos (false).</param>
       /// <returns>Un array de instáncias CSAds.</returns>
-      public List<Ad> Items(bool enabled, int uid)
+      public List<Ad> GetByUser(int userId, bool enabled)
       {
          string sql = string.Empty;
          List<Ad> ads = new List<Ad>();
-         SqlCommand cmd = null;
 
          try
          {
@@ -585,15 +559,17 @@ namespace Cosmo.Cms.Model.Ads
                   (enabled ? " And (DateDiff(dd, anndate, GetDate())<=@days AND anndeleted=0)" : string.Empty) + " " + // "(DateDiff(dd, anndate, GetDate())>@days OR anndeleted=1)") + " " +
                   "ORDER BY annid Desc";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annuserid", uid));
-            if (enabled) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@annuserid", userId));
+               if (enabled) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  ads.Add(ReadObjectRecord(reader));
+                  while (reader.Read())
+                  {
+                     ads.Add(ReadObjectRecord(reader));
+                  }
                }
             }
 
@@ -601,15 +577,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Items()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Items", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -622,7 +594,6 @@ namespace Cosmo.Cms.Model.Ads
       public void Publish(int adId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -633,21 +604,19 @@ namespace Cosmo.Cms.Model.Ads
                            anndate = GetDate() 
                     WHERE  annid = @annid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annid", adId));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annid", adId));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Publish()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Publish", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -661,29 +630,34 @@ namespace Cosmo.Cms.Model.Ads
       {
          string sql = string.Empty;
          AdsSection folder = null;
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_CAT_FIELDS_SELECT + "," +
-                         "(SELECT Count(*) AS nregs FROM " + SQL_OBJ_TABLE_NAME + " WHERE annfolderid=" + SQL_CAT_TABLE_NAME + ".annfldrid And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days) As objects " +
-                  "FROM " + SQL_CAT_TABLE_NAME + " " +
-                  "WHERE annfldrid=@annfldrid";
+            sql = @"SELECT " + SQL_CAT_FIELDS_SELECT + @", 
+                           (SELECT  Count(*) AS nregs 
+                            FROM    " + SQL_OBJ_TABLE_NAME + @" 
+                            WHERE   annfolderid = " + SQL_CAT_TABLE_NAME + @".annfldrid And 
+                                    anndeleted = 0 And 
+                                    DateDiff(dd, anndate, getdate()) <= @days) As objects 
+                    FROM   " + SQL_CAT_TABLE_NAME + @" 
+                    WHERE  annfldrid=@annfldrid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfldrid", folderId));
-            cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               if (reader.Read())
-               {
-                  folder = ReadSectionRecord(reader);
+               cmd.Parameters.Add(new SqlParameter("@annfldrid", folderId));
+               cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
 
-                  // Add information related to additional fields
-                  folder.Objects = reader.GetInt32(6);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  if (reader.Read())
+                  {
+                     folder = ReadSectionRecord(reader);
+
+                     // Add information related to additional fields
+                     folder.Objects = reader.GetInt32(6);
+                  }
                }
             }
 
@@ -691,15 +665,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolder()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolder", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -714,7 +684,6 @@ namespace Cosmo.Cms.Model.Ads
          string sql = string.Empty;
          AdsSection folder = null;
          List<AdsSection> folders = new List<AdsSection>();
-         SqlCommand cmd = null;
 
          try
          {
@@ -726,20 +695,25 @@ namespace Cosmo.Cms.Model.Ads
                   "WHERE annfldrenabled=@annfldrenabled " +
                   "ORDER BY annfldrname ASC";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfldrenabled", published));
-            if (published) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@annfldrenabled", published));
+               if (published)
                {
-                  folder = ReadSectionRecord(reader);
+                  cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
+               }
 
-                  // Add information related to additional fields
-                  folder.Objects = reader.GetInt32(6);
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     folder = ReadSectionRecord(reader);
 
-                  folders.Add(folder);
+                     // Add information related to additional fields
+                     folder.Objects = reader.GetInt32(6);
+
+                     folders.Add(folder);
+                  }
                }
             }
 
@@ -747,15 +721,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolders()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolders", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -769,30 +739,32 @@ namespace Cosmo.Cms.Model.Ads
          string sql = string.Empty;
          AdsSection folder = null;
          List<AdsSection> folders = new List<AdsSection>();
-         SqlCommand cmd = null;
 
          try
          {
             _ws.DataSource.Connect();
 
-            sql = "SELECT " + SQL_CAT_FIELDS_SELECT + ", " +
-                          "(SELECT Count(*) FROM " + SQL_OBJ_TABLE_NAME + " WHERE annfolderid=" + SQL_CAT_TABLE_NAME + ".annfldrid) As objects " +
-                  "FROM " + SQL_CAT_TABLE_NAME + " " +
-                  "ORDER BY annfldrname ASC";
+            sql = @"SELECT    " + SQL_CAT_FIELDS_SELECT + @", 
+                              (SELECT  Count(*) 
+                               FROM    " + SQL_OBJ_TABLE_NAME + @" 
+                               WHERE   annfolderid = " + SQL_CAT_TABLE_NAME + @".annfldrid) As objects 
+                    FROM      " + SQL_CAT_TABLE_NAME + @" 
+                    ORDER BY  annfldrname ASC";
 
             // Recupera las carpetas
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  folder = ReadSectionRecord(reader);
+                  while (reader.Read())
+                  {
+                     folder = ReadSectionRecord(reader);
 
-                  // Add information related to additional fields
-                  folder.Objects = reader.GetInt32(6);
+                     // Add information related to additional fields
+                     folder.Objects = reader.GetInt32(6);
 
-                  folders.Add(folder);
+                     folders.Add(folder);
+                  }
                }
             }
 
@@ -800,15 +772,11 @@ namespace Cosmo.Cms.Model.Ads
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolders()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolders", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -821,7 +789,6 @@ namespace Cosmo.Cms.Model.Ads
       public void CreateFoldersDropDownList(DropDownList list, int defaultSelected)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -834,31 +801,30 @@ namespace Cosmo.Cms.Model.Ads
                     ORDER BY  annfldrname ASC";
 
             // Rellena el control
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-
-            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               list.DataSource = reader;
-               list.DataTextField = "annfldrname";
-               list.DataValueField = "annfldrid";
-               list.DataBind();
+               using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+               {
+                  list.DataSource = reader;
+                  list.DataTextField = "annfldrname";
+                  list.DataValueField = "annfldrid";
+                  list.DataBind();
+               }
             }
 
             // Preselecciona el elemento
             if (defaultSelected > 0)
+            {
                list.Items.FindByValue(defaultSelected.ToString()).Selected = true;
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".CreateFoldersDropDownList()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "CreateFoldersDropDownList", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -881,7 +847,6 @@ namespace Cosmo.Cms.Model.Ads
       public int GetFolderItems(int folderId, bool enabled)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -892,23 +857,24 @@ namespace Cosmo.Cms.Model.Ads
                     WHERE  annfolderid = @annfolderid " +
                     (enabled ? " And anndeleted=0 And DateDiff(dd, anndate, getdate())<=@days" : string.Empty);
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
-            if (enabled) cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annfolderid", folderId));
+               if (enabled)
+               {
+                  cmd.Parameters.Add(new SqlParameter("@days", this.ValidityDays));
+               }
 
-            return (int)cmd.ExecuteScalar();
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".GetFolderItems()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetFolderItems", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -920,7 +886,6 @@ namespace Cosmo.Cms.Model.Ads
       public int Count(int uid)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -931,22 +896,19 @@ namespace Cosmo.Cms.Model.Ads
                     WHERE  annuserid = @annuserid";
 
             // Rellena las entradas de noticias al canal
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("annuserid", uid));
-            
-            return (int)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("annuserid", uid));
+               return (int)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".Count()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Count", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -977,7 +939,7 @@ namespace Cosmo.Cms.Model.Ads
          try
          {
             // Obtiene el mensaje
-            Ad ad = this.Item(adId);
+            Ad ad = this.GetByID(adId);
 
             // Obtiene el autor del mensaje
             User author = _ws.SecurityService.GetUser(ad.UserID);
@@ -1004,17 +966,11 @@ namespace Cosmo.Cms.Model.Ads
             _ws.Communications.Send(msg);
 
             // Registra la petición de contacto
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".SendContactRequest()",
-                                        "Petición de contacto [" + name + "|" + mail + "] para [" + author.Login + "|" + author.ID + "] desde " + ip,
-                                        LogEntry.LogEntryType.EV_INFORMATION));
+            _ws.Logger.Info("Petición de contacto [" + name + "|" + mail + "] para [" + author.Login + "|" + author.ID + "] desde " + ip);
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".SendContactRequest()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "SendContactRequest", ex);
             throw ex;
          }
       }
@@ -1025,51 +981,48 @@ namespace Cosmo.Cms.Model.Ads
       /// <param name="section">Una instáncia de <see cref="AdsSection"/>.</param>
       public void AddSection(AdsSection section)
       {
-         SqlCommand cmd = null;
+         string sql;
          SqlParameter param = null;
 
          try
          {
-            string sql = "INSERT INTO " + SQL_CAT_TABLE_NAME + " (" + SQL_CAT_FIELDS_INSERT + ") " +
-                         "VALUES (@annfldrname,@annfldrdesc,@annfldrenabled,@annfldrlstdefault,@annfldrnotselectable)";
-
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+             sql = "INSERT INTO " + SQL_CAT_TABLE_NAME + " (" + SQL_CAT_FIELDS_INSERT + ") " +
+                   "VALUES (@annfldrname,@annfldrdesc,@annfldrenabled,@annfldrlstdefault,@annfldrnotselectable)";
 
-            param = new SqlParameter("@annfldrname", SqlDbType.NVarChar, 64);
-            param.Value = section.Name;
-            cmd.Parameters.Add(param);
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               param = new SqlParameter("@annfldrname", SqlDbType.NVarChar, 64);
+               param.Value = section.Name;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annfldrdesc", SqlDbType.NVarChar, 255);
-            param.Value = section.Description;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annfldrdesc", SqlDbType.NVarChar, 255);
+               param.Value = section.Description;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annfldrenabled", SqlDbType.Bit);
-            param.Value = section.Enabled;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annfldrenabled", SqlDbType.Bit);
+               param.Value = section.Enabled;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annfldrlstdefault", SqlDbType.Bit);
-            param.Value = section.IsListDefault;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annfldrlstdefault", SqlDbType.Bit);
+               param.Value = section.IsListDefault;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@annfldrnotselectable", SqlDbType.Bit);
-            param.Value = section.IsNotSelectable;
-            cmd.Parameters.Add(param);
+               param = new SqlParameter("@annfldrnotselectable", SqlDbType.Bit);
+               param.Value = section.IsNotSelectable;
+               cmd.Parameters.Add(param);
 
-            cmd.ExecuteNonQuery();
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".AddSection()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "AddSection", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -1081,7 +1034,6 @@ namespace Cosmo.Cms.Model.Ads
       public void UpdateSection(AdsSection section)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -1095,26 +1047,24 @@ namespace Cosmo.Cms.Model.Ads
 
             _ws.DataSource.Connect();
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfldrname", section.Name));
-            cmd.Parameters.Add(new SqlParameter("@annfldrdesc", section.Description));
-            cmd.Parameters.Add(new SqlParameter("@annfldrenabled", section.Enabled));
-            cmd.Parameters.Add(new SqlParameter("@annfldrlstdefault", section.IsListDefault));
-            cmd.Parameters.Add(new SqlParameter("@annfldrnotselectable", section.IsNotSelectable));
-            cmd.Parameters.Add(new SqlParameter("@annfldrid", section.ID));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annfldrname", section.Name));
+               cmd.Parameters.Add(new SqlParameter("@annfldrdesc", section.Description));
+               cmd.Parameters.Add(new SqlParameter("@annfldrenabled", section.Enabled));
+               cmd.Parameters.Add(new SqlParameter("@annfldrlstdefault", section.IsListDefault));
+               cmd.Parameters.Add(new SqlParameter("@annfldrnotselectable", section.IsNotSelectable));
+               cmd.Parameters.Add(new SqlParameter("@annfldrid", section.ID));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".UpdateSection()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "UpdateSection", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }
@@ -1126,7 +1076,6 @@ namespace Cosmo.Cms.Model.Ads
       public void DeleteSection(int sectionId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -1136,32 +1085,32 @@ namespace Cosmo.Cms.Model.Ads
                     FROM   " + SQL_OBJ_TABLE_NAME + @" 
                     WHERE  annfolderid = @annfolderid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfolderid", sectionId));
-            if ((int)cmd.ExecuteScalar() > 0)
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
             {
-               throw new NodeNotEmptyException("La sección #" + sectionId + " no se puede eliminar: contiene objetos asociados.");
+               cmd.Parameters.Add(new SqlParameter("@annfolderid", sectionId));
+               if ((int)cmd.ExecuteScalar() > 0)
+               {
+                  throw new NodeNotEmptyException("La sección #" + sectionId + " no se puede eliminar: contiene objetos asociados.");
+               }
             }
 
             sql = @"DELETE 
                     FROM   " + SQL_CAT_TABLE_NAME + @" 
                     WHERE  annfldrid = @annfldrid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@annfldrid", sectionId));
-            cmd.ExecuteNonQuery();
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@annfldrid", sectionId));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(Cms.ProductName,
-                                        GetType().Name + ".DeleteSection()",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "DeleteSection", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
             _ws.DataSource.Disconnect();
          }
       }

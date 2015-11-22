@@ -34,7 +34,7 @@ namespace Cosmo.Cms.Web
          DocumentDAO docs = new DocumentDAO(Workspace);
 
          // Get document 
-         Document doc = docs.Item(docId);
+         Document doc = docs.GetByID(docId);
          if (doc == null)
          {
             ShowError("Documento no encontrado",
@@ -108,12 +108,12 @@ namespace Cosmo.Cms.Web
             if (doc.Created != DateTime.MinValue)
             {
                authContent.AppendParagraph(HtmlContentControl.BoldText("Publicado el") + HtmlContentControl.HTML_NEW_LINE +
-                                           doc.Created.ToString(Formatter.FORMAT_SHORTDATE));
+                                           doc.Created.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE));
             }
             if (doc.Updated != DateTime.MinValue)
             {
                authContent.AppendParagraph(HtmlContentControl.BoldText("Actualizado el") + HtmlContentControl.HTML_NEW_LINE +
-                                           doc.Updated.ToString(Formatter.FORMAT_SHORTDATE));
+                                           doc.Updated.ToString(Cosmo.Utils.Calendar.FORMAT_SHORTDATE));
             }
             
             PanelControl authPanel = new PanelControl(this);

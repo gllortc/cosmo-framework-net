@@ -1,5 +1,4 @@
-﻿using Cosmo.Diagnostics;
-using Cosmo.Security.Cryptography;
+﻿using Cosmo.Security.Cryptography;
 using Cosmo.Services;
 using Cosmo.Utils;
 using System;
@@ -17,9 +16,6 @@ namespace Cosmo.Security.Auth.Impl
    /// </remarks>
    public class SqlSecurityModule : SecurityModule
    {
-      // Internal data declarations
-      private Workspace _ws = null;
-
       private const int USER_OPTIONS_NOTIFY_INSIDE = 1;
       private const int USER_OPTIONS_NOTIFY_OUTSIDE = 2;
       private const int USER_OPTIONS_NOTIFY_PRIVATEMSGS = 4;
@@ -39,7 +35,7 @@ namespace Cosmo.Security.Auth.Impl
       public SqlSecurityModule(Workspace workspace, Plugin plugin)
          : base(workspace, plugin)
       {
-         _ws = workspace;
+
       }
 
       #endregion
@@ -54,28 +50,29 @@ namespace Cosmo.Security.Auth.Impl
       public override List<User> GetUsersList(User.UserStatus status)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<User> users = new List<User>();
 
          try
          {
             // Abre una conexión a la BBDD
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
-            sql = "SELECT    " + SQL_USER_FIELDS + " " +
-                  "FROM      " + SQL_USER_TABLE + " " +
+            sql = @"SELECT    " + SQL_USER_FIELDS + @" 
+                    FROM      " + SQL_USER_TABLE + " " +
                   ((int)status < 3 ? "WHERE usrstatus=@usrstatus " : string.Empty) +
                   "ORDER BY  usrlogin";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            if (status >= 0) cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)status));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               while (reader.Read())
+               if (status >= 0) cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)status));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  User user = ReadUserFields(reader);
-                  users.Add(user);
+                  while (reader.Read())
+                  {
+                     User user = ReadUserFields(reader);
+                     users.Add(user);
+                  }
                }
             }
 
@@ -83,14 +80,12 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUsersList", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "GetUsersList", ex);
             throw ex;
          }
          finally
          {
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -112,7 +107,6 @@ namespace Cosmo.Security.Auth.Impl
       {
          string sql = string.Empty;
          User user = null;
-         SqlCommand cmd = null;
 
          if (string.IsNullOrWhiteSpace(login))
          {
@@ -122,19 +116,22 @@ namespace Cosmo.Security.Auth.Impl
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             sql = "SELECT " + SQL_USER_FIELDS + " " +
                   "FROM " + SQL_USER_TABLE + " " +
                   "WHERE Upper(usrlogin) = @usrlogin";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", login.Trim().ToUpper()));
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@usrlogin", login.Trim().ToUpper()));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  user = ReadUserFields(reader);
+                  if (reader.Read())
+                  {
+                     user = ReadUserFields(reader);
+                  }
                }
             }
 
@@ -149,20 +146,23 @@ namespace Cosmo.Security.Auth.Impl
                     FROM   sysusersrel 
                     WHERE  userid = @userid Or 
                            touserid = @userid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@userid", user.ID));
 
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("@userid", user.ID));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  UserRelation relation = new UserRelation();
-                  relation.FromUserID = reader.GetInt32(0);
-                  relation.ToUserID = reader.GetInt32(2);
-                  relation.Status = (UserRelation.UserRelationStatus)reader.GetInt32(3);
-                  relation.Created = (reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4));
-                  relation.Updated = (reader.IsDBNull(5) ? DateTime.MinValue : reader.GetDateTime(5));
-                  user.Relations.Add(relation);
+                  if (reader.Read())
+                  {
+                     UserRelation relation = new UserRelation();
+                     relation.FromUserID = reader.GetInt32(0);
+                     relation.ToUserID = reader.GetInt32(2);
+                     relation.Status = (UserRelation.UserRelationStatus)reader.GetInt32(3);
+                     relation.Created = (reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4));
+                     relation.Updated = (reader.IsDBNull(5) ? DateTime.MinValue : reader.GetDateTime(5));
+                     user.Relations.Add(relation);
+                  }
                }
             }
 
@@ -170,14 +170,12 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUser(string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "GetUser", ex);
             throw ex;
          }
          finally
          {
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -199,8 +197,6 @@ namespace Cosmo.Security.Auth.Impl
       public override void Create(User user, bool confirm)
       {
          string sql;
-         SqlCommand cmd = null;
-         SqlTransaction transaction = null;
 
          user.Login = user.Login.Trim();
          user.Mail = user.Mail.Trim().ToLower();
@@ -220,83 +216,89 @@ namespace Cosmo.Security.Auth.Impl
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Inicia una transacción
-            transaction = _ws.DataSource.Connection.BeginTransaction();
+            using (SqlTransaction transaction = this.Workspace.DataSource.Connection.BeginTransaction())
+            {
+               // Averigua si ya existe un usuario que usa el LOGIN proporcionado
+               sql = "SELECT Count(*) AS nregs " +
+                     "FROM " + SQL_USER_TABLE + " " +
+                     "WHERE Lower(usrlogin)=@usrlogin";
 
-            // Averigua si ya existe un usuario que usa el LOGIN proporcionado
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE Lower(usrlogin)=@usrlogin";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, transaction);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
-            if ((int)cmd.ExecuteScalar() > 0)
-            {   
-               throw new Exception("El nombre de usuario " + user.Login.ToUpper() + " está siendo usado por otra cuenta de usuario. Por favor, elija otro.");
+               using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection, transaction))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
+                  if ((int)cmd.ExecuteScalar() > 0)
+                  {
+                     throw new Exception("El nombre de usuario " + user.Login.ToUpper() + " está siendo usado por otra cuenta de usuario. Por favor, elija otro.");
+                  }
+               }
+
+               // Averigua si ya existe un usuario que usa la cuenta de correo proporcionada
+               sql = "SELECT Count(*) AS nregs " +
+                     "FROM " + SQL_USER_TABLE + " " +
+                     "WHERE Lower(usrmail)=@usrmail";
+
+               using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection, transaction))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
+                  if ((int)cmd.ExecuteScalar() > 0)
+                  {
+                     throw new Exception("La dirección de correo " + user.Mail + " está siendo usado por otra cuenta de usuario.");
+                  }
+               }
+
+               // Añade el registro a la tabla USERS
+               sql = "INSERT INTO " + SQL_USER_TABLE + " (usrlogin,usrmail,usrpwd,usrname,usrcity,usrcountryid,usrphone,usrmail2,usrdesc,usroptions,usrstatus,usrlogoncount,usrlastlogon,usrcreated,pin,usrowner) " +
+                     "VALUES (@usrlogin,@usrmail,@usrpwd,@usrname,@usrcity,@usrcountryid,@usrphone,@usrmail2,@usrdesc,@usroptions,@usrstatus,0,getdate(),getdate(),'',@usrowner)";
+
+               using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection, transaction))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login));
+                  cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
+                  cmd.Parameters.Add(new SqlParameter("@usrpwd", user.Password));
+                  cmd.Parameters.Add(new SqlParameter("@usrname", user.Name));
+                  cmd.Parameters.Add(new SqlParameter("@usrcity", user.City));
+                  cmd.Parameters.Add(new SqlParameter("@usrcountryid", user.CountryID));
+                  cmd.Parameters.Add(new SqlParameter("@usrphone", user.Phone));
+                  cmd.Parameters.Add(new SqlParameter("@usrmail2", user.MailAlternative));
+                  cmd.Parameters.Add(new SqlParameter("@usrdesc", user.Description));
+                  cmd.Parameters.Add(new SqlParameter("@usroptions", options));
+                  cmd.Parameters.Add(new SqlParameter("@usrstatus", (confirm ? (int)User.UserStatus.NotVerified : (int)user.Status)));
+                  cmd.Parameters.Add(new SqlParameter("@usrowner", (string.IsNullOrEmpty(user.Owner) ? SecurityService.ACCOUNT_SUPER : user.Owner)));
+                  cmd.ExecuteNonQuery();
+               }
+
+               // Averigua el ID del usuario
+               sql = "SELECT usrid AS id " +
+                     "FROM " + SQL_USER_TABLE + " " +
+                     "WHERE Lower(usrlogin)=@usrlogin";
+
+               using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection, transaction))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
+                  user.ID = (int)cmd.ExecuteScalar();
+               }
+
+               // Confirma la trasacción
+               transaction.Commit();
             }
-
-            // Averigua si ya existe un usuario que usa la cuenta de correo proporcionada
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE Lower(usrmail)=@usrmail";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, transaction);
-            cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
-            if ((int)cmd.ExecuteScalar() > 0)
-            {   
-               throw new Exception("La dirección de correo " + user.Mail + " está siendo usado por otra cuenta de usuario.");
-            }
-
-            // Añade el registro a la tabla USERS
-            sql = "INSERT INTO " + SQL_USER_TABLE + " (usrlogin,usrmail,usrpwd,usrname,usrcity,usrcountryid,usrphone,usrmail2,usrdesc,usroptions,usrstatus,usrlogoncount,usrlastlogon,usrcreated,pin,usrowner) " +
-                  "VALUES (@usrlogin,@usrmail,@usrpwd,@usrname,@usrcity,@usrcountryid,@usrphone,@usrmail2,@usrdesc,@usroptions,@usrstatus,0,getdate(),getdate(),'',@usrowner)";
-
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, transaction);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login));
-            cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
-            cmd.Parameters.Add(new SqlParameter("@usrpwd", user.Password));
-            cmd.Parameters.Add(new SqlParameter("@usrname", user.Name));
-            cmd.Parameters.Add(new SqlParameter("@usrcity", user.City));
-            cmd.Parameters.Add(new SqlParameter("@usrcountryid", user.CountryID));
-            cmd.Parameters.Add(new SqlParameter("@usrphone", user.Phone));
-            cmd.Parameters.Add(new SqlParameter("@usrmail2", user.MailAlternative));
-            cmd.Parameters.Add(new SqlParameter("@usrdesc", user.Description));
-            cmd.Parameters.Add(new SqlParameter("@usroptions", options));
-            cmd.Parameters.Add(new SqlParameter("@usrstatus", (confirm ? (int)User.UserStatus.NotVerified : (int)user.Status)));
-            cmd.Parameters.Add(new SqlParameter("@usrowner", (string.IsNullOrEmpty(user.Owner) ? SecurityService.ACCOUNT_SUPER : user.Owner)));
-            cmd.ExecuteNonQuery();
-
-            // Averigua el ID del usuario
-            sql = "SELECT usrid AS id " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE Lower(usrlogin)=@usrlogin";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection, transaction);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
-            user.ID = (int)cmd.ExecuteScalar();
-
-            // Confirma la trasacción
-            transaction.Commit();
          }
          catch (Exception ex)
          {
-            if (transaction != null) transaction.Rollback();
-
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Create(User,bool)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Create", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            transaction.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
 
          // Si es preciso, manda el correo de confirmación al finalizar la inserción y fuera de la transacción
-         if (_ws.SecurityService.IsVerificationMailRequired)
+         if (this.Workspace.SecurityService.IsVerificationMailRequired)
          {
-            _ws.Communications.Send(GetVerificationMail(user.ID));
+            this.Workspace.Communications.Send(GetVerificationMail(user.ID));
          }
       }
 
@@ -311,7 +313,6 @@ namespace Cosmo.Security.Auth.Impl
       public override void Update(User user)
       {
          string sql;
-         SqlCommand cmd = null;
 
          user.Login = user.Login.Trim();
          user.Mail = user.Mail.Trim().ToLower();
@@ -331,59 +332,63 @@ namespace Cosmo.Security.Auth.Impl
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Inicia una transacción
             // _workspace.Connection.BeginTransaction();
 
             // Averigua si ya existe un usuario que usa la cuenta de correo proporcionada
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE Lower(usrmail)=@usrmail And Lower(usrlogin)<>@usrlogin";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
-            if ((int)cmd.ExecuteScalar() > 0)
-            {   
-               throw new Exception("La dirección de correo " + user.Mail + " está siendo usado por otra cuenta de usuario.");
+            sql = @"SELECT Count(*) AS nregs 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  Lower(usrmail) = @usrmail And 
+                           Lower(usrlogin) <> @usrlogin";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
+               cmd.Parameters.Add(new SqlParameter("@usrlogin", user.Login.ToLower()));
+               if ((int)cmd.ExecuteScalar() > 0)
+               {
+                  throw new Exception("La dirección de correo " + user.Mail + " está siendo usado por otra cuenta de usuario.");
+               }
             }
 
             // Actualiza el registro en la tabla USERS
-            sql = "UPDATE " + SQL_USER_TABLE + " " +
-                  "SET usrmail=@usrmail," +
-                      "usrname=@usrname," +
-                      "usrcity=@usrcity," +
-                      "usrcountryid=@usrcountryid," +
-                      "usrphone=@usrphone," +
-                      "usrmail2=@usrmail2," +
-                      "usrdesc=@usrdesc," +
-                      "usroptions=@usroptions," +
-                      "usrstatus=@usrstatus " +
-                  "WHERE usrid=@usrid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
-            cmd.Parameters.Add(new SqlParameter("@usrname", user.Name));
-            cmd.Parameters.Add(new SqlParameter("@usrcity", user.City));
-            cmd.Parameters.Add(new SqlParameter("@usrcountryid", user.CountryID));
-            cmd.Parameters.Add(new SqlParameter("@usrphone", user.Phone));
-            cmd.Parameters.Add(new SqlParameter("@usrmail2", user.MailAlternative));
-            cmd.Parameters.Add(new SqlParameter("@usrdesc", user.Description));
-            cmd.Parameters.Add(new SqlParameter("@usroptions", options));
-            cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)user.Status));
-            cmd.Parameters.Add(new SqlParameter("@usrid", user.ID));
-            cmd.ExecuteNonQuery();
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrmail = @usrmail,
+                           usrname = @usrname,
+                           usrcity = @usrcity,
+                           usrcountryid = @usrcountryid,
+                           usrphone = @usrphone,
+                           usrmail2 = @usrmail2,
+                           usrdesc = @usrdesc,
+                           usroptions = @usroptions,
+                           usrstatus = @usrstatus 
+                    WHERE  usrid = @usrid";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrmail", user.Mail));
+               cmd.Parameters.Add(new SqlParameter("@usrname", user.Name));
+               cmd.Parameters.Add(new SqlParameter("@usrcity", user.City));
+               cmd.Parameters.Add(new SqlParameter("@usrcountryid", user.CountryID));
+               cmd.Parameters.Add(new SqlParameter("@usrphone", user.Phone));
+               cmd.Parameters.Add(new SqlParameter("@usrmail2", user.MailAlternative));
+               cmd.Parameters.Add(new SqlParameter("@usrdesc", user.Description));
+               cmd.Parameters.Add(new SqlParameter("@usroptions", options));
+               cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)user.Status));
+               cmd.Parameters.Add(new SqlParameter("@usrid", user.ID));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Update(User)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Update", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -393,34 +398,34 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="uid">Identificador de la cuenta a eliminar</param>
       public override void Delete(int uid)
       {
-         SqlCommand cmd = null;
+         string sql = string.Empty;
 
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Elimina el registro
-            cmd = new SqlCommand("DELETE FROM " + SQL_USER_TABLE + " " +
-                                 "WHERE usrid=@usrid", _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            cmd.ExecuteNonQuery();
+            sql = @"DELETE 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  usrid = @usrid";
 
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Delete", 
-                                        "La cuenta " + uid + " ha sido eliminada", 
-                                        LogEntry.LogEntryType.EV_SECURITY));
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               cmd.ExecuteNonQuery();
+            }
+
+            Workspace.Logger.Security("The account " + uid + " has been deleted from " + Workspace.RequestIP);
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Delete(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Delete", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -430,53 +435,49 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="uid">Identificador de la cuenta a cancelar</param>
       public override void Cancel(int uid)
       {
+         string sql;
          SqlParameter param = null;
-         SqlCommand cmd = null;
 
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
-            string sql = "UPDATE " + SQL_USER_TABLE + " " +
-                         "SET usrmail   = ('--' + mail + '--'), " +
-                             "usrpwd    = '', " +
-                             "usrname   = usrlogin, " +
-                             "usrcity   = '', " +
-                             "usrphone  = '', " +
-                             "usrmail2  = '', " +
-                             "usrdesc   = '', " +
-                             "usrstatus = @usrstatus " +
-                         "WHERE usrid = @usrid";
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrmail   = ('--' + mail + '--'), 
+                           usrpwd    = '', 
+                           usrname   = usrlogin, 
+                           usrcity   = '', 
+                           usrphone  = '', 
+                           usrmail2  = '', 
+                           usrdesc   = '', 
+                           usrstatus = @usrstatus 
+                    WHERE  usrid = @usrid";
 
             // Elimina el registro
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            
-            param = new SqlParameter("@usrstatus", System.Data.SqlDbType.Int);
-            param.Value = User.UserStatus.Disabled;
-            cmd.Parameters.Add(param);
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               param = new SqlParameter("@usrstatus", System.Data.SqlDbType.Int);
+               param.Value = User.UserStatus.Disabled;
+               cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@usrid", System.Data.SqlDbType.Int);
-            param.Value = uid;
-            cmd.Parameters.Add(param);
-            
-            cmd.ExecuteNonQuery();
+               param = new SqlParameter("@usrid", System.Data.SqlDbType.Int);
+               param.Value = uid;
+               cmd.Parameters.Add(param);
 
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Cancel", 
-                                        "La cuenta " + uid + " ha sido cancelada.", 
-                                        LogEntry.LogEntryType.EV_SECURITY));
+               cmd.ExecuteNonQuery();
+            }
+
+            this.Workspace.Logger.Security("The account " + uid + " has been cancelled from " + Workspace.RequestIP);
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Cancel(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Cancel", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -489,61 +490,69 @@ namespace Cosmo.Security.Auth.Impl
       public override User Verify(int uid, string mail)
       {
          string sql;
-         SqlCommand cmd = null;
 
          mail = mail.Trim().ToLower();
 
          try
          {
             // Abre una conexión a la BBDD
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Busca la existencia del usuario
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE usrid=@usrid AND Lower(usrmail)=@usrmail";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            cmd.Parameters.Add(new SqlParameter("@usrmail", mail));
-            if ((int)cmd.ExecuteScalar() <= 0)
+            sql = @"SELECT Count(*) AS nregs 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  usrid = @usrid And 
+                           Lower(usrmail) = @usrmail";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               throw new UserNotFoundException("La dirección de correo electrónico <strong>" + mail + "</strong> proporcionada no corresponde a ningúna suscripción.");
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               cmd.Parameters.Add(new SqlParameter("@usrmail", mail));
+               if ((int)cmd.ExecuteScalar() <= 0)
+               {
+                  throw new UserNotFoundException("La dirección de correo electrónico <strong>" + mail + "</strong> proporcionada no corresponde a ningúna suscripción.");
+               }
             }
 
             // Comprueba que no sea una cuenta bloqueada
-            sql = "SELECT usrstatus " + 
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE usrid=@usrid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            if ((int)cmd.ExecuteScalar() <= (int)User.UserStatus.Disabled)
+            sql = @"SELECT usrstatus 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  usrid = @usrid";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               throw new UserDisabledException("La dirección de correo electrónico <strong>" + mail + "</strong> ha sido bloqueada por el administrador de sistemas y la suscripción cancelada.");
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               if ((int)cmd.ExecuteScalar() <= (int)User.UserStatus.Disabled)
+               {
+                  throw new UserDisabledException("La dirección de correo electrónico <strong>" + mail + "</strong> ha sido bloqueada por el administrador de sistemas y la suscripción cancelada.");
+               }
             }
 
             // Verifica la cuenta
-            sql = "UPDATE " + SQL_USER_TABLE + " " +
-                  "SET usrstatus=" + (int)User.UserStatus.Enabled + ", " +
-                      "usrlastlogon=GetDate() " +
-                  "WHERE usrid=@usrid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            cmd.ExecuteNonQuery();
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrstatus = @usrstatus, 
+                           usrlastlogon = GetDate() 
+                    WHERE  usrid = @usrid";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrstatus", (int)User.UserStatus.Enabled));
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               cmd.ExecuteNonQuery();
+            }
+
+            Workspace.Logger.Security("The account " + uid + " has been verified from " + Workspace.RequestIP);
 
             return GetUser(uid);
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Verify(int,string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-            
+            this.Workspace.Logger.Error(this, "Verify", ex);
             throw new Exception("Error verificando nueva cuenta: " + ex.Message, ex);
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -554,7 +563,7 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="QueryString">Colección de parámetros del enlace de verificación mandado por correo electrónico al usuario (Request.QueryString).</param>
       public override User Verify(NameValueCollection QueryString)
       {
-         string data = UriCryptography.Decrypt(QueryString["data"].Replace(" ", "+"), _ws.SecurityService.EncriptionKey);
+         string data = UriCryptography.Decrypt(QueryString["data"].Replace(" ", "+"), this.Workspace.SecurityService.EncriptionKey);
          NameValueCollection parameters = GetQuerystringValues(data);
 
          return Verify(int.Parse(parameters["id"]), parameters["obj"]);
@@ -569,7 +578,6 @@ namespace Cosmo.Security.Auth.Impl
       {
          int id = 0;
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          // Formatea parámetros
          address = address.Trim().ToLower();
@@ -577,17 +585,20 @@ namespace Cosmo.Security.Auth.Impl
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Averigua el ID del usuario a partir del mail
             try
             {
-               sql = "SELECT usrid " +
-                     "FROM " + SQL_USER_TABLE + " " +
-                     "WHERE Lower(usrmail)=@usrmail";
-               cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-               cmd.Parameters.Add(new SqlParameter("@usrmail", address));
-               id = (int)cmd.ExecuteScalar();
+               sql = @"SELECT usrid 
+                       FROM   " + SQL_USER_TABLE + @" 
+                       WHERE  Lower(usrmail) = @usrmail";
+
+               using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+               {
+                  cmd.Parameters.Add(new SqlParameter("@usrmail", address));
+                  id = (int)cmd.ExecuteScalar();
+               }
             }
             catch
             {
@@ -604,21 +615,18 @@ namespace Cosmo.Security.Auth.Impl
             }
 
             // Envia el correo al usuario
-            _ws.Communications.Send(GetUserDataMail(user));
+            this.Workspace.Communications.Send(GetUserDataMail(user));
 
             return user;
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".SendData(string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "SendData", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -633,35 +641,41 @@ namespace Cosmo.Security.Auth.Impl
       public override User Autenticate(string login, string password)
       {
          string sql;
-         SqlCommand cmd = null;
 
          login = login.Trim().ToUpper();
 
          try
          {
             // Abre una conexión a la BBDD
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Busca la existencia del usuario
-            sql = "SELECT Count(*) AS nregs " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  "WHERE Upper(usrlogin)=@usrlogin AND usrpwd=@usrpwd";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
-            cmd.Parameters.Add(new SqlParameter("@usrpwd", password));
-            if ((int)cmd.ExecuteScalar() <= 0)
+            sql = @"SELECT Count(*) AS nregs 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  Upper(usrlogin) = @usrlogin And 
+                           usrpwd = @usrpwd";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               throw new AuthenticationException("Login o contraseña erróneos.");
+               cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
+               cmd.Parameters.Add(new SqlParameter("@usrpwd", password));
+               if ((int)cmd.ExecuteScalar() <= 0)
+               {
+                  throw new AuthenticationException("Login o contraseña erróneos.");
+               }
             }
 
             // Actualiza la fecha del último acceso
-            sql = "UPDATE " + SQL_USER_TABLE + " " +
-                  "SET usrlastlogon=GetDate()," +
-                      "usrlogoncount=usrlogoncount+1 " +
-                  "WHERE Upper(usrlogin)=@usrlogin";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
-            cmd.ExecuteNonQuery();
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrlastlogon = GetDate(),
+                           usrlogoncount = usrlogoncount + 1 
+                    WHERE  Upper(usrlogin) = @usrlogin";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
+               cmd.ExecuteNonQuery();
+            }
 
             // Obtiene la cuenta de usuario
             User user = GetUser(login);
@@ -678,25 +692,27 @@ namespace Cosmo.Security.Auth.Impl
                default:
                   return user;
             }
-
+         }
+         catch (UserDisabledException ex)
+         {
+            throw ex;
+         }
+         catch (UserNotVerifiedException ex)
+         {
+            throw ex;
+         }
+         catch (AuthenticationException ex)
+         {
+            throw ex;
          }
          catch (Exception ex)
          {
-            if (ex.GetType() != typeof(UserDisabledException) &&
-                ex.GetType() != typeof(UserNotVerifiedException) &&
-                ex.GetType() != typeof(AuthenticationException))
-            {
-               _ws.Logger.Add(new LogEntry(GetType().Name + ".Autenticate(string,string)", 
-                                           ex.Message, 
-                                           LogEntry.LogEntryType.EV_ERROR));
-            }
-
+            this.Workspace.Logger.Error(this, "Autenticate", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -707,32 +723,33 @@ namespace Cosmo.Security.Auth.Impl
       /// <param name="newPassword">Nueva contraseña del usuario.</param>
       public override void SetPassword(int uid, string newPassword)
       {
-         SqlCommand cmd = null;
+         string sql;
 
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Añade el registro a la tabla USERS
-            cmd = new SqlCommand("UPDATE " + SQL_USER_TABLE + " " +
-                                 "SET usrpwd=@usrpwd " +
-                                 "WHERE usrid=@usrid", _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrpwd", newPassword));
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            cmd.ExecuteNonQuery();
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrpwd = @usrpwd 
+                    WHERE  usrid = @usrid";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrpwd", newPassword));
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".SetPassword(int,string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "SetPassword", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -748,7 +765,7 @@ namespace Cosmo.Security.Auth.Impl
       /// </remarks>
       public override void SetPassword(int uid, string oldPassword, string newPassword, string newPasswordVerification)
       {
-         SqlCommand cmd = null;
+         string sql;
 
          // Verifica que la nueva contraseña y su verificación sean iguales
          if (!newPassword.Equals(newPasswordVerification))
@@ -760,11 +777,11 @@ namespace Cosmo.Security.Auth.Impl
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             /*
             // Obtiene la contraseña actual y verifica su validez
-            cmd = new SqlCommand("SELECT usrpwd FROM users WHERE usrid=@usrid", _ws.DataSource.Connection);
+            cmd = new SqlCommand("SELECT usrpwd FROM users WHERE usrid=@usrid", this.Workspace.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@usrid", uid));
             string currentpwd = (string)cmd.ExecuteScalar();
 
@@ -773,23 +790,25 @@ namespace Cosmo.Security.Auth.Impl
             */
 
             // Añade el registro a la tabla USERS
-            cmd = new SqlCommand("UPDATE " + SQL_USER_TABLE + " " +
-                                 "SET usrpwd=@usrpwd WHERE usrid=@usrid", _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrpwd", newPassword));
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            cmd.ExecuteNonQuery();
+            sql = @"UPDATE " + SQL_USER_TABLE + @" 
+                    SET    usrpwd = @usrpwd 
+                    WHERE  usrid = @usrid";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrpwd", newPassword));
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               cmd.ExecuteNonQuery();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".SetPassword(int,string,string,string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "SetPassword", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -801,33 +820,32 @@ namespace Cosmo.Security.Auth.Impl
       /// <returns>Devuelve <c>true</c> si la contraseña coincide o <c>false</c> en cualquier otro caso.</returns>
       public override bool CheckPassword(int uid, string password)
       {
-         SqlCommand cmd = null;
+         string sql;
 
          try
          {
             // Abre una conexión a la BBDD del workspace
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Obtiene la contraseña actual y verifica su validez
-            cmd = new SqlCommand("SELECT usrpwd " +
-                                 "FROM " + SQL_USER_TABLE + " " +
-                                 "WHERE usrid=@usrid", _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
-            string currentpwd = (string)cmd.ExecuteScalar();
+            sql = @"SELECT usrpwd 
+                    FROM   " + SQL_USER_TABLE + @" 
+                    WHERE  usrid = @usrid";
 
-            return password.Equals(currentpwd);
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               return password.Equals((string)cmd.ExecuteScalar());
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".CheckPassword(int,string)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "CheckPassword", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -839,23 +857,25 @@ namespace Cosmo.Security.Auth.Impl
       public override List<User> FindByCriteria(UserSearchCriteria selector)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
          List<User> find = new List<User>();
 
          try
          {
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
-            sql = "SELECT " + SQL_USER_FIELDS + " " +
-                  "FROM " + SQL_USER_TABLE + " " +
-                  this.SelectorSQL(selector) +
-                  "ORDER BY usrlogin Asc";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            sql = @"SELECT " + SQL_USER_FIELDS + @" 
+                    FROM   " + SQL_USER_TABLE + @" " +
+                    this.SelectorSQL(selector) +
+                    "ORDER BY usrlogin Asc";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  find.Add(ReadUserFields(reader));
+                  while (reader.Read())
+                  {
+                     find.Add(ReadUserFields(reader));
+                  }
                }
             }
 
@@ -863,14 +883,12 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Search(UserSearchCriteria)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Search", ex);
             throw ex;
          }
          finally
          {
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -896,8 +914,8 @@ namespace Cosmo.Security.Auth.Impl
       /// <returns>Una lista de instancias de <see cref="User"/>.</returns>
       public override List<User> Find(string login, string city, int countryId, bool onlyEnabledUsers)
       {
+         string sql;
          List<User> users = new List<User>();
-         SqlCommand cmd = null;
 
          if (login.Equals(string.Empty) && city.Equals(string.Empty) && countryId == 0)
          {
@@ -915,22 +933,24 @@ namespace Cosmo.Security.Auth.Impl
          condition += (string.IsNullOrEmpty(city) ? string.Empty : (!string.IsNullOrEmpty(condition) ? " And " : string.Empty) + "Lower(usrcity) Like Lower('%" + city.Trim() + "%')");
          condition += (countryId <= 0 ? string.Empty : (!string.IsNullOrEmpty(condition) ? " And " : string.Empty) + "usrcountryid=" + countryId);
 
-         // if (!string.IsNullOrEmpty(condition)) condition = " And " + condition;
-
          try
          {
             // Abre una conexión a la BBDD
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
-            cmd = new SqlCommand("SELECT TOP 50 " + SQL_USER_FIELDS + " " +
-                                 "FROM          " + SQL_USER_TABLE + " " + 
-                                 "WHERE         " + condition + " " +
-                                 "ORDER BY      usrlogin Asc", _ws.DataSource.Connection);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            sql = @"SELECT TOP 50 " + SQL_USER_FIELDS + @" 
+                    FROM          " + SQL_USER_TABLE + @" 
+                    WHERE         " + condition + @" 
+                    ORDER BY      usrlogin Asc";
+
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  users.Add(ReadUserFields(reader));
+                  while (reader.Read())
+                  {
+                     users.Add(ReadUserFields(reader));
+                  }
                }
             }
 
@@ -938,14 +958,12 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Search(string,string,int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "Search", ex);
             throw ex;
          }
          finally
          {
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -954,7 +972,7 @@ namespace Cosmo.Security.Auth.Impl
       /// </summary>
       public override List<Country> ListCountry()
       {
-         CountryDAO cdao = new CountryDAO(_ws);
+         CountryDAO cdao = new CountryDAO(this.Workspace);
          return cdao.GetCountryList();
       }
 
@@ -967,53 +985,54 @@ namespace Cosmo.Security.Auth.Impl
       {
          string sql = string.Empty;
          string location = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             sql = @"SELECT u.USRCITY, c.COUNTRYNAME 
                     FROM   " + SQL_USER_TABLE + @" u 
                            Inner Join COUNTRY c On (c.COUNTRYID = u.USRCOUNTRYID) 
                     WHERE  u.USRID = @UserId";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("UserId", uid));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
             {
-               if (reader.Read())
+               cmd.Parameters.Add(new SqlParameter("UserId", uid));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  if (reader.IsDBNull(0) && reader.IsDBNull(1))
+                  if (reader.Read())
                   {
-                     location = "Ubicación desconocida";
-                  }
-                  else if (reader.IsDBNull(0) || string.IsNullOrWhiteSpace(reader.GetString(0)))
-                  {
-                     if (string.IsNullOrWhiteSpace(reader.GetString(1)))
+                     if (reader.IsDBNull(0) && reader.IsDBNull(1))
                      {
                         location = "Ubicación desconocida";
                      }
+                     else if (reader.IsDBNull(0) || string.IsNullOrWhiteSpace(reader.GetString(0)))
+                     {
+                        if (string.IsNullOrWhiteSpace(reader.GetString(1)))
+                        {
+                           location = "Ubicación desconocida";
+                        }
+                        else
+                        {
+                           location = reader.GetString(1);
+                        }
+                     }
+                     else if (reader.IsDBNull(1) || string.IsNullOrWhiteSpace(reader.GetString(1)))
+                     {
+                        if (string.IsNullOrWhiteSpace(reader.GetString(0)))
+                        {
+                           location = "Ubicación desconocida";
+                        }
+                        else
+                        {
+                           location = reader.GetString(0);
+                        }
+                     }
                      else
                      {
-                        location = reader.GetString(1);
+                        location = reader.GetString(0) + " (" + reader.GetString(1) + ")";
                      }
-                  }
-                  else if (reader.IsDBNull(1) || string.IsNullOrWhiteSpace(reader.GetString(1)))
-                  {
-                     if (string.IsNullOrWhiteSpace(reader.GetString(0)))
-                     {
-                        location = "Ubicación desconocida";
-                     }
-                     else
-                     {
-                        location = reader.GetString(0);
-                     }
-                  }
-                  else
-                  {
-                     location = reader.GetString(0) + " (" + reader.GetString(1) + ")";
                   }
                }
             }
@@ -1022,14 +1041,12 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetUserLocation(int)",
-                                        ex.Message,
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "GetUserLocation", ex);
             throw ex;
          }
          finally
          {
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -1044,32 +1061,31 @@ namespace Cosmo.Security.Auth.Impl
       /// <returns>Una cadena que representa el login del usuario.</returns>
       public string ConvertUidToLogin(int uid)
       {
-         SqlCommand cmd = null;
+         string sql;
 
          try
          {
             // Obtiene el LOGIN del usuario
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
-            string sql = "SELECT usrlogin " +
-                         "FROM " + SQL_USER_TABLE + " " +
-                         "WHERE usrid=@usrid";
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+            sql = @"SELECT usrlogin 
+                   FROM " + SQL_USER_TABLE + @" 
+                   WHERE usrid = @usrid";
 
-            return (string)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@usrid", uid));
+               return (string)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".ConvertUidToLogin(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            this.Workspace.Logger.Error(this, "ConvertUidToLogin", ex);
             throw ex;
          }
          finally
          {
-            cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -1199,7 +1215,7 @@ namespace Cosmo.Security.Auth.Impl
       {
          // Contempla la posibilidad de pasar únicamente el QueryString sin la Uri
          if (!url.Contains("?"))
-         {   
+         {
             url = "data@data.com?" + url;
          }
 
@@ -1209,7 +1225,7 @@ namespace Cosmo.Security.Auth.Impl
          // qs. ._document = parts[0];
 
          if (parts.Length == 1)
-         {   
+         {
             return qs;
          }
 
@@ -1254,7 +1270,7 @@ namespace Cosmo.Security.Auth.Impl
 
          try
          {
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Rellena el control
             sql = "SELECT " + SQL_ROLE_FIELDS + " " +
@@ -1262,7 +1278,7 @@ namespace Cosmo.Security.Auth.Impl
                   "           Inner Join sys_roles On (sys_users_roles.roleid=sys_roles.rolid) " +
                   "WHERE users.usrlogin=@usrlogin";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection);
             cmd.Parameters.Add(new SqlParameter("@usrlogin", login));
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -1276,7 +1292,7 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().PropertyName + ".GetUserRoles(string)", 
+            this.Workspace.Logger.Add(new LogEntry(GetType().PropertyName + ".GetUserRoles(string)", 
                                         ex.Message, 
                                         LogEntry.LogEntryType.EV_ERROR));
             throw ex;
@@ -1285,7 +1301,7 @@ namespace Cosmo.Security.Auth.Impl
          {
             reader.Dispose();
             cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
 
@@ -1305,14 +1321,14 @@ namespace Cosmo.Security.Auth.Impl
 
          try
          {
-            _ws.DataSource.Connect();
+            this.Workspace.DataSource.Connect();
 
             // Rellena el control
             sql = "SELECT " + SQL_USER_FIELDS + " " +
                   "FROM " + SQL_USER_TABLE + " Inner Join sys_users_roles On (users.usrid=sys_users_roles.usrid) " +
                   "WHERE sys_users_roles.roleid=@roleid";
 
-            cmd = new SqlCommand(sql, _ws.DataSource.Connection);
+            cmd = new SqlCommand(sql, this.Workspace.DataSource.Connection);
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -1325,7 +1341,7 @@ namespace Cosmo.Security.Auth.Impl
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().PropertyName + ".GetRoleUsers(int)", 
+            this.Workspace.Logger.Add(new LogEntry(GetType().PropertyName + ".GetRoleUsers(int)", 
                                         ex.Message, 
                                         LogEntry.LogEntryType.EV_ERROR));
             throw ex;
@@ -1334,7 +1350,7 @@ namespace Cosmo.Security.Auth.Impl
          {
             reader.Dispose();
             cmd.Dispose();
-            _ws.DataSource.Disconnect();
+            this.Workspace.DataSource.Disconnect();
          }
       }
       */

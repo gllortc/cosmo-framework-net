@@ -12,7 +12,7 @@ namespace Cosmo.Web
    /// </summary>
    [AuthenticationRequired]
    [ViewParameter(ParameterName = Workspace.PARAM_USER_ID,
-                  PropertyName = "ThreadID")]
+                  PropertyName = "UserID")]
    public class UserDataModal : Cosmo.UI.ModalView
    {
       // Modal element unique identifier
@@ -86,7 +86,7 @@ namespace Cosmo.Web
          values.Add(new KeyValue("Nombre", user.GetDisplayName()));
          values.Add(new KeyValue("Localización", Workspace.SecurityService.GetUserLocation(user.ID)));
          values.Add(new KeyValue("Descripción", user.Description));
-         values.Add(new KeyValue("Fecha de alta", user.Created.ToString(Formatter.FORMAT_SHORTDATE)));
+         values.Add(new KeyValue("Fecha de alta", user.Created.ToString(Calendar.FORMAT_SHORTDATE)));
 
          HtmlContentControl data = new HtmlContentControl(this);
          data.AppendDataList(values);

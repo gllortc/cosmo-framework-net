@@ -1,6 +1,4 @@
-﻿using Cosmo.Data.Connection;
-using Cosmo.Diagnostics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
@@ -42,7 +40,6 @@ namespace Cosmo.Services
       {
          string sql = string.Empty;
          Country country = null;
-         SqlCommand cmd = null;
          List<Country> countries = new List<Country>();
 
          try
@@ -54,17 +51,19 @@ namespace Cosmo.Services
                     FROM      " + SQL_COUNTRY_TABLE + @" 
                     ORDER BY  countryname ASC";
 
-            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, workspace.DataSource.Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  country = new Country();
-                  country.ID = reader.GetInt32(0);
-                  country.Name = reader.GetString(1);
-                  country.Default = reader.GetBoolean(2);
+                  while (reader.Read())
+                  {
+                     country = new Country();
+                     country.ID = reader.GetInt32(0);
+                     country.Name = reader.GetString(1);
+                     country.Default = reader.GetBoolean(2);
 
-                  countries.Add(country);
+                     countries.Add(country);
+                  }
                }
             }
 
@@ -72,15 +71,11 @@ namespace Cosmo.Services
          }
          catch (Exception ex)
          {
-            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".ListCountry", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-
+            workspace.Logger.Error(this, "GetCountryList", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             workspace.DataSource.Disconnect();
          }
       }
@@ -95,7 +90,6 @@ namespace Cosmo.Services
       {
          int id = 0;
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -106,14 +100,15 @@ namespace Cosmo.Services
                     FROM      " + SQL_COUNTRY_TABLE + @" 
                     ORDER BY  countryname ASC";
 
-            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(sql, workspace.DataSource.Connection))
             {
-               list.DataSource = reader;
-               list.DataTextField = "countryname";
-               list.DataValueField = "countryid";
-               list.DataBind();
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  list.DataSource = reader;
+                  list.DataTextField = "countryname";
+                  list.DataValueField = "countryid";
+                  list.DataBind();
+               }
             }
 
             // Preselecciona el elemento
@@ -123,13 +118,15 @@ namespace Cosmo.Services
                        FROM   " + SQL_COUNTRY_TABLE + @" 
                        WHERE  countrylstdef = 1";
 
-               cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-               using (SqlDataReader reader = cmd.ExecuteReader())
+               using (SqlCommand cmd = new SqlCommand(sql, workspace.DataSource.Connection))
                {
-                  if (reader.Read())
+                  using (SqlDataReader reader = cmd.ExecuteReader())
                   {
-                     id = (int)reader["countryid"];
-                     if (id > 0) list.Items.FindByValue(id.ToString()).Selected = true;
+                     if (reader.Read())
+                     {
+                        id = (int)reader["countryid"];
+                        if (id > 0) list.Items.FindByValue(id.ToString()).Selected = true;
+                     }
                   }
                }
             }
@@ -140,15 +137,11 @@ namespace Cosmo.Services
          }
          catch (Exception ex)
          {
-            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".CreateCountryDropDownList(DropDownList, int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-
+            workspace.Logger.Error(this, "CreateCountryDropDownList", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             workspace.DataSource.Disconnect();
          }
       }
@@ -171,7 +164,6 @@ namespace Cosmo.Services
       public string GetCountryName(int countryId)
       {
          string sql = string.Empty;
-         SqlCommand cmd = null;
 
          try
          {
@@ -180,21 +172,21 @@ namespace Cosmo.Services
             // Rellena el control
             sql = @"SELECT countryname 
                     FROM   " + SQL_COUNTRY_TABLE + @" 
-                    WHERE countryid = @countryid";
+                    WHERE  countryid = @countryid";
 
-            cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@countryid", countryId));
-
-            return (string)cmd.ExecuteScalar();
+            using (SqlCommand cmd = new SqlCommand(sql, workspace.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@countryid", countryId));
+               return (string)cmd.ExecuteScalar();
+            }
          }
          catch (Exception ex)
          {
-            workspace.Logger.Add(new LogEntry(this.GetType().Name + ".GetCountryName(int)", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-            throw;
+            workspace.Logger.Error(this, "GetCountryName", ex);
+            throw ex;
          }
          finally
          {
-            cmd.Dispose();
             workspace.DataSource.Disconnect();
          }
       }

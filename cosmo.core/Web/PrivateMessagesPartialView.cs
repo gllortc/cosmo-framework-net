@@ -146,7 +146,7 @@ namespace Cosmo.Web
                message = new ChatMessage();
                message.DomID = "pmsg" + msg.ID;
                message.Author = Workspace.SecurityService.GetUser(msg.FromUserID).GetDisplayName();
-               message.Time = msg.Sended.ToString(Formatter.FORMAT_DATETIME);
+               message.Time = msg.Sended.ToString(Cosmo.Utils.Calendar.FORMAT_DATETIME);
                message.Content = msg.Body;
 
                chat.Messages.Add(message);

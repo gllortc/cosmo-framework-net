@@ -61,7 +61,7 @@ namespace Cosmo.Cms.Web
          // Genera la lista de anuncios a mostrar
          //--------------------------------------------------------------
 
-         List<Ad> adlist = ads.Items(folder.ID, true);
+         List<Ad> adlist = ads.GetByFolder(folder.ID, true);
 
          if (adlist.Count > 0)
          {
@@ -77,7 +77,7 @@ namespace Cosmo.Cms.Web
                row = new TableRow("row-ad-" + ad.ID,
                                   IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(AdsView.GetURL(ad.ID), ad.Title, false),
                                   ad.Price <= 0 ? IconControl.GetIcon(this, IconControl.ICON_MINUS) : string.Format("{0:C}", ad.Price),
-                                  ad.Updated.ToString(Formatter.FORMAT_DATE),
+                                  ad.Updated.ToString(Cosmo.Utils.Calendar.FORMAT_DATE),
                                   new UserLinkControl(this, ad.UserID, ad.UserLogin, userData));
 
                table.Rows.Add(row);

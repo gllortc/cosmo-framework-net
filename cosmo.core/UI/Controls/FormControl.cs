@@ -370,44 +370,52 @@ namespace Cosmo.UI.Controls
          bool hasComplexFields = false;
          List<FormField> controls = Content.GetFormFields();
 
-         // Procesa los campos simples (texto, números, etc)
-         foreach (FormField field in controls)
+         try
          {
-            // Obtiene el valor y recoge el resultado de la validación
-            if (field.FieldType != FormField.FieldTypes.Upload)
-            {
-               isValidForm = isValidForm && field.LoadValueFromRequest();
-            }
-            else
-            {
-               hasComplexFields = true;
-            }
-         }
-
-         // Procesa los campos complejos (archivos)
-         if (isValidForm && hasComplexFields)
-         {
+            // Procesa los campos simples (texto, números, etc)
             foreach (FormField field in controls)
             {
                // Obtiene el valor y recoge el resultado de la validación
-               if (field.FieldType == FormField.FieldTypes.Upload)
+               if (field.FieldType != FormField.FieldTypes.Upload)
                {
                   isValidForm = isValidForm && field.LoadValueFromRequest();
-
-                  // Compute the number of uploaded files
-                  if (field.Value is FileInfo && ((FileInfo)field.Value).Exists)
-                  {
-                     this.UploadedFiles++;
-                  }
-
+               }
+               else
+               {
+                  hasComplexFields = true;
                }
             }
+
+            // Procesa los campos complejos (archivos)
+            if (isValidForm && hasComplexFields)
+            {
+               foreach (FormField field in controls)
+               {
+                  // Obtiene el valor y recoge el resultado de la validación
+                  if (field.FieldType == FormField.FieldTypes.Upload)
+                  {
+                     isValidForm = isValidForm && field.LoadValueFromRequest();
+
+                     // Compute the number of uploaded files
+                     if (field.Value is FileInfo && ((FileInfo)field.Value).Exists)
+                     {
+                        this.UploadedFiles++;
+                     }
+
+                  }
+               }
+            }
+
+            // Update the validation status
+            this.IsValid = isValidForm ? ValidationStatus.ValidData : ValidationStatus.InvalidData;
+
+            return isValidForm;
          }
-
-         // Update the validation status
-         this.IsValid = isValidForm ? ValidationStatus.ValidData : ValidationStatus.InvalidData;
-
-         return isValidForm;
+         catch (Exception ex)
+         {
+            ParentView.Workspace.Logger.Error(this, "ProcessForm", ex);
+            throw ex;
+         }
       }
 
       #endregion

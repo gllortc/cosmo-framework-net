@@ -1,7 +1,5 @@
 ﻿using Cosmo.Communications.PrivateMessages;
-using Cosmo.Diagnostics;
 using Cosmo.Net.REST;
-using Cosmo.UI.Scripting;
 using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
@@ -83,8 +81,7 @@ namespace Cosmo.Web.Handlers
          }
          catch (Exception ex)
          {
-            Workspace.Logger.Add(new LogEntry(Workspace.ProductName, this.GetType().Name + ".PrivateMessageSend()", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-
+            Workspace.Logger.Error(this, "PrivateMessageSend", ex);
             SendResponse(new AjaxResponse(0, "Se ha producido un error en el servidor y no ha sido posible entregar el mensaje."));
          }
       }
@@ -123,10 +120,7 @@ namespace Cosmo.Web.Handlers
             }
             catch (Exception e)
             {
-               Workspace.Logger.Add(new LogEntry("UserHandler.MessageRead()",
-                                                 e.Message,
-                                                 LogEntry.LogEntryType.EV_ERROR));
-
+               Workspace.Logger.Error(this, "MessageRead", e);
                SendResponse(new AjaxResponse(0, "El mensaje no se ha podido recuperar debido a un error interno. Inténtelo de nuevo y si el error persiste póngase en contacto con la administración de " + Workspace.Name));
             }
          }
@@ -159,8 +153,7 @@ namespace Cosmo.Web.Handlers
          }
          catch (Exception ex)
          {
-            Workspace.Logger.Add(new LogEntry(Workspace.ProductName, this.GetType().Name + ".PrivateMessageDelete()", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-
+            Workspace.Logger.Error(this, "PrivateMessageDelete", ex);
             SendResponse(new AjaxResponse(0, ex.Message));
          }
       }
@@ -193,8 +186,7 @@ namespace Cosmo.Web.Handlers
          }
          catch (Exception ex)
          {
-            Workspace.Logger.Add(new LogEntry(Workspace.ProductName, this.GetType().Name + ".PrivateMessageSend()", ex.Message, LogEntry.LogEntryType.EV_ERROR));
-
+            Workspace.Logger.Error(this, "PrivateMessageSend", ex);
             SendResponse(new AjaxResponse(0, "Se ha producido un error interno al intentar recuperar los mensajes de esta conversa. Intenta recargar la página de nuevo."));
          }
       }

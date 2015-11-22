@@ -1,20 +1,16 @@
-﻿using Cosmo.Data.Connection;
+﻿using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Cosmo.Diagnostics
 {
-
    /// <summary>
    /// Genera una clase de servicio para la gestión del registro de eventos.
    /// </summary>
-   public class LoggerService
+   public class LoggerService : WorkspaceService<ILogger>, ILogger
    {
-      // Internal data declarations
-      private Workspace _workspace = null;
 
       #region Constructors
 
@@ -23,8 +19,81 @@ namespace Cosmo.Diagnostics
       /// </summary>
       /// <param name="workspace">Workspace actual</param>
       public LoggerService(Workspace workspace)
+         : base(workspace, workspace.Settings.LogModules)
       {
-         _workspace = workspace;
+         // Nothing to do here
+      }
+
+      #endregion
+
+      #region Properties
+
+      /// <summary>
+      /// Gets the current authenticated user's login.
+      /// </summary>
+      /// <remarks>If there are not any user authenticated, the <c>[SYS]</c> token is returned.</remarks>
+      internal string CurrentUserLogin
+      {
+         get { return Workspace.CurrentUser.IsAuthenticated ? Workspace.CurrentUser.User.Login : SecurityService.ACCOUNT_SYSTEM; }
+      }
+
+      #endregion
+
+      #region ILogger Implementation
+
+      /// <summary>
+      /// Gets a log entry by its unique identifier.
+      /// </summary>
+      /// <param name="entryId">Log entry unique identifier.</param>
+      /// <returns>An instance of <see cref="LogEntry"/> or <c>null</c> if the identifier doesn't exist.</returns>
+      public LogEntry GetByID(int entryId)
+      {
+         return this.DefaultModule.GetByID(entryId);
+      }
+
+      /// <summary>
+      /// Gets a list of all entries.
+      /// </summary>
+      public List<LogEntry> GetAll()
+      {
+         return this.DefaultModule.GetAll();
+      }
+
+      public List<LogEntry> GetByType(Cosmo.Diagnostics.LogEntry.LogEntryType type)
+      {
+         return GetByType(type);
+      }
+
+      public void Info(LogEntry entry)
+      {
+         if (this.DefaultModule != null)
+         {
+            this.DefaultModule.Info(entry);
+         }
+      }
+
+      public void Warning(LogEntry entry)
+      {
+         if (this.DefaultModule != null)
+         {
+            this.DefaultModule.Warning(entry);
+         }
+      }
+
+      public void Security(LogEntry entry)
+      {
+         if (this.DefaultModule != null)
+         {
+            this.DefaultModule.Security(entry);
+         }
+      }
+
+      public void Error(LogEntry entry)
+      {
+         if (this.DefaultModule != null)
+         {
+            this.DefaultModule.Error(entry);
+         }
       }
 
       #endregion
@@ -32,256 +101,188 @@ namespace Cosmo.Diagnostics
       #region Methods
 
       /// <summary>
-      /// Agrega una entrada en el registro de eventos.
+      /// Log an info event using the default logger.
       /// </summary>
-      /// <param name="workspace">Workspace actual.</param>
-      /// <param name="logentry">Registro a agregar.</param>
-      public static void Add(Workspace workspace, LogEntry logentry)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Info(string message)
       {
-         string sql = string.Empty;
-         SqlParameter param = null;
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-         // Inicializaciones
-         logentry.WorkspaceName = workspace.Name;
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
 
-         try
-         {
-            sql = "INSERT INTO syslog (slcontext, slapp, slerrcode, slmessage, slworkspace, sltype, sluser) " +
-                  "VALUES (@slcontext, @slapp, @slerrcode, @slmessage, @slworkspace, @sltype, @sluser)";
-
-            workspace.DataSource.Connect();
-            SqlCommand cmd = new SqlCommand(sql, workspace.DataSource.Connection);
-
-            param = new SqlParameter("@slcontext", SqlDbType.NVarChar, 255);
-            param.Value = logentry.Context.Trim();
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@slapp", SqlDbType.NVarChar, 255);
-            param.Value = logentry.ApplicationName.Trim();
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@slerrcode", SqlDbType.Int);
-            param.Value = logentry.Code;
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@slmessage", SqlDbType.NVarChar, 2048);
-            param.Value = logentry.Message.Trim();
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@slworkspace", SqlDbType.NVarChar, 255);
-            param.Value = logentry.WorkspaceName.Trim();
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@sltype", SqlDbType.Int);
-            param.Value = (int)logentry.Type;
-            cmd.Parameters.Add(param);
-
-            param = new SqlParameter("@sluser", SqlDbType.NVarChar, 64);
-            param.Value = logentry.UserLogin;
-            cmd.Parameters.Add(param);
-
-            cmd.ExecuteNonQuery();
-         }
-         catch
-         {
-            // No hace nada
-         }
-         finally
-         {
-            workspace.DataSource.Disconnect();
-         }
+         this.Info(entry);
       }
 
       /// <summary>
-      /// Registra una entrada en el archivo de LOG del Workspace.
+      /// Log an info event using the default logger.
       /// </summary>
-      /// <param name="entry">Una entrada descrita por una instancia de LogEntry.</param>
-      public void Add(LogEntry entry)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Info(Object obj, string methodName, string message)
       {
-         Add(_workspace, entry);
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.Context = obj.GetType().Name + "." + methodName + "()";
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
+
+         this.Info(entry);
       }
 
       /// <summary>
-      /// Registra una entrada en el archivo de LOG del Workspace.
+      /// Log a warning event using the default logger.
       /// </summary>
-      /// <param name="message">Descripción del evento.</param>
-      /// <param name="appName">Nombre de la aplicación.</param>
-      /// <param name="type">Tipo de evento.</param>
-      /// <param name="module">Módulo dónde se produce el evento.</param>
-      /// <param name="code">Código del evento.</param>
-      /// <returns>Un valor booleano indicando el resultado de la operación.</returns>
-      public void Add(string message, string appName, LogEntry.LogEntryType type, string module, int code)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Warning(string message)
       {
-         Add(_workspace, new LogEntry(appName, module.Trim(), code, message.Trim(), LogEntry.LOGIN_SYSTEM, type));
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
+
+         this.Warning(entry);
       }
 
       /// <summary>
-      /// Registra una entrada en el archivo de LOG del Workspace.
+      /// Log a warning event using the default logger.
       /// </summary>
-      /// <param name="message">Descripción del evento.</param>
-      /// <param name="appName">Nombre de la aplicación.</param>
-      /// <param name="type">Tipo de evento.</param>
-      /// <param name="module">Módulo dónde se produce el evento.</param>
-      /// <returns>Un valor booleano indicando el resultado de la operación.</returns>
-      public void Add(string message, string appName, LogEntry.LogEntryType type, string module)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Warning(string context, string message)
       {
-         Add(message, appName, type, module, 0);
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.Context = context;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
+
+         this.Warning(entry);
       }
 
       /// <summary>
-      /// Registra una entrada en el archivo de LOG del Workspace.
+      /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="message">Descripción del evento.</param>
-      /// <param name="type">Tipo de evento.</param>
-      /// <param name="module">Módulo dónde se produce el evento.</param>
-      /// <returns>Un valor booleano indicando el resultado de la operación.</returns>
-      public void Add(string message, LogEntry.LogEntryType type, string module)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Security(string message)
       {
-         Add(message, Assembly.GetEntryAssembly().FullName, type, module, 0);
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
+
+         this.Warning(entry);
       }
 
       /// <summary>
-      /// Genera una lista de los objetos contenidos en una carpeta.
+      /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="status">Identificador de la carpeta que contiene los objetos.</param>
-      public List<LogEntry> List(int status)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Error(string message)
       {
-         SqlCommand cmd = null;
-         List<LogEntry> events = new List<LogEntry>();
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-         try
-         {
-            // Abre una conexión a la BBDD
-            _workspace.DataSource.Connect();
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
 
-            string sql = "SELECT slid,sldate,sluser,slapp,slcontext,slerrcode,slmessage,sltype,slworkspace " +
-                         "FROM syslog " +
-                         "WHERE sltype=@sltype " +
-                         "ORDER BY sldate DESC";
-
-            cmd = new SqlCommand(sql, _workspace.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@sltype", SqlDbType.Int));
-            cmd.Parameters["@sltype"].Value = status;
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-               while (reader.Read())
-               {
-                  LogEntry eventlog = new LogEntry();
-                  eventlog.ID = (int)reader[0];
-                  eventlog.Date = (DateTime)reader[1];
-                  eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : "";
-                  eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
-                  eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
-                  eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
-                  eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
-                  eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
-                  eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
-
-                  events.Add(eventlog);
-               }
-            }
-
-            return events;
-         }
-         catch
-         {
-            throw;
-         }
-         finally
-         {
-            IDataModule.CloseAndDispose(cmd);
-            _workspace.DataSource.Disconnect();
-         }
+         this.Warning(entry);
       }
 
       /// <summary>
-      /// Permite recuperar los datos de un evento.
+      /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="id">Identificador de la entrada del registro.</param>
-      /// <returns>Una instáncia de <see cref="LogEntry"/>.</returns>
-      public LogEntry Item(int id)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Error(Exception exception)
       {
-         LogEntry eventlog = null;
-         SqlCommand cmd = null;
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-         try
-         {
-            // Abre una conexión a la BBDD del workspace
-            _workspace.DataSource.Connect();
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = exception.ToString();
 
-            string sql = "SELECT slid,sldate,sluser,slapp,slcontext,slerrcode,slmessage,sltype,slworkspace " +
-                         "FROM syslog " +
-                         "WHERE slid=@slid";
-
-            cmd = new SqlCommand(sql, _workspace.DataSource.Connection);
-            cmd.Parameters.Add(new SqlParameter("@slid", SqlDbType.Int));
-            cmd.Parameters["@slid"].Value = id;
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-               if (reader.Read())
-               {
-                  eventlog = new LogEntry();
-                  eventlog.ID = (int)reader[0];
-                  eventlog.Date = (DateTime)reader[1];
-                  eventlog.UserLogin = !reader.IsDBNull(2) ? (string)reader[2] : string.Empty;
-                  eventlog.ApplicationName = !reader.IsDBNull(3) ? (string)reader[3] : "";
-                  eventlog.Context = !reader.IsDBNull(4) ? (string)reader[4] : "";
-                  eventlog.Code = !reader.IsDBNull(5) ? (int)reader[5] : 0;
-                  eventlog.Message = !reader.IsDBNull(6) ? (string)reader[6] : "";
-                  eventlog.Type = !reader.IsDBNull(7) ? (LogEntry.LogEntryType)reader[7] : LogEntry.LogEntryType.EV_INFORMATION;
-                  eventlog.WorkspaceName = !reader.IsDBNull(8) ? (string)reader[8] : "";
-               }
-            }
-
-            return eventlog;
-         }
-         catch
-         {
-            throw;
-         }
-         finally
-         {
-            IDataModule.CloseAndDispose(cmd);
-            _workspace.DataSource.Disconnect();
-         }
+         this.Error(entry);
       }
 
       /// <summary>
-      /// Elimina un evento del workspace.
+      /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="id">Identificador de la entrada al registro</param>
-      public void Delete(int id)
+      /// <param name="message">A string containing the entry message.</param>
+      public void Error(string context, Exception exception)
       {
-         SqlCommand cmd = null;
-         SqlParameter param = null;
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-         try
-         {
-            // Abre una conexión a la BBDD del workspace
-            _workspace.DataSource.Connect();
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.Context = context;
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = exception.ToString();
 
-            // Elimina el registro
-            string sql = "DELETE FROM syslog WHERE slid=@slid";
+         this.Error(entry);
+      }
 
-            cmd = new SqlCommand(sql, _workspace.DataSource.Connection);
+      /// <summary>
+      /// Log a security event using the default logger.
+      /// </summary>
+      /// <param name="message">A string containing the entry message.</param>
+      public void Error(Object obj, string methodName, Exception exception)
+      {
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-            param = new SqlParameter("@slid", SqlDbType.Int);
-            param.Value = id;
-            cmd.Parameters.Add(param);
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.Context = obj.GetType().Name + "." + methodName + "()";
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = exception.ToString();
 
-            cmd.ExecuteNonQuery();
-         }
-         catch
-         {
-            throw;
-         }
-         finally
-         {
-            cmd.Dispose();
-            _workspace.DataSource.Disconnect();
-         }
+         this.Error(entry);
+      }
+
+      /// <summary>
+      /// Log a security event using the default logger.
+      /// </summary>
+      /// <param name="message">A string containing the entry message.</param>
+      public void Error(Object obj, string methodName, string message)
+      {
+         Assembly assembly = Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+         LogEntry entry = new LogEntry();
+         entry.ApplicationName = fvi.ProductName;
+         entry.Context = obj.GetType().Name + "." + methodName + "()";
+         entry.WorkspaceName = this.Workspace.Name;
+         entry.UserLogin = this.CurrentUserLogin;
+         entry.Message = message;
+
+         this.Error(entry);
       }
 
       #endregion

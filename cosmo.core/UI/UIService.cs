@@ -1,5 +1,4 @@
-﻿using Cosmo.Diagnostics;
-using Cosmo.UI.Controls;
+﻿using Cosmo.UI.Controls;
 using Cosmo.UI.Menu;
 using Cosmo.UI.Render;
 using Cosmo.Utils;
@@ -175,7 +174,7 @@ namespace Cosmo.UI
          string applyRule = string.Empty;
          Match match = null;
 
-         foreach (Plugin plugin in _ws.Settings.RenderModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.RenderModules.GetList())
          {
             applyRule = plugin.GetString(SETTING_BROWSER_AGENT);
 
@@ -224,9 +223,7 @@ namespace Cosmo.UI
          }
          else
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetSidebarMenu(string)",
-                                        "No se puede obtener el control Sidebar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.",
-                                        LogEntry.LogEntryType.EV_WARNING));
+            _ws.Logger.Warning("No se puede obtener el control Sidebar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.");
             return new SidebarControl(parentView);
          }
       }
@@ -274,10 +271,7 @@ namespace Cosmo.UI
          }
          else
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetNavbarMenu(string)",
-                                        "No se puede obtener el control Navbar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.",
-                                        LogEntry.LogEntryType.EV_WARNING));
-
+            _ws.Logger.Warning("No se puede obtener el control Navbar a partir del menú [" + id + "] porqué no existe en la configuración del workspace.");
             return new NavbarControl(parentView);
          }
       }
@@ -295,7 +289,7 @@ namespace Cosmo.UI
          Type type = null;
          RenderModule _module;
 
-         foreach (Plugin plugin in _ws.Settings.RenderModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.RenderModules.GetList())
          {
             try
             {
@@ -327,7 +321,7 @@ namespace Cosmo.UI
          Type type = null;
          MenuProvider _module;
 
-         foreach (Plugin plugin in _ws.Settings.MenuModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.MenuModules.GetList())
          {
             Object[] args = new Object[2];
             args[0] = _ws;

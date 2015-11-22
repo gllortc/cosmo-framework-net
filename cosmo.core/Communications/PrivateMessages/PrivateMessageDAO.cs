@@ -1,5 +1,4 @@
-﻿using Cosmo.Diagnostics;
-using Cosmo.Security;
+﻿using Cosmo.Security;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -175,10 +174,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".SendMessage()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-
+            _ws.Logger.Error(this, "SendMessage", ex); 
             throw new CommunicationsException(ex.Message, ex);
          }
          finally
@@ -249,9 +245,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetMessage()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetMessage", ex); 
             throw ex;
          }
          finally
@@ -285,9 +279,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".DeleteMessage()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "DeleteMessage", ex); 
             throw ex;
          }
          finally
@@ -336,9 +328,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetMessagesByRecipient()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetMessagesByRecipient", ex); 
             throw ex;
          }
          finally
@@ -412,9 +402,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetThread()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetThread", ex);
             throw ex;
          }
          finally
@@ -491,9 +479,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetThreads(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetThreads", ex);
             throw ex;
          }
          finally
@@ -544,9 +530,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".GetThreadMessages(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "GetThreadMessages", ex);
             throw ex;
          }
          finally
@@ -610,9 +594,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".ReceivedThreads(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "ReceivedThreads", ex);
             throw ex;
          }
          finally
@@ -663,9 +645,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Sended(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Sended", ex);
             throw ex;
          }
          finally
@@ -700,9 +680,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Count(int)", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Count", ex);
             throw ex;
          }
          finally
@@ -741,9 +719,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".CountByReceiver()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "CountByReceiver", ex);
             throw ex;
          }
          finally
@@ -782,9 +758,7 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".Count()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
+            _ws.Logger.Error(this, "Count", ex);
             throw ex;
          }
          finally
@@ -866,12 +840,8 @@ namespace Cosmo.Communications.PrivateMessages
          }
          catch (Exception ex)
          {
-            _ws.Logger.Add(new LogEntry(GetType().Name + ".SendNotify()", 
-                                        ex.Message, 
-                                        LogEntry.LogEntryType.EV_ERROR));
-            
-            // Descarta la excepción
-            // throw ex;
+            // Register the error but discard raising it
+            _ws.Logger.Error(this, "SendNotify", ex);
          }
       }
 

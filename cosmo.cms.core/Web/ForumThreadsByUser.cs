@@ -69,7 +69,7 @@ namespace Cosmo.Cms.Web
                                   IconControl.GetIcon(this, IconControl.ICON_COMMENT) + " " + HtmlContentControl.Link(thUrl, thread.Title, false),
                                   IconControl.GetIcon(this, IconControl.ICON_USER) + " " + thread.AuthorName,
                                   (thread.MessageCount - 1).ToString(),
-                                  thread.LastReply.ToString(Formatter.FORMAT_DATETIME));
+                                  thread.LastReply.ToString(Cosmo.Utils.Calendar.FORMAT_DATETIME));
 
                table.Rows.Add(row);
             }

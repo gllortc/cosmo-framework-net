@@ -91,7 +91,7 @@ namespace Cosmo.Data
          IDataModule _module;
 
          // Carga los módulos
-         foreach (Plugin plugin in _ws.Settings.DataModules.Plugins)
+         foreach (Plugin plugin in _ws.Settings.DataModules.GetList())
          {
             Object[] args = new Object[2];
             args[0] = _ws;
@@ -111,9 +111,10 @@ namespace Cosmo.Data
          {
             _defaultName = _ws.Settings.DataModules.DefaultPluginId;
          }
-         else if (_ws.Settings.DataModules.Plugins.Count > 0)
+         else if (_ws.Settings.DataModules.Count > 0)
          {
-            _defaultName = _ws.Settings.DataModules.Plugins[0].ID;
+            // TODO: Get first
+            _defaultName = string.Empty; // _ws.Settings.DataModules.GetList(). [0].ID;
          }
          else
          {
@@ -130,7 +131,7 @@ namespace Cosmo.Data
          IDataList _module;
 
          // Carga los módulos
-         foreach (Plugin plugin in _ws.Settings.DataLists.Plugins)
+         foreach (Plugin plugin in _ws.Settings.DataLists.GetList())
          {
             Object[] args = new Object[2];
             args[0] = _ws;

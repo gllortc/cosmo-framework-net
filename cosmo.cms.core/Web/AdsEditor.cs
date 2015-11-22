@@ -45,7 +45,7 @@ namespace Cosmo.Cms.Web
          if (adId > 0)
          {
             // Classified ad edition
-            ad = adsDao.Item(adId);
+            ad = adsDao.GetByID(adId);
          }
          else
          {

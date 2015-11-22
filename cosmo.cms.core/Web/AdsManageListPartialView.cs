@@ -85,7 +85,7 @@ namespace Cosmo.Cms.Web
          //--------------------------------------
 
          AdsDAO ads = new AdsDAO(Workspace);
-         List<Ad> adlist = ads.Items(false, Workspace.CurrentUser.User.ID);
+         List<Ad> adlist = ads.GetByUser(Workspace.CurrentUser.User.ID, false);
 
          HtmlContentControl html = new HtmlContentControl(this);
          html.AppendParagraph("Puede gestionar en esta página sus anuncios clasificados. Puede crear nuevos anuncios, editar los anuncios, republicar los anuncios caducados o eliminar anuncios obsoletos.");
@@ -146,7 +146,7 @@ namespace Cosmo.Cms.Web
                row = new TableRow("row-ad-" + ad.ID,
                                   IconControl.GetIcon(this, IconControl.ICON_TAG) + " " + HtmlContentControl.Link(AdsView.GetURL(ad.ID), ad.Title, false),
                                   ad.Price <= 0 ? IconControl.GetIcon(this, IconControl.ICON_MINUS) : string.Format("{0:C}", ad.Price),
-                                  ad.Updated.ToString(Formatter.FORMAT_DATE),
+                                  ad.Updated.ToString(Cosmo.Utils.Calendar.FORMAT_DATE),
                                   status,
                                   tbrAd);
 

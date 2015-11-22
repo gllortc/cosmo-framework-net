@@ -8,7 +8,7 @@ using System.Xml;
 namespace Cosmo
 {
    /// <summary>
-   /// Clase que gestiona la lectura y el acceso a los parámetros de configuración del workspace.
+   /// Cosmo settings manager.
    /// </summary>
    public class WorkspaceSettings
    {
@@ -27,6 +27,7 @@ namespace Cosmo
       private const string XML_NODE_UI_MENU = "menu";
       private const string XML_NODE_AUTH_SERVICE = "security-services";
       private const string XML_NODE_AUTH_MODULE = "authentication-module";
+      private const string XML_NODE_LOG_SERVICE = "logging-services";
 
       private const string XML_ATTR_VERSION = "ver";
       private const string XML_ATTR_PLUGIN_ID = "id";
@@ -43,6 +44,7 @@ namespace Cosmo
       private const string XML_ATTR_APP_DESCRIPTION = "description";
       private const string XML_ATTR_APP_KEYWORDS = "keywords";
       private const string XML_ATTR_AUTH_MODULE = "authentication-module";
+      private const string XML_ATTR_LOG_MODULE = "log-module";
       private const string XML_ATTR_DATA_DEFAULTDS = "default-connection";
       private const string XML_ATTR_PLUGIN_SELECTED = "selected";
 
@@ -61,13 +63,6 @@ namespace Cosmo
       private string _appKeywords;
       private string _filename;
       private NameValueCollection _appSettings;
-      private PluginCollection _authModules;
-      private PluginCollection _dataSources;
-      private PluginCollection _dataLists;
-      private PluginCollection _commSources;
-      private PluginCollection _renderSources;
-      private PluginCollection _menuModules;
-      private PluginCollection _fsModules;
 
       /// <summary>Nombre del archivo de configuración de Cosmo (sin path).</summary>
       public const string PROPERTIES_FILENAME = "cosmo.config.xml";
@@ -179,58 +174,42 @@ namespace Cosmo
       /// <summary>
       /// Devuelve la lista de módulos de autenticación del workspace.
       /// </summary>
-      public PluginCollection AuthenticationModules
-      {
-         get { return _authModules; }
-      }
+      public PluginCollection AuthenticationModules { get; private set; }
 
       /// <summary>
       /// Devuelve la lista de módulos de datos del workspace.
       /// </summary>
-      public PluginCollection DataModules
-      {
-         get { return _dataSources; }
-      }
+      public PluginCollection DataModules { get; private set; }
 
       /// <summary>
       /// Devuelve la lista de módulos de datos del workspace.
       /// </summary>
-      public PluginCollection DataLists
-      {
-         get { return _dataLists; }
-      }
+      public PluginCollection DataLists { get; private set; }
 
       /// <summary>
       /// Devuelve la lista de módulos de comunicación del workspace.
       /// </summary>
-      public PluginCollection CommunicationModules
-      {
-         get { return _commSources; }
-      }
+      public PluginCollection CommunicationModules { get; private set; }
 
       /// <summary>
-      /// Devuelve la lista de módulos de renderizado del workspace.
+      /// Gets the list of all render modules defined in the workspace.
       /// </summary>
-      public PluginCollection RenderModules
-      {
-         get { return _renderSources; }
-      }
+      public PluginCollection RenderModules { get; private set; }
 
       /// <summary>
-      /// Devuelve la lista de módulos proveedores de menú.
+      /// Gets the list of all menu providers defined in the workspace.
       /// </summary>
-      public PluginCollection MenuModules
-      {
-         get { return _menuModules; }
-      }
+      public PluginCollection MenuModules { get; private set; }
 
       /// <summary>
-      /// Devuelve la lista de controladores del sistema de archivos.
+      /// Gets the list of all file system controllers defined in the workspace.
       /// </summary>
-      public PluginCollection FileSystemControllers
-      {
-         get { return _fsModules; }
-      }
+      public PluginCollection FileSystemControllers { get; private set; }
+
+      /// <summary>
+      /// Gets the list of LOG modules.
+      /// </summary>
+      public PluginCollection LogModules { get; private set; }
 
       #endregion
 
@@ -413,13 +392,15 @@ namespace Cosmo
          _appStatus = string.Empty;
          _appStatusUrlClosed = string.Empty;
          _appSettings = new NameValueCollection();
-         _authModules = new PluginCollection();
-         _dataSources = new PluginCollection();
-         _dataLists = new PluginCollection();
-         _commSources = new PluginCollection();
-         _renderSources = new PluginCollection();
-         _menuModules = new PluginCollection();
-         _fsModules = new PluginCollection();
+         this.AuthenticationModules = new PluginCollection();
+         this.DataModules = new PluginCollection();
+         this.DataLists = new PluginCollection();
+         this.CommunicationModules = new PluginCollection();
+         this.RenderModules = new PluginCollection();
+         this.MenuModules = new PluginCollection();
+         this.FileSystemControllers = new PluginCollection();
+         this.LogModules = new PluginCollection();
+
          _filename = Path.Combine(context.Server.MapPath(string.Empty), WorkspaceSettings.PROPERTIES_FILENAME);
       }
 
@@ -499,23 +480,26 @@ namespace Cosmo
             }
 
             // Carga la configuración de autenticación
-            _authModules.LoadPluginCollection(xmlDoc, XML_NODE_AUTH_SERVICE, XML_ATTR_AUTH_MODULE);
+            this.AuthenticationModules.LoadPluginCollection(xmlDoc, XML_NODE_AUTH_SERVICE, XML_ATTR_AUTH_MODULE);
 
             // Carga los proveedores de datos
-            _dataSources.LoadPluginCollection(xmlDoc, XML_NODE_DATA_SERVICE, XML_NODE_DATA_CONNECTION);
-            _dataLists.LoadPluginCollection(xmlDoc, XML_NODE_DATA_LISTS);
+            this.DataModules.LoadPluginCollection(xmlDoc, XML_NODE_DATA_SERVICE, XML_NODE_DATA_CONNECTION);
+            this.DataLists.LoadPluginCollection(xmlDoc, XML_NODE_DATA_LISTS);
 
             // Carga los proveedores de comunicaciones
-            _commSources.LoadPluginCollection(xmlDoc, XML_NODE_COMM_AGENT);
+            this.CommunicationModules.LoadPluginCollection(xmlDoc, XML_NODE_COMM_AGENT);
 
             // Carga los módulos de renderización
-            _renderSources.LoadPluginCollection(xmlDoc, XML_NODE_UI_AGENT);
+            this.RenderModules.LoadPluginCollection(xmlDoc, XML_NODE_UI_AGENT);
 
             // Carga los módulos proveedores de menús
-            _menuModules.LoadPluginCollection(xmlDoc, XML_NODE_UI_MENU);
+            this.MenuModules.LoadPluginCollection(xmlDoc, XML_NODE_UI_MENU);
 
             // Carga los módulos de gestión de archivos (FileSystem)
-            _fsModules.LoadPluginCollection(xmlDoc, XML_NODE_FS_SERVICE, XML_NODE_FS_AGENT);
+            this.FileSystemControllers.LoadPluginCollection(xmlDoc, XML_NODE_FS_SERVICE, XML_NODE_FS_AGENT);
+
+            // Load LOG plugins
+            this.LogModules.LoadPluginCollection(xmlDoc, XML_NODE_LOG_SERVICE, XML_ATTR_LOG_MODULE);
          }
          catch (Exception ex)
          {

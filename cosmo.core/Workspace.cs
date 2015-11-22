@@ -47,8 +47,6 @@ namespace Cosmo
 
       #region Constants
 
-      private const string PRODUCT_NAME = "Cosmo Framework";
-
       // PREDEFINED ROLES
 
       /// <summary>Users who have administrative role: access all services and server control</summary>
@@ -204,6 +202,14 @@ namespace Cosmo
       }
 
       /// <summary>
+      /// Gets the IP from the client.
+      /// </summary>
+      public string RequestIP
+      {
+         get { return _context.Request.ServerVariables["REMOTE_ADDR"]; }
+      }
+
+      /// <summary>
       /// Devuelve una instancia al servicio de datos del workspace.
       /// </summary>
       public DataService DataService
@@ -252,7 +258,7 @@ namespace Cosmo
       {
          get
          {
-            if (_fsSrv == null) _fsSrv = new FileSystemService(this);
+            if (_fsSrv == null) _fsSrv = new FileSystemService(this, _properties.FileSystemControllers);
             return _fsSrv;
          }
       }
@@ -341,11 +347,15 @@ namespace Cosmo
       }
 
       /// <summary>
-      /// Devuelve el nombre del producto.
+      /// Gets the Cosmo Core product name.
       /// </summary>
       public static string ProductName
       {
-         get { return Workspace.PRODUCT_NAME; }
+         get 
+         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            return System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
+         }
       }
 
       /// <summary>
@@ -422,6 +432,9 @@ namespace Cosmo
          {
             _properties = new WorkspaceSettings(_context);
          }
+
+         // Preload log services
+         _logSrv = new LoggerService(this);
       }
 
       #endregion

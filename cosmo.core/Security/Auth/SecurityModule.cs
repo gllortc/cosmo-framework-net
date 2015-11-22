@@ -16,7 +16,6 @@ namespace Cosmo.Security.Auth
    {
       // Internal data declarations
       private Plugin _plugin;
-      private Workspace _ws;
 
       #region Constants
 
@@ -65,7 +64,7 @@ namespace Cosmo.Security.Auth
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
       protected SecurityModule(Workspace workspace, Plugin plugin)
       {
-         _ws = workspace;
+         this.Workspace = workspace;
          _plugin = plugin;
       }
 
@@ -74,12 +73,9 @@ namespace Cosmo.Security.Auth
       #region Properties
 
       /// <summary>
-      /// Devuelve el workspace para el que se está autenticando.
+      /// Gets the current workspace.
       /// </summary>
-      public Workspace Workspace 
-      { 
-         get { return _ws; } 
-      }
+      public Workspace Workspace {get; private set;}
 
       /// <summary>
       /// Devuelve el nombre (ID) del módulo de autenticación configurado.
@@ -203,7 +199,7 @@ namespace Cosmo.Security.Auth
 
          // Genera la URL de verificación
          string qs = UriCryptography.Encrypt("obj=" + user.Mail + "&id=" + user.ID, this.EncriptionKey);
-         string url = Cosmo.Net.Url.Combine(_ws.Url, Cosmo.Web.UserJoinVerification.GetURL(qs));
+         string url = Cosmo.Net.Url.Combine(this.Workspace.Url, Cosmo.Web.UserJoinVerification.GetURL(qs));
 
          // Generate mail message
          msg.To.Add(new MailAddress(user.Mail, string.IsNullOrWhiteSpace(user.Name) ? user.Login : user.Name));
@@ -214,7 +210,7 @@ namespace Cosmo.Security.Auth
          body = body.Replace(TAG_USER_MAIL, user.Mail);
          body = body.Replace(TAG_USER_NAME, user.Name);
          body = body.Replace(TAG_USER_PASSWORD, user.Password);
-         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+         body = body.Replace(TAG_WORKSPACE_MAIL, this.Workspace.Mail);
 
          if (this.IsVerificationMailHtmlFormat)
          {
@@ -235,7 +231,7 @@ namespace Cosmo.Security.Auth
          subject = subject.Replace(TAG_USER_MAIL, user.Mail);
          subject = subject.Replace(TAG_USER_NAME, user.Name);
          subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
-         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+         subject = subject.Replace(TAG_WORKSPACE_MAIL, this.Workspace.Mail);
 
          msg.Subject = subject;
 
@@ -269,7 +265,7 @@ namespace Cosmo.Security.Auth
          body = body.Replace(TAG_USER_MAIL, user.Mail);
          body = body.Replace(TAG_USER_NAME, user.Name);
          body = body.Replace(TAG_USER_PASSWORD, user.Password);
-         body = body.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+         body = body.Replace(TAG_WORKSPACE_MAIL, this.Workspace.Mail);
 
          if (this.IsPersonalDataMailHtmlFormat)
          {
@@ -288,7 +284,7 @@ namespace Cosmo.Security.Auth
          subject = subject.Replace(TAG_USER_MAIL, user.Mail);
          subject = subject.Replace(TAG_USER_NAME, user.Name);
          subject = subject.Replace(TAG_USER_PASSWORD, user.Password);
-         subject = subject.Replace(TAG_WORKSPACE_MAIL, _ws.Mail);
+         subject = subject.Replace(TAG_WORKSPACE_MAIL, this.Workspace.Mail);
 
          msg.Subject = subject;
 

@@ -17,9 +17,10 @@ namespace Cosmo.Utils
       private const string XML_ATTR_PARAM_KEY = "key";
       private const string XML_ATTR_PARAM_VALUE = "value";
 
+      private const string TAG_MACHINE_NAME = "[%MACHINENAME%]";
+
       // Internal data declaration
-      private string _defaultId;
-      private List<Plugin> _plugins;
+      private Dictionary<String, Plugin> _plugins;
 
       #region Constructors
 
@@ -38,19 +39,14 @@ namespace Cosmo.Utils
       /// <summary>
       /// Gets or sets el identificador del plugin seleccionado por defecto.
       /// </summary>
-      public string DefaultPluginId
-      {
-         get { return _defaultId; }
-         set { _defaultId = value; }
-      }
+      public string DefaultPluginId { get; private set; }
 
       /// <summary>
-      /// Contiene la lista 
+      /// Gets the number of plugin modules in the collection.
       /// </summary>
-      public List<Plugin> Plugins
+      public int Count
       {
-         get { return _plugins; }
-         set { _plugins = value; }
+         get { return _plugins.Count; }
       }
 
       #endregion
@@ -58,18 +54,37 @@ namespace Cosmo.Utils
       #region Methods
 
       /// <summary>
+      /// Gets the list of all modules.
+      /// </summary>
+      /// <returns></returns>
+      public Dictionary<String, Plugin>.ValueCollection GetList()
+      {
+         return this._plugins.Values;
+      }
+
+      /// <summary>
+      /// Check if a plugin contains certain module.
+      /// </summary>
+      /// <param name="pluginId">Module unique identifier.</param>
+      /// <returns><c>true</c> if the module exists or <c>false</c> in all other cases.</returns>
+      public bool ContainsPlugin(string pluginId)
+      {
+         return _plugins.ContainsKey(pluginId);
+      }
+
+      /// <summary>
       /// Agrega un nuevo plugin de forma segura a la colección evitando duplicados en los identificadores.
       /// </summary>
       /// <param name="plugin">La instancia de <see cref="Plugin"/> que se desea agregar.</param>
       public void AddPlugin(Plugin plugin)
       {
-         if (GetPlugin(plugin.ID) == null)
+         if (_plugins.ContainsKey(plugin.ID))
          {
-            _plugins.Add(plugin);
+            _plugins[plugin.ID] = plugin;
          }
          else
          {
-            throw new ArgumentException("Ya existe un módulo con el ID [" + plugin.ID + "]");
+            _plugins.Add(plugin.ID, plugin);
          }
       }
 
@@ -79,13 +94,13 @@ namespace Cosmo.Utils
       /// <returns>Una instancia de <see cref="Plugin"/> seleccionado por defecto o <c>null</c> si no se encuentra o no está definido.</returns>
       public Plugin GetDefaultPlugin()
       {
-         if (string.IsNullOrWhiteSpace(_defaultId))
+         if (string.IsNullOrWhiteSpace(this.DefaultPluginId))
          {
             return null;
          }
          else
          {
-            return GetPlugin(_defaultId);
+            return GetPlugin(this.DefaultPluginId);
          }
       }
 
@@ -96,12 +111,9 @@ namespace Cosmo.Utils
       /// <returns>La instancia de <see cref="Plugin"/> solicitada o <c>null</c> si no existe el identificador en la colección.</returns>
       public Plugin GetPlugin(string pluginId)
       {
-         foreach (Plugin plugin in _plugins)
+         if (_plugins.ContainsKey(pluginId))
          {
-            if (plugin.ID.Equals(pluginId))
-            {
-               return plugin;
-            }
+            return _plugins[pluginId];
          }
 
          return null;
@@ -145,7 +157,10 @@ namespace Cosmo.Utils
 
          if (!string.IsNullOrWhiteSpace(defaultAttributeName))
          {
-            this.DefaultPluginId = XmlUtilities.ReadTagParameter(xmlDoc, defaultAttributeName, string.Empty);
+            this.DefaultPluginId = ReadTagParameter(xmlDoc, defaultAttributeName, string.Empty);
+
+            // Replace ID tags
+            this.DefaultPluginId = ReplaceTags(this.DefaultPluginId);
          }
       }
 
@@ -158,8 +173,8 @@ namespace Cosmo.Utils
       /// </summary>
       private void Initialize()
       {
-         _defaultId = string.Empty;
-         _plugins = new List<Plugin>();
+         this.DefaultPluginId = string.Empty;
+         _plugins = new Dictionary<String, Plugin>();
       }
 
       /// <summary>
@@ -185,10 +200,43 @@ namespace Cosmo.Utils
          foreach (XmlNode node in nodeList)
          {
             plugin.Settings.Add(node.Attributes[XML_ATTR_PARAM_KEY].Value, 
-                                XmlUtilities.ReplaceTags(node.Attributes[XML_ATTR_PARAM_VALUE].Value));
+                                ReplaceTags(node.Attributes[XML_ATTR_PARAM_VALUE].Value));
          }
 
          return plugin;
+      }
+
+      /// <summary>
+      /// Obtiene el valor de un parámetro de un TAG determinado.
+      /// </summary>
+      private string ReadTagParameter(XmlDocument xmlDoc, string tagName, string defaultValue)
+      {
+         XmlNodeList nodes = xmlDoc.GetElementsByTagName(tagName);
+         if (nodes.Count <= 0)
+         {
+            return defaultValue;
+         }
+
+         if (nodes[0].Attributes.Count <= 0)
+         {
+            return defaultValue;
+         }
+
+         return nodes[0].Attributes[XML_ATTR_PLUGIN_DEFAULT].Value;
+      }
+
+      /// <summary>
+      /// Replace ID tags from element plugin ID.
+      /// </summary>
+      private string ReplaceTags(string elementId)
+      {
+         // Replace ID tags
+         if (elementId.Contains(TAG_MACHINE_NAME))
+         {
+            elementId = elementId.Replace(TAG_MACHINE_NAME, Environment.MachineName.Trim().ToLower());
+         }
+
+         return elementId;
       }
 
       #endregion

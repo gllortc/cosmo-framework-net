@@ -10,8 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cosmo</RootNamespace>
     <AssemblyName>Cosmo.Core</AssemblyName>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\G2 Favicon.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -96,8 +95,11 @@
     <Compile Include="Data\ORM\MappingObject.cs" />
     <Compile Include="Data\ORM\OrmEngine.cs" />
     <Compile Include="Data\Validation\IValidator.cs" />
+    <Compile Include="Diagnostics\Impl\FileLogger.cs" />
+    <Compile Include="Diagnostics\ILogger.cs" />
+    <Compile Include="Diagnostics\Impl\SqlSrvLogger.cs" />
     <Compile Include="FileSystem\IFileSystemID.cs" />
-    <Compile Include="FileSystem\IFileSystemService.cs" />
+    <Compile Include="FileSystem\FileSystemModule.cs" />
     <Compile Include="FileSystem\Impl\CosmoFileSystemImpl.cs" />
     <Compile Include="Net\Mail.cs" />
     <Compile Include="Net\REST\RestHandler.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="UI\Scripting\AjaxSendFormScript.cs" />
     <Compile Include="UI\Scripting\AjaxUpdateListScript.cs" />
     <Compile Include="UI\Scripting\AutocompleteFormFieldScript.cs" />
+    <Compile Include="Web\AdminLogs.cs" />
     <Compile Include="Web\Handlers\DataRestHandler.cs" />
     <Compile Include="Web\MediaFileList.cs" />
     <Compile Include="Web\Handlers\CommunicationsRestHandler.cs" />
@@ -126,7 +129,6 @@
     <Compile Include="UI\Controls\PictureControl.cs" />
     <Compile Include="UI\Controls\PictureGalleryControl.cs" />
     <Compile Include="UI\Controls\UserLinkControl.cs" />
-    <Compile Include="UI\Formatter.cs" />
     <Compile Include="UI\Scripting\ModalViewSendFormScript.cs" />
     <Compile Include="UI\Scripting\PartialViewLoadScript.cs" />
     <Compile Include="UI\Scripting\ModalViewOpenScript.cs" />
@@ -178,7 +180,6 @@
     <Compile Include="Utils\Collections.cs" />
     <Compile Include="UI\Controls\ControlCollection.cs" />
     <Compile Include="Utils\PluginCollection.cs" />
-    <Compile Include="Utils\XmlUtilities.cs" />
     <Compile Include="Web\AdminUserList.cs" />
     <Compile Include="Web\AdminUserData.cs" />
     <Compile Include="Web\PrivateMessagesPartialView.cs" />
@@ -186,10 +187,12 @@
     <Compile Include="Web\MediaUpload.cs" />
     <Compile Include="Web\UserAuth.cs" />
     <Compile Include="Web\UserData.cs" />
+    <Compile Include="Web\AdminLogDataModal.cs" />
     <Compile Include="Web\UserDataModal.cs" />
     <Compile Include="Web\UserJoin.cs" />
     <Compile Include="Web\UserJoinVerification.cs" />
     <Compile Include="Web\UserPasswordRecovery.cs" />
+    <Compile Include="WorkspaceService.cs" />
     <Compile Include="WorkspaceSettingsException.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\Connection\Impl\SqlServerDataSourceImpl.cs" />
@@ -235,8 +238,6 @@
     <Compile Include="Data\Validation\ValidationRuleBase.cs" />
     <Compile Include="Data\Validation\Validator.cs" />
     <Compile Include="Diagnostics\EventLog.cs" />
-    <Compile Include="Diagnostics\ExceptionHelper.cs" />
-    <Compile Include="Diagnostics\TraceHelper.cs" />
     <Compile Include="Utils\Drawing\JpegBaseEncoder.cs" />
     <Compile Include="Utils\Drawing\Imaging.cs" />
     <Compile Include="Utils\Drawing\DrawingInteropGdi.cs" />
@@ -290,19 +291,7 @@
     <Compile Include="Security\UserSession.cs" />
     <Compile Include="Workspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -316,7 +305,10 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\cosmo_document.ico" />
+    <Content Include="Resources\G2 Favicon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

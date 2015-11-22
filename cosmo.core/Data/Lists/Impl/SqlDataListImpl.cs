@@ -1,5 +1,4 @@
 ﻿using Cosmo.Data.Connection;
-using Cosmo.Diagnostics;
 using Cosmo.Utils;
 using System;
 using System.Collections.Generic;
@@ -104,7 +103,6 @@ namespace Cosmo.Data.Lists.Impl
       public void LoadData()
       {
          KeyValue value;
-         SqlCommand cmd = null;
 
          // Evita recargas innecesareas
          if (_loaded) return;
@@ -116,22 +114,22 @@ namespace Cosmo.Data.Lists.Impl
          {
             Workspace.DataService.GetDataSource(this.DataModuleID).Connect();
 
-            cmd = new SqlCommand(this.SqlQuery, Workspace.DataService.GetDataSource(this.DataModuleID).Connection);
-            // cmd.Parameters.Add(new SqlParameter("@id", folderId));
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (SqlCommand cmd = new SqlCommand(this.SqlQuery, Workspace.DataService.GetDataSource(this.DataModuleID).Connection))
             {
-               while (reader.Read())
+               using (SqlDataReader reader = cmd.ExecuteReader())
                {
-                  value = new KeyValue();
-                  value.Value = reader[0].ToString();
-
-                  for (int i = 1; i < reader.FieldCount; i++)
+                  while (reader.Read())
                   {
-                     value.Label = (string.IsNullOrEmpty(value.Label) ? string.Empty : LABEL_VALUES_SEPARATOR) + reader[i].ToString().Trim();
-                  }
+                     value = new KeyValue();
+                     value.Value = reader[0].ToString();
 
-                  _values.Add(value);
+                     for (int i = 1; i < reader.FieldCount; i++)
+                     {
+                        value.Label = (string.IsNullOrEmpty(value.Label) ? string.Empty : LABEL_VALUES_SEPARATOR) + reader[i].ToString().Trim();
+                     }
+
+                     _values.Add(value);
+                  }
                }
             }
 
@@ -139,14 +137,11 @@ namespace Cosmo.Data.Lists.Impl
          }
          catch (Exception ex)
          {
-            Workspace.Logger.Add(new LogEntry(GetType().Name + ".LoadData()",
-                                              ex.Message,
-                                              LogEntry.LogEntryType.EV_ERROR));
+            Workspace.Logger.Error(this, "LoadData", ex);
             throw ex;
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
             Workspace.DataService.GetDataSource(this.DataModuleID).Disconnect();
          }
       }
