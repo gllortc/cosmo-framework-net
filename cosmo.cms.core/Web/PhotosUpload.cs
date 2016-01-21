@@ -115,11 +115,11 @@ namespace Cosmo.Cms.Web
          rules.AppendUnorderedList(rulesText);
 
          PanelControl rulesPanel = new PanelControl(this);
-         rulesPanel.Text = "Normas para la publicación de fotografias";
+         rulesPanel.Text = "Normas de publicación";
          rulesPanel.CaptionIcon = IconControl.ICON_BELL;
          rulesPanel.Content.Add(rules);
 
-         MainContent.Add(rulesPanel);
+         RightContent.Add(rulesPanel);
       }
 
       public override void FormDataReceived(UI.Controls.FormControl receivedForm)

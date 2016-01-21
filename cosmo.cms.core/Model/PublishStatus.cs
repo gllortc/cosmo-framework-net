@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Cosmo.Cms.Common
+﻿namespace Cosmo.Cms.Model
 {
    public static class CmsPublishStatus
    {

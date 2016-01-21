@@ -1,4 +1,5 @@
 ﻿using Cosmo.Security.Auth;
+using System;
 using System.Collections.Generic;
 
 namespace Cosmo.Cms.Model.Photos
@@ -6,7 +7,7 @@ namespace Cosmo.Cms.Model.Photos
    /// <summary>
    /// Implementa una carpeta de imágenes.
    /// </summary>
-   public class PhotoFolder
+   public class PhotoFolder : Cosmo.Cms.Model.IPublishable
    {
 
       #region Constructors
@@ -44,9 +45,9 @@ namespace Cosmo.Cms.Model.Photos
       public string Description { get; set; }
 
       /// <summary>
-      /// Indica si la carpeta admite la subida de imágenes por parte de los usuarios.
+      /// Gets a value indicating if the folder can contain objects or is only a structural element.
       /// </summary>
-      public bool CanUpload { get; set; }
+      public bool IsContainer { get; set; }
 
       /// <summary>
       /// Gets or sets el patrón para nombrar nuevos archivos de imagen.
@@ -64,9 +65,64 @@ namespace Cosmo.Cms.Model.Photos
       public bool Enabled { get; set; }
 
       /// <summary>
-      /// Propietario/creador del objeto.
+      /// Gets or sets the owner login.
       /// </summary>
+      /// <remarks>
+      /// By default, this login is the same of the creator account.
+      /// </remarks>
       public string Owner { get; set; }
+
+      /// <summary>
+      /// Gets or sets the publish status of the object.
+      /// </summary>
+      public CmsPublishStatus.PublishStatus Status
+      {
+         get { return (this.Enabled ? CmsPublishStatus.PublishStatus.Published : CmsPublishStatus.PublishStatus.Unpublished); }
+         set { this.Enabled = (value == CmsPublishStatus.PublishStatus.Published); }
+      }
+
+      /// <summary>
+      /// Gets or sets the creation timestamp.
+      /// </summary>
+      public System.DateTime Created
+      {
+         get { return DateTime.Now; }
+      }
+
+      /// <summary>
+      /// Gets or sets the last modification timestamp.
+      /// </summary>
+      public System.DateTime Updated
+      {
+         get { return DateTime.Now; }
+      }
+
+      /// <summary>
+      /// Save the object to XML a file.
+      /// </summary>
+      /// <param name="filename">File (and path) to output file.</param>
+      public void Save(string filename)
+      {
+         throw new System.NotImplementedException();
+      }
+
+      /// <summary>
+      /// Loads an object from XML a file (created previously by the method <c>Save()</c>).
+      /// </summary>
+      /// <param name="filename">File (and path) to file to load.</param>
+      public void Load(string filename)
+      {
+         throw new System.NotImplementedException();
+      }
+
+      /// <summary>
+      /// Check instance data for validate its content.
+      /// </summary>
+      /// <returns><c>true</c> if data is correct or <c>false</c> in all other cases.</returns>
+      public bool Validate()
+      {
+         return true;
+      }
 
       /// <summary>
       /// Devuelve el número de objetos que contiene la carpeta.
@@ -91,7 +147,7 @@ namespace Cosmo.Cms.Model.Photos
          this.ParentID = 0;
          this.Name = string.Empty;
          this.Description = string.Empty;
-         this.CanUpload = false;
+         this.IsContainer = false;
          this.FilePattern = string.Empty;
          this.Order = 0;
          this.Enabled = false;

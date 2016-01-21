@@ -1,5 +1,4 @@
-﻿using Cosmo.Cms.Common;
-using Cosmo.Security.Auth;
+﻿using Cosmo.Security.Auth;
 using System;
 
 namespace Cosmo.Cms.Model.Ads

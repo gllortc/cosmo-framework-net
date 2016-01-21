@@ -55,6 +55,8 @@
       public const string ICON_EYE_SLASH = "fa-eye-slash";
       /// <summary>Código de icono: Cuentagotas</summary>
       public const string ICON_EYEDROPER = "fa-eyedropper";
+      /// <summary>Icon code: File archive</summary>
+      public const string ICON_FILE = "fa-file-archive-o";
       /// <summary>Código de icono: Flecha hacia arriba </summary>
       public const string ICON_FOLDER_OPEN = "fa-folder-open";
       /// <summary>Código de icono: Flecha hacia arriba </summary>

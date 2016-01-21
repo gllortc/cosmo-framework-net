@@ -1,5 +1,4 @@
-﻿using Cosmo.Cms.Common;
-using Cosmo.Cms.Model.Photos;
+﻿using Cosmo.Cms.Model.Photos;
 using Cosmo.Net;
 using Cosmo.Security.Auth;
 using System;

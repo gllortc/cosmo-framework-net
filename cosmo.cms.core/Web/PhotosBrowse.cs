@@ -10,6 +10,18 @@ namespace Cosmo.Cms.Web
    public class PhotosBrowse : PageView
    {
 
+      #region Properties
+
+      /// <summary>
+      /// Gets a value indicating id the current user can administrate the photo service.
+      /// </summary>
+      private bool IsPhotoAdmin
+      {
+         get { return Workspace.CurrentUser.CheckAuthorization(Cosmo.Workspace.ROLE_ADMINISTRATOR, PhotoDAO.ROLE_PHOTOS_EDITOR); }
+      }
+
+      #endregion
+
       #region PageView Implementation
 
       public override void LoadPage()
@@ -86,7 +98,7 @@ namespace Cosmo.Cms.Web
 
       private PanelControl GetFoldersTreeView()
       {
-         if (Cache.Exist(CACHE_PHOTOS_FOLDERS_TREEVIEW))
+         if (Cache.Exist(CACHE_PHOTOS_FOLDERS_TREEVIEW) && !this.IsPhotoAdmin)
          {
             return (PanelControl)Cache.Get(CACHE_PHOTOS_FOLDERS_TREEVIEW);
          }
@@ -102,6 +114,16 @@ namespace Cosmo.Cms.Web
                treeView.ChildItems.Add(ConvertToChildItem(folder));
             }
 
+            if (this.IsPhotoAdmin)
+            {
+               TreeViewChildItemControl item = new TreeViewChildItemControl(this);
+               item.Icon = IconControl.ICON_PLUS;
+               item.Href = Cosmo.Cms.Web.PhotosFolderEdit.GetAddURL();
+               item.Caption = "New folder...";
+
+               treeView.ChildItems.Add(item);
+            }
+
             HtmlContentControl description = new HtmlContentControl(this, "Las fotografias se encuentran clasificadas por temática. Puede navegar por el árbol hasta encontrar las categorías de su interés.");
 
             PanelControl panel = new PanelControl(this);
@@ -110,7 +132,10 @@ namespace Cosmo.Cms.Web
             panel.Content.Add(description);
             panel.Content.Add(treeView);
 
-            Cache.Add(CACHE_PHOTOS_FOLDERS_TREEVIEW, panel, 720, System.Web.Caching.CacheItemPriority.High);
+            if (!this.IsPhotoAdmin)
+            {
+               Cache.Add(CACHE_PHOTOS_FOLDERS_TREEVIEW, panel, 720, System.Web.Caching.CacheItemPriority.High);
+            }
 
             return panel;
          }
@@ -124,15 +149,21 @@ namespace Cosmo.Cms.Web
          child.Caption = folder.Name;
          child.Description = folder.Description;
          child.Href = PhotosByFolder.GetURL(folder.ID);
-
-         if (folder.Subfolders.Count > 0)
-            child.Icon = "glyphicon-chevron-right";
-         else
-            child.Icon = IconControl.ICON_CAMERA;
+         child.Icon = (folder.Subfolders.Count > 0 ? "glyphicon-chevron-right" : IconControl.ICON_CAMERA);
 
          foreach (PhotoFolder childFolder in folder.Subfolders)
          {
             child.ChildItems.Add(ConvertToChildItem(childFolder));
+         }
+
+         if (this.IsPhotoAdmin)
+         {
+            TreeViewChildItemControl item = new TreeViewChildItemControl(this);
+            item.Icon = IconControl.ICON_PLUS;
+            item.Href = Cosmo.Cms.Web.PhotosFolderEdit.GetAddURL(folder.ID);
+            item.Caption = "New folder...";
+
+            child.ChildItems.Add(item);
          }
 
          return child;

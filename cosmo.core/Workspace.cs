@@ -7,7 +7,6 @@ using Cosmo.Security;
 using Cosmo.Security.Auth;
 using Cosmo.UI;
 using System;
-using System.Reflection;
 using System.Web;
 
 [assembly: CLSCompliant(true)]
@@ -329,32 +328,6 @@ namespace Cosmo
          {
             if (_user == null) _user = new UserSession(this);
             return _user;
-         }
-      }
-
-      /// <summary>
-      /// Devuelve la versión de la libreria que define el objeto WSWorkspace
-      /// </summary>
-      public static string Version
-      {
-         get
-         {
-            return Assembly.GetExecutingAssembly().GetName().Version.Major + "." +
-                   Assembly.GetExecutingAssembly().GetName().Version.Minor + "." +
-                   Assembly.GetExecutingAssembly().GetName().Version.Revision + "." +
-                   Assembly.GetExecutingAssembly().GetName().Version.Build; ;
-         }
-      }
-
-      /// <summary>
-      /// Gets the Cosmo Core product name.
-      /// </summary>
-      public static string ProductName
-      {
-         get 
-         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            return System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
          }
       }
 

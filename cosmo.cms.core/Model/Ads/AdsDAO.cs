@@ -63,7 +63,7 @@ namespace Cosmo.Cms.Model.Ads
       /// <summary>
       /// Gets a new instance of <see cref="AdsDAO"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia de <see cref="Cosmo.Cms.Cms"/> que representa el sitio actual.</param>
+      /// <param name="workspace">Una instancia de <see cref="Properties.Cms.Cms"/> que representa el sitio actual.</param>
       public AdsDAO(Workspace workspace)
       {
          _ws = workspace;

@@ -200,7 +200,7 @@ namespace Cosmo.Diagnostics
          this.ID = 0;
          this.Date = System.DateTime.Now;
          this.UserLogin = Security.Auth.SecurityService.ACCOUNT_SYSTEM;
-         this.ApplicationName = Workspace.ProductName;
+         this.ApplicationName = Cosmo.Properties.ProductName;
          this.Context = string.Empty;
          this.WorkspaceName = string.Empty;
          this.Code = 0;

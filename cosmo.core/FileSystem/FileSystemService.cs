@@ -15,7 +15,7 @@ namespace Cosmo.FileSystem
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="Cosmo.Workspace.FileSystemService"/>.
+      /// Gets a new instance of <see cref="Properties.Workspace.FileSystemService"/>.
       /// </summary>
       /// <param name="workspace">Una instancia de <see cref="Workspace"/>.</param>
       public FileSystemService(Workspace workspace, PluginCollection modules)

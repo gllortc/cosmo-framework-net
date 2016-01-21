@@ -331,7 +331,7 @@ namespace Cosmo.UI.Render.Impl
          xhtml.AppendLine("  <meta http-equiv=\"publisher\" content=\"" + Workspace.Name + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"copyright\" content=\"" + Workspace.Name + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"author\" content=\"" + Workspace.Name + "\" />");
-         xhtml.AppendLine("  <meta http-equiv=\"generator\" content=\"" + Cosmo.Workspace.ProductName + " (" + Cosmo.Workspace.Version + ")" + "\" />");
+         xhtml.AppendLine("  <meta http-equiv=\"generator\" content=\"" + Cosmo.Properties.ProductName + " (" + Cosmo.Properties.ProductVersion + ")" + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"distribution\" content=\"global\" />");
          xhtml.AppendLine("  <meta http-equiv=\"description\" content=\"" + (string.IsNullOrEmpty(view.Description) ? Workspace.PageDescription : view.Description) + "\" />");
          xhtml.AppendLine("  <meta http-equiv=\"keywords\" content=\"" + (string.IsNullOrEmpty(view.Keywords) ? Workspace.PageKeywords : view.Keywords) + "\" />");

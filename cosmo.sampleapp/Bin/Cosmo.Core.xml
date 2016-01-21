@@ -4,6 +4,21 @@
         <name>Cosmo.Core</name>
     </assembly>
     <members>
+        <member name="T:Cosmo.Properties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Cosmo.Properties.ProductName">
+            <summary>
+            Devuelve el nombre del producto.
+            </summary>
+        </member>
+        <member name="P:Cosmo.Properties.ProductVersion">
+            <summary>
+            Devuelve la versión de la libreria que define el objeto WSWorkspace
+            </summary>
+        </member>
         <member name="T:Cosmo.Communications.CommunicationsException">
             <summary>
             Excepción que se lanza cuando la cuenta de correo electrónico no existe o no está asociada a ninguna cuenta de usuario.
@@ -1028,7 +1043,7 @@
         </member>
         <member name="M:Cosmo.FileSystem.Impl.CosmoFileSystemImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Gets a new instance of <see cref="P:Cosmo.Workspace.FileSystemService"/>.
+            Gets a new instance of <see cref="!:Properties.Workspace.FileSystemService"/>.
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/>.</param>
             <param name="plugin">Contiene toda la información de configuración del módulo.</param>
@@ -1235,7 +1250,7 @@
             <summary>
             Método invocado al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Net.REST.RestHandler.InvokeRestMethod(System.Web.HttpContext)">
             <summary>
@@ -1894,7 +1909,7 @@
             <summary>
             Método invocado al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Web.Handlers.DataRestHandler.GetDataList(System.String)">
             <summary>
@@ -2063,7 +2078,7 @@
             <summary>
             Método invocado al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Web.Handlers.CommunicationsRestHandler.PrivateMessageSend">
             <summary>
@@ -2146,7 +2161,7 @@
             <summary>
             Método invocado al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Web.Handlers.UIRestHandler.GetCaptchaUrl">
             <summary>
@@ -2193,7 +2208,7 @@
             <summary>
             Método invocado al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Web.Handlers.FileSystemRestHandler.GetDownloadFileUrl(Cosmo.FileSystem.IFileSystemID,System.String)">
             <summary>
@@ -2288,7 +2303,7 @@
             <summary>
             Evento que se invoca al recibir una petición.
             </summary>
-            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="F:Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+            <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="!:Properties.Workspace.PARAM_COMMAND"/>.</param>
         </member>
         <member name="M:Cosmo.Web.Handlers.SecurityRestHandler.GetUserDataUrl(System.Int32)">
             <summary>
@@ -7025,6 +7040,9 @@
         <member name="F:Cosmo.UI.Controls.IconControl.ICON_EYEDROPER">
             <summary>Código de icono: Cuentagotas</summary>
         </member>
+        <member name="F:Cosmo.UI.Controls.IconControl.ICON_FILE">
+            <summary>Icon code: File archive</summary>
+        </member>
         <member name="F:Cosmo.UI.Controls.IconControl.ICON_FOLDER_OPEN">
             <summary>Código de icono: Flecha hacia arriba </summary>
         </member>
@@ -11263,7 +11281,7 @@
         </member>
         <member name="M:Cosmo.FileSystem.FileSystemService.#ctor(Cosmo.Workspace,Cosmo.Utils.PluginCollection)">
             <summary>
-            Gets a new instance of <see cref="P:Cosmo.Workspace.FileSystemService"/>.
+            Gets a new instance of <see cref="!:Properties.Workspace.FileSystemService"/>.
             </summary>
             <param name="workspace">Una instancia de <see cref="T:Cosmo.Workspace"/>.</param>
         </member>
@@ -13459,16 +13477,6 @@
         <member name="P:Cosmo.Workspace.CurrentUser">
             <summary>
             Permite obtener la cuenta de usuario autenticado actualmente.
-            </summary>
-        </member>
-        <member name="P:Cosmo.Workspace.Version">
-            <summary>
-            Devuelve la versión de la libreria que define el objeto WSWorkspace
-            </summary>
-        </member>
-        <member name="P:Cosmo.Workspace.ProductName">
-            <summary>
-            Gets the Cosmo Core product name.
             </summary>
         </member>
         <member name="P:Cosmo.Workspace.CurrentUrl">

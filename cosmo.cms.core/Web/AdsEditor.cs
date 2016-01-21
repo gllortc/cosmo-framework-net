@@ -1,4 +1,4 @@
-﻿using Cosmo.Cms.Common;
+﻿using Cosmo.Cms.Model;
 using Cosmo.Cms.Model.Ads;
 using Cosmo.Net;
 using Cosmo.Security;

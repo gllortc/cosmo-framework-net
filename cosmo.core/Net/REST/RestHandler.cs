@@ -99,7 +99,7 @@ namespace Cosmo.Net.REST
       /// <summary>
       /// Método invocado al recibir una petición.
       /// </summary>
-      /// <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+      /// <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="Properties.Workspace.PARAM_COMMAND"/>.</param>
       public abstract void ServiceRequest(string command);
 
       #endregion

@@ -1,5 +1,4 @@
-﻿using Cosmo.Cms.Common;
-using Cosmo.Security.Auth;
+﻿using Cosmo.Security.Auth;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +7,7 @@ namespace Cosmo.Cms.Model.Content
    /// <summary>
    /// Implements a content folder.
    /// </summary>
-   public class DocumentFolder : Cosmo.Cms.Common.IPublishable
+   public class DocumentFolder : IPublishable
    {
 
       #region Constructors

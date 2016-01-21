@@ -34,7 +34,7 @@ namespace Cosmo.Web.Handlers
       /// <summary>
       /// Evento que se invoca al recibir una petición.
       /// </summary>
-      /// <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="Cosmo.Workspace.PARAM_COMMAND"/>.</param>
+      /// <param name="command">Comando a ejecutar pasado mediante el parámetro definido mediante <see cref="Properties.Workspace.PARAM_COMMAND"/>.</param>
       public override void ServiceRequest(string command)
       {
 
@@ -291,7 +291,7 @@ namespace Cosmo.Web.Handlers
          }
 
          // Redirije a la dirección especificada (o a Home si no se especifica)
-         if (string.IsNullOrWhiteSpace(urlLoginRedirect))
+         if (!string.IsNullOrWhiteSpace(urlLoginRedirect))
          {
             Response.Redirect(urlLoginRedirect);
          }
@@ -428,7 +428,7 @@ namespace Cosmo.Web.Handlers
                    DataType = RestMethod.RestMethodReturnType.StandardRestResponse )]
       [RestMethodParameter(DataType = typeof(Int32),
                            MethodParameterName = "userId",
-                           UrlParameterName = Cosmo.Workspace.PARAM_USER_ID )]
+                           UrlParameterName = Cosmo.Workspace.PARAM_USER_ID)]
       public void CancelAccount(int userId)
       {
          try

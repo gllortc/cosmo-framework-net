@@ -195,7 +195,7 @@ namespace Cosmo.Cms.Web
          // Agregar imágenes
          //-------------------------------------------------------------------
 
-         if (folder != null && folder.CanUpload)
+         if (folder != null && folder.IsContainer)
          {
             HtmlContentControl content = new HtmlContentControl(this);
             content.AppendParagraph("Si lo desea, puede agregar imágenes en esta carpeta.");

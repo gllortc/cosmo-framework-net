@@ -19,7 +19,7 @@ namespace Cosmo.Cms.Model.Forum
       private int _msgCount;
 
       /// <summary>
-      /// Gets a new instance of <see cref="Cosmo.Cms.Forums.CSForum"/>.
+      /// Gets a new instance of <see cref="Properties.Cms.Forums.CSForum"/>.
       /// </summary>
       public ForumChannel()
       {

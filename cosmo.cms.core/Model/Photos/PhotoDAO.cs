@@ -42,6 +42,7 @@ namespace Cosmo.Cms.Model.Photos
       // Fragmentos SQL reaprovechables
       private const string SQL_SELECT_OBJECT = "imgid,imfolder,imgtemplate,imgfile,imgwidth,imgheight,imgthumb,imgthwidth,imgthheigth,imgdesc,imgauthory,imguserid,imgdate,imgshows";
       private const string SQL_SELECT_FOLDER = "ifid,ifparentid,ifname,ifhtml,iflink,iforder,ifenabled,ifowner,iffilepattern";
+      private const string SQL_INSERT_FOLDER = "ifparentid,ifimage,ifimgwidth,ifimgheight,ifname,ifhtml,iflink,iforder,ifenabled,ifowner,iffilepattern";
       private const string SQL_TABLE_FOLDERS = "imagefolders";
       private const string SQL_TABLE_IMAGES = "images";
       private const string SQL_TABLE_DOCIMAGES = "CMS_DOCSIMAGES";
@@ -114,11 +115,103 @@ namespace Cosmo.Cms.Model.Photos
       #region Methods
 
       /// <summary>
-      /// Obtiene una carpeta de imágenes.
+      /// Adds a new folder into the photos service.
       /// </summary>
-      /// <param name="folderId">Identificador de la carpeta.</param>
-      /// <param name="getSubfolders">Indica si se deben recuperar las subcarpetas.</param>
-      /// <returns>Una instáncia a una clase CSPicturesFolder.</returns>
+      /// <param name="folder">Folder to create.</param>
+      public void AddFolder(PhotoFolder folder)
+      {
+         string sql = string.Empty;
+
+         try
+         {
+            _ws.DataSource.Connect();
+
+            sql = @"INSERT INTO " + SQL_TABLE_FOLDERS + @" (" + SQL_INSERT_FOLDER + @") 
+                    VALUES (@ifparentid, '', 0, 0, @ifname, @ifhtml, @iflink, @iforder, @ifenabled, @ifowner, @iffilepattern)";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@ifparentid", folder.ParentID));
+               cmd.Parameters.Add(new SqlParameter("@ifname", folder.Name));
+               cmd.Parameters.Add(new SqlParameter("@ifhtml", folder.Description));
+               cmd.Parameters.Add(new SqlParameter("@iflink", folder.IsContainer));
+               cmd.Parameters.Add(new SqlParameter("@iforder", folder.Order));
+               cmd.Parameters.Add(new SqlParameter("@ifenabled", (folder.Status == CmsPublishStatus.PublishStatus.Published)));
+               cmd.Parameters.Add(new SqlParameter("@ifowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
+               cmd.Parameters.Add(new SqlParameter("@iffilepattern", folder.FilePattern));
+               cmd.ExecuteNonQuery();
+            }
+
+            // Get the unique identifier assigned to the object
+            sql = @"SELECT Max(ifid) 
+                    FROM   " + SQL_TABLE_FOLDERS;
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               folder.ID = (int)cmd.ExecuteScalar();
+            }
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Error(this, "AddFolder", ex);
+            throw ex;
+         }
+         finally
+         {
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Update a folder for the photos service.
+      /// </summary>
+      /// <param name="folder">Folder to update.</param>
+      public void UpdateFolder(PhotoFolder folder)
+      {
+         string sql = string.Empty;
+
+         try
+         {
+            _ws.DataSource.Connect();
+
+            sql = @"UPDATE " + SQL_TABLE_FOLDERS + @" 
+                    SET    ""ifparentid"" = @ifparentid, 
+                           ""ifname"" = @ifname, 
+                           ""ifhtml"" = @ifhtml, 
+                           ""iflink"" = @iflink,
+                           ""iforder"" = @iforder, 
+                           ""ifenabled"" = @ifenabled, 
+                           ""iffilepattern"" = @iffilepattern)";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@ifparentid", folder.ParentID));
+               cmd.Parameters.Add(new SqlParameter("@ifname", folder.Name));
+               cmd.Parameters.Add(new SqlParameter("@ifhtml", folder.Description));
+               cmd.Parameters.Add(new SqlParameter("@iflink", folder.IsContainer));
+               cmd.Parameters.Add(new SqlParameter("@iforder", folder.Order));
+               cmd.Parameters.Add(new SqlParameter("@ifenabled", (folder.Status == CmsPublishStatus.PublishStatus.Published)));
+               cmd.Parameters.Add(new SqlParameter("@iffilepattern", folder.FilePattern));
+               cmd.ExecuteNonQuery();
+            }
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Error(this, "UpdateFolder", ex);
+            throw ex;
+         }
+         finally
+         {
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Gets a folder.
+      /// </summary>
+      /// <param name="folderId">Folder unique identifier.</param>
+      /// <param name="getSubfolders">A value indicating if the method must get all subfolders.</param>
+      /// <returns>The requested instance of <see cref="PhotoFolder"/> or <c>null</c> if the folder doesn't exist.</returns>
       public PhotoFolder GetFolder(int folderId, bool getSubfolders)
       {
          string sql = string.Empty;
@@ -167,10 +260,11 @@ namespace Cosmo.Cms.Model.Photos
       }
 
       /// <summary>
-      /// Obtiene las carpetas que contiene una carpeta concreta. Si se indica 0, obtiene las carpetasd de nivel superior.
+      /// Gets all folder contained in a specified folder.
       /// </summary>
-      /// <param name="parentId">Id de la carpeta de nivel superior.</param>
-      /// <returns>Una lista de instáncias de la clase CSPicturesFolder.</returns>
+      /// <param name="parentId">Parent folder unique identifier (DB).</param>
+      /// <returns>The requested folders list.</returns>
+      /// <remarks>If <c>0</c> is provided as a parameter value, all root folders will be returned.</remarks>
       public List<PhotoFolder> GetFolders(int parentId)
       {
          string sql = string.Empty;
@@ -199,7 +293,7 @@ namespace Cosmo.Cms.Model.Photos
                }
             }
 
-            // Recupera el número de objetos que contiene cada carpeta
+            // Get the number of object contained in each folder
             foreach (PhotoFolder pfolder in folders)
             {
                folders[folders.IndexOf(pfolder)].Objects = this.GetFolderItems(pfolder.ID);
@@ -219,9 +313,9 @@ namespace Cosmo.Cms.Model.Photos
       }
 
       /// <summary>
-      /// Obtiene las carpetas de nivel superior.
+      /// Het all root folders.
       /// </summary>
-      /// <returns>Una lista de instáncias de la clase CSPicturesFolder.</returns>
+      /// <returns>The requested list of folders.</returns>
       public List<PhotoFolder> GetFolders()
       {
          return this.GetFolders(0);
@@ -260,7 +354,7 @@ namespace Cosmo.Cms.Model.Photos
                }
             }
 
-            // Obtiene subcarpetas
+            // Get all subfolders
             foreach (PhotoFolder pfolder in folders)
             {
                pfolder.Subfolders = GetFoldersTree(pfolder.ID);
@@ -389,10 +483,10 @@ namespace Cosmo.Cms.Model.Photos
       }
 
       /// <summary>
-      /// Recupera las últimas imágenes agregadas.
+      /// Get the most recent added photos.
       /// </summary>
-      /// <param name="number">Número máximo de fotografias a recuperar.</param>
-      /// <returns>Una lista de instáncias CSPicture.</returns>
+      /// <param name="number">The number of objects to read.</param>
+      /// <returns>The requested list of pictures.</returns>
       public List<Photo> GetLatest(int number)
       {
          string sql = string.Empty;
@@ -431,10 +525,10 @@ namespace Cosmo.Cms.Model.Photos
       }
 
       /// <summary>
-      /// Recupera las imágenes creadas a partir de una fecha concreta.
+      /// Get the most recent added photos.
       /// </summary>
-      /// <param name="fromDate">Fecha a partir de la cual se recuperan las imágenes.</param>
-      /// <returns>Una lista de instáncias CSPicture.</returns>
+      /// <param name="fromDate">Date.</param>
+      /// <returns>The requested list of pictures.</returns>
       public List<Photo> GetLatest(DateTime fromDate)
       {
          string sql = string.Empty;
@@ -1056,15 +1150,15 @@ namespace Cosmo.Cms.Model.Photos
          folder.ParentID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
          folder.Name = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
          folder.Description = reader.IsDBNull(3) ? string.Empty : reader.GetString(3);
-         folder.CanUpload = reader.GetBoolean(4);
+         folder.IsContainer = reader.GetBoolean(4);
          folder.Order = reader.IsDBNull(5) ? 0 : reader.GetInt32(5);
          folder.Enabled = reader.GetBoolean(6);
          folder.Owner = reader.IsDBNull(7) ? SecurityService.ACCOUNT_SUPER : reader.GetString(7);
          folder.FilePattern = reader.IsDBNull(8) ? string.Empty : reader.GetString(8);
          if (getFolderObjects) folder.Objects = reader.GetInt32(9);
 
-         folder.CanUpload = folder.CanUpload & _ws.Settings.GetBoolean(PhotoDAO.SETUP_SETTING_USERSCANUPLOAD, false);
-         folder.CanUpload = folder.CanUpload & !folder.FilePattern.Equals(string.Empty);
+         folder.IsContainer = folder.IsContainer & _ws.Settings.GetBoolean(PhotoDAO.SETUP_SETTING_USERSCANUPLOAD, false);
+         folder.IsContainer = folder.IsContainer & !folder.FilePattern.Equals(string.Empty);
 
          return folder;
       }

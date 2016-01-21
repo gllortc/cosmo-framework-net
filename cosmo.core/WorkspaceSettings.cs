@@ -435,7 +435,7 @@ namespace Cosmo
             }
             if (!xnod.Attributes[XML_ATTR_VERSION].Value.ToLower().Equals(PROPERTIES_VERSION))
             {
-               throw new Exception("Esta versión de Cosmo (" + Workspace.Version + ") sólo soporta archivos de configuración según la especificación " + PROPERTIES_VERSION  + ".");
+               throw new Exception("Esta versión de Cosmo (" + Cosmo.Properties.ProductVersion + ") sólo soporta archivos de configuración según la especificación " + PROPERTIES_VERSION + ".");
             }
 
             // Carga las propiedades principales del workspace

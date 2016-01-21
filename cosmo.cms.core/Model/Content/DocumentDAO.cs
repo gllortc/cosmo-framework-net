@@ -21,6 +21,7 @@ namespace Cosmo.Cms.Model.Content
       /// <summary>Rol correspondiente a publicador de contenido</summary>
       public const string ROLE_CONTENT_EDITOR = "content.editor";
 
+      private const string SMARTTAG_AUTHOR = "%AUTH%";
       private const string SMARTTAG_OBJECT_ID = "%DOCID%";
       private const string SMARTTAG_WORKSPACE_NAME = "%WS-NAME%";
 
@@ -30,6 +31,7 @@ namespace Cosmo.Cms.Model.Content
       private const string SQL_TABLE_RELOBJOBJ = "CMS_DOCRELATIONS";
       private const string SQL_TABLE_RELOBJPIC = "CMS_DOCSIMAGES";
       private const string SQL_DOC_SELECT = "docid,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,docfile";
+      private const string SQL_DOC_INSERT = "docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile,docowner";
       private const string SQL_FOLDER_SELECT = "folderid,folderparentid,foldername,folderdesc,folderorder,foldercreated,folderenabled,foldershowtitle,foldermenu";
 
       #region Constructors
@@ -80,10 +82,6 @@ namespace Cosmo.Cms.Model.Content
                   if (reader.Read())
                   {
                      doc = ReadDocument(reader);
-
-                     // Reemplaza los smartTAGS del contenido HTML
-                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-                     doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
                   }
                }
             }
@@ -151,7 +149,62 @@ namespace Cosmo.Cms.Model.Content
          }
          catch (Exception ex)
          {
-            _ws.Logger.Error(this, "Item", ex); 
+            _ws.Logger.Error(this, "GetByID", ex); 
+            throw ex;
+         }
+         finally
+         {
+            _ws.DataSource.Disconnect();
+         }
+      }
+
+      /// <summary>
+      /// Get all docs in a specific publish status.
+      /// </summary>
+      /// <param name="status">Document status.</param>
+      /// <returns>The requested list of <see cref="Document"/> instances.</returns>
+      /// <remarks>This method don't retrieve related documents or pictures.</remarks>
+      public List<Document> GetByPublishStatus(CmsPublishStatus.PublishStatus status)
+      {
+         string sql = string.Empty;
+         Document doc = null;
+         List<Document> docs = new List<Document>();
+
+         try
+         {
+            _ws.DataSource.Connect();
+
+            // Obtiene el documento
+            sql = @"SELECT    " + SQL_DOC_SELECT + @" 
+                    FROM      " + SQL_TABLE_OBJECTS + @" 
+                    WHERE     docenabled = @docenabled 
+                    ORDER BY  doctitle Asc";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection))
+            {
+               cmd.Parameters.Add(new SqlParameter("@docenabled", (status == CmsPublishStatus.PublishStatus.Published)));
+
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                  while (reader.Read())
+                  {
+                     doc = ReadDocument(reader);
+                     if (doc != null)
+                     {
+                        docs.Add(doc);
+
+                        // Ensure that the private folder for a object is created.
+                        EnsureObjectFolderExists(doc.ID, false);
+                     }
+                  }
+               }
+            }
+
+            return docs;
+         }
+         catch (Exception ex)
+         {
+            _ws.Logger.Error(this, "GetByPublishStatus", ex);
             throw ex;
          }
          finally
@@ -178,10 +231,8 @@ namespace Cosmo.Cms.Model.Content
             using (SqlTransaction trans = _ws.DataSource.Connection.BeginTransaction())
             {
                // Inserta el registro en la BBDD
-               sql = "INSERT INTO " + SQL_TABLE_OBJECTS + "kk " +
-                        "(docsection,docfolder,doctitle,docdesc,dochtml,docpic,docviewer,dochighlight,docenabled,docdate,docupdated,docshows,doctype,docfile,docowner) " +
-                     "VALUES " +
-                        "(0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,@docviewer,@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
+               sql = @"INSERT INTO " + SQL_TABLE_OBJECTS + @" (" + SQL_DOC_INSERT + @") 
+                       VALUES (0,@docfolder,@doctitle,@docdesc,@dochtml,@docpic,'',@dochighlight,@docenabled,getdate(),getdate(),0,1,@docfile,@docowner)";
 
                using (SqlCommand cmd = new SqlCommand(sql, _ws.DataSource.Connection, trans))
                {
@@ -189,13 +240,11 @@ namespace Cosmo.Cms.Model.Content
                   cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
                   cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
                   cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-                  // cmd.Parameters.Add(new SqlParameter("@docpic", (String.IsNullOrEmpty(document.Thumbnail) ? string.Empty : picfile.Name)));
-                  cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-                  cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
-                  cmd.Parameters.Add(new SqlParameter("@docenabled", document.Published));
-                  // cmd.Parameters.Add(new SqlParameter("@docfile", (String.IsNullOrEmpty(document.Attachment) ? string.Empty : attfile.Name)));
-                  cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
                   cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
+                  //cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
+                  cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
+                  cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == CmsPublishStatus.PublishStatus.Published ? true : false));
+                  cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
                   cmd.Parameters.Add(new SqlParameter("@docowner", _ws.CurrentUser.IsAuthenticated ? _ws.CurrentUser.User.Login : SecurityService.ACCOUNT_SUPER));
                   cmd.ExecuteNonQuery();
                }
@@ -251,7 +300,6 @@ namespace Cosmo.Cms.Model.Content
                            doctitle = @doctitle, 
                            docdesc = @docdesc, 
                            dochtml = @dochtml, 
-                           docviewer = @docviewer, 
                            docenabled = @docenabled, 
                            dochighlight = @dochighlight, 
                            docpic = @docpic,
@@ -265,8 +313,8 @@ namespace Cosmo.Cms.Model.Content
                cmd.Parameters.Add(new SqlParameter("@doctitle", document.Title));
                cmd.Parameters.Add(new SqlParameter("@docdesc", document.Description));
                cmd.Parameters.Add(new SqlParameter("@dochtml", document.Content));
-               cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
-               cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == Common.CmsPublishStatus.PublishStatus.Published ? true : false));
+               // cmd.Parameters.Add(new SqlParameter("@docviewer", document.Template));
+               cmd.Parameters.Add(new SqlParameter("@docenabled", document.Status == CmsPublishStatus.PublishStatus.Published ? true : false));
                cmd.Parameters.Add(new SqlParameter("@dochighlight", document.Hightlight));
                cmd.Parameters.Add(new SqlParameter("@docfile", document.Attachment));
                cmd.Parameters.Add(new SqlParameter("@docpic", document.Thumbnail));
@@ -366,7 +414,7 @@ namespace Cosmo.Cms.Model.Content
                   cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
                   cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
                   cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
-                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == CmsPublishStatus.PublishStatus.Published)));
                   cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
                   cmd.ExecuteNonQuery();
                }
@@ -433,7 +481,7 @@ namespace Cosmo.Cms.Model.Content
                   cmd.Parameters.Add(new SqlParameter("@folderdesc", folder.Description));
                   cmd.Parameters.Add(new SqlParameter("@foldershowtitle", folder.ShowTitle));
                   cmd.Parameters.Add(new SqlParameter("@folderorder", folder.Order));
-                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == Common.CmsPublishStatus.PublishStatus.Published)));
+                  cmd.Parameters.Add(new SqlParameter("@folderenabled", (folder.Status == CmsPublishStatus.PublishStatus.Published)));
                   cmd.Parameters.Add(new SqlParameter("@foldermenu", folder.MenuId));
                   cmd.Parameters.Add(new SqlParameter("@folderid", folder.ID));
                   cmd.ExecuteNonQuery();
@@ -627,10 +675,6 @@ namespace Cosmo.Cms.Model.Content
                      doc = ReadDocument(reader);
                      if (doc != null)
                      {
-                        // Reemplaza los smartTAGS del contenido HTML
-                        doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, doc.ID.ToString());
-                        doc.Content = doc.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
-
                         docs.Add(doc);
                      }
                   }
@@ -651,11 +695,10 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Configura una instancia de CSLayoutNavbar con la ruta de acceso a la carpeta
+      /// Get a list of folders  from the root to the specified folder.
       /// </summary>
-      /// <param name="navbar">Instancia de CSLayoutNavbar</param>
-      /// <param name="folderId">Identificador de la carpeta</param>
-      /// <param name="showFoldersAtLateral">Indica si se deben mostrar las carpetas en el lateral</param>
+      /// <param name="folderId">Folder unique identifier.</param>
+      /// <returns>The requested list of folders.</returns>
       public List<DocumentFolder> GetFolderRoute(int folderId)
       {
          int actfolder = folderId;
@@ -745,10 +788,10 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Obtiene el número de documentos que contiene una carpeta.
+      /// Get the number of objects contained in a folder.
       /// </summary>
-      /// <param name="folderId">Identificador d el acarpeta.</param>
-      /// <returns>El número de objetos.</returns>
+      /// <param name="folderId">Folder unique identifier.</param>
+      /// <returns>The number of objects in a folder.</returns>
       private int GetFolderItems(int folderId)
       {
          string sql = string.Empty;
@@ -782,10 +825,8 @@ namespace Cosmo.Cms.Model.Content
       }
 
       /// <summary>
-      /// Lee un documento de una fila en la base de datos.
+      /// Read a content record from reader.
       /// </summary>
-      /// <param name="reader"></param>
-      /// <returns></returns>
       private Document ReadDocument(SqlDataReader reader)
       {
          if (reader == null)
@@ -814,20 +855,20 @@ namespace Cosmo.Cms.Model.Content
          doc.Template = reader.IsDBNull(6) ? string.Empty : reader.GetString(6).Trim();
          doc.Hightlight = reader.GetBoolean(7);
          doc.Published = reader.GetBoolean(8);
-         doc.Status = doc.Published ? Common.CmsPublishStatus.PublishStatus.Published : Common.CmsPublishStatus.PublishStatus.Unpublished;
+         doc.Status = doc.Published ? CmsPublishStatus.PublishStatus.Published : CmsPublishStatus.PublishStatus.Unpublished;
          doc.Created = reader.GetDateTime(9);
          doc.Updated = reader.GetDateTime(10);
          doc.Shows = reader.IsDBNull(11) ? 0 : reader.GetInt32(11);
          doc.Attachment = reader.IsDBNull(12) ? string.Empty : reader.GetString(12).Trim().ToLower();
 
+         ReplaceTags(doc);
+
          return doc;
       }
 
       /// <summary>
-      /// Lee una carpeta de una fila en la base de datos.
+      /// Read a folder record from reader.
       /// </summary>
-      /// <param name="reader"></param>
-      /// <returns></returns>
       private DocumentFolder ReadFolder(SqlDataReader reader, bool getFolderNumItems)
       {
          if (reader == null)
@@ -875,6 +916,23 @@ namespace Cosmo.Cms.Model.Content
          if (!Directory.Exists(path))
          {
             Directory.CreateDirectory(path);
+         }
+      }
+
+      /// <summary>
+      /// Replace all tags from content with the requested data.
+      /// </summary>
+      /// <param name="document">An instance of the document.</param>
+      private void ReplaceTags(Document document)
+      {
+         // Reemplaza los smartTAGS del contenido HTML
+         document.Content = document.Content.Replace(DocumentDAO.SMARTTAG_OBJECT_ID, document.ID.ToString());
+         document.Content = document.Content.Replace(DocumentDAO.SMARTTAG_WORKSPACE_NAME, _ws.Name);
+
+         if (document.Content.Contains(DocumentDAO.SMARTTAG_AUTHOR))
+         {
+            Cosmo.Security.User user = _ws.SecurityService.GetUser(document.Owner);
+            document.Content = document.Content.Replace(DocumentDAO.SMARTTAG_AUTHOR, user == null ? "Desconocido" : user.GetDisplayName());
          }
       }
 

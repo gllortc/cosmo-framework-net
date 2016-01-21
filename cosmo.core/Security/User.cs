@@ -353,7 +353,7 @@ namespace Cosmo.Security
       /// </summary>
       public string GetAvatarImage()
       {
-         return "images/user_no_avatar.gif";
+         return "images/user_no_avatar.png";
       }
 
       /// <summary>
