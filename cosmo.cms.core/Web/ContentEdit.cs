@@ -139,6 +139,13 @@ namespace Cosmo.Cms.Web
          lstAttachment.LoadValuesFromAjax(loaderScript);
          frmData.Content.Add(lstAttachment);
 
+         FormFieldList lstFolder = new FormFieldList(this, Cosmo.Workspace.PARAM_FOLDER_ID, "Carpeta", FormFieldList.ListType.Single, doc.FolderId.ToString());
+         foreach (DocumentFolder dfolder in DocumentDAO.ConvertFolderTreeToList(docs.GetAll()))
+         {
+            lstFolder.Values.Add(new KeyValue(dfolder.Name, dfolder.ID));
+         }
+         frmData.Content.Add(lstFolder);
+
          FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, (doc.Published ? "1" : "0"));
          lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", "0"));
          lstStatus.Values.Add(new KeyValue("Publicado", "1"));
@@ -206,7 +213,7 @@ namespace Cosmo.Cms.Web
          form.Action = GetType().Name;
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
          form.AddFormSetting(Cosmo.Workspace.PARAM_OBJECT_ID, doc.ID);
-         form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderId);
+         //form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, doc.FolderId);
          form.Content.Add(tabs);
          form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
          form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ContentView.GetURL(doc.ID), string.Empty));
