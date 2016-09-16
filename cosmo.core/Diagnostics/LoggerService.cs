@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Cosmo.Diagnostics
 {
    /// <summary>
-   /// Genera una clase de servicio para la gestión del registro de eventos.
+   /// Implements the event log service for the workspace.
    /// </summary>
    public class LoggerService : WorkspaceService<ILogger>, ILogger
    {
@@ -121,8 +121,10 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log an info event using the default logger.
       /// </summary>
+      /// <param name="obj">Context object.</param>
+      /// <param name="methodName">The name of the caller method.</param>
       /// <param name="message">A string containing the entry message.</param>
-      public void Info(Object obj, string methodName, string message)
+      public void Info(object obj, string methodName, string message)
       {
          Assembly assembly = Assembly.GetExecutingAssembly();
          FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -158,6 +160,7 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log a warning event using the default logger.
       /// </summary>
+      /// <param name="context">A string containing the context.</param>
       /// <param name="message">A string containing the entry message.</param>
       public void Warning(string context, string message)
       {
@@ -213,7 +216,7 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="message">A string containing the entry message.</param>
+      /// <param name="exception">The exception raised.</param>
       public void Error(Exception exception)
       {
          Assembly assembly = Assembly.GetExecutingAssembly();
@@ -231,7 +234,8 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="message">A string containing the entry message.</param>
+      /// <param name="context">A string containing the context.</param>
+      /// <param name="exception">The exception raised.</param>
       public void Error(string context, Exception exception)
       {
          Assembly assembly = Assembly.GetExecutingAssembly();
@@ -250,8 +254,10 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log a security event using the default logger.
       /// </summary>
-      /// <param name="message">A string containing the entry message.</param>
-      public void Error(Object obj, string methodName, Exception exception)
+      /// <param name="obj">Context object.</param>
+      /// <param name="methodName">The name of the caller method.</param>
+      /// <param name="exception">The exception raised.</param>
+      public void Error(object obj, string methodName, Exception exception)
       {
          Assembly assembly = Assembly.GetExecutingAssembly();
          FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -269,8 +275,10 @@ namespace Cosmo.Diagnostics
       /// <summary>
       /// Log a security event using the default logger.
       /// </summary>
+      /// <param name="obj">Context object.</param>
+      /// <param name="methodName">The name of the caller method.</param>
       /// <param name="message">A string containing the entry message.</param>
-      public void Error(Object obj, string methodName, string message)
+      public void Error(object obj, string methodName, string message)
       {
          Assembly assembly = Assembly.GetExecutingAssembly();
          FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);

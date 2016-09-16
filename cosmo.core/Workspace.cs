@@ -224,7 +224,7 @@ namespace Cosmo
       /// <summary>
       /// Gets or sets la conexión a la base de datos.
       /// </summary>
-      public IDataModule DataSource
+      public DataModule DataSource
       {
          get { return DataService.GetDataSource(); }
       }

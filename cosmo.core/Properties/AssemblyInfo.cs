@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("G2 Software")]
 [assembly: AssemblyProduct("Cosmo Framework Core")]
-[assembly: AssemblyCopyright("Copyright © 2006 - 2015 G2 Software")]
+[assembly: AssemblyCopyright("Copyright © 2006 - 2016 G2 Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("4.0.4.0")]
-[assembly: AssemblyFileVersionAttribute("4.0.4.0")]
+[assembly: AssemblyVersion("4.0.6.0")]
+[assembly: AssemblyFileVersionAttribute("4.0.6.0")]

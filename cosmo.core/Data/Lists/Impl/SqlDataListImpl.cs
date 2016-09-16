@@ -81,7 +81,7 @@ namespace Cosmo.Data.Lists.Impl
       #region Properties
 
       /// <summary>
-      /// Gets or sets el identificador único del <see cref="IDataModule"/> que se usará para obtener los datos de una lista dinámica.
+      /// Gets or sets el identificador único del <see cref="DataModule"/> que se usará para obtener los datos de una lista dinámica.
       /// </summary>
       public string DataModuleID { get; set; }
 

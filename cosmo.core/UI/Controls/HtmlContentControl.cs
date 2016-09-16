@@ -55,7 +55,7 @@ namespace Cosmo.UI.Controls
       #region Methods
 
       /// <summary>
-      /// Agrega un párrafo.
+      /// Adds a new paragraph to the HTML content.
       /// </summary>
       /// <param name="level">Header level (1 to 6).</param>
       /// <param name="text">Texto contenido en el párrafo.</param>
@@ -67,7 +67,7 @@ namespace Cosmo.UI.Controls
       }
 
       /// <summary>
-      /// Agrega un párrafo.
+      /// Adds a new paragraph to the HTML content.
       /// </summary>
       /// <param name="text">Texto contenido en el párrafo.</param>
       public HtmlContentControl AppendParagraph(string text)
@@ -124,6 +124,18 @@ namespace Cosmo.UI.Controls
             this.Html.AppendLine("  <li>" + value + "</li>");
          }
          this.Html.AppendLine("</ul>");
+
+         return this;
+      }
+
+      /// <summary>
+      /// Adds an image as a paragraph to the HTML content.
+      /// </summary>
+      /// <param name="url">Image URL</param>
+      /// <param name="text">Alternative text</param>
+      public HtmlContentControl AppendImage(string url, string text)
+      {
+         this.Html.AppendLine(string.Format(@"<p><img src=""{0}"" alt=""{1}"" /></p>", url, text));
 
          return this;
       }

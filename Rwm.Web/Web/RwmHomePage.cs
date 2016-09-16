@@ -54,35 +54,32 @@ namespace Rwm.Web
          HtmlContentControl content;
 
          panel = new PanelControl(this);
-         panel.Text = "Hola!";
+         panel.Text = "VI Encuentro Railwaymania - Gijón 2016";
          content = new HtmlContentControl(this);
-         content.AppendParagraph(@"El Junio del 2001 nació Railwaymania, fruto de una necesidad de cubrir algunos huecos
-                                   que tenia la red respecto a nuestra afición favorita: los trenes!");
-         content.AppendParagraph(@"Después de todos estos años la posibilidad de mantener Railwaymania ha ido decreciendo 
-                                   en la misma forma que las obligaciones profesionales y sobretodo familiares han ido 
-                                   creciendo, llegando al punto de tomar la decisión de parar maquinas en Junio de 2015.");
-         content.AppendParagraph(@"Junto a un grupo de aficionados (y amigos) hemos decidido crear un nuevo portal, que será 
-                                   mantenido por varias personas, tanto en lo que respecta al foro como en lo que respecta a 
-                                   los contenidos. Lo hacemos con ilusión y sobretodo con la única pretensión de fomentar 
-                                   nuestra afición.");
+         content.AppendParagraph(@"Un año más, unos cuantos amigos que nos conocimos en " + HtmlContentControl.BoldText("Railwaymania.com") + @" quedamos
+                                   en algun punto ferroviario de la geografía española. Este año le toca el turno a " + HtmlContentControl.BoldText("Gijón") + @",
+                                   los días 1 y 2 de Octubre.");
+         content.AppendParagraph(@"Si estás interesado en acudir con nosotros todo el fin de semana o sólo un día no dudes en contactar
+                                   con nosotros al correo " + HtmlContentControl.Link("mailto:quedada2016rwm@gmail.com", "quedada2016rwm@gmail.com", true) + @".");
+         content.AppendImage(@"images/banner_VI_RWM_2016.jpg", "VI Encuentro Railwaymania - Gijón 2016");
          content.AppendParagraph(HtmlContentControl.BoldText(@"Un abrazo y hasta muy pronto!"));
          panel.Content.Add(content);
          MainContent.Add(panel);
 
-         panel = new PanelControl(this);
-         panel.Text = "Secciones";
-         content = new HtmlContentControl(this);
-         content.AppendParagraph(@"Internet ha cambiado mucho desde 2001 y esto nos ha hecho reflexionar sobre las
-                                   secciones existentes hasta el momento del cierre.<br/><br/>
-                                   Por ello, algunas de las secciones han desaparecido por quedar totalmente
-                                   obsoletas. Hemos eliminado las secciones de <em>enlaces</em>, <em>comercios</em>, 
-                                   <em>libros</em> o <em>noticias (RSS)</em> entre otras puesto que existen actualmente
-                                   servicios que pueden dar la información mucho más actualizada y completa.<br/><br/>
-                                   En cambio, en el nuevo portal se mantienen las secciones de <em>contenidos</em> (ahora
-                                   <em>Artículos</em>), <em>foros</em>, <em>fotos</em> y <em>clasificados</em> que serán 
-                                   el eje central del portal.");
-         panel.Content.Add(content);
-         MainContent.Add(panel);
+//         panel = new PanelControl(this);
+//         panel.Text = "Secciones";
+//         content = new HtmlContentControl(this);
+//         content.AppendParagraph(@"Internet ha cambiado mucho desde 2001 y esto nos ha hecho reflexionar sobre las
+//                                   secciones existentes hasta el momento del cierre.<br/><br/>
+//                                   Por ello, algunas de las secciones han desaparecido por quedar totalmente
+//                                   obsoletas. Hemos eliminado las secciones de <em>enlaces</em>, <em>comercios</em>, 
+//                                   <em>libros</em> o <em>noticias (RSS)</em> entre otras puesto que existen actualmente
+//                                   servicios que pueden dar la información mucho más actualizada y completa.<br/><br/>
+//                                   En cambio, en el nuevo portal se mantienen las secciones de <em>contenidos</em> (ahora
+//                                   <em>Artículos</em>), <em>foros</em>, <em>fotos</em> y <em>clasificados</em> que serán 
+//                                   el eje central del portal.");
+//         panel.Content.Add(content);
+//         MainContent.Add(panel);
 
          //MediaItem mitem = null;
          //MediaListControl mlist = new MediaListControl(this);

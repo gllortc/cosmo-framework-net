@@ -14,7 +14,7 @@ namespace Cosmo.Data
       // Declaración de variable sinternas
       private string _defaultName;
       private Workspace _ws;
-      private Dictionary<string, IDataModule> _dataSources;
+      private Dictionary<string, DataModule> _dataSources;
       private Dictionary<string, IDataList> _dataLists;
 
       #region Constructors
@@ -40,8 +40,8 @@ namespace Cosmo.Data
       /// <summary>
       /// Devuelve el DataSource por defecto.
       /// </summary>
-      /// <returns>La instancia solicitada de <see cref="IDataModule"/>.</returns>
-      public IDataModule GetDataSource()
+      /// <returns>La instancia solicitada de <see cref="DataModule"/>.</returns>
+      public DataModule GetDataSource()
       {
          return _dataSources[_defaultName];
       }
@@ -50,8 +50,8 @@ namespace Cosmo.Data
       /// Devuelve el DataSource solicitado.
       /// </summary>
       /// <param name="name">Identificador de la conexión que se desea obtener.</param>
-      /// <returns>La instancia solicitada de <see cref="IDataModule"/>.</returns>
-      public IDataModule GetDataSource(string name)
+      /// <returns>La instancia solicitada de <see cref="DataModule"/>.</returns>
+      public DataModule GetDataSource(string name)
       {
          return _dataSources[name];
       }
@@ -77,7 +77,7 @@ namespace Cosmo.Data
       {
          _ws = null;
          _defaultName = string.Empty;
-         _dataSources = new Dictionary<string, IDataModule>();
+         _dataSources = new Dictionary<string, DataModule>();
          _dataLists = new Dictionary<string, IDataList>();
       }
 
@@ -88,7 +88,7 @@ namespace Cosmo.Data
       {
          string applyRule = string.Empty;
          Type type = null;
-         IDataModule _module;
+         DataModule _module;
 
          // Carga los módulos
          foreach (Plugin plugin in _ws.Settings.DataModules.GetList())
@@ -98,7 +98,7 @@ namespace Cosmo.Data
             args[1] = plugin;
 
             type = Type.GetType(plugin.Class, true, true);
-            _module = (IDataModule)Activator.CreateInstance(type, args);
+            _module = (DataModule)Activator.CreateInstance(type, args);
 
             if (_module != null)
             {
@@ -150,20 +150,20 @@ namespace Cosmo.Data
       /// <summary>
       /// Obtiene la instancia de un determinado plugin.
       /// </summary>
-      private IDataModule CheckInstance(Plugin plugin)
+      private DataModule CheckInstance(Plugin plugin)
       {
          if (plugin.Instance != null)
          {
-            return (IDataModule)plugin.Instance;
+            return (DataModule)plugin.Instance;
          }
 
          Object[] args = new Object[1];
          args[0] = plugin;
 
          Type type = Type.GetType(plugin.Class, true, true);
-         plugin.Instance = (IDataModule)Activator.CreateInstance(type, args);
+         plugin.Instance = (DataModule)Activator.CreateInstance(type, args);
 
-         return (IDataModule)plugin.Instance;
+         return (DataModule)plugin.Instance;
       }
 
       #endregion

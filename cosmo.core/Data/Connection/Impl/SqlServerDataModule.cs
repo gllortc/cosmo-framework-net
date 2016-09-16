@@ -7,7 +7,7 @@ namespace Cosmo.Data.Connection.Impl
    /// <summary>
    /// Representa una conexión a base de datos.
    /// </summary>
-   public class SqlServerDataSourceImpl : IDataModule
+   public class SqlServerDataModule : DataModule
    {
       // Internal data declarations
       private string _dsn;
@@ -16,17 +16,17 @@ namespace Cosmo.Data.Connection.Impl
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="SqlServerDataSourceImpl"/>.
+      /// Gets a new instance of <see cref="SqlServerDataModule"/>.
       /// </summary>
       /// <param name="workspace">Una instancia del workspace actual.</param>
       /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
-      public SqlServerDataSourceImpl(Workspace workspace, Plugin plugin) 
+      public SqlServerDataModule(Workspace workspace, Plugin plugin) 
          : base(workspace, plugin)
       {
-         this.ServerName =  plugin.GetString(IDataModule.SETTING_DB_SERVER);
-         this.DatabaseName = plugin.GetString(IDataModule.SETTING_DB_SCHEMA);
-         this.AccountLogin = plugin.GetString(IDataModule.SETTING_DB_LOGIN);
-         this.AccountPassword = plugin.GetString(IDataModule.SETTING_DB_PASSWORD);
+         this.ServerName =  plugin.GetString(DataModule.SETTING_DB_SERVER);
+         this.DatabaseName = plugin.GetString(DataModule.SETTING_DB_SCHEMA);
+         this.AccountLogin = plugin.GetString(DataModule.SETTING_DB_LOGIN);
+         this.AccountPassword = plugin.GetString(DataModule.SETTING_DB_PASSWORD);
       }
 
       #endregion

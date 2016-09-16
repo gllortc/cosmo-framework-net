@@ -22,9 +22,13 @@ namespace Cosmo.Diagnostics
       public static string GenerateDefaultLogFileName(string basepath, string BaseFileName, bool WithDate)
       {
          if (WithDate)
+         {
             return Path.Combine(basepath, BaseFileName + "_" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + ".log");
+         }
          else
+         {
             return Path.Combine(basepath, BaseFileName + ".log");
+         }
       }
 
       /// <summary>
@@ -35,20 +39,18 @@ namespace Cosmo.Diagnostics
       /// <param name="Message"></param>
       public static void WriteToLog(string LogPath, string Message)
       {
-         System.IO.StreamWriter s = null;
-
          try
          {
-            s = System.IO.File.AppendText(LogPath);
-            s.WriteLine(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") + " - " + Message);
-            s.Close();
+            using (System.IO.StreamWriter s = System.IO.File.AppendText(LogPath))
+            {
+               s.WriteLine(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") + " - " + Message);
+               s.Close();
+            }
          }
          catch (Exception ex)
          {
             System.Diagnostics.Debug.WriteLine(ex.Message);
          }
-
-         s = null;
       }
 
       /// <summary>
@@ -65,6 +67,7 @@ namespace Cosmo.Diagnostics
             {
                System.Diagnostics.EventLog.CreateEventSource(Source, "Application");
             }
+
             System.Diagnostics.EventLog.WriteEntry(Source, Message, EntryType);
          }
          catch { }

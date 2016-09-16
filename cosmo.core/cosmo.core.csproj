@@ -196,7 +196,7 @@
     <Compile Include="WorkspaceService.cs" />
     <Compile Include="WorkspaceSettingsException.cs" />
     <Compile Include="Data\DataService.cs" />
-    <Compile Include="Data\Connection\Impl\SqlServerDataSourceImpl.cs" />
+    <Compile Include="Data\Connection\Impl\SqlServerDataModule.cs" />
     <Compile Include="UI\Controls\AlertControl.cs" />
     <Compile Include="UI\Controls\BreadcrumbControl.cs" />
     <Compile Include="UI\Controls\BreadcrumbItem.cs" />
@@ -234,7 +234,7 @@
     <Compile Include="UI\Render\ControlNotSuportedException.cs" />
     <Compile Include="UI\Render\RenderModule.cs" />
     <Compile Include="UI\UIService.cs" />
-    <Compile Include="Data\Connection\IDataModule.cs" />
+    <Compile Include="Data\Connection\DataModule.cs" />
     <Compile Include="Data\Validation\CosmoValidationException.cs" />
     <Compile Include="Data\Validation\ValidationRuleBase.cs" />
     <Compile Include="Data\Validation\Validator.cs" />

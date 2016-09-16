@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 namespace Cosmo.Data.Connection
 {
    /// <summary>
-   /// Declara el interface que deben implementar los DataSources.
+   /// Abstract class that allows implement the specific modules for all data sources.
    /// </summary>
-   public abstract class IDataModule
+   public abstract class DataModule
    {
       /// <summary>Clave de la propiedad de configuración del plugin que contiene el servidor SQL Server.</summary>
       public static string SETTING_DB_SERVER = "db.server";
@@ -23,11 +23,11 @@ namespace Cosmo.Data.Connection
       #region Constructors
 
       /// <summary>
-      /// Gets a new instance of <see cref="IDataModule"/>.
+      /// Gets a new instance of <see cref="DataModule"/>.
       /// </summary>
-      /// <param name="workspace">Una instancia del workspace actual.</param>
-      /// <param name="plugin">Una instancia de <see cref="Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
-      protected IDataModule(Workspace workspace, Plugin plugin)
+      /// <param name="workspace">An instance of current workspace.</param>
+      /// <param name="plugin">An instance of <see cref="Plugin"/> that contains all the settings the module need.</param>
+      protected DataModule(Workspace workspace, Plugin plugin)
       {
          Initialize();
 

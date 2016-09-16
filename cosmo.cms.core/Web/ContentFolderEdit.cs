@@ -63,8 +63,8 @@ namespace Cosmo.Cms.Web
                break;
 
             default:
-               ShowError("Llamada incorrecta!",
-                         "Hemos detectado una llamada incorrecta al editor de artículos. No es posible abrir el editor en estas condiciones.");
+               ShowError("ILLEGAL CALL!",
+                         "An illegal call was detected: We can not open the editor and/or load the requested content.");
                break;
          }
 
@@ -97,17 +97,24 @@ namespace Cosmo.Cms.Web
 
          // Content form tab
 
-         TabItemControl frmData = new TabItemControl(this, "tabData", "Contenido");
-         frmData.Content.Add(new FormFieldText(this, FIELD_TITLE, "Título", FormFieldText.FieldDataType.Text, folder.Name));
-         frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Contenido", FormFieldEditor.FieldEditorType.HTML, folder.Description));
-         frmData.Content.Add(new FormFieldText(this, FIELD_ORDER, "Orden", FormFieldText.FieldDataType.Number, folder.Order.ToString()));
+         TabItemControl frmData = new TabItemControl(this, "tabData", "Content");
+         frmData.Content.Add(new FormFieldText(this, FIELD_TITLE, "Main title", FormFieldText.FieldDataType.Text, folder.Name));
+         frmData.Content.Add(new FormFieldEditor(this, FIELD_CONTENT, "Content", FormFieldEditor.FieldEditorType.HTML, folder.Description));
+         frmData.Content.Add(new FormFieldText(this, FIELD_ORDER, "Sort order", FormFieldText.FieldDataType.Number, folder.Order.ToString()));
 
-         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Estado", FormFieldList.ListType.Single, ((int)folder.Status).ToString());
-         lstStatus.Values.Add(new KeyValue("Despublicado (Borrador)", ((int)CmsPublishStatus.PublishStatus.Unpublished).ToString()));
-         lstStatus.Values.Add(new KeyValue("Publicado", ((int)CmsPublishStatus.PublishStatus.Published).ToString()));
+         FormFieldList lstFolder = new FormFieldList(this, FIELD_PARENTID, "Parent folder", FormFieldList.ListType.Single, folder.ParentID);
+         foreach (DocumentFolder dfolder in DocumentDAO.ConvertFolderTreeToList(docs.GetAll()))
+         {
+            lstFolder.Values.Add(new KeyValue(dfolder.Name, dfolder.ID));
+         }
+         frmData.Content.Add(lstFolder);
+
+         FormFieldList lstStatus = new FormFieldList(this, FIELD_STATUS, "Status", FormFieldList.ListType.Single, (int)folder.Status);
+         lstStatus.Values.Add(new KeyValue("Unpublished (Draft)", ((int)CmsPublishStatus.PublishStatus.Unpublished).ToString()));
+         lstStatus.Values.Add(new KeyValue("Published", ((int)CmsPublishStatus.PublishStatus.Published).ToString()));
          frmData.Content.Add(lstStatus);
 
-         FormFieldList lstMenu = new FormFieldList(this, FIELD_MENUITEM, "Menú", FormFieldList.ListType.Single, folder.MenuId);
+         FormFieldList lstMenu = new FormFieldList(this, FIELD_MENUITEM, "Menu", FormFieldList.ListType.Single, folder.MenuId);
          foreach (MenuItem menuItem in Workspace.UIService.GetMenu("sidebar").MenuItems)
          {
             lstMenu.Values.Add(new KeyValue(menuItem.Name, menuItem.ID));
@@ -118,10 +125,10 @@ namespace Cosmo.Cms.Web
 
          // Files (media and content attachments) tab
 
-         TabItemControl tabFiles = new TabItemControl(this, "tabFiles", "Archivos adjuntos");
+         TabItemControl tabFiles = new TabItemControl(this, "tabFiles", "Attachments");
 
          HtmlContentControl filesContent = new HtmlContentControl(this);
-         filesContent.AppendParagraph("La siguiente lista contiene los archivos adjuntos al contenido.");
+         filesContent.AppendParagraph("The following list contains all content attachments.");
          tabFiles.Content.Add(filesContent);
 
          jsViewParams = new Dictionary<string, object>();
@@ -131,10 +138,10 @@ namespace Cosmo.Cms.Web
          btnFiles.Size = ButtonControl.ButtonSizes.Small;
          btnFiles.Buttons.Add(new ButtonControl(this, 
                                                 "cmdAddFiles", 
-                                                "Agregar archivos", 
+                                                "Add files", 
                                                 string.Empty,
                                                 frmUpload.GetInvokeCall(jsViewParams)));
-         btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Actualizar", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
+         btnFiles.Buttons.Add(new ButtonControl(this, "cmdRefresh", "Refresh list", IconControl.ICON_REFRESH, "#", "cosmoUIServices.loadTemplate();"));
          tabFiles.Content.Add(btnFiles);
 
          MediaFileList fileList = new MediaFileList(new DocumentFSID(folder.ID, true));
@@ -150,19 +157,19 @@ namespace Cosmo.Cms.Web
          // Content properties tab
 
          HtmlContentControl infoContent = new HtmlContentControl(this);
-         infoContent.AppendParagraph("Propiedades del contenido en el momento actual (antes de guardar y actualizar las propiedades).");
+         infoContent.AppendParagraph("Current content properties (before save).");
 
          TableControl tableInfo = new TableControl(this);
          tableInfo.Bordered = false;
          tableInfo.Condensed = true;
-         tableInfo.Header = new TableRow(string.Empty, "Propiedad", "Valor");
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Fecha de creación", folder.Created.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Última actualización", folder.Updated.ToString("dd/MM/yyyy hh:mm")));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Propietario", folder.Owner));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Estado actual", folder.Status == CmsPublishStatus.PublishStatus.Published ? "Publicado" : "Despublicado (Borrador)"));
-         tableInfo.Rows.Add(new TableRow(string.Empty, "Visitas", "No disponible"));
+         tableInfo.Header = new TableRow(string.Empty, "Property", "Value");
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Creation date", folder.Created.ToString("dd/MM/yyyy hh:mm")));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Last modification", folder.Updated.ToString("dd/MM/yyyy hh:mm")));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Owner", folder.Owner));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Current status", folder.Status == CmsPublishStatus.PublishStatus.Published ? "Publicado" : "Despublicado (Borrador)"));
+         tableInfo.Rows.Add(new TableRow(string.Empty, "Views", "Not available"));
 
-         TabItemControl frmInfo = new TabItemControl(this, "tabInfo", "Información");
+         TabItemControl frmInfo = new TabItemControl(this, "tabInfo", "Information");
          frmInfo.Content.Add(infoContent);
          frmInfo.Content.Add(tableInfo);
          tabs.TabItems.Add(frmInfo);
@@ -172,14 +179,14 @@ namespace Cosmo.Cms.Web
          FormControl form = new FormControl(this, "frmCEdit");
          form.IsMultipart = true;
          form.Icon = "fa-edit";
-         form.Text = "Editar artículo";
+         form.Text = "Edit content";
          form.Action = GetType().Name;
          form.AddFormSetting(Cosmo.Workspace.PARAM_COMMAND, Parameters.GetString(Cosmo.Workspace.PARAM_COMMAND));
          form.AddFormSetting(Cosmo.Workspace.PARAM_FOLDER_ID, folder.ID);
-         form.AddFormSetting(FIELD_PARENTID, folder.ParentID);
+         //form.AddFormSetting(FIELD_PARENTID, folder.ParentID);
          form.Content.Add(tabs);
-         form.FormButtons.Add(new ButtonControl(this, "btnSave", "Guardar", ButtonControl.ButtonTypes.Submit));
-         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancelar", ContentByFolder.GetURL(folder.ID), string.Empty));
+         form.FormButtons.Add(new ButtonControl(this, "btnSave", "Save", ButtonControl.ButtonTypes.Submit));
+         form.FormButtons.Add(new ButtonControl(this, "btnCancel", "Cancel", ContentByFolder.GetURL(folder.ID), string.Empty));
 
          form.FormButtons[0].Color = ComponentColorScheme.Success;
          form.FormButtons[0].Icon = "fa-check";

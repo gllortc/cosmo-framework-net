@@ -357,7 +357,7 @@
         </member>
         <member name="P:Cosmo.Data.Lists.Impl.SqlDataListImpl.DataModuleID">
             <summary>
-            Gets or sets el identificador único del <see cref="T:Cosmo.Data.Connection.IDataModule"/> que se usará para obtener los datos de una lista dinámica.
+            Gets or sets el identificador único del <see cref="T:Cosmo.Data.Connection.DataModule"/> que se usará para obtener los datos de una lista dinámica.
             </summary>
         </member>
         <member name="P:Cosmo.Data.Lists.Impl.SqlDataListImpl.SqlQuery">
@@ -811,7 +811,6 @@
             <summary>
             Agrega una entrada en el registro de eventos.
             </summary>
-            <param name="workspace">Workspace actual.</param>
             <param name="logentry">Registro a agregar.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.Impl.SqlSrvLogger.Delete(System.Int32)">
@@ -4172,7 +4171,7 @@
             <param name="label"></param>
             <param name="type"></param>
         </member>
-        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType,System.String)">
+        <member name="M:Cosmo.UI.Controls.FormFieldList.#ctor(Cosmo.UI.View,System.String,System.String,Cosmo.UI.Controls.FormFieldList.ListType,System.Object)">
             <summary>
             Gets a new instance of <see cref="T:Cosmo.UI.Controls.FormFieldList"/>.
             </summary>
@@ -4810,14 +4809,14 @@
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendHeader(System.Int32,System.String)">
             <summary>
-            Agrega un párrafo.
+            Adds a new paragraph to the HTML content.
             </summary>
             <param name="level">Header level (1 to 6).</param>
             <param name="text">Texto contenido en el párrafo.</param>
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendParagraph(System.String)">
             <summary>
-            Agrega un párrafo.
+            Adds a new paragraph to the HTML content.
             </summary>
             <param name="text">Texto contenido en el párrafo.</param>
         </member>
@@ -4835,6 +4834,13 @@
             <summary>
             Agrega una lista (sin órden).
             </summary>
+        </member>
+        <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendImage(System.String,System.String)">
+            <summary>
+            Adds an image as a paragraph to the HTML content.
+            </summary>
+            <param name="url">Image URL</param>
+            <param name="text">Alternative text</param>
         </member>
         <member name="M:Cosmo.UI.Controls.HtmlContentControl.AppendLink(System.String,System.String,System.Boolean)">
             <summary>
@@ -6201,14 +6207,14 @@
             <summary>
             Devuelve el DataSource por defecto.
             </summary>
-            <returns>La instancia solicitada de <see cref="T:Cosmo.Data.Connection.IDataModule"/>.</returns>
+            <returns>La instancia solicitada de <see cref="T:Cosmo.Data.Connection.DataModule"/>.</returns>
         </member>
         <member name="M:Cosmo.Data.DataService.GetDataSource(System.String)">
             <summary>
             Devuelve el DataSource solicitado.
             </summary>
             <param name="name">Identificador de la conexión que se desea obtener.</param>
-            <returns>La instancia solicitada de <see cref="T:Cosmo.Data.Connection.IDataModule"/>.</returns>
+            <returns>La instancia solicitada de <see cref="T:Cosmo.Data.Connection.DataModule"/>.</returns>
         </member>
         <member name="M:Cosmo.Data.DataService.GetDataList(System.String)">
             <summary>
@@ -6237,131 +6243,131 @@
             Obtiene la instancia de un determinado plugin.
             </summary>
         </member>
-        <member name="T:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl">
+        <member name="T:Cosmo.Data.Connection.Impl.SqlServerDataModule">
             <summary>
             Representa una conexión a base de datos.
             </summary>
         </member>
-        <member name="T:Cosmo.Data.Connection.IDataModule">
+        <member name="T:Cosmo.Data.Connection.DataModule">
             <summary>
-            Declara el interface que deben implementar los DataSources.
+            Abstract class that allows implement the specific modules for all data sources.
             </summary>
         </member>
-        <member name="F:Cosmo.Data.Connection.IDataModule.SETTING_DB_SERVER">
+        <member name="F:Cosmo.Data.Connection.DataModule.SETTING_DB_SERVER">
             <summary>Clave de la propiedad de configuración del plugin que contiene el servidor SQL Server.</summary>
         </member>
-        <member name="F:Cosmo.Data.Connection.IDataModule.SETTING_DB_SCHEMA">
+        <member name="F:Cosmo.Data.Connection.DataModule.SETTING_DB_SCHEMA">
             <summary>Clave de la propiedad de configuración del plugin que contiene el esquema de base de datos.</summary>
         </member>
-        <member name="F:Cosmo.Data.Connection.IDataModule.SETTING_DB_LOGIN">
+        <member name="F:Cosmo.Data.Connection.DataModule.SETTING_DB_LOGIN">
             <summary>Clave de la propiedad de configuración del plugin que contiene el login de la cuenta de acceso.</summary>
         </member>
-        <member name="F:Cosmo.Data.Connection.IDataModule.SETTING_DB_PASSWORD">
+        <member name="F:Cosmo.Data.Connection.DataModule.SETTING_DB_PASSWORD">
             <summary>Clave de la propiedad de configuración del plugin que contiene el la contraseña de la cuenta de acceso.</summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Data.Connection.DataModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Gets a new instance of <see cref="T:Cosmo.Data.Connection.IDataModule"/>.
+            Gets a new instance of <see cref="T:Cosmo.Data.Connection.DataModule"/>.
             </summary>
-            <param name="workspace">Una instancia del workspace actual.</param>
-            <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
+            <param name="workspace">An instance of current workspace.</param>
+            <param name="plugin">An instance of <see cref="T:Cosmo.Utils.Plugin"/> that contains all the settings the module need.</param>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.Connect">
+        <member name="M:Cosmo.Data.Connection.DataModule.Connect">
             <summary>
             Inicializa una conexión con la base de datos del Workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.Disconnect">
+        <member name="M:Cosmo.Data.Connection.DataModule.Disconnect">
             <summary>
             Cierra la conexión a la base de datos del Workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.TestConnection">
+        <member name="M:Cosmo.Data.Connection.DataModule.TestConnection">
             <summary>
             Testea una conexión a base de datos.
             </summary>
             <returns><c>true</c> si la conexión se establece correctamente o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.CloseAndDispose(System.Data.SqlClient.SqlDataReader)">
+        <member name="M:Cosmo.Data.Connection.DataModule.CloseAndDispose(System.Data.SqlClient.SqlDataReader)">
             <summary>
             Cierra i dispone un objeto de tipo <see cref="T:System.Data.SqlClient.SqlDataReader"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.CloseAndDispose(System.Data.SqlClient.SqlCommand)">
+        <member name="M:Cosmo.Data.Connection.DataModule.CloseAndDispose(System.Data.SqlClient.SqlCommand)">
             <summary>
             Cierra i dispone un objeto de tipo <see cref="T:System.Data.SqlClient.SqlCommand"/>.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.CloseAndDispose(System.Data.SqlClient.SqlDataAdapter)">
+        <member name="M:Cosmo.Data.Connection.DataModule.CloseAndDispose(System.Data.SqlClient.SqlDataAdapter)">
             <summary>
             Close and dispose a <see cref="T:System.Data.SqlClient.SqlDataAdapter"/> instance.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.IDataModule.Initialize">
+        <member name="M:Cosmo.Data.Connection.DataModule.Initialize">
             <summary>
             Initializes the instance data.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.IDataModule.ID">
+        <member name="P:Cosmo.Data.Connection.DataModule.ID">
             <summary>
             Devuelve el nombre (ID) del módulo de datos.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.IDataModule.Connection">
+        <member name="P:Cosmo.Data.Connection.DataModule.Connection">
             <summary>
             Gets or sets la conexión a la base de datos.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
+        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataModule.#ctor(Cosmo.Workspace,Cosmo.Utils.Plugin)">
             <summary>
-            Gets a new instance of <see cref="T:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl"/>.
+            Gets a new instance of <see cref="T:Cosmo.Data.Connection.Impl.SqlServerDataModule"/>.
             </summary>
             <param name="workspace">Una instancia del workspace actual.</param>
             <param name="plugin">Una instancia de <see cref="T:Cosmo.Utils.Plugin"/> que contiene  todas las propiedades para instanciar y configurar el módulo.</param>
         </member>
-        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.GetDSN">
+        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataModule.GetDSN">
             <summary>
             Devuelve la cadena de conexión a la base de datos del workspace
             </summary>
             <returns>La cadena de conexión.</returns>
         </member>
-        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.Connect">
+        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataModule.Connect">
             <summary>
             Inicializa una conexión con la base de datos del Workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.Disconnect">
+        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataModule.Disconnect">
             <summary>
             Cierra la conexión a la base de datos del Workspace.
             </summary>
         </member>
-        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.TestConnection">
+        <member name="M:Cosmo.Data.Connection.Impl.SqlServerDataModule.TestConnection">
             <summary>
             Testea una conexión a base de datos.
             </summary>
             <returns><c>true</c> si la conexión se establece correctamente o <c>false</c> en cualquier otro caso.</returns>
         </member>
-        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.ServerName">
+        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataModule.ServerName">
             <summary>
             Gets or sets el nombre del servidor de base de datos.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.DatabaseName">
+        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataModule.DatabaseName">
             <summary>
             Gets or sets el nombre de la base de datos.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.AccountLogin">
+        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataModule.AccountLogin">
             <summary>
             Gets or sets el login de la cuenta de acceso.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.AccountPassword">
+        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataModule.AccountPassword">
             <summary>
             Gets or sets la contraseña de la cuenta de acceso.
             </summary>
         </member>
-        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataSourceImpl.Connection">
+        <member name="P:Cosmo.Data.Connection.Impl.SqlServerDataModule.Connection">
             <summary>
             Gets or sets la conexión a la base de datos.
             </summary>
@@ -11443,7 +11449,7 @@
         </member>
         <member name="T:Cosmo.Diagnostics.LoggerService">
             <summary>
-            Genera una clase de servicio para la gestión del registro de eventos.
+            Implements the event log service for the workspace.
             </summary>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.#ctor(Cosmo.Workspace)">
@@ -11474,6 +11480,8 @@
             <summary>
             Log an info event using the default logger.
             </summary>
+            <param name="obj">Context object.</param>
+            <param name="methodName">The name of the caller method.</param>
             <param name="message">A string containing the entry message.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.Warning(System.String)">
@@ -11486,6 +11494,7 @@
             <summary>
             Log a warning event using the default logger.
             </summary>
+            <param name="context">A string containing the context.</param>
             <param name="message">A string containing the entry message.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.Security(System.String)">
@@ -11504,24 +11513,29 @@
             <summary>
             Log a security event using the default logger.
             </summary>
-            <param name="message">A string containing the entry message.</param>
+            <param name="exception">The exception raised.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.String,System.Exception)">
             <summary>
             Log a security event using the default logger.
             </summary>
-            <param name="message">A string containing the entry message.</param>
+            <param name="context">A string containing the context.</param>
+            <param name="exception">The exception raised.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.Object,System.String,System.Exception)">
             <summary>
             Log a security event using the default logger.
             </summary>
-            <param name="message">A string containing the entry message.</param>
+            <param name="obj">Context object.</param>
+            <param name="methodName">The name of the caller method.</param>
+            <param name="exception">The exception raised.</param>
         </member>
         <member name="M:Cosmo.Diagnostics.LoggerService.Error(System.Object,System.String,System.String)">
             <summary>
             Log a security event using the default logger.
             </summary>
+            <param name="obj">Context object.</param>
+            <param name="methodName">The name of the caller method.</param>
             <param name="message">A string containing the entry message.</param>
         </member>
         <member name="P:Cosmo.Diagnostics.LoggerService.CurrentUserLogin">

@@ -1,6 +1,7 @@
 ﻿using Cosmo.Net;
 using Cosmo.UI.Scripting;
 using Cosmo.Utils;
+using System;
 using System.Collections.Generic;
 
 namespace Cosmo.UI.Controls
@@ -63,14 +64,14 @@ namespace Cosmo.UI.Controls
       /// <param name="label"></param>
       /// <param name="type"></param>
       /// <param name="value"></param>
-      public FormFieldList(View parentView, string domId, string label, ListType type, string value)
+      public FormFieldList(View parentView, string domId, string label, ListType type, object value)
          : base(parentView, domId)
       {
          Initialize();
 
          this.Label = label;
          this.Type = type;
-         this.Value = value;
+         this.Value = value.ToString();
       }
 
       // TODO: Fer que es pugui inicialitzar amb un a llista estàtica del DataService
@@ -132,8 +133,8 @@ namespace Cosmo.UI.Controls
       /// <param name="dataListID">Identificador del <c>DataList</c>.</param>
       public void LoadValuesFromDataList(string dataListID)
       {
-         Values = ParentView.Workspace.DataService.GetDataList(dataListID).Values;
-         Value = ParentView.Workspace.DataService.GetDataList(dataListID).DefaultValue;
+         this.Values = ParentView.Workspace.DataService.GetDataList(dataListID).Values;
+         this.Value = ParentView.Workspace.DataService.GetDataList(dataListID).DefaultValue;
       }
 
       /// <summary>
@@ -142,7 +143,7 @@ namespace Cosmo.UI.Controls
       /// <param name="dataListID">Identificador del <c>DataList</c>.</param>
       public void LoadValuesFromAjax(AjaxUpdateListScript loaderScript)
       {
-         
+         // TODO
       }
 
       /// <summary>
@@ -152,11 +153,11 @@ namespace Cosmo.UI.Controls
       {
          try
          {
-            Value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
+            this.Value = Url.GetString(ParentView.Workspace.Context.Request.Params, this.DomID);
          }
          catch
          {
-            Value = string.Empty;
+            this.Value = string.Empty;
          }
 
          return Validate();
@@ -170,7 +171,7 @@ namespace Cosmo.UI.Controls
       {
          if (Required)
          {
-            return !string.IsNullOrWhiteSpace(Value.ToString());
+            return !string.IsNullOrWhiteSpace(this.Value.ToString());
          }
 
          return true;
@@ -185,13 +186,13 @@ namespace Cosmo.UI.Controls
       /// </summary>
       private void Initialize()
       {
-         Required = false;
-         Label = string.Empty;
-         Placeholder = string.Empty;
-         Description = string.Empty;
-         Value = string.Empty;
-         Type = ListType.Single;
-         Values = new List<KeyValue>();
+         this.Required = false;
+         this.Label = string.Empty;
+         this.Placeholder = string.Empty;
+         this.Description = string.Empty;
+         this.Value = string.Empty;
+         this.Type = ListType.Single;
+         this.Values = new List<KeyValue>();
       }
 
       #endregion

@@ -547,7 +547,7 @@ namespace Cosmo.Cms.Model.Forum
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
+            DataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
@@ -1222,7 +1222,7 @@ namespace Cosmo.Cms.Model.Forum
          }
          finally
          {
-            IDataModule.CloseAndDispose(cmd);
+            DataModule.CloseAndDispose(cmd);
             _ws.DataSource.Disconnect();
          }
       }
