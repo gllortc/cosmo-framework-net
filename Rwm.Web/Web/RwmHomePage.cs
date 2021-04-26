@@ -54,14 +54,14 @@ namespace Rwm.Web
          HtmlContentControl content;
 
          panel = new PanelControl(this);
-         panel.Text = "VI Encuentro Railwaymania - Gijón 2016";
+         panel.Text = "VI Encuentro Railwaymania - San Sebastián 2017";
          content = new HtmlContentControl(this);
          content.AppendParagraph(@"Un año más, unos cuantos amigos que nos conocimos en " + HtmlContentControl.BoldText("Railwaymania.com") + @" quedamos
-                                   en algun punto ferroviario de la geografía española. Este año le toca el turno a " + HtmlContentControl.BoldText("Gijón") + @",
-                                   los días 1 y 2 de Octubre.");
+                                   en algun punto ferroviario de la geografía española. Este año le toca el turno a " + HtmlContentControl.BoldText("San Sebastián") + @",
+                                   los días 29, 30 de Septiembre y 1 de Octubre.");
          content.AppendParagraph(@"Si estás interesado en acudir con nosotros todo el fin de semana o sólo un día no dudes en contactar
-                                   con nosotros al correo " + HtmlContentControl.Link("mailto:quedada2016rwm@gmail.com", "quedada2016rwm@gmail.com", true) + @".");
-         content.AppendImage(@"images/banner_VI_RWM_2016.jpg", "VI Encuentro Railwaymania - Gijón 2016");
+                                   con nosotros al correo " + HtmlContentControl.Link("mailto:quedada201trwm@gmail.com", "quedada201trwm@gmail.com", true) + @".");
+         content.AppendImage(@"images/banner_VII_RWM_2017.jpg", "VI Encuentro Railwaymania - San Sebastián 2017");
          content.AppendParagraph(HtmlContentControl.BoldText(@"Un abrazo y hasta muy pronto!"));
          panel.Content.Add(content);
          MainContent.Add(panel);

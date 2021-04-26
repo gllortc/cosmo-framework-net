@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cosmo-settings ver="1.0" app-id="Cosmo.Manager">
+
+   <!-- Propiedades básicas de la aplicación -->
+   <application>
+      <param key="app.name" value="Cosmo Manager" />
+      <param key="app.url" value="http://localhost:8103/" />
+      <param key="app.mail" value="gllort@dipta.cat" />
+      <param key="app.status" value="1" />
+      <param key="app.status.closedurl" value="WorkspaceClosed" />
+      <param key="html.charset" value="ISO-8859-1" />
+      <param key="html.language" value="es" />
+      <param key="html.description" value="Railwaymania.com, el portal de los ferrocarriles europeos. Ferrocarriles, modelismo, AVE, TGV, TEE, anúncios, chat, foros de discusión y nuestro buscador de información" />
+      <param key="html.keywords" value="tren, ferrocarril, ferrocarriles, ferroviario, trenes, modelismo, maqueta, maqueta de tren, estación, locomotoras, TEE, carrilets, via, vias, talgo, AVE, TGV, Renfe, railroad, bahn, eisenbahn, modelleisbahn, ibertren, electrotren, marklin, trix, minitrix, mabar, piko, brawa" />      
+   </application>
+
+   
+   <!-- SETTINGS -->
+   <!-- ATENCIÓN: Esta sección SÓLO debe contener propiedades de las aplicaciones desarrolladas
+                  mediante Cosmo Framework, pero en ningún caso propiedades relativas al framework. -->
+   <settings>
+
+      <!-- CMS Forums -->
+      <param key="cs.forum.rules" value="ForumRules" />
+      <param key="cs.forum.limitnewthreads" value="1" />
+      <param key="cs.forum.limitnewthreadsnumber" value="5" />
+      <param key="cs.forum.maxinactivitymonths" value="6" />
+
+      <!-- CMS Photos -->
+      <param key="cs.photos.gallery.thumbwith" value="200" />
+      <param key="cs.photos.gallery.columns" value="4" />
+      <param key="cs.photos.upload.enabled" value="1" />
+      <param key="cs.photos.upload.maxlength" value="2048"/>
+      <param key="cs.photos.upload.allowedext" value="jpg,jpeg,png"/>
+
+      <!-- CMS Classified Ads -->
+      <param key="cs.ads.validitydays" value="30"/>
+      <param key="cs.ads.usermaxads" value="15"/>
+      <param key="cs.ads.contactmail.subject" value="[Contacto para anuncio clasificado] {ad.title}"/>
+      <param key="cs.ads.contactmail.body" value="Hola {author.displayname},&#xA;&#xA;Un usuario de {ws.name} está interesado en tu anuncio: {ad.title}.&#xA;&#xA;-------------------------------------------------------&#xA;Nombre: {contact.name}&#xA;eMail:  {contact.mail}&#xA;-------------------------------------------------------&#xA;{contact.msg}&#xA;-------------------------------------------------------&#xA;&#xA;Al usar un formulario, la persona que te ha contactado no sabe tu correo electrónico ni lo sabrá hasta que respondas este e-mail. Ten en cuenta que no podemos saber si el correo electrónico de quien te escribe ({contact.mail}) es correcto o no.&#xA;&#xA;Enlace al anuncio original:&#xA;{ad.link}&#xA;&#xA;Enlace para gestionar tus anuncios:&#xA;{ad.manage.link}&#xA;&#xA;Muchas gracias por confiar en {ws.name}!&#xA;&#xA;&#xA;PD: Si no deseas recibir más peticiones de contacto para este anuncio puedes despublicarlo accediendo al apartado de gestión de anuncios. Si no deseas recibir más peticiones de contacto deberás despublicar todos tus anuncios o bien darte de baja de {ws.name}.&#xA;"/>
+      
+      <!-- RWM Home -->
+      <param key="cosmo.ui.cookiesadvisor.enabled" value="1"/>
+      <param key="cosmo.ui.cookiesadvisor.infocontentid" value="30"/>
+
+      <param key="cs.google.cseinternal" value="016875843648778343769:0obbnwajiug"/>
+      <param key="cs.google.cseexternal" value="016875843648778343769:wcayy6edtsq"/>
+      <param key="cs.google.cseforum" value="016875843648778343769:rtx85h-bsye"/>
+      <param key="cs.google.cseresultsscript" value="cs_sys_search.aspx"/>
+      <param key="cs.google.maps" value="ABQIAAAA-BlilAm9UcpafWNQD3viIRT13nRDCRRyg9-5CB5VjjMU6D_zgRQLPAsgFhXrYkbPkIyiQDr96Ij0PQ"/>
+      <param key="cs.google.analytics" value="UA-107358-1"/>
+      <param key="cs.google.calendar" value="p9j5fisdp5agl113ikh2ktf6lc@group.calendar.google.com"/>
+   </settings>
+
+   
+   <!-- LOGGING SERVICES -->
+   <logging-services default="db">
+
+      <log-module id="db" driver="Cosmo.Diagnostics.Impl.SqlSrvLogger">
+         <param key="max-entries" value="100" />
+      </log-module>
+
+      <!--<log-module id="file" driver="Cosmo.Diagnostics.Impl.FileLogger">
+         <param key="file" value="logs\cosmo.log" />
+         <param key="pattern" value="> %d [%p|%c|%C{1}] %m%n" />
+         <param key="threshold" value="ALL" />
+         <param key="immediateFlush" value="true" />
+      </log-module>-->
+
+   </logging-services>
+
+   
+   <!-- USER INTERFACE SERVICES -->
+   <ui-services>
+
+      <render-agent id="adminLte" driver="Cosmo.UI.Render.Impl.AdminLteRenderModuleImpl">
+         <param key="browser-agent-regexp" value="*" />
+         <param key="folder" value="adminlte" />
+         <param key="skin" value="skin-blue" />
+         <param key="x-icon" value="images/favicon.ico" />
+         <resource type="text/css" value="css/bootstrap.min.css" />
+         <resource type="text/css" value="css/font-awesome.min.css" />
+         <resource type="text/css" value="css/ionicons.min.css"  />
+         <resource type="text/css" value="css/AdminLTE.css" />
+         <resource type="text/css" value="css/treeview.css" />
+         <resource type="text/css" value="css/cosmo.css" />
+         <resource type="text/css" value="css/fileinput/fileinput.css" />
+         <resource type="text/css" value="css/daterangepicker/daterangepicker-bs3.css" />
+         <resource type="text/javascript" value="js/jquery.min.js" />
+         <resource type="text/javascript" value="js/jquery-ui-1.10.3.min.js" />
+         <resource type="text/javascript" value="js/jquery.cookie.js" />
+         <resource type="text/javascript" value="js/bootstrap.min.js" />
+         <resource type="text/javascript" value="js/plugins/sparkline/jquery.sparkline.min.js" />
+         <resource type="text/javascript" value="js/plugins/daterangepicker/daterangepicker.js" />
+         <resource type="text/javascript" value="js/plugins/ckeditor/ckeditor.js" />
+         <resource type="text/javascript" value="js/plugins/iCheck/icheck.min.js" />
+         <resource type="text/javascript" value="js/plugins/bootbox/bootbox.min.js" />
+         <resource type="text/javascript" value="js/AdminLTE/app.js" />
+         <resource type="text/javascript" value="js/treeview.js" />
+         <resource type="text/javascript" value="js/plugins/fileinput/fileinput.js" />
+         <resource type="text/javascript" value="../../include/cosmo.js" />
+         <resource type="text/javascript" value="js/plugins/linkify/jquery.linkify.min.js" />
+         <resource type="text/javascript" value="js/plugins/typeahead/typeahead.bundle.min.js" />
+      </render-agent>
+
+      <menu id="sidebar" driver="Cosmo.UI.Menu.Impl.StaticMenuProvider">
+         <menuitem id="home" name="Inicio" icon="fa-home" href="Home" />
+         <menuitem id="news" name="Novedades" icon="fa-bell" href="ContentByFolder?fid=26" />
+         <menuitem id="docs" name="Artículos" icon="fa-book" href="#">
+            <menuitem id="model" name="Modelismo" icon="fa-angle-double-right" href="ContentByFolder?fid=21" />
+            <menuitem id="rroad" name="Tren real" icon="fa-angle-double-right" href="ContentByFolder?fid=20" />
+            <menuitem id="digital" name="Software" icon="fa-angle-double-right" href="ContentByFolder?fid=22" />
+         </menuitem>
+         <menuitem id="photos" name="Fotos" icon="fa-camera" href="PhotosBrowse">
+            <menuitem id="photo-browse" name="Navegar por carpetas" icon="fa-angle-double-right" href="PhotosBrowse" />
+            <menuitem id="photo-recent" name="Recientes" icon="fa-angle-double-right" href="PhotosByFolder?fid=-101" />
+         </menuitem>
+         <menuitem id="forum" name="Foros" icon="fa-comments" href="#">
+            <menuitem id="mnuForum1" name="General" icon="fa-angle-double-right" href="ForumFolder?ch=1" />
+            <menuitem id="mnuForum2" name="Ferrocarril real" icon="fa-angle-double-right" href="ForumFolder?ch=2" />
+            <menuitem id="mnuForum3" name="Modelismo" icon="fa-angle-double-right" href="ForumFolder?ch=3" />
+            <menuitem id="mnuForum4" name="Software / Digital" icon="fa-angle-double-right" href="ForumFolder?ch=4" />
+            <menuitem id="mnuForum7" name="Modelos a escala" icon="fa-angle-double-right" href="ForumFolder?ch=7" />
+         </menuitem>
+         <menuitem id="ads" name="Clasificados" icon="fa-shopping-cart" href="#">
+            <menuitem id="mnuAds7" name="Cambio" icon="fa-angle-double-right" href="AdsByFolder?fid=7" />
+            <menuitem id="mnuAds1" name="Compro" icon="fa-angle-double-right" href="AdsByFolder?fid=1" />
+            <menuitem id="mnuAds5" name="Ofertas comerciales" icon="fa-angle-double-right" href="AdsByFolder?fid=5" />
+            <menuitem id="mnuAds13" name="Vendo (H0)" icon="fa-angle-double-right" href="AdsByFolder?fid=13" />
+            <menuitem id="mnuAds2" name="Vendo (N)" icon="fa-angle-double-right" href="AdsByFolder?fid=2" />
+         </menuitem>
+         <menuitem id="admin" name="Administración" icon="fa-wrench" href="#" roles="admin">
+            <menuitem id="adminUsers" name="Users" icon="fa-angle-double-right" href="AdminUserList" />
+            <menuitem id="adminContent" name="Content" icon="fa-angle-double-right" href="ContentAdmin" />
+            <menuitem id="adminLogs" name="Eventlog" icon="fa-angle-double-right" href="AdminLogs" />
+         </menuitem>
+      </menu>
+
+      <menu id="navbar" driver="Cosmo.UI.Menu.Impl.StaticMenuProvider">
+         <menuitem id="logo" type="Brand" name="" icon="images/logo_top.png" href="Home" />
+         <menuitem id="login" type="UserProfile" name="" icon="fa-user" href="#">
+            <menuitem id="login-ads" name="Mis anuncios" icon="" href="AdsManage" />
+            <menuitem id="login-pm" name="Mis fotos" icon="" href="PhotosByFolder?fid=-100" />
+         </menuitem>
+         <menuitem id="pmsg" type="PrivateMessages" name="" icon="fa-envelope" href="PrivateMessages" />
+      </menu>
+
+   </ui-services>
+
+   <!-- DATA SERVICES -->
+   <data-services default="workspace-[%MACHINENAME%]">
+
+      <connection id="workspace-lluna" driver="Cosmo.Data.Connection.Impl.SqlServerDataModule">
+         <param key="db.server" value="LLUNA\SQLEXPRESS" />
+         <param key="db.schema" value="RWM30" />
+         <param key="db.login" value="sa" />
+         <param key="db.password" value="esfacil" />
+      </connection>
+
+      <connection id="workspace-pcegov12" driver="Cosmo.Data.Connection.Impl.SqlServerDataModule">
+         <param key="db.server" value="PCEGOV12\SQLEXPRESS" />
+         <param key="db.schema" value="RWM30" />
+         <param key="db.login" value="sa" />
+         <param key="db.password" value="esfacil" />
+      </connection>
+
+      <data-lists>
+         <data-list id="gender" driver="Cosmo.Data.Lists.Impl.StaticDataListImpl">
+            <param key="default.value" value="0" />
+            <param key="0" value="Masculino" />
+            <param key="1" value="Femenino" />
+            <param key="2" value="Empresa" />
+         </data-list>
+         <data-list id="country" driver="Cosmo.Data.Lists.Impl.SqlDataListImpl">
+            <param key="default.value" value="200" />
+            <param key="connection" value="workspace-[%MACHINENAME%]" />
+            <param key="sql" value="SELECT countryid, countryname FROM country ORDER BY countryname Asc" />
+            <param key="cache" value="1" />
+         </data-list>
+         <data-list id="ads-folders" driver="Cosmo.Data.Lists.Impl.SqlDataListImpl">
+            <param key="default.value" value="13" />
+            <param key="connection" value="workspace-[%MACHINENAME%]" />
+            <param key="sql" value="SELECT ANNFLDRID, ANNFLDRNAME FROM ANNFOLDERS ORDER BY ANNFLDRNAME Asc" />
+            <param key="cache" value="1" />
+         </data-list>
+      </data-lists>
+
+   </data-services>
+
+
+   <!-- COMMUNICATION SERVICES -->
+   <comm-services default="tinet">
+
+      <comm-agent id="tinet" driver="Cosmo.Communications.Impl.SmtpMailModuleImpl">
+         <param key="smtp.useSSL" value="0"/>
+         <param key="smtp.port" value="25"/>
+         <param key="smtp.login" value="rwmania"/>
+         <param key="smtp.password" value="gerard"/>
+         <param key="smtp.hostname" value="smtp.tinet.org"/>
+         <param key="smtp.message.class" value="System.Net.Mail.MailMessage" />
+         <param key="smtp.default.from.address" value="railwaymania@tinet.org" />
+         <param key="smtp.default.from.name" value="Railwaymania.com" />
+      </comm-agent>
+
+   </comm-services>
+
+
+   <!-- SECURITY SERVICES -->
+   <security-services default="sqlsrv" login-page="LoginPage">
+
+      <authentication-module id="sqlsrv" driver="Cosmo.Security.Auth.Impl.SqlSecurityModule">
+         <param key="security.LoginView" value="UserAuth" />
+         <param key="security.Enabled" value="1" />
+         <param key="security.bloquedip" value="" />
+         <param key="security.encryptionkey" value="6876rv867RV6rvb76gU" />
+         <param key="security.verifymail.required" value="1" />
+         <param key="security.verifymail.html" value="1" />
+         <param key="security.verifymail.subject" value="Suscripción a Railwaymania.com" />
+         <param key="security.verifymail.body" value="&lt;font face=&quot;verdana,arial&quot; size=2&gt;&#xA;Hola &lt;%NAME%&gt;,&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;Hemos recibido su solicitud de suscripción a Railwaymania.com. Para verificar dicha solicitud deberá hacer clic en el enlace siguiente:&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;&lt;%VERIFY_LINK%&gt;&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;Los datos de acceso que nos ha proporcionado son los siguientes:&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;Nombre de usuario: &lt;strong&gt;&lt;%LOGIN%&gt;&lt;/strong&gt;&lt;br /&gt;&#xA;Contraseña de acceso: &lt;strong&gt;&lt;%PASSWORD%&gt;&lt;/strong&gt;&lt;br /&gt;&#xA;Mail de contacto: &lt;strong&gt;&lt;%MAIL%&gt;&lt;/strong&gt;&lt;br /&gt;&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;&lt;i&gt;NOTA: Si no desea suscribirse a Railwaymania.com simplemente borre este mensaje y en 10 días se anulará esta preinscripción eliminando todos los datos de nuestras bases de datos.&lt;/i&gt;&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;Atentamente,&#xA;&lt;br /&gt;&lt;br /&gt;&#xA;&lt;strong&gt;El equipo de &lt;a href=&quot;http://www.railwaymania.com&quot; target=&quot;_blank&quot;&gt;Railwaymania.com&lt;/a&gt;&lt;/strong&gt;&#xA;&lt;/font&gt;"/>
+         <param key="security.pdatamail.html" value="0" />
+         <param key="security.pdatamail.subject" value="Petición de datos de &lt;%NAME%&gt;" />
+         <param key="security.pdatamail.body" value="Los siguientes datos corresponden a su suscripción a Railwaymania.com:&#xA;&#xA;Nombre de usuario: &lt;%LOGIN%&gt;&#xA;Contraseña: &lt;%PASSWORD%&gt;&#xA;&#xA;Nombre real: &lt;%NAME%&gt;&#xA;Cuenta de correo associada: &lt;%MAIL%&gt;    &#xA;&#xA;Si los problemas para acceder siguen no dude en consultarnos a railwaymania@gmail.com&#xA;&#xA;Atentamente,&#xA;&#xA;El equipo de Railwaymania.com&#xA;http://www.railwaymania.com                     &#xA;&#xA;&#xA;NOTA: Por favor, no conteste a este mensaje. Esta cuenta es usada única y exclusivamente para el envio de correo. Todos los correos recibidos son borrados de forma automática."/>
+      </authentication-module>
+
+   </security-services>
+
+
+   <!-- FILE SYSTEM SERVICES -->
+   <filesystem-services default="fs-[%MACHINENAME%]">
+
+      <filesystem-module id="fs-lluna" driver="Cosmo.FileSystem.Impl.CosmoFileSystemImpl">
+         <param key="path" value="D:\Gerard\develop\Cosmo Framework\cosmo.sampleapp" />
+         <param key="root" value="docs"/>
+      </filesystem-module>
+
+      <filesystem-module id="fs-pcegov12" driver="Cosmo.FileSystem.Impl.CosmoFileSystemImpl">
+         <param key="path" value="C:\Users\usuari\Dropbox\MobileWhere\Cosmo.CMS.3.5\cosmo.cms.3.0" />
+         <param key="root" value="docs"/>
+      </filesystem-module>
+      
+   <filesystem-module id="error" driver="Cosmo.FileSystem.Impl.Error">
+         <param key="path" value="C:\Users\usuari\Dropbox\MobileWhere\Cosmo.CMS.3.5\cosmo.cms.3.0" />
+         <param key="root" value="docs"/>
+      </filesystem-module>
+      
+   </filesystem-services>
+
+</cosmo-settings>
